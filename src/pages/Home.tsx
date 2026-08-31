@@ -57,25 +57,27 @@ export default function Home() {
 
       {/* Proof band */}
       <section className="border-t border-hairline bg-card">
-        <div className="mx-auto grid max-w-[1240px] grid-cols-2 px-6 lg:grid-cols-4">
-          {STATS.map((s, i) => (
-            <div
-              key={s.unit}
-              className={`py-8 lg:py-10 ${
-                i !== 0 ? "lg:border-l lg:border-hairline lg:pl-10" : ""
-              }`}
-            >
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-display text-[clamp(2.2rem,3.4vw,3rem)] font-black leading-none tracking-[-0.03em]">
-                  {s.value}
-                </span>
-                <span className="font-display text-[15px] font-bold text-orsap-red">
-                  {s.unit}
-                </span>
+        <div className="mx-auto max-w-[1240px] px-6">
+          <div className="grid grid-cols-1 divide-y divide-hairline sm:grid-cols-2 sm:divide-y-0 sm:gap-6 lg:grid-cols-4 lg:divide-x lg:divide-hairline">
+            {STATS.map((s, i) => (
+              <div
+                key={s.unit}
+                className={`py-6 sm:py-8 lg:py-10 ${
+                  i !== 0 ? "lg:pl-8" : ""
+                }`}
+              >
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <span className="font-display text-3xl sm:text-4xl lg:text-[clamp(2.2rem,3.2vw,2.8rem)] font-black leading-none tracking-[-0.03em] text-ink whitespace-nowrap">
+                    {s.value}
+                  </span>
+                  <span className="font-display text-[14px] sm:text-[15px] font-bold text-orsap-red uppercase tracking-wider">
+                    {s.unit}
+                  </span>
+                </div>
+                <div className="mt-2 text-[14px] text-ink-soft leading-snug">{s.note}</div>
               </div>
-              <div className="mt-2 text-[13.5px] text-ink-soft">{s.note}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
