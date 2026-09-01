@@ -1,40 +1,37 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router"
-
-type BlogPost = {
-  id: string
-  title: string
-  summary: string
-  content: string
-  date: string
-  image?: string | null
-  pdf?: string | null
-  pdfName?: string | null
-}
+import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 
 export default function BlogDetail() {
   const { id } = useParams()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
+  const initialPost = INITIAL_BLOGS.find((b) => b.id === id) || null
+  const [post, setPost] = useState<BlogPost | null>(initialPost)
+  const [loading, setLoading] = useState(!initialPost)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchPost() {
       try {
         const res = await fetch(`/api/blogs/${id}`)
-        if (!res.ok) throw new Error("Article introuvable.")
-        const data = await res.json()
-        setPost(data)
+        if (res.ok) {
+          const data = await res.json()
+          setPost(data)
+          setError(null)
+        } else if (!initialPost) {
+          throw new Error("Article introuvable.")
+        }
       } catch (err: unknown) {
-        setError(
-          err instanceof Error ? err.message : "Une erreur est survenue.",
-        )
+        if (!initialPost) {
+          setError(
+            err instanceof Error ? err.message : "Une erreur est survenue.",
+          )
+        }
       } finally {
         setLoading(false)
       }
     }
     fetchPost()
-  }, [id])
+  }, [id, initialPost])
 
   // Enhanced SEO optimization (Meta tags, keywords & Schema.org JSON-LD)
   useEffect(() => {

@@ -1,35 +1,24 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
-
-type BlogPost = {
-  id: string
-  title: string
-  summary: string
-  content: string
-  date: string
-  image?: string | null
-  pdf?: string | null
-  pdfName?: string | null
-}
+import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
+  const [blogs, setBlogs] = useState<BlogPost[]>(INITIAL_BLOGS)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchBlogs() {
       try {
         const res = await fetch("/api/blogs")
-        if (!res.ok) throw new Error("Impossible de charger les articles.")
-        const data = await res.json()
-        setBlogs(data)
+        if (res.ok) {
+          const data = await res.json()
+          if (Array.isArray(data) && data.length > 0) {
+            setBlogs(data)
+          }
+        }
       } catch (err: unknown) {
-        setError(
-          err instanceof Error ? err.message : "Une erreur est survenue.",
-        )
-      } finally {
-        setLoading(false)
+        console.warn("Using bundled blogs fallback:", err)
       }
     }
     fetchBlogs()
