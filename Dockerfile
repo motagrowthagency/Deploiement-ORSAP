@@ -17,9 +17,6 @@ ENV NODE_ENV=production
 ENV PORT=3001
 ENV DATA_DIR=/app/data
 
-# Persistent storage volume for blogs and submissions
-VOLUME ["/app/data"]
-
 EXPOSE 3001
 
 # Start the combined Express server + frontend
