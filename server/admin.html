@@ -34,8 +34,14 @@
     .msg { max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .empty { text-align: center; padding: 60px 20px; color: #6b7480; font-size: 15px; background: #fff; border: 1px solid #d9dbdd; }
     
-    .del-btn { background: none; border: 1px solid #d3121a; color: #d3121a; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+    .del-btn { background: none; border: 1px solid #d3121a; color: #d3121a; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; border-radius: 3px; }
     .del-btn:hover { background: #d3121a; color: #fff; }
+
+    .edit-btn { background: #14171a; border: 1px solid #14171a; color: #fff; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; margin-left: 6px; border-radius: 3px; }
+    .edit-btn:hover { background: #d3121a; border-color: #d3121a; }
+    
+    .cancel-btn { background: #6b7480; color: #fff; border: none; padding: 8px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; cursor: pointer; transition: background 0.15s; border-radius: 4px; display: none; }
+    .cancel-btn:hover { background: #4b5563; }
     
     /* Blog Form styles */
     .editor-section { background: #fff; border: 1px solid #d9dbdd; padding: 30px; margin-bottom: 30px; }
@@ -70,19 +76,15 @@
   {{TAB_CONTENT}}
 
   <script>
-    // Image handling
+    // Blog State
     let base64Image = null;
     let base64Pdf = null;
     let pdfFileName = null;
+    let editingBlogId = null;
     
     function previewPdf(event) {
       const file = event.target.files[0];
-      if (!file) {
-        base64Pdf = null;
-        pdfFileName = null;
-        document.getElementById("pdfName").style.display = "none";
-        return;
-      }
+      if (!file) return;
       
       pdfFileName = file.name;
       const reader = new FileReader();
@@ -91,17 +93,29 @@
         const nameEl = document.getElementById("pdfName");
         nameEl.textContent = "📄 " + pdfFileName;
         nameEl.style.display = "block";
+        const removeBtn = document.getElementById("removePdfBtn");
+        if (removeBtn) removeBtn.style.display = "inline-block";
       };
       reader.readAsDataURL(file);
+    }
+
+    function removePdf() {
+      base64Pdf = null;
+      pdfFileName = null;
+      const pdfInput = document.getElementById("blogPdf");
+      if (pdfInput) pdfInput.value = "";
+      const nameEl = document.getElementById("pdfName");
+      if (nameEl) {
+        nameEl.style.display = "none";
+        nameEl.textContent = "";
+      }
+      const removeBtn = document.getElementById("removePdfBtn");
+      if (removeBtn) removeBtn.style.display = "none";
     }
     
     function previewImage(event) {
       const file = event.target.files[0];
-      if (!file) {
-        base64Image = null;
-        document.getElementById("imagePreview").style.display = "none";
-        return;
-      }
+      if (!file) return;
       
       const reader = new FileReader();
       reader.onload = function(e) {
@@ -109,8 +123,23 @@
         const preview = document.getElementById("imagePreview");
         preview.src = base64Image;
         preview.style.display = "block";
+        const removeBtn = document.getElementById("removeImgBtn");
+        if (removeBtn) removeBtn.style.display = "inline-block";
       };
       reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+      base64Image = null;
+      const imgInput = document.getElementById("blogImage");
+      if (imgInput) imgInput.value = "";
+      const preview = document.getElementById("imagePreview");
+      if (preview) {
+        preview.style.display = "none";
+        preview.src = "";
+      }
+      const removeBtn = document.getElementById("removeImgBtn");
+      if (removeBtn) removeBtn.style.display = "none";
     }
 
     // Delete devis
@@ -139,27 +168,111 @@
       }
     }
 
-    // Create blog
-    async function createBlog(event) {
+    // Edit blog post
+    async function editBlog(id) {
+      try {
+        const res = await fetch("/api/blogs/" + id);
+        if (!res.ok) throw new Error("Impossible de charger les détails de l'article.");
+        const blog = await res.json();
+
+        editingBlogId = blog.id;
+        document.getElementById("formTitle").textContent = "Modifier l'article";
+        document.getElementById("blogTitle").value = blog.title || "";
+        document.getElementById("blogSummary").value = blog.summary || "";
+        document.getElementById("blogContent").value = blog.content || "";
+
+        // Image state
+        base64Image = blog.image || null;
+        const preview = document.getElementById("imagePreview");
+        const removeImgBtn = document.getElementById("removeImgBtn");
+        if (blog.image) {
+          preview.src = blog.image;
+          preview.style.display = "block";
+          if (removeImgBtn) removeImgBtn.style.display = "inline-block";
+        } else {
+          preview.style.display = "none";
+          preview.src = "";
+          if (removeImgBtn) removeImgBtn.style.display = "none";
+        }
+
+        // PDF state
+        base64Pdf = blog.pdf || null;
+        pdfFileName = blog.pdfName || null;
+        const pdfEl = document.getElementById("pdfName");
+        const removePdfBtn = document.getElementById("removePdfBtn");
+        if (blog.pdf || blog.pdfName) {
+          pdfEl.textContent = "📄 " + (blog.pdfName || "Document joint existant");
+          pdfEl.style.display = "block";
+          if (removePdfBtn) removePdfBtn.style.display = "inline-block";
+        } else {
+          pdfEl.style.display = "none";
+          pdfEl.textContent = "";
+          if (removePdfBtn) removePdfBtn.style.display = "none";
+        }
+
+        document.getElementById("submitBtn").textContent = "Enregistrer les modifications";
+        document.getElementById("cancelBtn").style.display = "inline-block";
+
+        const section = document.querySelector(".editor-section");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      } catch (err) {
+        alert(err.message || "Erreur lors du chargement de l'article.");
+      }
+    }
+
+    // Cancel edit mode
+    function cancelEdit() {
+      editingBlogId = null;
+      document.getElementById("formTitle").textContent = "Rédiger un article de blog";
+      document.getElementById("blogForm").reset();
+      base64Image = null;
+      base64Pdf = null;
+      pdfFileName = null;
+      const preview = document.getElementById("imagePreview");
+      if (preview) { preview.style.display = "none"; preview.src = ""; }
+      const pdfEl = document.getElementById("pdfName");
+      if (pdfEl) { pdfEl.style.display = "none"; pdfEl.textContent = ""; }
+      const removeImgBtn = document.getElementById("removeImgBtn");
+      if (removeImgBtn) removeImgBtn.style.display = "none";
+      const removePdfBtn = document.getElementById("removePdfBtn");
+      if (removePdfBtn) removePdfBtn.style.display = "none";
+      document.getElementById("submitBtn").textContent = "Publier l'article";
+      document.getElementById("cancelBtn").style.display = "none";
+    }
+
+    // Create or Update blog
+    async function handleBlogSubmit(event) {
       event.preventDefault();
       const title = document.getElementById("blogTitle").value;
       const summary = document.getElementById("blogSummary").value;
       const content = document.getElementById("blogContent").value;
 
-      const res = await fetch("/api/blogs", {
-        method: "POST",
+      const url = editingBlogId ? "/api/blogs/" + editingBlogId : "/api/blogs";
+      const method = editingBlogId ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method: method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, summary, content, image: base64Image, pdf: base64Pdf, pdfName: pdfFileName })
+        body: JSON.stringify({
+          title,
+          summary,
+          content,
+          image: base64Image,
+          pdf: base64Pdf,
+          pdfName: pdfFileName
+        })
       });
 
       if (res.ok) {
-        alert("Article publié avec succès !");
+        alert(editingBlogId ? "Article modifié avec succès !" : "Article publié avec succès !");
         location.reload();
       } else {
         const data = await res.json();
-        alert(data.error || "Erreur de publication.");
+        alert(data.error || "Erreur lors de l'enregistrement.");
       }
     }
+
+    const createBlog = handleBlogSubmit;
 
     // Delete blog
     async function deleteBlog(id) {

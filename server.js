@@ -202,6 +202,37 @@ app.post("/api/blogs", (req, res) => {
   return res.status(201).json({ success: true, blog: newPost })
 })
 
+app.put("/api/blogs/:id", (req, res) => {
+  const { title, summary, content, image, pdf, pdfName } = req.body
+
+  if (!title || !summary || !content) {
+    return res
+      .status(400)
+      .json({ error: "Titre, résumé et contenu sont requis." })
+  }
+
+  let blogs = loadBlogs()
+  const idx = blogs.findIndex((b) => b.id === req.params.id)
+  if (idx === -1) {
+    return res.status(404).json({ error: "Article introuvable." })
+  }
+
+  blogs[idx] = {
+    ...blogs[idx],
+    title,
+    summary,
+    content,
+    image: image !== undefined ? image : blogs[idx].image,
+    pdf: pdf !== undefined ? pdf : blogs[idx].pdf,
+    pdfName: pdfName !== undefined ? pdfName : blogs[idx].pdfName,
+    updatedAt: new Date().toISOString(),
+  }
+
+  saveBlogs(blogs)
+  console.log(`📝  Blog post updated: ${title} (${req.params.id})`)
+  return res.json({ success: true, blog: blogs[idx] })
+})
+
 app.delete("/api/blogs/:id", (req, res) => {
   let blogs = loadBlogs()
   const before = blogs.length
@@ -358,6 +389,7 @@ app.get("/admin", (req, res) => {
       <td class="msg">${esc(b.summary)}</td>
       <td>
         <a href="/blog/${b.id}" target="_blank" class="view-link">Voir</a>
+        <button class="edit-btn" onclick="editBlog('${b.id}')">Modifier</button>
         <button class="del-btn" style="margin-left: 8px;" onclick="deleteBlog('${b.id}')">Supprimer</button>
       </td>
     </tr>`,
@@ -440,8 +472,11 @@ app.get("/admin", (req, res) => {
       <div class="wrap">
         <!-- GESTION DU BLOG -->
         <section class="editor-section">
-          <h2>Rédiger un article de blog</h2>
-          <form id="blogForm" onsubmit="createBlog(event)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+            <h2 id="formTitle" style="margin-bottom: 0;">Rédiger un article de blog</h2>
+            <button id="cancelBtn" type="button" class="cancel-btn" onclick="cancelEdit()">Annuler la modification</button>
+          </div>
+          <form id="blogForm" onsubmit="handleBlogSubmit(event)">
             <div class="form-group">
               <label>Titre de l\'article</label>
               <input type="text" id="blogTitle" required placeholder="Ex: L\'importance des normes de sécurité pour les échafaudages..." />
@@ -455,18 +490,24 @@ app.get("/admin", (req, res) => {
               <input type="file" id="blogImage" accept="image/*" onchange="previewImage(event)" />
               <div class="image-preview-container">
                 <img id="imagePreview" class="preview-img" alt="Aperçu" />
+                <button type="button" id="removeImgBtn" style="display:none; font-size:12px; color:#d3121a; background:none; border:none; cursor:pointer; font-weight:600;" onclick="removeImage()">✕ Supprimer l\'image</button>
               </div>
             </div>
             <div class="form-group">
               <label>Fiche technique / Document (PDF)</label>
               <input type="file" id="blogPdf" accept="application/pdf" onchange="previewPdf(event)" />
-              <div id="pdfName" style="font-size: 13px; font-weight: 600; color: #d3121a; margin-top: 10px; display: none;"></div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+                <div id="pdfName" style="font-size: 13px; font-weight: 600; color: #d3121a; display: none;"></div>
+                <button type="button" id="removePdfBtn" style="display:none; font-size:12px; color:#d3121a; background:none; border:none; cursor:pointer; font-weight:600;" onclick="removePdf()">✕ Supprimer le PDF</button>
+              </div>
             </div>
             <div class="form-group">
-              <label>Contenu de l\'article</label>
-              <textarea id="blogContent" rows="10" required placeholder="Rédigez le contenu complet ici. Utilisez deux retours à la ligne pour créer un paragraphe..."></textarea>
+              <label>Contenu de l\'article / Mots-clés SEO</label>
+              <textarea id="blogContent" rows="10" required placeholder="Rédigez le contenu complet ou vos mots-clés SEO ici..."></textarea>
             </div>
-            <button type="submit" class="submit-btn">Publier l\'article</button>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <button type="submit" id="submitBtn" class="submit-btn">Publier l\'article</button>
+            </div>
           </form>
         </section>
 
@@ -480,7 +521,7 @@ app.get("/admin", (req, res) => {
               <th style="width: 120px;">Date</th>
               <th>Titre</th>
               <th>Résumé</th>
-              <th style="width: 180px;">Actions</th>
+              <th style="width: 220px;">Actions</th>
             </tr>
           </thead>
           <tbody>${blogRows}</tbody>
