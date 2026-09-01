@@ -129,27 +129,28 @@ export default function BlogDetail() {
       </section>
 
       {/* Content */}
-      <section className="mx-auto max-w-[800px] px-6 py-16 lg:py-24">
+      <section className="mx-auto max-w-[880px] px-6 py-12 lg:py-20">
         <Link
           to="/blog"
-          className="mb-10 inline-flex items-center gap-2 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-ink-soft transition-colors hover:text-orsap-red"
+          className="group mb-8 inline-flex items-center gap-2 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-ink-soft transition-colors hover:text-orsap-red"
         >
-          <span>←</span> Retour aux articles
+          <span className="transition-transform group-hover:-translate-x-1">←</span> Retour aux articles
         </Link>
 
         {loading ? (
-          <div className="py-20 text-center font-display text-[16px] font-bold text-ink-soft">
-            Chargement de l&apos;article...
+          <div className="py-24 text-center font-display text-[16px] font-bold text-ink-soft">
+            <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-orsap-red border-t-transparent mb-3" />
+            <div>Chargement de l&apos;article...</div>
           </div>
         ) : error ? (
-          <div className="border border-orsap-red/30 bg-orsap-red/5 p-6 text-center text-[15px] text-orsap-red">
+          <div className="border border-orsap-red/30 bg-orsap-red/5 p-8 text-center text-[15px] text-orsap-red rounded-sm">
             {error}
           </div>
         ) : post ? (
           <div className="prose max-w-none">
             {/* Featured Image if present */}
             {post.image && (
-              <div className="mb-8 overflow-hidden border border-hairline aspect-video max-h-[450px]">
+              <div className="mb-10 overflow-hidden border border-hairline aspect-video max-h-[480px] rounded-sm shadow-sm">
                 <img
                   src={post.image}
                   alt={post.title}
@@ -160,28 +161,18 @@ export default function BlogDetail() {
 
             {/* PDF Viewer - Prominent at the top */}
             {post.pdf && (
-              <div className="my-8 border border-hairline bg-paper overflow-hidden shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border-b border-hairline bg-surface/40">
+              <div className="my-8 border border-hairline bg-surface rounded-sm overflow-hidden shadow-md">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-6 py-4 border-b border-hairline bg-paper/80">
                   <div className="flex items-center gap-3">
-                    <svg
-                      className="w-6 h-6 text-orsap-red shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-                      />
-                    </svg>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-orsap-red/10 text-orsap-red font-bold text-[12px]">
+                      PDF
+                    </div>
                     <div>
-                      <h3 className="font-display text-[14.5px] font-bold text-ink leading-tight">
-                        {post.pdfName || "Document joint"}
+                      <h3 className="font-display text-[15px] font-bold text-ink leading-tight">
+                        {post.pdfName || "Document technique ORSAP"}
                       </h3>
                       <p className="text-[12px] text-ink-soft">
-                        Visualisation en ligne (Téléchargement désactivé)
+                        Document officiel • Consultation en ligne sécurisée
                       </p>
                     </div>
                   </div>
@@ -191,7 +182,7 @@ export default function BlogDetail() {
                   <iframe
                     src={`${post.pdf}#toolbar=0`}
                     title={post.pdfName || "Document"}
-                    className="w-full h-[650px] border-none"
+                    className="w-full h-[680px] border-none"
                   />
                 </div>
               </div>
@@ -199,18 +190,23 @@ export default function BlogDetail() {
 
             {/* Text block - Positioned AFTER the PDF (smaller & discreet) */}
             {(post.content || post.summary) && (
-              <div className="mt-12 border-t border-hairline pt-8">
-                <div className="space-y-4 text-[13px] leading-[1.7] text-ink-soft bg-paper/60 p-6 sm:p-8 border border-hairline rounded-sm">
-                  {post.content && post.content.split("\n\n").map((para, idx) => (
-                    <p key={idx} className="whitespace-pre-line">
-                      {para}
-                    </p>
-                  ))}
-                  {post.summary && post.summary !== post.content && post.summary !== post.title && (
-                    <p className="whitespace-pre-line pt-3 text-[12.5px] text-ink-soft/80 border-t border-hairline/60">
-                      {post.summary}
-                    </p>
-                  )}
+              <div className="mt-14 border-t border-hairline pt-8">
+                <div className="rounded-sm border border-hairline/80 bg-paper/70 p-6 sm:p-8 text-[12.5px] leading-[1.75] text-ink-soft">
+                  <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft/70">
+                    Termes techniques &amp; Références
+                  </div>
+                  <div className="space-y-4">
+                    {post.content && post.content.split("\n\n").map((para, idx) => (
+                      <p key={idx} className="whitespace-pre-line">
+                        {para}
+                      </p>
+                    ))}
+                    {post.summary && post.summary !== post.content && post.summary !== post.title && (
+                      <p className="whitespace-pre-line pt-3 text-[12px] text-ink-soft/80 border-t border-hairline/60">
+                        {post.summary}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

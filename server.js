@@ -384,13 +384,24 @@ app.get("/admin", (req, res) => {
     .map(
       (b) => `
     <tr id="blog-${b.id}">
-      <td>${new Date(b.date).toLocaleDateString("fr-FR")}</td>
-      <td style="font-weight: 700;">${esc(b.title)}</td>
-      <td class="msg">${esc(b.summary)}</td>
+      <td class="date-badge">${new Date(b.date).toLocaleDateString("fr-FR")}</td>
+      <td style="font-weight: 700; color: #1e293b;">${esc(b.title)}</td>
+      <td class="msg">${esc(b.summary || "—")}</td>
       <td>
-        <a href="/blog/${b.id}" target="_blank" class="view-link">Voir</a>
-        <button class="edit-btn" onclick="editBlog('${b.id}')">Modifier</button>
-        <button class="del-btn" style="margin-left: 8px;" onclick="deleteBlog('${b.id}')">Supprimer</button>
+        <div class="actions-cell">
+          <a href="/blog/${b.id}" target="_blank" class="view-link">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            Voir
+          </a>
+          <button class="edit-btn" onclick="editBlog('${b.id}')">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+            Modifier
+          </button>
+          <button class="del-btn" onclick="deleteBlog('${b.id}')">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer
+          </button>
+        </div>
       </td>
     </tr>`,
     )
@@ -401,16 +412,24 @@ app.get("/admin", (req, res) => {
     .map(
       (a) => `
     <tr id="app-${a.id}">
-      <td>${a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"}</td>
+      <td class="date-badge">${a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"}</td>
       <td style="font-weight: 700;">${esc(a.name)}</td>
       <td><span class="badge pro">${esc(a.position)}</span></td>
       <td>${a.email ? `<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>` : "—"}</td>
       <td><a href="tel:${esc(a.phone)}">${esc(a.phone)}</a></td>
       <td class="msg">${esc(a.message || "—")}</td>
       <td>
-        <a href="/api/recrutement/${a.id}/cv" class="view-link" style="display:inline-block; background:#14171a; color:#fff; padding:6px 12px; border-radius:4px; font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Télécharger CV</a>
+        <a href="/api/recrutement/${a.id}/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          Télécharger CV
+        </a>
       </td>
-      <td><button class="del-btn" onclick="deleteApp('${a.id}')">Supprimer</button></td>
+      <td>
+        <button class="del-btn" onclick="deleteApp('${a.id}')">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
     </tr>`,
     )
     .join("")
@@ -420,113 +439,160 @@ app.get("/admin", (req, res) => {
   if (tab === "devis") {
     tabContent = `
       <div class="wrap">
-        <!-- TABLEAU DES DEVIS -->
-        ${
-          submissions.length === 0
-            ? '<div class="empty">Aucune demande de devis pour le moment.</div>'
-            : `<table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Nom</th>
-              <th>Entreprise</th>
-              <th>Email</th>
-              <th>Téléphone</th>
-              <th>Solutions souhaitées</th>
-              <th>Secteurs d\'activité</th>
-              <th>Message</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>${devisRows}</tbody>
-        </table>`
-        }
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Demandes de Devis Reçues (${submissions.length})</span>
+          </div>
+          ${
+            submissions.length === 0
+              ? '<div class="empty">Aucune demande de devis pour le moment.</div>'
+              : `<table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Nom</th>
+                <th>Entreprise</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Solutions souhaitées</th>
+                <th>Secteurs d\'activité</th>
+                <th>Message</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${devisRows}</tbody>
+          </table>`
+          }
+        </div>
       </div>`
   } else if (tab === "recrutement") {
     tabContent = `
       <div class="wrap">
-        <!-- TABLEAU DES CANDIDATURES -->
-        ${
-          apps.length === 0
-            ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
-            : `<table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Nom complet</th>
-              <th>Poste souhaité</th>
-              <th>Email</th>
-              <th>Téléphone</th>
-              <th>Message</th>
-              <th>CV (PDF/Word)</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>${appsRows}</tbody>
-        </table>`
-        }
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Candidatures de Recrutement (${apps.length})</span>
+          </div>
+          ${
+            apps.length === 0
+              ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
+              : `<table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Nom complet</th>
+                <th>Poste souhaité</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Message</th>
+                <th>CV (Fichier)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${appsRows}</tbody>
+          </table>`
+          }
+        </div>
       </div>`
   } else {
     tabContent = `
       <div class="wrap">
         <!-- GESTION DU BLOG -->
         <section class="editor-section">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-            <h2 id="formTitle" style="margin-bottom: 0;">Rédiger un article de blog</h2>
-            <button id="cancelBtn" type="button" class="cancel-btn" onclick="cancelEdit()">Annuler la modification</button>
+          <div class="editor-header">
+            <h2 id="formTitle">
+              <span class="mode-indicator"></span>
+              Rédiger un nouvel article de blog
+            </h2>
+            <button id="cancelBtn" type="button" class="cancel-btn" onclick="cancelEdit()">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              Annuler la modification
+            </button>
           </div>
-          <form id="blogForm" onsubmit="handleBlogSubmit(event)">
+          <form id="blogForm" onsubmit="handleBlogSubmit(event)" class="form-grid">
             <div class="form-group">
-              <label>Titre de l\'article</label>
-              <input type="text" id="blogTitle" required placeholder="Ex: L\'importance des normes de sécurité pour les échafaudages..." />
+              <label>Titre de l\'article *</label>
+              <input type="text" id="blogTitle" required placeholder="Ex: Sécurité & Conformité des Échafaudages Industriels..." />
             </div>
             <div class="form-group">
-              <label>Résumé de l\'article</label>
-              <input type="text" id="blogSummary" required placeholder="Court résumé apparaissant dans la liste d\'articles..." />
+              <label>Résumé de l\'article (Aperçu catalogue) *</label>
+              <input type="text" id="blogSummary" required placeholder="Court résumé synthétique de l\'article..." />
             </div>
+            
             <div class="form-group">
-              <label>Image de l\'article</label>
-              <input type="file" id="blogImage" accept="image/*" onchange="previewImage(event)" />
-              <div class="image-preview-container">
-                <img id="imagePreview" class="preview-img" alt="Aperçu" />
-                <button type="button" id="removeImgBtn" style="display:none; font-size:12px; color:#d3121a; background:none; border:none; cursor:pointer; font-weight:600;" onclick="removeImage()">✕ Supprimer l\'image</button>
+              <label>Image d\'illustration (Optionnelle)</label>
+              <label class="dropzone">
+                <input type="file" id="blogImage" accept="image/*" onchange="previewImage(event)" />
+                <div class="dropzone-label">
+                  <svg class="dropzone-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  <span class="dropzone-text">Cliquez pour téléverser une image</span>
+                  <span class="dropzone-hint">JPG, PNG, WebP jusqu\'à 10 Mo</span>
+                </div>
+              </label>
+              <div id="imgPreviewCard" class="preview-card" style="display: none;">
+                <img id="imagePreview" class="preview-thumb" alt="Aperçu" />
+                <div class="preview-info">
+                  <div class="preview-title">Image sélectionnée</div>
+                  <span class="preview-badge">Prête à être enregistrée</span>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeImage()">✕ Retirer</button>
               </div>
             </div>
+
             <div class="form-group">
               <label>Fiche technique / Document (PDF)</label>
-              <input type="file" id="blogPdf" accept="application/pdf" onchange="previewPdf(event)" />
-              <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
-                <div id="pdfName" style="font-size: 13px; font-weight: 600; color: #d3121a; display: none;"></div>
-                <button type="button" id="removePdfBtn" style="display:none; font-size:12px; color:#d3121a; background:none; border:none; cursor:pointer; font-weight:600;" onclick="removePdf()">✕ Supprimer le PDF</button>
+              <label class="dropzone">
+                <input type="file" id="blogPdf" accept="application/pdf" onchange="previewPdf(event)" />
+                <div class="dropzone-label">
+                  <svg class="dropzone-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                  <span class="dropzone-text">Cliquez pour joindre un document PDF</span>
+                  <span class="dropzone-hint">Visualisation intégrée dans l\'article</span>
+                </div>
+              </label>
+              <div id="pdfPreviewCard" class="preview-card" style="display: none;">
+                <div style="background: #fee2e2; border-radius: 8px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #d3121a; font-weight: 800; font-size: 13px;">PDF</div>
+                <div class="preview-info">
+                  <div id="pdfName" class="preview-title">document.pdf</div>
+                  <span class="preview-badge">Document joint</span>
+                </div>
+                <button type="button" class="remove-btn" onclick="removePdf()">✕ Retirer</button>
               </div>
             </div>
+
             <div class="form-group">
-              <label>Contenu de l\'article / Mots-clés SEO</label>
-              <textarea id="blogContent" rows="10" required placeholder="Rédigez le contenu complet ou vos mots-clés SEO ici..."></textarea>
+              <label>Contenu de l\'article / Mots-clés SEO *</label>
+              <textarea id="blogContent" rows="8" required placeholder="Rédigez le texte complet ou collez vos mots-clés SEO..."></textarea>
             </div>
-            <div style="display: flex; gap: 12px; align-items: center;">
-              <button type="submit" id="submitBtn" class="submit-btn">Publier l\'article</button>
+
+            <div class="btn-group">
+              <button type="submit" id="submitBtn" class="submit-btn">
+                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                Publier l\'article
+              </button>
             </div>
           </form>
         </section>
 
-        <h2 style="font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px;">Articles Publiés</h2>
-        ${
-          blogs.length === 0
-            ? '<div class="empty">Aucun article publié pour le moment.</div>'
-            : `<table>
-          <thead>
-            <tr>
-              <th style="width: 120px;">Date</th>
-              <th>Titre</th>
-              <th>Résumé</th>
-              <th style="width: 220px;">Actions</th>
-            </tr>
-          </thead>
-          <tbody>${blogRows}</tbody>
-        </table>`
-        }
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Articles Publiés (${blogs.length})</span>
+          </div>
+          ${
+            blogs.length === 0
+              ? '<div class="empty">Aucun article publié pour le moment.</div>'
+              : `<table>
+            <thead>
+              <tr>
+                <th style="width: 130px;">Date</th>
+                <th>Titre de l\'article</th>
+                <th>Résumé</th>
+                <th style="width: 250px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>${blogRows}</tbody>
+          </table>`
+          }
+        </div>
       </div>`
   }
 
