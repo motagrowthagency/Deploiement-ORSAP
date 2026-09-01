@@ -36,6 +36,63 @@ export default function BlogDetail() {
     fetchPost()
   }, [id])
 
+  // Enhanced SEO optimization (Meta tags, keywords & Schema.org JSON-LD)
+  useEffect(() => {
+    if (!post) return
+
+    const prevTitle = document.title
+    document.title = `${post.title} | Blog Technique ORSAP`
+
+    let metaDesc = document.querySelector('meta[name="description"]')
+    const prevDesc = metaDesc?.getAttribute("content") || ""
+    if (!metaDesc) {
+      metaDesc = document.createElement("meta")
+      metaDesc.setAttribute("name", "description")
+      document.head.appendChild(metaDesc)
+    }
+    metaDesc.setAttribute("content", post.summary || post.content.slice(0, 160))
+
+    let metaKeywords = document.querySelector('meta[name="keywords"]')
+    const prevKeywords = metaKeywords?.getAttribute("content") || ""
+    if (!metaKeywords) {
+      metaKeywords = document.createElement("meta")
+      metaKeywords.setAttribute("name", "keywords")
+      document.head.appendChild(metaKeywords)
+    }
+    metaKeywords.setAttribute("content", post.content)
+
+    // JSON-LD Structured Data for search engines
+    const schemaScript = document.createElement("script")
+    schemaScript.type = "application/ld+json"
+    schemaScript.id = "blog-json-ld"
+    schemaScript.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": post.summary,
+      "articleBody": post.content,
+      "datePublished": post.date,
+      "keywords": post.content,
+      "author": {
+        "@type": "Organization",
+        "name": "ORSAP"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ORSAP"
+      }
+    })
+    document.head.appendChild(schemaScript)
+
+    return () => {
+      document.title = prevTitle
+      if (metaDesc) metaDesc.setAttribute("content", prevDesc)
+      if (metaKeywords) metaKeywords.setAttribute("content", prevKeywords)
+      const existingScript = document.getElementById("blog-json-ld")
+      if (existingScript) existingScript.remove()
+    }
+  }, [post])
+
   return (
     <div>
       {/* Header */}
@@ -90,13 +147,9 @@ export default function BlogDetail() {
           </div>
         ) : post ? (
           <div className="prose max-w-none">
-            {/* Lead paragraph */}
-            <p className="font-display text-[18px] font-bold leading-[1.6] text-ink">
-              {post.summary}
-            </p>
-
+            {/* Featured Image if present */}
             {post.image && (
-              <div className="my-8 overflow-hidden border border-hairline aspect-video max-h-[450px]">
+              <div className="mb-8 overflow-hidden border border-hairline aspect-video max-h-[450px]">
                 <img
                   src={post.image}
                   alt={post.title}
@@ -105,21 +158,10 @@ export default function BlogDetail() {
               </div>
             )}
 
-            {/* Divider */}
-            <hr className="my-8 border-t border-hairline" />
-
-            {/* Main content body */}
-            <div className="space-y-6 text-[16px] leading-[1.8] text-ink-soft">
-              {post.content.split("\n\n").map((para, idx) => (
-                <p key={idx} className="whitespace-pre-line">
-                  {para}
-                </p>
-              ))}
-            </div>
-
+            {/* PDF Viewer - Clean, prominent document viewer */}
             {post.pdf && (
-              <div className="mt-12 border-t border-hairline pt-10">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div className="my-8 border border-hairline bg-paper overflow-hidden shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border-b border-hairline bg-surface/40">
                   <div className="flex items-center gap-3">
                     <svg
                       className="w-6 h-6 text-orsap-red shrink-0"
@@ -131,11 +173,11 @@ export default function BlogDetail() {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                       />
                     </svg>
                     <div>
-                      <h3 className="font-display text-[15px] font-bold text-ink leading-tight">
+                      <h3 className="font-display text-[14.5px] font-bold text-ink leading-tight">
                         {post.pdfName || "Document joint"}
                       </h3>
                       <p className="text-[12px] text-ink-soft">
@@ -145,7 +187,7 @@ export default function BlogDetail() {
                   </div>
                 </div>
 
-                <div className="border border-hairline w-full bg-paper overflow-hidden shadow-sm">
+                <div className="w-full bg-paper overflow-hidden">
                   <iframe
                     src={`${post.pdf}#toolbar=0`}
                     title={post.pdfName || "Document"}
@@ -154,6 +196,23 @@ export default function BlogDetail() {
                 </div>
               </div>
             )}
+
+            {/* If NO PDF is present and there is a human summary (not raw keywords), show clean summary */}
+            {!post.pdf &&
+              post.summary &&
+              post.summary !== post.content &&
+              !post.summary.includes(",") && (
+                <p className="mb-8 font-display text-[17px] font-bold leading-[1.6] text-ink">
+                  {post.summary}
+                </p>
+              )}
+
+            {/* Semantic SEO Container for Googlebot & Search Engines (Hidden visually from website visitors) */}
+            <div className="sr-only" aria-hidden="true">
+              <h2>{post.title}</h2>
+              {post.summary && <p>{post.summary}</p>}
+              <div>{post.content}</div>
+            </div>
           </div>
         ) : null}
       </section>

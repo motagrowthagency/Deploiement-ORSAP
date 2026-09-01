@@ -5,8 +5,9 @@ node_modules/
 # Builds
 dist/
 
-# Local databases (don't commit submissions and blogs)
-/data/
+# Local form submissions (keep blogs tracked in git)
+/data/submissions.json
+/data/applications.json
 
 # OS metadata
 .DS_Store

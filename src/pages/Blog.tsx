@@ -103,7 +103,9 @@ export default function Blog() {
                     {post.title}
                   </h2>
                   <p className="mt-3 flex-1 text-[14.5px] leading-[1.6] text-ink-soft line-clamp-3">
-                    {post.summary}
+                    {post.summary && !post.summary.includes(",") && post.summary !== post.title
+                      ? post.summary
+                      : "Consultez notre guide technique et nos recommandations d'experts."}
                   </p>
                   <Link
                     to={`/blog/${post.id}`}
