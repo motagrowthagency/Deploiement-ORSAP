@@ -158,7 +158,7 @@ export default function BlogDetail() {
               </div>
             )}
 
-            {/* PDF Viewer - Clean, prominent document viewer */}
+            {/* PDF Viewer - Prominent at the top */}
             {post.pdf && (
               <div className="my-8 border border-hairline bg-paper overflow-hidden shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border-b border-hairline bg-surface/40">
@@ -173,7 +173,7 @@ export default function BlogDetail() {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                       />
                     </svg>
                     <div>
@@ -197,15 +197,23 @@ export default function BlogDetail() {
               </div>
             )}
 
-            {/* If NO PDF is present and there is a human summary (not raw keywords), show clean summary */}
-            {!post.pdf &&
-              post.summary &&
-              post.summary !== post.content &&
-              !post.summary.includes(",") && (
-                <p className="mb-8 font-display text-[17px] font-bold leading-[1.6] text-ink">
-                  {post.summary}
-                </p>
-              )}
+            {/* Text block - Positioned AFTER the PDF (smaller & discreet) */}
+            {(post.content || post.summary) && (
+              <div className="mt-12 border-t border-hairline pt-8">
+                <div className="space-y-4 text-[13px] leading-[1.7] text-ink-soft bg-paper/60 p-6 sm:p-8 border border-hairline rounded-sm">
+                  {post.content && post.content.split("\n\n").map((para, idx) => (
+                    <p key={idx} className="whitespace-pre-line">
+                      {para}
+                    </p>
+                  ))}
+                  {post.summary && post.summary !== post.content && post.summary !== post.title && (
+                    <p className="whitespace-pre-line pt-3 text-[12.5px] text-ink-soft/80 border-t border-hairline/60">
+                      {post.summary}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Semantic SEO Container for Googlebot & Search Engines (Hidden visually from website visitors) */}
             <div className="sr-only" aria-hidden="true">
