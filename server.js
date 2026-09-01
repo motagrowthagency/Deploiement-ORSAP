@@ -244,6 +244,50 @@ app.delete("/api/blogs/:id", (req, res) => {
   return res.json({ success: true })
 })
 
+// ── Blog Backup Export & Import ─────────────────────────────────────
+app.get("/api/admin/export/blogs", (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return res.status(401).json({ error: "Non autorisé" })
+  }
+  const blogs = loadBlogs()
+  const dateStr = new Date().toISOString().slice(0, 10)
+  res.setHeader("Content-Disposition", `attachment; filename=orsap_blogs_backup_${dateStr}.json`)
+  res.setHeader("Content-Type", "application/json")
+  return res.send(JSON.stringify(blogs, null, 2))
+})
+
+app.post("/api/admin/import/blogs", (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return res.status(401).json({ error: "Non autorisé" })
+  }
+  const importedBlogs = req.body
+  if (!Array.isArray(importedBlogs) || importedBlogs.length === 0) {
+    return res.status(400).json({ error: "Format invalide. Le fichier doit contenir une liste d'articles JSON." })
+  }
+
+  const existingBlogs = loadBlogs()
+  const map = new Map()
+
+  // First seed existing
+  existingBlogs.forEach((b) => {
+    if (b && b.id) map.set(b.id, b)
+  })
+
+  // Merge imported
+  importedBlogs.forEach((b) => {
+    if (b && b.title && b.id) {
+      map.set(b.id, b)
+    }
+  })
+
+  const merged = Array.from(map.values())
+  saveBlogs(merged)
+  console.log(`📥  Sauvegarde restaurée: ${importedBlogs.length} articles importés (Total: ${merged.length})`)
+  return res.json({ success: true, count: merged.length })
+})
+
 // ── Admin Authentication ────────────────────────────────────────────
 app.get("/admin/logo.jpg", (req, res) => {
   const logoPath = join(__dirname, "src", "imports", "logo.jpg")
@@ -576,6 +620,17 @@ app.get("/admin", (req, res) => {
         <div class="table-container">
           <div class="table-header-title">
             <span>Articles Publiés (${blogs.length})</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <a href="/api/admin/export/blogs" class="view-link" title="Télécharger une copie de secours de tous les articles">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Sauvegarde JSON
+              </a>
+              <label class="view-link" style="cursor: pointer; margin-bottom: 0;" title="Restaurer des articles à partir d'un fichier de sauvegarde JSON">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12" /></svg>
+                Restaurer
+                <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display: none;" />
+              </label>
+            </div>
           </div>
           ${
             blogs.length === 0

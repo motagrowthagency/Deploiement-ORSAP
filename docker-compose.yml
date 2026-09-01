@@ -1,0 +1,14 @@
+services:
+  orsap-web:
+    build: .
+    container_name: orsap-prod
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - DATA_DIR=/app/data
+    volumes:
+      # Mount host data folder to persist all blogs, devis & applications forever
+      - ./data:/app/data

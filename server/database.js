@@ -4,13 +4,18 @@ import { fileURLToPath } from "node:url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 // The database is located in the root 'data' folder (one level above this server folder)
-const DATA_DIR = join(__dirname, "..", "data")
+const DATA_DIR = process.env.DATA_DIR || join(__dirname, "..", "data")
 const DB_PATH = join(DATA_DIR, "submissions.json")
 const BLOG_DB_PATH = join(DATA_DIR, "blogs.json")
+const BLOG_BACKUP_PATH = join(DATA_DIR, "blogs.backup.json")
+const BACKUP_DIR = join(DATA_DIR, "backups")
 
-// Ensure data directory exists
+// Ensure data and backup directories exist
 if (!existsSync(DATA_DIR)) {
   mkdirSync(DATA_DIR, { recursive: true })
+}
+if (!existsSync(BACKUP_DIR)) {
+  mkdirSync(BACKUP_DIR, { recursive: true })
 }
 
 // Initial seed blog articles
@@ -65,23 +70,58 @@ export function loadSubmissions() {
 }
 
 export function saveSubmissions(data) {
-  writeFileSync(DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  try {
+    writeFileSync(DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur sauvegarde submissions:", err)
+  }
 }
 
 export function loadBlogs() {
-  if (!existsSync(BLOG_DB_PATH)) {
-    saveBlogs(SEED_BLOGS)
-    return SEED_BLOGS
+  // 1. Try reading primary blog database
+  if (existsSync(BLOG_DB_PATH)) {
+    try {
+      const content = readFileSync(BLOG_DB_PATH, "utf-8")
+      const parsed = JSON.parse(content)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed
+      }
+    } catch (err) {
+      console.warn("⚠️  Attention: Erreur lecture blogs.json, tentative de secours via backup...", err.message)
+    }
   }
-  try {
-    return JSON.parse(readFileSync(BLOG_DB_PATH, "utf-8"))
-  } catch {
-    return SEED_BLOGS
+
+  // 2. Try reading backup if primary is empty or unreadable
+  if (existsSync(BLOG_BACKUP_PATH)) {
+    try {
+      const backupContent = readFileSync(BLOG_BACKUP_PATH, "utf-8")
+      const backupParsed = JSON.parse(backupContent)
+      if (Array.isArray(backupParsed) && backupParsed.length > 0) {
+        console.log("✅  Restauration automatique depuis blogs.backup.json réussie.")
+        saveBlogs(backupParsed)
+        return backupParsed
+      }
+    } catch {
+      // ignore backup parse failure
+    }
   }
+
+  // 3. First-run fallback only
+  saveBlogs(SEED_BLOGS)
+  return SEED_BLOGS
 }
 
 export function saveBlogs(data) {
-  writeFileSync(BLOG_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  if (!Array.isArray(data)) return
+  try {
+    const jsonStr = JSON.stringify(data, null, 2)
+    // Write primary database file
+    writeFileSync(BLOG_DB_PATH, jsonStr, "utf-8")
+    // Write redundant backup file
+    writeFileSync(BLOG_BACKUP_PATH, jsonStr, "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur sauvegarde blogs:", err)
+  }
 }
 
 const APP_DB_PATH = join(DATA_DIR, "applications.json")

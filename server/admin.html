@@ -333,6 +333,37 @@
 
     const createBlog = handleBlogSubmit;
 
+    // Import & Restore blogs
+    async function importBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (!confirm("Restaurer les articles depuis \"" + file.name + "\" ? Vos articles existants seront préservés et fusionnés.")) {
+        event.target.value = "";
+        return;
+      }
+      try {
+        const text = await file.text();
+        const json = JSON.parse(text);
+        const res = await fetch("/api/admin/import/blogs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(json)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          alert("Sauvegarde restaurée avec succès ! Total d'articles actifs : " + data.count);
+          location.reload();
+        } else {
+          const data = await res.json();
+          alert(data.error || "Erreur lors de l'importation de la sauvegarde.");
+        }
+      } catch (err) {
+        alert("Erreur: Le fichier sélectionné n'est pas un JSON valide.");
+      } finally {
+        event.target.value = "";
+      }
+    }
+
     // Delete blog
     async function deleteBlog(id) {
       if (!confirm("Supprimer cet article de blog définitivement ?")) return;
