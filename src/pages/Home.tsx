@@ -2,13 +2,6 @@ import { Link } from "react-router"
 import heroPhoto from "@/imports/Hero_Acceuil.jpeg"
 import logoButec from "@/imports/logo_butec.svg"
 
-const STATS = [
-  { value: "+15 000", unit: "références", note: "disponibles en stock" },
-  { value: "48h", unit: "délai max", note: "de livraison au Maroc" },
-  { value: "+300", unit: "marques", note: "distribuées et sourcées" },
-  { value: "+100", unit: "grands comptes", note: "industriels servis" },
-]
-
 export default function Home() {
   return (
     <>
@@ -55,90 +48,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Proof band */}
-      <section className="border-t border-hairline bg-card">
-        <div className="mx-auto max-w-[1240px] px-6">
-          <div className="grid grid-cols-1 divide-y divide-hairline sm:grid-cols-2 sm:divide-y-0 sm:gap-6 lg:grid-cols-4 lg:divide-x lg:divide-hairline">
-            {STATS.map((s, i) => (
-              <div
-                key={s.unit}
-                className={`py-6 sm:py-8 lg:py-10 ${
-                  i !== 0 ? "lg:pl-8" : ""
-                }`}
-              >
-                <div className="flex flex-wrap items-baseline gap-2">
-                  <span className="font-display text-3xl sm:text-4xl lg:text-[clamp(2.2rem,3.2vw,2.8rem)] font-black leading-none tracking-[-0.03em] text-ink whitespace-nowrap">
-                    {s.value}
-                  </span>
-                  <span className="font-display text-[14px] sm:text-[15px] font-bold text-orsap-red uppercase tracking-wider">
-                    {s.unit}
-                  </span>
-                </div>
-                <div className="mt-2 text-[14px] text-ink-soft leading-snug">{s.note}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial Section */}
-      <section className="border-t border-hairline bg-paper py-16 lg:py-20">
-        <div className="mx-auto max-w-[1240px] px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 flex justify-center text-[12.5px] font-semibold uppercase tracking-[0.14em] text-orsap-red">
-              <span className="flex items-center gap-3">
-                <span className="h-px w-8 bg-orsap-red" />
-                Témoignage Client
-                <span className="h-px w-8 bg-orsap-red" />
-              </span>
-            </div>
-
-            <blockquote className="font-display text-[clamp(1.1rem,1.9vw,1.4rem)] font-semibold italic leading-[1.5] tracking-tight text-ink">
-              “ ORSAP est devenu notre partenaire de référence pour l’équipement
-              EPI de nos 1 200 salariés, du travail en hauteur et de la
-              manutention. Leur capacité à personnaliser et à livrer dans les
-              délais, tout en respectant nos exigences de conformité, est
-              remarquable. ”
-            </blockquote>
-
-            <div className="my-7 mx-auto h-px w-16 bg-hairline" />
-
-            <div className="flex flex-col items-center justify-center gap-3.5">
-              <img
-                src={logoButec}
-                alt="Logo BUTEC"
-                className="h-8 w-auto object-contain opacity-90"
-              />
-              <div className="text-center">
-                <div className="font-display text-[15px] font-bold text-ink">
-                  M. Amine
-                </div>
-                <div className="text-[13px] font-medium text-ink-soft mt-0.5">
-                  Responsable Achats, BUTEC
-                </div>
-                <div className="mt-3.5 inline-block rounded-full bg-white px-4 py-1 text-[11.5px] font-medium text-steel border border-hairline">
-                  <span className="font-semibold text-ink-soft">Secteur :</span>{" "}
-                  Maintenance multitechnique, efficacité énergétique & facility management
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Video Section */}
+      {/* Presentation + Video Section */}
       <section className="border-t border-hairline bg-card py-16 lg:py-24">
         <div className="mx-auto max-w-[1240px] px-6">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-5">
-              <div className="mb-6 flex items-center gap-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-orsap-red">
+              <div className="mb-6 flex items-center gap-3 text-[12.5px] font-bold uppercase tracking-[0.14em] text-orsap-red">
                 <span className="h-px w-8 bg-orsap-red" />
                 Présentation
               </div>
-              <h2 className="font-display text-[clamp(1.8rem,3vw,2.4rem)] font-black leading-[1.1] tracking-[-0.02em]">
+              <h2 className="font-display text-[clamp(2.1rem,3.8vw,3.1rem)] font-black leading-[1.08] tracking-[-0.03em] text-ink">
                 Découvrez ORSAP en vidéo
               </h2>
-              <div className="mt-5 space-y-4 text-[15.5px] leading-[1.65] text-ink-soft">
+              <div className="mt-6 space-y-4 text-[15px] sm:text-[15.5px] leading-[1.65] text-ink-soft">
                 <p>
                   Découvrez nos infrastructures, nos équipes et notre engagement à
                   vous fournir les meilleures solutions techniques et équipements
@@ -155,21 +77,119 @@ export default function Home() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   to="/a-propos"
-                  className="inline-flex items-center justify-center bg-ink px-6 py-3 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-ink-soft"
+                  className="inline-flex items-center justify-center bg-ink px-7 py-3.5 font-display text-[13px] font-bold uppercase tracking-[0.05em] text-white transition-colors hover:bg-ink-soft"
                 >
                   À propos de nous
                 </Link>
               </div>
             </div>
             <div className="lg:col-span-7">
-              <div className="relative w-full overflow-hidden rounded-xl border border-hairline bg-ink shadow-lg aspect-video">
+              <div className="relative w-full overflow-hidden rounded-2xl border border-hairline/70 bg-ink shadow-lg aspect-video">
                 <iframe
                   className="absolute inset-0 h-full w-full"
                   src="https://www.youtube.com/embed/tXgG_JxqlSg"
-                  title="YouTube video player"
+                  title="Découvrez ORSAP en vidéo"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                ></iframe>
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Numbers / Stats Section */}
+      <section className="border-y border-hairline bg-card">
+        <div className="mx-auto max-w-[1240px] px-6">
+          <div className="grid grid-cols-1 divide-y divide-hairline sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x lg:divide-hairline">
+            <div className="py-8 sm:py-10 lg:py-12 lg:pr-8">
+              <div className="font-display text-4xl sm:text-[44px] lg:text-[48px] font-black leading-none tracking-[-0.03em] text-ink">
+                +15 000
+              </div>
+              <div className="mt-2.5 font-display text-[13.5px] font-bold uppercase tracking-wider text-orsap-red">
+                RÉFÉRENCES
+              </div>
+              <div className="mt-1.5 text-[14px] text-ink-soft leading-snug">
+                disponibles en stock
+              </div>
+            </div>
+
+            <div className="py-8 sm:py-10 lg:py-12 sm:px-6 lg:px-8">
+              <div className="flex items-baseline gap-2.5">
+                <span className="font-display text-4xl sm:text-[44px] lg:text-[48px] font-black leading-none tracking-[-0.03em] text-ink">
+                  48h
+                </span>
+                <span className="font-display text-[13.5px] font-bold uppercase tracking-wider text-orsap-red">
+                  DÉLAI MAX
+                </span>
+              </div>
+              <div className="mt-2.5 text-[14px] text-ink-soft leading-snug">
+                de livraison au Maroc
+              </div>
+            </div>
+
+            <div className="py-8 sm:py-10 lg:py-12 sm:px-6 lg:px-8">
+              <div className="flex items-baseline gap-2.5">
+                <span className="font-display text-4xl sm:text-[44px] lg:text-[48px] font-black leading-none tracking-[-0.03em] text-ink">
+                  +300
+                </span>
+                <span className="font-display text-[13.5px] font-bold uppercase tracking-wider text-orsap-red">
+                  MARQUES
+                </span>
+              </div>
+              <div className="mt-2.5 text-[14px] text-ink-soft leading-snug">
+                distribuées et sourcées
+              </div>
+            </div>
+
+            <div className="py-8 sm:py-10 lg:py-12 sm:pl-6 lg:pl-8">
+              <div className="font-display text-4xl sm:text-[44px] lg:text-[48px] font-black leading-none tracking-[-0.03em] text-ink">
+                +100
+              </div>
+              <div className="mt-2.5 font-display text-[13.5px] font-bold uppercase tracking-wider text-orsap-red">
+                GRANDS COMPTES
+              </div>
+              <div className="mt-1.5 text-[14px] text-ink-soft leading-snug">
+                industriels servis
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial Section */}
+      <section className="border-b border-hairline bg-paper py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-[1240px] px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-8 flex items-center justify-center gap-3 text-[12.5px] font-bold uppercase tracking-[0.14em] text-orsap-red">
+              <span className="h-px w-8 bg-orsap-red" />
+              Témoignage Client
+              <span className="h-px w-8 bg-orsap-red" />
+            </div>
+
+            <blockquote className="font-display text-[clamp(1.15rem,2.1vw,1.45rem)] font-bold italic leading-[1.5] tracking-tight text-ink">
+              “ ORSAP est devenu notre partenaire de référence pour l’équipement
+              EPI de nos 1 200 salariés, du travail en hauteur et de la
+              manutention. Leur capacité à personnaliser et à livrer dans les
+              délais, tout en respectant nos exigences de conformité, est
+              remarquable. ”
+            </blockquote>
+
+            <div className="mt-10 flex flex-col items-center justify-center">
+              <img
+                src={logoButec}
+                alt="Logo BUTEC"
+                className="h-9 w-auto object-contain"
+              />
+              <div className="mt-4 font-display text-[15.5px] font-bold text-ink">
+                M. Amine
+              </div>
+              <div className="mt-0.5 text-[13px] font-medium text-ink-soft">
+                Responsable Achats, BUTEC
+              </div>
+              <div className="mt-4 inline-block rounded-full bg-white px-5 py-1.5 text-[12px] font-medium text-steel border border-hairline shadow-2xs">
+                <span className="font-semibold text-ink-soft">Secteur :</span>{" "}
+                Maintenance multitechnique, efficacité énergétique & facility management
               </div>
             </div>
           </div>
@@ -178,3 +198,4 @@ export default function Home() {
     </>
   )
 }
+
