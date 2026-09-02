@@ -21,8 +21,8 @@ const app = express()
 app.use(cors())
 
 // Increase body limit to support base64 images and PDFs
-app.use(express.json({ limit: "25mb" }))
-app.use(express.urlencoded({ limit: "25mb", extended: true }))
+app.use(express.json({ limit: "100mb" }))
+app.use(express.urlencoded({ limit: "100mb", extended: true }))
 
 // HTML string escaping helper
 function esc(str) {
@@ -260,11 +260,30 @@ app.get("/api/admin/export/blogs", (req, res) => {
 app.post("/api/admin/import/blogs", (req, res) => {
   const cookies = req.headers.cookie || ""
   if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Non autorisé" })
+    return res.status(401).json({ error: "Session expirée. Veuillez vous reconnecter à l'administration." })
   }
-  const importedBlogs = req.body
+  let importedBlogs = req.body
+  if (!importedBlogs) {
+    return res.status(400).json({ error: "Corps de la requête vide." })
+  }
+
+  // Support direct array [...], wrapped object { blogs: [...] }, { posts: [...] }, { data: [...] }, or single item
+  if (!Array.isArray(importedBlogs)) {
+    if (Array.isArray(importedBlogs.blogs)) importedBlogs = importedBlogs.blogs
+    else if (Array.isArray(importedBlogs.posts)) importedBlogs = importedBlogs.posts
+    else if (Array.isArray(importedBlogs.data)) importedBlogs = importedBlogs.data
+    else if (Array.isArray(importedBlogs.articles)) importedBlogs = importedBlogs.articles
+    else if (typeof importedBlogs === "object" && importedBlogs !== null) {
+      if (importedBlogs.title || importedBlogs.content) {
+        importedBlogs = [importedBlogs]
+      } else {
+        return res.status(400).json({ error: "Format JSON non reconnu. Le fichier doit contenir une liste d'articles." })
+      }
+    }
+  }
+
   if (!Array.isArray(importedBlogs) || importedBlogs.length === 0) {
-    return res.status(400).json({ error: "Format invalide. Le fichier doit contenir une liste d'articles JSON." })
+    return res.status(400).json({ error: "Aucun article trouvé dans le fichier importé." })
   }
 
   const existingBlogs = loadBlogs()
@@ -275,16 +294,30 @@ app.post("/api/admin/import/blogs", (req, res) => {
     if (b && b.id) map.set(b.id, b)
   })
 
-  // Merge imported
+  // Merge imported with proper fallback IDs and fields
   importedBlogs.forEach((b) => {
-    if (b && b.title && b.id) {
-      map.set(b.id, b)
-    }
+    if (!b) return
+    const id = b.id || (b.title ? b.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") + "-" + Math.random().toString(36).slice(2, 6) : Date.now().toString(36) + Math.random().toString(36).slice(2, 6))
+    const title = b.title || "Article sans titre"
+    const summary = b.summary || (b.content ? b.content.slice(0, 160) : "")
+    const content = b.content || ""
+    const date = b.date || new Date().toISOString()
+    map.set(id, {
+      ...b,
+      id,
+      title,
+      summary,
+      content,
+      date,
+      image: b.image !== undefined ? b.image : null,
+      pdf: b.pdf !== undefined ? b.pdf : null,
+      pdfName: b.pdfName !== undefined ? b.pdfName : null,
+    })
   })
 
   const merged = Array.from(map.values())
   saveBlogs(merged)
-  console.log(`📥  Sauvegarde restaurée: ${importedBlogs.length} articles importés (Total: ${merged.length})`)
+  console.log(`📥  Sauvegarde restaurée: ${importedBlogs.length} articles importés (Total actif: ${merged.length})`)
   return res.json({ success: true, count: merged.length })
 })
 

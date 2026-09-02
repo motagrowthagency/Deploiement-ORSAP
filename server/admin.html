@@ -343,22 +343,37 @@
       }
       try {
         const text = await file.text();
-        const json = JSON.parse(text);
+        let json;
+        try {
+          json = JSON.parse(text);
+        } catch (parseErr) {
+          alert("Erreur de format : Le fichier \"" + file.name + "\" ne contient pas un format JSON valide.\n(" + parseErr.message + ")");
+          return;
+        }
+
         const res = await fetch("/api/admin/import/blogs", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(json)
         });
+
         if (res.ok) {
-          const data = await res.json();
-          alert("Sauvegarde restaurée avec succès ! Total d'articles actifs : " + data.count);
+          const data = await res.json().catch(() => ({ count: "plusieurs" }));
+          alert("Sauvegarde restaurée avec succès ! Total d'articles actifs : " + (data.count || "OK"));
           location.reload();
         } else {
-          const data = await res.json();
-          alert(data.error || "Erreur lors de l'importation de la sauvegarde.");
+          let errorMsg = "Erreur HTTP " + res.status;
+          try {
+            const data = await res.json();
+            if (data && data.error) errorMsg = data.error;
+          } catch {
+            const rawText = await res.text().catch(() => "");
+            if (rawText) errorMsg = rawText.slice(0, 200);
+          }
+          alert("Échec de l'importation : " + errorMsg);
         }
       } catch (err) {
-        alert("Erreur: Le fichier sélectionné n'est pas un JSON valide.");
+        alert("Une erreur inattendue est survenue : " + err.message);
       } finally {
         event.target.value = "";
       }
