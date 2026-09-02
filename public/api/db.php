@@ -1,7 +1,10 @@
 <?php
 /**
- * ORSAP - Couche de données PDO MySQL
+ * ORSAP - Couche de données PDO MySQL & JSON Redondant
  */
+
+$GLOBALS['db_status'] = 'Non initialisé';
+$GLOBALS['db_error'] = '';
 
 function getDbConnection() {
     static $pdo = null;
@@ -26,87 +29,152 @@ function getDbConnection() {
         ]);
 
         initTables($pdo);
+        $GLOBALS['db_status'] = 'MySQL Connecté (' . $config['db_name'] . ')';
         return $pdo;
-    } catch (PDOException $e) {
-        error_log('Erreur connexion MySQL ORSAP: ' . $e->getMessage());
+    } catch (Exception $e) {
+        $GLOBALS['db_status'] = 'Stockage JSON (MySQL hors ligne)';
+        $GLOBALS['db_error'] = $e->getMessage();
+        error_log('Erreur MySQL ORSAP: ' . $e->getMessage());
         return null;
     }
 }
 
 function initTables(PDO $pdo) {
-    // 1. Submissions table
-    $pdo->exec("CREATE TABLE IF NOT EXISTS `submissions` (
-        `id` VARCHAR(64) NOT NULL PRIMARY KEY,
-        `created_at` DATETIME NOT NULL,
-        `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional',
-        `name` VARCHAR(255) NOT NULL,
-        `company` VARCHAR(255) DEFAULT NULL,
-        `email` VARCHAR(255) DEFAULT NULL,
-        `phone` VARCHAR(64) NOT NULL,
-        `solutions` JSON DEFAULT NULL,
-        `sectors` JSON DEFAULT NULL,
-        `message` TEXT DEFAULT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+    try {
+        // 1. Submissions table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `submissions` (
+            `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `created_at` DATETIME NOT NULL,
+            `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional',
+            `name` VARCHAR(255) NOT NULL,
+            `company` VARCHAR(255) DEFAULT NULL,
+            `email` VARCHAR(255) DEFAULT NULL,
+            `phone` VARCHAR(64) NOT NULL,
+            `solutions` JSON DEFAULT NULL,
+            `sectors` JSON DEFAULT NULL,
+            `message` TEXT DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
 
-    // 2. Applications table
-    $pdo->exec("CREATE TABLE IF NOT EXISTS `applications` (
-        `id` VARCHAR(64) NOT NULL PRIMARY KEY,
-        `created_at` DATETIME NOT NULL,
-        `name` VARCHAR(255) NOT NULL,
-        `email` VARCHAR(255) NOT NULL,
-        `phone` VARCHAR(64) NOT NULL,
-        `position` VARCHAR(255) NOT NULL,
-        `message` TEXT DEFAULT NULL,
-        `cv` LONGTEXT NOT NULL,
-        `cv_name` VARCHAR(255) NOT NULL DEFAULT 'cv.pdf'
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+        // 2. Applications table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `applications` (
+            `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `created_at` DATETIME NOT NULL,
+            `name` VARCHAR(255) NOT NULL,
+            `email` VARCHAR(255) NOT NULL,
+            `phone` VARCHAR(64) NOT NULL,
+            `position` VARCHAR(255) NOT NULL,
+            `message` TEXT DEFAULT NULL,
+            `cv` LONGTEXT NOT NULL,
+            `cv_name` VARCHAR(255) NOT NULL DEFAULT 'cv.pdf'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
 
-    // 3. Blogs table
-    $pdo->exec("CREATE TABLE IF NOT EXISTS `blogs` (
-        `id` VARCHAR(255) NOT NULL PRIMARY KEY,
-        `date` DATETIME NOT NULL,
-        `title` VARCHAR(500) NOT NULL,
-        `summary` TEXT NOT NULL,
-        `content` LONGTEXT NOT NULL,
-        `image` LONGTEXT DEFAULT NULL,
-        `pdf` LONGTEXT DEFAULT NULL,
-        `pdf_name` VARCHAR(255) DEFAULT NULL,
-        `updated_at` DATETIME DEFAULT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+        // 3. Blogs table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `blogs` (
+            `id` VARCHAR(255) NOT NULL PRIMARY KEY,
+            `date` DATETIME NOT NULL,
+            `title` VARCHAR(500) NOT NULL,
+            `summary` TEXT NOT NULL,
+            `content` LONGTEXT NOT NULL,
+            `image` LONGTEXT DEFAULT NULL,
+            `pdf` LONGTEXT DEFAULT NULL,
+            `pdf_name` VARCHAR(255) DEFAULT NULL,
+            `updated_at` DATETIME DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+    } catch (Exception $e) {
+        error_log('Erreur initTables: ' . $e->getMessage());
+    }
+}
 
-    // Check if blogs table is empty, auto-seed from JSON if available
-    $stmt = $pdo->query("SELECT COUNT(*) AS cnt FROM `blogs`");
-    $count = (int) $stmt->fetchColumn();
-    if ($count === 0) {
-        $jsonPaths = [
-            __DIR__ . '/../../data/blogs.json',
-            __DIR__ . '/../../data/blogs.backup.json',
-            __DIR__ . '/../data/blogs.json'
-        ];
-        foreach ($jsonPaths as $p) {
-            if (file_exists($p)) {
-                $raw = file_get_contents($p);
-                $blogs = json_decode($raw, true);
-                if (is_array($blogs) && count($blogs) > 0) {
-                    $insert = $pdo->prepare("INSERT INTO `blogs` (`id`, `date`, `title`, `summary`, `content`, `image`, `pdf`, `pdf_name`, `updated_at`)
-                        VALUES (:id, :date, :title, :summary, :content, :image, :pdf, :pdf_name, :updated_at)
-                        ON DUPLICATE KEY UPDATE `title` = VALUES(`title`)");
-                    foreach ($blogs as $b) {
-                        $insert->execute([
-                            ':id' => $b['id'] ?? uniqid('blog_'),
-                            ':date' => isset($b['date']) ? date('Y-m-d H:i:s', strtotime($b['date'])) : date('Y-m-d H:i:s'),
-                            ':title' => $b['title'] ?? '',
-                            ':summary' => $b['summary'] ?? '',
-                            ':content' => $b['content'] ?? '',
-                            ':image' => $b['image'] ?? null,
-                            ':pdf' => $b['pdf'] ?? null,
-                            ':pdf_name' => $b['pdfName'] ?? null,
-                            ':updated_at' => isset($b['updatedAt']) ? date('Y-m-d H:i:s', strtotime($b['updatedAt'])) : null,
-                        ]);
-                    }
-                    break;
-                }
-            }
+// ── JSON Helpers ────────────────────────────────────────────────────
+function getDataFilePath($filename) {
+    $dirs = [
+        __DIR__ . '/../data',
+        __DIR__ . '/../../data'
+    ];
+    foreach ($dirs as $d) {
+        if (!is_dir($d)) {
+            @mkdir($d, 0755, true);
+        }
+        return $d . '/' . $filename;
+    }
+    return __DIR__ . '/../data/' . $filename;
+}
+
+function readJsonFile($filename) {
+    $path = getDataFilePath($filename);
+    if (file_exists($path)) {
+        $content = file_get_contents($path);
+        $data = json_decode($content, true);
+        if (is_array($data)) return $data;
+    }
+    return [];
+}
+
+function writeJsonFile($filename, array $data) {
+    $path = getDataFilePath($filename);
+    $dir = dirname($path);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+    file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+}
+
+// ── Dual Save Operations ────────────────────────────────────────────
+function saveSubmissionEntry(array $entry) {
+    // 1. Save to JSON
+    $subs = readJsonFile('submissions.json');
+    array_unshift($subs, $entry);
+    writeJsonFile('submissions.json', $subs);
+
+    // 2. Save to MySQL if available
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO `submissions` (`id`, `created_at`, `client_type`, `name`, `company`, `email`, `phone`, `solutions`, `sectors`, `message`)
+                VALUES (:id, :created_at, :client_type, :name, :company, :email, :phone, :solutions, :sectors, :message)");
+            $stmt->execute([
+                ':id' => $entry['id'],
+                ':created_at' => $entry['createdAt'],
+                ':client_type' => $entry['clientType'],
+                ':name' => $entry['name'],
+                ':company' => $entry['company'] ?? null,
+                ':email' => $entry['email'] ?? null,
+                ':phone' => $entry['phone'],
+                ':solutions' => json_encode($entry['solutions'] ?? []),
+                ':sectors' => json_encode($entry['sectors'] ?? []),
+                ':message' => $entry['message'] ?? null,
+            ]);
+        } catch (Exception $e) {
+            error_log('Erreur saveSubmissionEntry MySQL: ' . $e->getMessage());
+        }
+    }
+}
+
+function saveApplicationEntry(array $entry) {
+    // 1. Save to JSON
+    $apps = readJsonFile('applications.json');
+    array_unshift($apps, $entry);
+    writeJsonFile('applications.json', $apps);
+
+    // 2. Save to MySQL if available
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO `applications` (`id`, `created_at`, `name`, `email`, `phone`, `position`, `message`, `cv`, `cv_name`)
+                VALUES (:id, :created_at, :name, :email, :phone, :position, :message, :cv, :cv_name)");
+            $stmt->execute([
+                ':id' => $entry['id'],
+                ':created_at' => $entry['createdAt'],
+                ':name' => $entry['name'],
+                ':email' => $entry['email'],
+                ':phone' => $entry['phone'],
+                ':position' => $entry['position'],
+                ':message' => $entry['message'] ?? null,
+                ':cv' => $entry['cv'],
+                ':cv_name' => $entry['cvName'] ?? 'cv.pdf',
+            ]);
+        } catch (Exception $e) {
+            error_log('Erreur saveApplicationEntry MySQL: ' . $e->getMessage());
         }
     }
 }
