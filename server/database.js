@@ -18,47 +18,26 @@ if (!existsSync(BACKUP_DIR)) {
   mkdirSync(BACKUP_DIR, { recursive: true })
 }
 
-// Initial seed blog articles
-export const SEED_BLOGS = [
-  {
-    id: "echafaudage-securite-maroc",
-    date: new Date().toISOString(),
-    title: "Sécurité & Conformité des Échafaudages en Milieu Industriel",
-    summary:
-      "Découvrez les normes de sécurité en vigueur au Maroc pour le montage et l'utilisation d'échafaudages sur vos chantiers et sites industriels.",
-    content: `Le travail en hauteur reste l'une des principales causes d'accidents du travail dans le secteur de la construction et de l'industrie. L'utilisation d'échafaudages non conformes ou mal montés présente des risques majeurs. C'est pourquoi la conformité aux normes est un enjeu crucial pour toute entreprise soucieuse de la sécurité de ses collaborateurs.
+const REPO_DATA_PATH = join(__dirname, "..", "data", "blogs.json")
+const REPO_BACKUP_PATH = join(__dirname, "..", "data", "blogs.backup.json")
 
-Au Maroc, la réglementation impose des contrôles réguliers et l'utilisation d'équipements homologués. Chez ORSAP, tous nos échafaudages fixes et roulants répondent aux critères de sécurité les plus stricts.
+function getBundledBlogs() {
+  if (existsSync(REPO_DATA_PATH)) {
+    try {
+      const data = JSON.parse(readFileSync(REPO_DATA_PATH, "utf-8"))
+      if (Array.isArray(data) && data.length > 0) return data
+    } catch {}
+  }
+  if (existsSync(REPO_BACKUP_PATH)) {
+    try {
+      const data = JSON.parse(readFileSync(REPO_BACKUP_PATH, "utf-8"))
+      if (Array.isArray(data) && data.length > 0) return data
+    } catch {}
+  }
+  return []
+}
 
-Les règles d'or pour un chantier sécurisé :
-1. Vérification de la stabilité du sol avant le montage.
-2. Utilisation systématique de garde-corps et de plinthes de sécurité.
-3. Respect strict de la charge maximale d'utilisation (CMU) indiquée par le fabricant.
-4. Formation adéquate du personnel au montage et au démontage de la structure.
-
-N'hésitez pas à contacter nos conseillers pour auditer vos besoins en échafaudages professionnels.`,
-    image: null,
-  },
-  {
-    id: "optimiser-air-comprime",
-    date: new Date().toISOString(),
-    title: "Comment optimiser l'efficacité de vos réseaux d'air comprimé ?",
-    summary:
-      "L'air comprimé est une ressource énergétique coûteuse. Voici 4 étapes clés pour détecter les fuites et optimiser le rendement de vos compresseurs.",
-    content: `L'air comprimé est souvent qualifié de 'quatrième fluide' dans le secteur industriel. Cependant, c'est aussi l'une des formes d'énergie les plus coûteuses à produire. On estime qu'en moyenne, 20 à 30 % de la consommation électrique d'une usine est dédiée à la compression de l'air, et qu'une part importante de cette énergie est perdue sous forme de fuites.
-
-Optimiser son réseau d'air comprimé permet non seulement de réduire sa facture d'électricité, mais aussi de prolonger la durée de vie des équipements.
-
-Les 4 actions prioritaires à mener :
-- La détection et la réparation méthodique des fuites d'air sur l'ensemble du réseau de distribution.
-- Le réglage optimal de la pression de service (réduire la pression de 1 bar permet d'économiser environ 7% d'énergie).
-- La mise en place d'un système de récupération de chaleur sur le compresseur pour chauffer l'eau ou les locaux.
-- Un entretien rigoureux des filtres pour éviter les pertes de charge inutiles.
-
-Chez ORSAP, nous proposons une large gamme de compresseurs industriels de dernière génération, équipés de variateurs de vitesse pour s'adapter précisément à votre consommation réelle.`,
-    image: null,
-  },
-]
+export const SEED_BLOGS = getBundledBlogs()
 
 export function loadSubmissions() {
   if (!existsSync(DB_PATH)) return []
@@ -77,13 +56,19 @@ export function saveSubmissions(data) {
   }
 }
 
+function isLegacySeedOnly(blogs) {
+  if (!Array.isArray(blogs) || blogs.length === 0) return true
+  const dummyIds = new Set(["echafaudage-securite-maroc", "optimiser-air-comprime"])
+  return blogs.every((b) => dummyIds.has(b.id))
+}
+
 export function loadBlogs() {
   // 1. Try reading primary blog database
   if (existsSync(BLOG_DB_PATH)) {
     try {
       const content = readFileSync(BLOG_DB_PATH, "utf-8")
       const parsed = JSON.parse(content)
-      if (Array.isArray(parsed) && parsed.length > 0) {
+      if (Array.isArray(parsed) && parsed.length > 0 && !isLegacySeedOnly(parsed)) {
         return parsed
       }
     } catch (err) {
@@ -96,7 +81,7 @@ export function loadBlogs() {
     try {
       const backupContent = readFileSync(BLOG_BACKUP_PATH, "utf-8")
       const backupParsed = JSON.parse(backupContent)
-      if (Array.isArray(backupParsed) && backupParsed.length > 0) {
+      if (Array.isArray(backupParsed) && backupParsed.length > 0 && !isLegacySeedOnly(backupParsed)) {
         console.log("✅  Restauration automatique depuis blogs.backup.json réussie.")
         saveBlogs(backupParsed)
         return backupParsed
@@ -106,9 +91,15 @@ export function loadBlogs() {
     }
   }
 
-  // 3. First-run fallback only
-  saveBlogs(SEED_BLOGS)
-  return SEED_BLOGS
+  // 3. Fallback to bundled repository blogs (the 2 real uploaded articles with PDFs)
+  const bundled = getBundledBlogs()
+  if (bundled.length > 0) {
+    console.log(`✅  Restauration automatique depuis les articles réels du dépôt (${bundled.length} articles).`)
+    saveBlogs(bundled)
+    return bundled
+  }
+
+  return []
 }
 
 export function saveBlogs(data) {
@@ -119,6 +110,13 @@ export function saveBlogs(data) {
     writeFileSync(BLOG_DB_PATH, jsonStr, "utf-8")
     // Write redundant backup file
     writeFileSync(BLOG_BACKUP_PATH, jsonStr, "utf-8")
+    // Also sync to repo data path if different
+    if (REPO_DATA_PATH !== BLOG_DB_PATH) {
+      try {
+        writeFileSync(REPO_DATA_PATH, jsonStr, "utf-8")
+        writeFileSync(REPO_BACKUP_PATH, jsonStr, "utf-8")
+      } catch {}
+    }
   } catch (err) {
     console.error("❌ Erreur sauvegarde blogs:", err)
   }
