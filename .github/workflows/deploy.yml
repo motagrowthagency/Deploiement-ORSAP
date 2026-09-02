@@ -17,7 +17,7 @@ jobs:
       - name: ⚙️ Configuration de Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "npm"
 
       - name: 📦 Installation des dépendances
@@ -26,7 +26,7 @@ jobs:
       - name: 🔨 Compilation du Frontend (Vite)
         run: npm run build
 
-      - name: 🚀 Déploiement sur Heberjahiz via FTP
+      - name: 🚀 Déploiement sur Heberjahiz via FTPS (TLS)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -34,6 +34,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
-          protocol: ftp
+          protocol: ftps
           port: 21
           security: loose
+          security-options: '{"rejectUnauthorized": false}'
