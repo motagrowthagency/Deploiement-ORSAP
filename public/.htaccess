@@ -1,0 +1,27 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Allow large payload uploads (base64 images, PDFs)
+  LimitRequestBody 104857600
+
+  # Route /api/... requests to the PHP API handler
+  RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
+
+  # Route /admin requests to the Admin PHP handler
+  RewriteRule ^admin(/.*)?$ admin/index.php [QSA,L]
+
+  # If requested file or directory physically exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Otherwise fallback to index.html for React SPA client-side routing
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Security: prevent direct access to sensitive files
+<FilesMatch "^\.(env|git|htaccess)">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

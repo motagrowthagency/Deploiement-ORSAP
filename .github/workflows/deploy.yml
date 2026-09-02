@@ -26,27 +26,11 @@ jobs:
       - name: 🔨 Compilation du Frontend (Vite)
         run: npm run build
 
-      - name: 🔄 Création du fichier de redémarrage automatique Passenger
-        run: |
-          mkdir -p tmp
-          touch tmp/restart.txt
-
       - name: 🚀 Déploiement sur Heberjahiz via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
           server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            .mise.toml
-            Dockerfile
-            docker-compose.yml
-            .dockerignore
-            AGENTS.md
-            README.md
-            tsconfig.json
-            vite.config.ts
