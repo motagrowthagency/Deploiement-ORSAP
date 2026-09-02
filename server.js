@@ -672,9 +672,22 @@ app.get("/admin", (req, res) => {
 
 // ── Serve frontend (production) ─────────────────────────────────────
 if (existsSync(DIST_DIR)) {
-  app.use(express.static(DIST_DIR))
+  app.use(
+    express.static(DIST_DIR, {
+      setHeaders: (res, path) => {
+        if (path.endsWith(".html")) {
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate")
+          res.setHeader("Pragma", "no-cache")
+          res.setHeader("Expires", "0")
+        }
+      },
+    })
+  )
   // SPA fallback — serve index.html for all non-API routes
   app.get("/{*path}", (_req, res) => {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate")
+    res.setHeader("Pragma", "no-cache")
+    res.setHeader("Expires", "0")
     res.sendFile(join(DIST_DIR, "index.html"))
   })
 }
