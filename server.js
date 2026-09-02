@@ -1,15 +1,25 @@
+import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import { readFileSync, existsSync } from "node:fs"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 import {
+  initDatabase,
   loadSubmissions,
   saveSubmissions,
+  addSubmission,
+  deleteSubmission,
   loadBlogs,
   saveBlogs,
+  addBlog,
+  updateBlog,
+  deleteBlog,
   loadApplications,
   saveApplications,
+  addApplication,
+  deleteApplication,
+  isUsingMySQL,
 } from "./server/database.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -34,7 +44,7 @@ function esc(str) {
 }
 
 // ── Devis API Routes ────────────────────────────────────────────────
-app.post("/api/devis", (req, res) => {
+app.post("/api/devis", async (req, res) => {
   const {
     clientType,
     name,
@@ -70,35 +80,32 @@ app.post("/api/devis", (req, res) => {
     message: message || null,
   }
 
-  const submissions = loadSubmissions()
-  submissions.unshift(entry)
-  saveSubmissions(submissions)
-
+  await addSubmission(entry)
   console.log(`✅  New submission from ${name} (${clientType})`)
   return res.status(201).json({ success: true, id: entry.id })
 })
 
-app.get("/api/devis", (_req, res) => {
-  return res.json(loadSubmissions())
+app.get("/api/devis", async (_req, res) => {
+  const data = await loadSubmissions()
+  return res.json(data)
 })
 
-app.delete("/api/devis/:id", (req, res) => {
-  let submissions = loadSubmissions()
-  const before = submissions.length
-  submissions = submissions.filter((s) => s.id !== req.params.id)
-  if (submissions.length === before) {
+app.delete("/api/devis/:id", async (req, res) => {
+  const success = await deleteSubmission(req.params.id)
+  if (!success) {
     return res.status(404).json({ error: "Not found" })
   }
-  saveSubmissions(submissions)
   return res.json({ success: true })
 })
 
 // ── Recruitment API Routes ──────────────────────────────────────────
-app.post("/api/recrutement", (req, res) => {
+app.post("/api/recrutement", async (req, res) => {
   const { name, email, phone, position, message, cv, cvName } = req.body
 
   if (!name || !email || !phone || !position || !cv) {
-    return res.status(400).json({ error: "Tous les champs obligatoires (nom, email, téléphone, poste, CV) doivent être remplis." })
+    return res.status(400).json({
+      error: "Tous les champs obligatoires (nom, email, téléphone, poste, CV) doivent être remplis.",
+    })
   }
 
   const entry = {
@@ -110,34 +117,29 @@ app.post("/api/recrutement", (req, res) => {
     position,
     message: message || null,
     cv,
-    cvName: cvName || "cv.pdf"
+    cvName: cvName || "cv.pdf",
   }
 
-  const apps = loadApplications()
-  apps.unshift(entry)
-  saveApplications(apps)
-
+  await addApplication(entry)
   console.log(`✅  New recruitment application from ${name} for position ${position}`)
   return res.status(201).json({ success: true, id: entry.id })
 })
 
-app.get("/api/recrutement", (_req, res) => {
-  return res.json(loadApplications())
+app.get("/api/recrutement", async (_req, res) => {
+  const data = await loadApplications()
+  return res.json(data)
 })
 
-app.delete("/api/recrutement/:id", (req, res) => {
-  let apps = loadApplications()
-  const before = apps.length
-  apps = apps.filter((a) => a.id !== req.params.id)
-  if (apps.length === before) {
+app.delete("/api/recrutement/:id", async (req, res) => {
+  const success = await deleteApplication(req.params.id)
+  if (!success) {
     return res.status(404).json({ error: "Not found" })
   }
-  saveApplications(apps)
   return res.json({ success: true })
 })
 
-app.get("/api/recrutement/:id/cv", (req, res) => {
-  const apps = loadApplications()
+app.get("/api/recrutement/:id/cv", async (req, res) => {
+  const apps = await loadApplications()
   const appEntry = apps.find((a) => a.id === req.params.id)
   if (!appEntry || !appEntry.cv) {
     return res.status(404).send("CV introuvable.")
@@ -153,22 +155,27 @@ app.get("/api/recrutement/:id/cv", (req, res) => {
   const buffer = Buffer.from(base64Data, "base64")
 
   res.setHeader("Content-Type", contentType)
-  res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(appEntry.cvName)}"`)
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename="${encodeURIComponent(appEntry.cvName || 'cv.pdf')}"`
+  )
   return res.send(buffer)
 })
 
 // ── Blog API Routes ─────────────────────────────────────────────────
-app.get("/api/blogs", (_req, res) => {
-  return res.json(loadBlogs())
+app.get("/api/blogs", async (_req, res) => {
+  const blogs = await loadBlogs()
+  return res.json(blogs)
 })
 
-app.get("/api/blogs/:id", (req, res) => {
-  const blog = loadBlogs().find((b) => b.id === req.params.id)
+app.get("/api/blogs/:id", async (req, res) => {
+  const blogs = await loadBlogs()
+  const blog = blogs.find((b) => b.id === req.params.id)
   if (!blog) return res.status(404).json({ error: "Article introuvable." })
   return res.json(blog)
 })
 
-app.post("/api/blogs", (req, res) => {
+app.post("/api/blogs", async (req, res) => {
   const { title, summary, content, image, pdf, pdfName } = req.body
 
   if (!title || !summary || !content) {
@@ -194,15 +201,12 @@ app.post("/api/blogs", (req, res) => {
     pdfName: pdfName || null,
   }
 
-  const blogs = loadBlogs()
-  blogs.unshift(newPost)
-  saveBlogs(blogs)
-
+  await addBlog(newPost)
   console.log(`📝  New blog post added: ${title}`)
   return res.status(201).json({ success: true, blog: newPost })
 })
 
-app.put("/api/blogs/:id", (req, res) => {
+app.put("/api/blogs/:id", async (req, res) => {
   const { title, summary, content, image, pdf, pdfName } = req.body
 
   if (!title || !summary || !content) {
@@ -211,63 +215,63 @@ app.put("/api/blogs/:id", (req, res) => {
       .json({ error: "Titre, résumé et contenu sont requis." })
   }
 
-  let blogs = loadBlogs()
-  const idx = blogs.findIndex((b) => b.id === req.params.id)
-  if (idx === -1) {
+  const blogs = await loadBlogs()
+  const existing = blogs.find((b) => b.id === req.params.id)
+  if (!existing) {
     return res.status(404).json({ error: "Article introuvable." })
   }
 
-  blogs[idx] = {
-    ...blogs[idx],
+  await updateBlog(req.params.id, {
     title,
     summary,
     content,
-    image: image !== undefined ? image : blogs[idx].image,
-    pdf: pdf !== undefined ? pdf : blogs[idx].pdf,
-    pdfName: pdfName !== undefined ? pdfName : blogs[idx].pdfName,
-    updatedAt: new Date().toISOString(),
-  }
+    image: image !== undefined ? image : existing.image,
+    pdf: pdf !== undefined ? pdf : existing.pdf,
+    pdfName: pdfName !== undefined ? pdfName : existing.pdfName,
+  })
 
-  saveBlogs(blogs)
+  const updatedBlogs = await loadBlogs()
+  const updated = updatedBlogs.find((b) => b.id === req.params.id)
   console.log(`📝  Blog post updated: ${title} (${req.params.id})`)
-  return res.json({ success: true, blog: blogs[idx] })
+  return res.json({ success: true, blog: updated })
 })
 
-app.delete("/api/blogs/:id", (req, res) => {
-  let blogs = loadBlogs()
-  const before = blogs.length
-  blogs = blogs.filter((b) => b.id !== req.params.id)
-  if (blogs.length === before) {
+app.delete("/api/blogs/:id", async (req, res) => {
+  const success = await deleteBlog(req.params.id)
+  if (!success) {
     return res.status(404).json({ error: "Not found" })
   }
-  saveBlogs(blogs)
   return res.json({ success: true })
 })
 
 // ── Blog Backup Export & Import ─────────────────────────────────────
-app.get("/api/admin/export/blogs", (req, res) => {
+app.get("/api/admin/export/blogs", async (req, res) => {
   const cookies = req.headers.cookie || ""
   if (!cookies.includes("orsap_admin_session=authenticated")) {
     return res.status(401).json({ error: "Non autorisé" })
   }
-  const blogs = loadBlogs()
+  const blogs = await loadBlogs()
   const dateStr = new Date().toISOString().slice(0, 10)
-  res.setHeader("Content-Disposition", `attachment; filename=orsap_blogs_backup_${dateStr}.json`)
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename=orsap_blogs_backup_${dateStr}.json`
+  )
   res.setHeader("Content-Type", "application/json")
   return res.send(JSON.stringify(blogs, null, 2))
 })
 
-app.post("/api/admin/import/blogs", (req, res) => {
+app.post("/api/admin/import/blogs", async (req, res) => {
   const cookies = req.headers.cookie || ""
   if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Session expirée. Veuillez vous reconnecter à l'administration." })
+    return res
+      .status(401)
+      .json({ error: "Session expirée. Veuillez vous reconnecter à l'administration." })
   }
   let importedBlogs = req.body
   if (!importedBlogs) {
     return res.status(400).json({ error: "Corps de la requête vide." })
   }
 
-  // Support direct array [...], wrapped object { blogs: [...] }, { posts: [...] }, { data: [...] }, or single item
   if (!Array.isArray(importedBlogs)) {
     if (Array.isArray(importedBlogs.blogs)) importedBlogs = importedBlogs.blogs
     else if (Array.isArray(importedBlogs.posts)) importedBlogs = importedBlogs.posts
@@ -277,27 +281,38 @@ app.post("/api/admin/import/blogs", (req, res) => {
       if (importedBlogs.title || importedBlogs.content) {
         importedBlogs = [importedBlogs]
       } else {
-        return res.status(400).json({ error: "Format JSON non reconnu. Le fichier doit contenir une liste d'articles." })
+        return res.status(400).json({
+          error: "Format JSON non reconnu. Le fichier doit contenir une liste d'articles.",
+        })
       }
     }
   }
 
   if (!Array.isArray(importedBlogs) || importedBlogs.length === 0) {
-    return res.status(400).json({ error: "Aucun article trouvé dans le fichier importé." })
+    return res.status(400).json({
+      error: "Aucun article trouvé dans le fichier importé.",
+    })
   }
 
-  const existingBlogs = loadBlogs()
+  const existingBlogs = await loadBlogs()
   const map = new Map()
 
-  // First seed existing
   existingBlogs.forEach((b) => {
     if (b && b.id) map.set(b.id, b)
   })
 
-  // Merge imported with proper fallback IDs and fields
   importedBlogs.forEach((b) => {
     if (!b) return
-    const id = b.id || (b.title ? b.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") + "-" + Math.random().toString(36).slice(2, 6) : Date.now().toString(36) + Math.random().toString(36).slice(2, 6))
+    const id =
+      b.id ||
+      (b.title
+        ? b.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "") +
+          "-" +
+          Math.random().toString(36).slice(2, 6)
+        : Date.now().toString(36) + Math.random().toString(36).slice(2, 6))
     const title = b.title || "Article sans titre"
     const summary = b.summary || (b.content ? b.content.slice(0, 160) : "")
     const content = b.content || ""
@@ -316,8 +331,10 @@ app.post("/api/admin/import/blogs", (req, res) => {
   })
 
   const merged = Array.from(map.values())
-  saveBlogs(merged)
-  console.log(`📥  Sauvegarde restaurée: ${importedBlogs.length} articles importés (Total actif: ${merged.length})`)
+  await saveBlogs(merged)
+  console.log(
+    `📥  Sauvegarde restaurée: ${importedBlogs.length} articles importés (Total actif: ${merged.length})`
+  )
   return res.json({ success: true, count: merged.length })
 })
 
@@ -385,29 +402,35 @@ function renderLoginPage(res, errorMsg = "") {
 app.post("/admin/login", (req, res) => {
   const { password } = req.body
   if (password === "MotaFouad223") {
-    res.setHeader("Set-Cookie", "orsap_admin_session=authenticated; Path=/; Max-Age=604800; HttpOnly; SameSite=Strict")
+    res.setHeader(
+      "Set-Cookie",
+      "orsap_admin_session=authenticated; Path=/; Max-Age=604800; HttpOnly; SameSite=Strict"
+    )
     return res.redirect("/admin")
   } else {
     return renderLoginPage(res, "Mot de passe incorrect.")
   }
 })
 
-app.get("/admin/logout", (req, res) => {
-  res.setHeader("Set-Cookie", "orsap_admin_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT")
+app.get("/admin/logout", (_req, res) => {
+  res.setHeader(
+    "Set-Cookie",
+    "orsap_admin_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+  )
   return res.redirect("/admin")
 })
 
 // ── Admin Dashboard ─────────────────────────────────────────────────
-app.get("/admin", (req, res) => {
+app.get("/admin", async (req, res) => {
   const cookies = req.headers.cookie || ""
   if (!cookies.includes("orsap_admin_session=authenticated")) {
     return renderLoginPage(res)
   }
 
   const tab = req.query.tab || "devis"
-  const submissions = loadSubmissions()
-  const blogs = loadBlogs()
-  const apps = loadApplications()
+  const submissions = await loadSubmissions()
+  const blogs = await loadBlogs()
+  const apps = await loadApplications()
 
   // Generate rows for devis
   const devisRows = submissions
@@ -432,7 +455,9 @@ app.get("/admin", (req, res) => {
             ? s.solutions
                 .map(
                   (sol) =>
-                    `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">${esc(sol)}</span>`,
+                    `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">${esc(
+                      sol
+                    )}</span>`
                 )
                 .join("")
             : "—"
@@ -444,7 +469,9 @@ app.get("/admin", (req, res) => {
             ? s.sectors
                 .map(
                   (sec) =>
-                    `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px; background: #14171a;">${esc(sec)}</span>`,
+                    `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px; background: #14171a;">${esc(
+                      sec
+                    )}</span>`
                 )
                 .join("")
             : "—"
@@ -452,7 +479,7 @@ app.get("/admin", (req, res) => {
       </td>
       <td class="msg">${esc(s.message || "—")}</td>
       <td><button class="del-btn" onclick="deleteEntry('${s.id}')">Supprimer</button></td>
-    </tr>`,
+    </tr>`
     )
     .join("")
 
@@ -480,7 +507,7 @@ app.get("/admin", (req, res) => {
           </button>
         </div>
       </td>
-    </tr>`,
+    </tr>`
     )
     .join("")
 
@@ -489,14 +516,20 @@ app.get("/admin", (req, res) => {
     .map(
       (a) => `
     <tr id="app-${a.id}">
-      <td class="date-badge">${a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"}</td>
+      <td class="date-badge">${
+        a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"
+      }</td>
       <td style="font-weight: 700;">${esc(a.name)}</td>
       <td><span class="badge pro">${esc(a.position)}</span></td>
-      <td>${a.email ? `<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>` : "—"}</td>
+      <td>${
+        a.email ? `<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>` : "—"
+      }</td>
       <td><a href="tel:${esc(a.phone)}">${esc(a.phone)}</a></td>
       <td class="msg">${esc(a.message || "—")}</td>
       <td>
-        <a href="/api/recrutement/${a.id}/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;">
+        <a href="/api/recrutement/${
+          a.id
+        }/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;">
           <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
           Télécharger CV
         </a>
@@ -507,7 +540,7 @@ app.get("/admin", (req, res) => {
           Supprimer
         </button>
       </td>
-    </tr>`,
+    </tr>`
     )
     .join("")
 
@@ -726,8 +759,11 @@ if (existsSync(DIST_DIR)) {
 }
 
 // ── Start ───────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🚀  ORSAP server running on port ${PORT}`)
-  console.log(`📋  Admin dashboard: /admin`)
-  console.log(`📨  API endpoint:    /api/devis\n`)
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`\n🚀  ORSAP server running on port ${PORT}`)
+    console.log(`🗄️   Database mode:   ${isUsingMySQL ? "MySQL (Heberjahiz)" : "Local JSON"}`)
+    console.log(`📋  Admin dashboard: /admin`)
+    console.log(`📨  API endpoint:    /api/devis\n`)
+  })
 })

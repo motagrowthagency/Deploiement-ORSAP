@@ -1,0 +1,52 @@
+name: Deploy to Heberjahiz
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Récupération du code (Checkout)
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: 📦 Installation des dépendances
+        run: npm ci || npm install
+
+      - name: 🔨 Compilation du Frontend (Vite)
+        run: npm run build
+
+      - name: 🔄 Création du fichier de redémarrage automatique Passenger
+        run: |
+          mkdir -p tmp
+          touch tmp/restart.txt
+
+      - name: 🚀 Déploiement sur Heberjahiz via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .mise.toml
+            Dockerfile
+            docker-compose.yml
+            .dockerignore
+            AGENTS.md
+            README.md
+            tsconfig.json
+            vite.config.ts
