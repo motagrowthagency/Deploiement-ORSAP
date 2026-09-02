@@ -181,10 +181,7 @@ export default function Home() {
                 alt="Logo BUTEC"
                 className="h-9 w-auto object-contain"
               />
-              <div className="mt-4 font-display text-[15.5px] font-bold text-ink">
-                M. Amine
-              </div>
-              <div className="mt-0.5 text-[13px] font-medium text-ink-soft">
+              <div className="mt-4 text-[13.5px] font-semibold text-ink">
                 Responsable Achats, BUTEC
               </div>
               <div className="mt-4 inline-block rounded-full bg-white px-5 py-1.5 text-[12px] font-medium text-steel border border-hairline shadow-2xs">
