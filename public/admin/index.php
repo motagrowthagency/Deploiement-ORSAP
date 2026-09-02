@@ -1,7 +1,11 @@
 <?php
 /**
- * ORSAP - Panneau d'Administration (PHP / MySQL)
+ * ORSAP - Panneau d'Administration (PHP / MySQL / JSON Fallback)
  */
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once __DIR__ . '/../api/db.php';
 $pdo = getDbConnection();
@@ -10,22 +14,25 @@ $config = require __DIR__ . '/../api/config.php';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-// HTML Escaper
+// Helper to escape HTML safely
 function esc($str) {
-    return htmlspecialchars((string)$str, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars((string)($str ?? ''), ENT_QUOTES, 'UTF-8');
 }
 
-// ── Admin Login / Logout ────────────────────────────────────────────
-if ($uri === '/admin/logout' || $uri === '/admin/logout/') {
+// ── Logout ──────────────────────────────────────────────────────────
+if (strpos($uri, '/logout') !== false || isset($_GET['logout'])) {
     setcookie('orsap_admin_session', '', time() - 3600, '/');
+    unset($_SESSION['orsap_admin_session']);
     header('Location: /admin');
     exit;
 }
 
-if ($uri === '/admin/login' && $method === 'POST') {
+// ── Handle Login Form Submission ────────────────────────────────────
+if ($method === 'POST' && (isset($_POST['password']) || strpos($uri, '/login') !== false)) {
     $password = $_POST['password'] ?? '';
     if ($password === $config['admin_password']) {
-        setcookie('orsap_admin_session', 'authenticated', time() + (86400 * 7), '/', '', false, true);
+        setcookie('orsap_admin_session', 'authenticated', time() + (86400 * 30), '/');
+        $_SESSION['orsap_admin_session'] = 'authenticated';
         header('Location: /admin');
         exit;
     } else {
@@ -34,8 +41,10 @@ if ($uri === '/admin/login' && $method === 'POST') {
     }
 }
 
-// Check session
-$isAuth = isset($_COOKIE['orsap_admin_session']) && $_COOKIE['orsap_admin_session'] === 'authenticated';
+// ── Check Authentication Session / Cookie ───────────────────────────
+$isAuth = (isset($_COOKIE['orsap_admin_session']) && $_COOKIE['orsap_admin_session'] === 'authenticated')
+       || (isset($_SESSION['orsap_admin_session']) && $_SESSION['orsap_admin_session'] === 'authenticated');
+
 if (!$isAuth) {
     renderLoginPage();
     exit;
@@ -49,23 +58,61 @@ $blogs = [];
 $apps = [];
 
 if ($pdo) {
-    $stmt1 = $pdo->query("SELECT * FROM `submissions` ORDER BY `created_at` DESC");
-    $submissions = $stmt1->fetchAll();
+    try {
+        $stmt1 = $pdo->query("SELECT * FROM `submissions` ORDER BY `created_at` DESC");
+        $submissions = $stmt1->fetchAll();
+    } catch (Exception $e) {
+        $submissions = loadJsonData('submissions.json');
+    }
 
-    $stmt2 = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
-    $blogs = $stmt2->fetchAll();
+    try {
+        $stmt2 = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
+        $blogs = $stmt2->fetchAll();
+    } catch (Exception $e) {
+        $blogs = loadJsonData('blogs.json');
+    }
 
-    $stmt3 = $pdo->query("SELECT * FROM `applications` ORDER BY `created_at` DESC");
-    $apps = $stmt3->fetchAll();
+    try {
+        $stmt3 = $pdo->query("SELECT * FROM `applications` ORDER BY `created_at` DESC");
+        $apps = $stmt3->fetchAll();
+    } catch (Exception $e) {
+        $apps = loadJsonData('applications.json');
+    }
+} else {
+    // Fallback to JSON if MySQL connection failed
+    $submissions = loadJsonData('submissions.json');
+    $blogs = loadJsonData('blogs.json');
+    $apps = loadJsonData('applications.json');
+}
+
+function loadJsonData($filename) {
+    $paths = [
+        __DIR__ . '/../data/' . $filename,
+        __DIR__ . '/../../data/' . $filename
+    ];
+    foreach ($paths as $p) {
+        if (file_exists($p)) {
+            $data = json_decode(file_get_contents($p), true);
+            if (is_array($data)) return $data;
+        }
+    }
+    return [];
 }
 
 // 1. Generate devis rows
 $devisRows = '';
 foreach ($submissions as $s) {
-    $dateFormatted = $s['created_at'] ? date('d/m/Y H:i', strtotime($s['created_at'])) : '—';
-    $isPro = ($s['client_type'] ?? '') === 'professional';
-    $solutions = json_decode($s['solutions'] ?? '[]', true) ?: [];
-    $sectors = json_decode($s['sectors'] ?? '[]', true) ?: [];
+    $id = $s['id'] ?? '';
+    $dateVal = $s['created_at'] ?? ($s['createdAt'] ?? '');
+    $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
+    $clientType = $s['client_type'] ?? ($s['clientType'] ?? 'professional');
+    $isPro = $clientType === 'professional';
+    
+    $solRaw = $s['solutions'] ?? [];
+    $solutions = is_string($solRaw) ? (json_decode($solRaw, true) ?: []) : (array)$solRaw;
+    
+    $secRaw = $s['sectors'] ?? [];
+    $sectors = is_string($secRaw) ? (json_decode($secRaw, true) ?: []) : (array)$secRaw;
 
     $solHtml = !empty($solutions) ? implode('', array_map(function($sol) {
         return '<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">' . esc($sol) . '</span>';
@@ -75,8 +122,10 @@ foreach ($submissions as $s) {
         return '<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px; background: #14171a;">' . esc($sec) . '</span>';
     }, $sectors)) : '—';
 
-    $emailHtml = !empty($s['email']) ? '<a href="mailto:' . esc($s['email']) . '">' . esc($s['email']) . '</a>' : '—';
-    $phoneHtml = '<a href="tel:' . esc($s['phone']) . '">' . esc($s['phone']) . '</a>';
+    $email = $s['email'] ?? '';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
+    $phone = $s['phone'] ?? '';
+    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
 
     $devisRows .= sprintf('
     <tr id="row-%s">
@@ -91,25 +140,27 @@ foreach ($submissions as $s) {
       <td class="msg">%s</td>
       <td><button class="del-btn" onclick="deleteEntry(\'%s\')">Supprimer</button></td>
     </tr>',
-        esc($s['id']),
+        esc($id),
         $dateFormatted,
         $isPro ? 'pro' : 'perso',
         $isPro ? 'Pro' : 'Particulier',
-        esc($s['name']),
+        esc($s['name'] ?? '—'),
         esc($s['company'] ?? '—'),
         $emailHtml,
         $phoneHtml,
         $solHtml,
         $secHtml,
         esc($s['message'] ?? '—'),
-        esc($s['id'])
+        esc($id)
     );
 }
 
 // 2. Generate blog rows
 $blogRows = '';
 foreach ($blogs as $b) {
-    $dateFormatted = $b['date'] ? date('d/m/Y', strtotime($b['date'])) : '—';
+    $id = $b['id'] ?? '';
+    $dateVal = $b['date'] ?? '';
+    $dateFormatted = $dateVal ? date('d/m/Y', strtotime($dateVal)) : '—';
     $blogRows .= sprintf('
     <tr id="blog-%s">
       <td class="date-badge">%s</td>
@@ -132,22 +183,26 @@ foreach ($blogs as $b) {
         </div>
       </td>
     </tr>',
-        esc($b['id']),
+        esc($id),
         $dateFormatted,
-        esc($b['title']),
+        esc($b['title'] ?? 'Sans titre'),
         esc($b['summary'] ?? '—'),
-        esc($b['id']),
-        esc($b['id']),
-        esc($b['id'])
+        esc($id),
+        esc($id),
+        esc($id)
     );
 }
 
 // 3. Generate apps rows
 $appsRows = '';
 foreach ($apps as $a) {
-    $dateFormatted = $a['created_at'] ? date('d/m/Y H:i', strtotime($a['created_at'])) : '—';
-    $emailHtml = !empty($a['email']) ? '<a href="mailto:' . esc($a['email']) . '">' . esc($a['email']) . '</a>' : '—';
-    $phoneHtml = '<a href="tel:' . esc($a['phone']) . '">' . esc($a['phone']) . '</a>';
+    $id = $a['id'] ?? '';
+    $dateVal = $a['created_at'] ?? ($a['createdAt'] ?? '');
+    $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
+    $email = $a['email'] ?? '';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
+    $phone = $a['phone'] ?? '';
+    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
 
     $appsRows .= sprintf('
     <tr id="app-%s">
@@ -170,15 +225,15 @@ foreach ($apps as $a) {
         </button>
       </td>
     </tr>',
-        esc($a['id']),
+        esc($id),
         $dateFormatted,
-        esc($a['name']),
-        esc($a['position']),
+        esc($a['name'] ?? '—'),
+        esc($a['position'] ?? '—'),
         $emailHtml,
         $phoneHtml,
         esc($a['message'] ?? '—'),
-        esc($a['id']),
-        esc($a['id'])
+        esc($id),
+        esc($id)
     );
 }
 
@@ -348,15 +403,15 @@ if ($tab === 'devis') {
     </div>';
 }
 
-$templatePath = __DIR__ . '/../../server/admin.html';
+$templatePath = __DIR__ . '/admin.html';
 if (!file_exists($templatePath)) {
-    $templatePath = __DIR__ . '/admin.html';
+    $templatePath = __DIR__ . '/../../server/admin.html';
 }
 
-$html = file_get_contents($templatePath);
-$html = str_replace('{{SUBMISSIONS_COUNT}}', count($submissions), $html);
-$html = str_replace('{{BLOGS_COUNT}}', count($blogs), $html);
-$html = str_replace('{{APPLICATIONS_COUNT}}', count($apps), $html);
+$html = file_exists($templatePath) ? file_get_contents($templatePath) : '';
+$html = str_replace('{{SUBMISSIONS_COUNT}}', (string)count($submissions), $html);
+$html = str_replace('{{BLOGS_COUNT}}', (string)count($blogs), $html);
+$html = str_replace('{{APPLICATIONS_COUNT}}', (string)count($apps), $html);
 $html = str_replace('{{TAB_DEVIS_ACTIVE}}', $tab === 'devis' ? 'active' : '', $html);
 $html = str_replace('{{TAB_RECRUTEMENT_ACTIVE}}', $tab === 'recrutement' ? 'active' : '', $html);
 $html = str_replace('{{TAB_BLOG_ACTIVE}}', $tab === 'blog' ? 'active' : '', $html);
@@ -393,6 +448,9 @@ function renderLoginPage($errorMsg = '') {
 </head>
 <body>
   <div class="card">
+    <div class="logo-container">
+      <img src="/admin/logo.jpg" alt="ORSAP Logo" class="logo-img" />
+    </div>
     <h2>Accès Réservé</h2>
     <?= $errorHtml ?>
     <form method="POST" action="/admin/login">

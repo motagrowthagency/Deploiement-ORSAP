@@ -1,0 +1,32 @@
+[
+  {
+    "id": "mtgkz4876citt",
+    "createdAt": "2026-08-31T01:49:47.431Z",
+    "clientType": "personal",
+    "name": "Mohamed",
+    "company": null,
+    "email": null,
+    "phone": "+212 674050313",
+    "solutions": [],
+    "sectors": [],
+    "message": "n"
+  },
+  {
+    "id": "mtgkyw63a6bw1",
+    "createdAt": "2026-08-31T01:49:36.987Z",
+    "clientType": "professional",
+    "name": "Mohamed",
+    "company": "Orsap",
+    "email": "orsap@orsap.ma",
+    "phone": "+34674050313",
+    "solutions": [
+      "Equipements de Protection Individuelle",
+      "Personnalisation de Vêtements de Travail"
+    ],
+    "sectors": [
+      "Industrie",
+      "BTP"
+    ],
+    "message": "tyuio"
+  }
+]

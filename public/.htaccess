@@ -2,21 +2,22 @@
   RewriteEngine On
   RewriteBase /
 
-  # Allow large payload uploads (base64 images, PDFs)
+  # Allow large payload uploads (base64 images, PDFs up to 100MB)
   LimitRequestBody 104857600
 
-  # Route /api/... requests to the PHP API handler
-  RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
-
-  # Route /admin requests to the Admin PHP handler
-  RewriteRule ^admin(/.*)?$ admin/index.php [QSA,L]
-
-  # If requested file or directory physically exists, serve it directly
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
+  # 1. If requested file physically exists (like assets, images, etc.), serve directly
+  RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Otherwise fallback to index.html for React SPA client-side routing
+  # 2. Route all API requests to the PHP REST router
+  RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
+
+  # 3. Route all Admin requests to the Admin PHP controller
+  RewriteRule ^admin(/.*)?$ admin/index.php [QSA,L]
+
+  # 4. Fallback to index.html for all React SPA client routes
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^ index.html [L]
 </IfModule>
 
