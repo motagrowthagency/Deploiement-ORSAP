@@ -1,6 +1,6 @@
 <?php
 /**
- * ORSAP - API REST Router (PHP / MySQL / JSON Fallback)
+ * ORSAP - API REST Router (PHP / MySQL / JSON Fallback) & Email Notifications
  */
 
 header('Access-Control-Allow-Origin: *');
@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/mail.php';
 $pdo = getDbConnection();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -96,6 +97,7 @@ if ($uri === '/api/devis' || $uri === '/api/devis/') {
         ];
 
         saveSubmissionEntry($entry);
+        @sendDevisNotificationEmail($entry);
         sendJson(['success' => true, 'id' => $id], 201);
     }
 }
@@ -176,6 +178,7 @@ if ($uri === '/api/recrutement' || $uri === '/api/recrutement/') {
         ];
 
         saveApplicationEntry($entry);
+        @sendApplicationNotificationEmail($entry);
         sendJson(['success' => true, 'id' => $id], 201);
     }
 }
