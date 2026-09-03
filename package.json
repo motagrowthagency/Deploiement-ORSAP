@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "server": "node server.js",
-    "build": "vite build",
+    "bundle-blogs": "node -e \"const fs = require('fs'); const src = fs.existsSync('data/blogs.json') ? 'data/blogs.json' : 'public/data/blogs.json'; if(fs.existsSync(src)){ const data = fs.readFileSync(src,'utf8'); fs.writeFileSync('src/data/blogs.ts', 'export type BlogPost = {\\n  id: string\\n  title: string\\n  summary: string\\n  content: string\\n  date: string\\n  image?: string | null\\n  pdf?: string | null\\n  pdfName?: string | null\\n}\\n\\nexport const INITIAL_BLOGS: BlogPost[] = ' + data + ';\\n'); console.log('Successfully bundled blogs into JS code'); }\"",
+    "build": "npm run bundle-blogs && vite build",
     "start": "node server.js",
     "preview": "vite preview",
     "format": "oxfmt"

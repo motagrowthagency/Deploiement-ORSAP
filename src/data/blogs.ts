@@ -31,4 +31,4 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "pdfName": "Guide_Expert_Risques_Chimiques_Industriels_et_EPI (1).pdf",
     "updatedAt": "2026-09-01T09:13:54.573Z"
   }
-]
+];

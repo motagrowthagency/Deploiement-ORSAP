@@ -126,10 +126,13 @@
         </div>
       </div>
       <div>
-        <a href="/admin/logout" class="logout-btn">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-          Déconnexion
-        </a>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          {{DB_STATUS_BADGE}}
+          <a href="/admin/logout" class="logout-btn">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+            Déconnexion
+          </a>
+        </div>
       </div>
     </div>
     
@@ -391,6 +394,88 @@
         alert("Erreur lors de la suppression.");
       }
     }
+
+    // Auto-sync alert on JSON download
+    function onDownloadExport() {
+      setTimeout(async () => {
+        try {
+          const res = await fetch("/api/admin/sync/github", { method: "POST" });
+          const data = await res.json();
+          if (data.success) {
+            console.log("Auto-synced to GitHub on export:", data);
+          }
+        } catch (e) {}
+      }, 500);
+    }
+
+    // Manual GitHub Sync trigger
+    async function triggerGitHubSync() {
+      const btn = event?.currentTarget;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.innerHTML = '⏳ Synchronisation...';
+        btn.disabled = true;
+      }
+      try {
+        const res = await fetch("/api/admin/sync/github", { method: "POST" });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          alert("✅ Synchronisation réussie !\n\n• Dépôt GitHub : " + data.repo + "\n• Branche : " + data.branch + "\n• Articles synchronisés : " + data.count + "\n• Heberjahiz : À jour");
+        } else {
+          if (data.error && data.error.includes("Token GitHub non configuré")) {
+            if (confirm("Le Token GitHub n'est pas encore configuré.\n\nSouhaitez-vous le configurer maintenant ?")) {
+              configureGitHubToken();
+            }
+          } else {
+            alert("⚠️ Échec de la synchronisation :\n" + (data.error || "Erreur inconnue"));
+          }
+        }
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }
+    }
+
+    // Configure GitHub Token
+    async function configureGitHubToken() {
+      let currentInfo = "";
+      try {
+        const statusRes = await fetch("/api/admin/config/github");
+        const statusData = await statusRes.json();
+        if (statusData.configured) {
+          currentInfo = " (Un token est déjà configuré)";
+        }
+      } catch (e) {}
+
+      const token = prompt("Entrez votre Personal Access Token GitHub (Classic ou Fine-grained avec droit 'Contents: Read & Write')" + currentInfo + " :");
+      if (!token || !token.trim()) return;
+
+      try {
+        const res = await fetch("/api/admin/config/github", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token.trim() })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          if (data.sync && data.sync.success) {
+            alert("✅ Token GitHub validé et enregistré !\nTous les articles ont été immédiatement synchronisés sur GitHub.");
+          } else {
+            alert("Token enregistré ! (" + (data.sync?.error || "Vérifiez vos droits de dépôt") + ")");
+          }
+          location.reload();
+        } else {
+          alert("Erreur : " + (data.error || "Impossible d'enregistrer le token."));
+        }
+      } catch (err) {
+        alert("Erreur : " + err.message);
+      }
+    }
   </script>
 </body>
 </html>
+

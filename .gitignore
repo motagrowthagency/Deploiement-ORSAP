@@ -5,10 +5,19 @@ node_modules/
 # Builds
 dist/
 
-# Local form submissions (keep blogs tracked in git)
+# Local form submissions
 /data/submissions.json
 /data/applications.json
+/public/data/submissions.json
+/public/data/applications.json
+
+# Local Configuration
+.env
+.env.local
+config.local.php
+public/api/config.local.php
 
 # OS metadata
 .DS_Store
 Thumbs.db
+

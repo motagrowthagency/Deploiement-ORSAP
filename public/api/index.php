@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mail.php';
+require_once __DIR__ . '/github_sync.php';
 $pdo = getDbConnection();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -323,6 +324,9 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
             } catch (Exception $e) {}
         }
 
+        // Auto-sync to GitHub if token configured
+        @syncBlogsToGitHub();
+
         sendJson(['success' => true, 'blog' => $newPost], 201);
     }
 }
@@ -415,6 +419,9 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
             } catch (Exception $e) {}
         }
 
+        // Auto-sync to GitHub
+        @syncBlogsToGitHub();
+
         if ($updatedItem) {
             sendJson(['success' => true, 'blog' => $updatedItem]);
         }
@@ -434,11 +441,15 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
                 $stmt->execute([':id' => $id]);
             } catch (Exception $e) {}
         }
+
+        // Auto-sync to GitHub
+        @syncBlogsToGitHub();
+
         sendJson(['success' => true]);
     }
 }
 
-// ── Admin Export & Import ───────────────────────────────────────────
+// ── Admin Export, Import & GitHub Sync ──────────────────────────────
 if ($uri === '/api/admin/export/blogs') {
     $blogs = readJsonFile('blogs.json');
     if ($pdo) {
@@ -448,6 +459,10 @@ if ($uri === '/api/admin/export/blogs') {
             if (!empty($rows)) $blogs = $rows;
         } catch (Exception $e) {}
     }
+    
+    // Auto-sync to GitHub when downloading/exporting
+    @syncBlogsToGitHub($blogs);
+
     $dateStr = date('Y-m-d');
     header('Content-Type: application/json; charset=utf-8');
     header('Content-Disposition: attachment; filename=orsap_blogs_backup_' . $dateStr . '.json');
@@ -506,8 +521,53 @@ if ($uri === '/api/admin/import/blogs' && $method === 'POST') {
             }
         } catch (Exception $e) {}
     }
-    sendJson(['success' => true, 'count' => count($merged)]);
+
+    // Auto-sync to GitHub
+    $syncRes = syncBlogsToGitHub($merged);
+
+    sendJson([
+        'success' => true, 
+        'count' => count($merged),
+        'github_sync' => $syncRes
+    ]);
+}
+
+// Dedicated GitHub Sync Endpoint
+if ($uri === '/api/admin/sync/github' && $method === 'POST') {
+    $res = syncBlogsToGitHub();
+    sendJson($res, $res['success'] ? 200 : 400);
+}
+
+// GitHub Token Configuration Endpoint
+if ($uri === '/api/admin/config/github') {
+    if ($method === 'GET') {
+        $token = getGitHubToken();
+        $config = require __DIR__ . '/config.php';
+        sendJson([
+            'configured' => !empty($token),
+            'repo' => $config['github_repo'] ?? 'motagrowthagency/Deploiement-ORSAP',
+            'branch' => $config['github_branch'] ?? 'main',
+            'path' => $config['github_path'] ?? 'data/blogs.json'
+        ]);
+    }
+
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $token = trim($body['token'] ?? '');
+        if (empty($token)) {
+            sendJson(['error' => 'Token vide.'], 400);
+        }
+        saveGitHubToken($token);
+        // Test sync immediately
+        $syncResult = syncBlogsToGitHub();
+        sendJson([
+            'success' => true,
+            'message' => 'Token GitHub enregistré avec succès.',
+            'sync' => $syncResult
+        ]);
+    }
 }
 
 // Fallback 404
 sendJson(['error' => 'Endpoint introuvable'], 404);
+

@@ -4,9 +4,18 @@ import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 
 export default function BlogDetail() {
   const { id } = useParams()
-  const initialPost = INITIAL_BLOGS.find((b) => b.id === id) || null
-  const [post, setPost] = useState<BlogPost | null>(initialPost)
-  const [loading, setLoading] = useState(!initialPost)
+  const [post, setPost] = useState<BlogPost | null>(() => {
+    try {
+      const cachedList = localStorage.getItem("orsap_cached_blogs")
+      if (cachedList) {
+        const parsed = JSON.parse(cachedList)
+        const found = parsed.find((b: BlogPost) => b.id === id)
+        if (found) return found
+      }
+    } catch {}
+    return INITIAL_BLOGS.find((b) => b.id === id) || null
+  })
+  const [loading, setLoading] = useState(!post)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -17,11 +26,11 @@ export default function BlogDetail() {
           const data = await res.json()
           setPost(data)
           setError(null)
-        } else if (!initialPost) {
+        } else if (!post) {
           throw new Error("Article introuvable.")
         }
       } catch (err: unknown) {
-        if (!initialPost) {
+        if (!post) {
           setError(
             err instanceof Error ? err.message : "Une erreur est survenue.",
           )
@@ -31,7 +40,7 @@ export default function BlogDetail() {
       }
     }
     fetchPost()
-  }, [id, initialPost])
+  }, [id])
 
   // Enhanced SEO optimization (Meta tags, keywords & Schema.org JSON-LD)
   useEffect(() => {

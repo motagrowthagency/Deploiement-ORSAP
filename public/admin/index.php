@@ -372,16 +372,23 @@ if ($tab === 'devis') {
       <div class="table-container">
         <div class="table-header-title">
           <span>Articles Publiés (' . count($blogs) . ')</span>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <a href="/api/admin/export/blogs" class="view-link" title="Télécharger une copie de secours de tous les articles">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <button type="button" onclick="triggerGitHubSync()" class="view-link" style="background: #22c55e; color: #fff; border-color: #22c55e; cursor: pointer;" title="Synchroniser immédiatement tous les articles avec GitHub et Heberjahiz">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              Sync GitHub
+            </button>
+            <a href="/api/admin/export/blogs" onclick="onDownloadExport()" class="view-link" title="Télécharger le fichier JSON et synchroniser automatiquement avec GitHub et Heberjahiz">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
               Sauvegarde JSON
             </a>
-            <label class="view-link" style="cursor: pointer; margin-bottom: 0;" title="Restaurer des articles à partir d\'un fichier de sauvegarde JSON">
+            <label class="view-link" style="cursor: pointer; margin-bottom: 0;" title="Restaurer des articles à partir d\'un fichier JSON">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12" /></svg>
               Restaurer
               <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display: none;" />
             </label>
+            <button type="button" onclick="configureGitHubToken()" class="view-link" style="background: transparent; color: #64748b; border-color: #cbd5e1; cursor: pointer;" title="Configurer le Token GitHub pour la synchronisation automatique">
+              ⚙️ Token GitHub
+            </button>
           </div>
         </div>' .
         (empty($blogs)
@@ -406,7 +413,14 @@ if (!file_exists($templatePath)) {
     $templatePath = __DIR__ . '/../../server/admin.html';
 }
 
+if ($pdo) {
+    $dbBadge = '<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); color:#4ade80; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600;" title="Connecté à la base de données MySQL Heberjahiz"><span style="width:8px; height:8px; border-radius:50%; background:#22c55e; display:inline-block;"></span> MySQL Actif (' . esc($config['db_name']) . ')</div>';
+} else {
+    $dbBadge = '<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(249,115,22,0.15); border:1px solid rgba(249,115,22,0.4); color:#fb923c; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600;" title="MySQL non connecté. Stockage sécurisé dans le fichier JSON sur le serveur."><span style="width:8px; height:8px; border-radius:50%; background:#f97316; display:inline-block;"></span> Stockage Fichier JSON (Sécurisé)</div>';
+}
+
 $html = file_exists($templatePath) ? file_get_contents($templatePath) : '';
+$html = str_replace('{{DB_STATUS_BADGE}}', $dbBadge, $html);
 $html = str_replace('{{SUBMISSIONS_COUNT}}', (string)count($submissions), $html);
 $html = str_replace('{{BLOGS_COUNT}}', (string)count($blogs), $html);
 $html = str_replace('{{APPLICATIONS_COUNT}}', (string)count($apps), $html);

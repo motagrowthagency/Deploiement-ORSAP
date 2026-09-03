@@ -38,3 +38,11 @@ jobs:
           port: 21
           security: loose
           security-options: '{"rejectUnauthorized": false}'
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/data/**
+            data/**
+            **/config.local.php
+

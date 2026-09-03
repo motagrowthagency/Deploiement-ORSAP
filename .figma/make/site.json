@@ -1,6 +1,9 @@
 {
   "title": "ORSAP",
   "description": "Delivers a professional B2B landing page that effectively showcases services and engages business clients with clear, impactful content.",
+  "icons": {
+    "icon": "/favicon-32x32.png"
+  },
   "robots": {
     "index": false
   },

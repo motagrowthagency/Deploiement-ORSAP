@@ -3,7 +3,16 @@ import { Link } from "react-router"
 import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogPost[]>(INITIAL_BLOGS)
+  const [blogs, setBlogs] = useState<BlogPost[]>(() => {
+    try {
+      const cached = localStorage.getItem("orsap_cached_blogs")
+      if (cached) {
+        const parsed = JSON.parse(cached)
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed
+      }
+    } catch {}
+    return INITIAL_BLOGS
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -15,10 +24,13 @@ export default function Blog() {
           const data = await res.json()
           if (Array.isArray(data) && data.length > 0) {
             setBlogs(data)
+            try {
+              localStorage.setItem("orsap_cached_blogs", JSON.stringify(data))
+            } catch {}
           }
         }
       } catch (err: unknown) {
-        console.warn("Using bundled blogs fallback:", err)
+        console.warn("Using cached / bundled blogs fallback:", err)
       }
     }
     fetchBlogs()

@@ -8,8 +8,20 @@ $GLOBALS['db_error'] = '';
 
 function getDbConnection() {
     static $pdo = null;
+    static $hasTried = false;
     if ($pdo !== null) {
         return $pdo;
+    }
+    if ($hasTried) {
+        return null;
+    }
+    $hasTried = true;
+
+    // Fast check: if MySQL connection failed within the last 60 seconds, don't wait for timeout again
+    $cacheFile = sys_get_temp_dir() . '/orsap_db_offline.flag';
+    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < 60) {
+        $GLOBALS['db_status'] = 'Stockage JSON (MySQL hors ligne)';
+        return null;
     }
 
     $config = require __DIR__ . '/config.php';
@@ -26,18 +38,25 @@ function getDbConnection() {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_TIMEOUT => 1,
         ]);
+
+        if (file_exists($cacheFile)) {
+            @unlink($cacheFile);
+        }
 
         initTables($pdo);
         $GLOBALS['db_status'] = 'MySQL Connecté (' . $config['db_name'] . ')';
         return $pdo;
     } catch (Exception $e) {
+        @touch($cacheFile);
         $GLOBALS['db_status'] = 'Stockage JSON (MySQL hors ligne)';
         $GLOBALS['db_error'] = $e->getMessage();
         error_log('Erreur MySQL ORSAP: ' . $e->getMessage());
         return null;
     }
 }
+
 
 function initTables(PDO $pdo) {
     try {
@@ -93,17 +112,31 @@ function getDataFilePath($filename) {
     ];
     foreach ($dirs as $d) {
         if (!is_dir($d)) {
-            @mkdir($d, 0755, true);
+            @mkdir($d, 0777, true);
         }
-        return $d . '/' . $filename;
+        if (is_dir($d) && is_writable($d)) {
+            return $d . '/' . $filename;
+        }
     }
-    return __DIR__ . '/../data/' . $filename;
+    // Fallback to first directory
+    $fallbackDir = __DIR__ . '/../data';
+    if (!is_dir($fallbackDir)) {
+        @mkdir($fallbackDir, 0777, true);
+    }
+    return $fallbackDir . '/' . $filename;
 }
 
 function readJsonFile($filename) {
     $path = getDataFilePath($filename);
     if (file_exists($path)) {
-        $content = file_get_contents($path);
+        $content = @file_get_contents($path);
+        $data = json_decode($content, true);
+        if (is_array($data)) return $data;
+    }
+    // Check secondary fallback path
+    $altPath = __DIR__ . '/../../data/' . $filename;
+    if (file_exists($altPath) && $altPath !== $path) {
+        $content = @file_get_contents($altPath);
         $data = json_decode($content, true);
         if (is_array($data)) return $data;
     }
@@ -114,9 +147,11 @@ function writeJsonFile($filename, array $data) {
     $path = getDataFilePath($filename);
     $dir = dirname($path);
     if (!is_dir($dir)) {
-        @mkdir($dir, 0755, true);
+        @mkdir($dir, 0777, true);
     }
-    file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    @file_put_contents($path, $json);
+    @chmod($path, 0666);
 }
 
 // ── Dual Save Operations ────────────────────────────────────────────
