@@ -1,9 +1,7 @@
 import { useState, useEffect, type FormEvent } from "react"
 import orsapLogo from "@/imports/logo.jpg"
 
-const POPUP_STORAGE_KEY = "orsap_newsletter_status"
-const DELAY_MS = 1200 // Shows shortly after page load (1.2s)
-const DISMISS_DURATION_DAYS = 7
+const POPUP_STORAGE_KEY = "orsap_newsletter_status_v2"
 
 export default function ClientListPopup() {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,7 +15,7 @@ export default function ClientListPopup() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Check localStorage
+    // Check if user already subscribed
     try {
       const stored = localStorage.getItem(POPUP_STORAGE_KEY)
       if (stored) {
@@ -25,21 +23,20 @@ export default function ClientListPopup() {
         if (data.status === "subscribed") {
           return
         }
-        if (data.status === "dismissed" && data.timestamp) {
-          const daysPassed = (Date.now() - data.timestamp) / (1000 * 60 * 60 * 24)
-          if (daysPassed < DISMISS_DURATION_DAYS) {
-            return
-          }
-        }
+      }
+      // Check session dismissal
+      const sessionDismissed = sessionStorage.getItem("orsap_newsletter_dismissed")
+      if (sessionDismissed === "true") {
+        return
       }
     } catch {
-      // ignore localStorage errors
+      // ignore storage errors
     }
 
-    // Trigger popup after short initial delay
+    // Trigger popup promptly
     const timer = setTimeout(() => {
       setIsOpen(true)
-    }, DELAY_MS)
+    }, 800)
 
     return () => clearTimeout(timer)
   }, [])
@@ -58,10 +55,7 @@ export default function ClientListPopup() {
   function handleDismiss() {
     setIsOpen(false)
     try {
-      localStorage.setItem(
-        POPUP_STORAGE_KEY,
-        JSON.stringify({ status: "dismissed", timestamp: Date.now() })
-      )
+      sessionStorage.setItem("orsap_newsletter_dismissed", "true")
     } catch {}
   }
 
@@ -130,7 +124,7 @@ export default function ClientListPopup() {
       {/* Main Popup Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
           role="dialog"
           aria-modal="true"
           aria-labelledby="popup-title"
