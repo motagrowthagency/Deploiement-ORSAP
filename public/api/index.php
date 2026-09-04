@@ -282,6 +282,9 @@ if ($uri === '/api/newsletter' || $uri === '/api/newsletter/') {
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             sendJson(['error' => 'Une adresse email valide est obligatoire.'], 400);
         }
+        if (empty($name) || empty($company)) {
+            sendJson(['error' => 'Le nom complet et le nom de la société sont obligatoires.'], 400);
+        }
 
         $id = dechex(time()) . substr(md5(uniqid(mt_rand(), true)), 0, 5);
         $createdAt = date('Y-m-d H:i:s');
@@ -297,6 +300,7 @@ if ($uri === '/api/newsletter' || $uri === '/api/newsletter/') {
         ];
 
         saveSubscriberEntry($entry);
+        @sendSubscriberNotificationEmail($entry);
         sendJson(['success' => true, 'id' => $id], 201);
     }
 }

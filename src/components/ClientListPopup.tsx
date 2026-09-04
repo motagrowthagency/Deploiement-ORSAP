@@ -1,9 +1,9 @@
 import { useState, useEffect, type FormEvent } from "react"
+import { useLocation } from "react-router"
 import orsapLogo from "@/imports/logo.jpg"
 
-const POPUP_STORAGE_KEY = "orsap_newsletter_status_v2"
-
 export default function ClientListPopup() {
+  const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [clientType, setClientType] = useState<"professional" | "personal">("professional")
   const [email, setEmail] = useState("")
@@ -14,32 +14,18 @@ export default function ClientListPopup() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Appear every time the home page loads or reloads
   useEffect(() => {
-    // Check if user already subscribed
-    try {
-      const stored = localStorage.getItem(POPUP_STORAGE_KEY)
-      if (stored) {
-        const data = JSON.parse(stored)
-        if (data.status === "subscribed") {
-          return
-        }
-      }
-      // Check session dismissal
-      const sessionDismissed = sessionStorage.getItem("orsap_newsletter_dismissed")
-      if (sessionDismissed === "true") {
-        return
-      }
-    } catch {
-      // ignore storage errors
+    if (location.pathname === "/") {
+      const timer = setTimeout(() => {
+        setIsOpen(true)
+        setSuccess(false)
+        setError(null)
+      }, 600)
+
+      return () => clearTimeout(timer)
     }
-
-    // Trigger popup promptly
-    const timer = setTimeout(() => {
-      setIsOpen(true)
-    }, 800)
-
-    return () => clearTimeout(timer)
-  }, [])
+  }, [location.pathname])
 
   // Close on Escape key
   useEffect(() => {
@@ -54,9 +40,6 @@ export default function ClientListPopup() {
 
   function handleDismiss() {
     setIsOpen(false)
-    try {
-      sessionStorage.setItem("orsap_newsletter_dismissed", "true")
-    } catch {}
   }
 
   function handleOpenManual() {
@@ -67,7 +50,10 @@ export default function ClientListPopup() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!email) return
+    if (!email.trim() || !name.trim() || !company.trim()) {
+      setError("Veuillez renseigner votre nom complet, votre société et votre adresse email.")
+      return
+    }
 
     setLoading(true)
     setError(null)
@@ -77,9 +63,9 @@ export default function ClientListPopup() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email,
-          name: name.trim() || null,
-          company: clientType === "professional" ? (company.trim() || null) : null,
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          company: company.trim(),
           phone: phone.trim() || null,
           clientType,
         }),
@@ -91,12 +77,6 @@ export default function ClientListPopup() {
       }
 
       setSuccess(true)
-      try {
-        localStorage.setItem(
-          POPUP_STORAGE_KEY,
-          JSON.stringify({ status: "subscribed", timestamp: Date.now() })
-        )
-      } catch {}
     } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : "Impossible de vous inscrire pour le moment."
@@ -296,79 +276,81 @@ export default function ClientListPopup() {
                       </button>
                     </div>
 
-                    {/* Email Address */}
-                    <div>
-                      <label
-                        htmlFor="newsletter-email"
-                        className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
-                      >
-                        Adresse Email <span className="text-orsap-red">*</span>
-                      </label>
-                      <input
-                        id="newsletter-email"
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="exemple@entreprise.ma"
-                        className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
-                      />
-                    </div>
-
-                    {/* Name & Company (side by side on sm) */}
+                    {/* Grid of Inputs: Name & Company (both obligatory) */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label
                           htmlFor="newsletter-name"
                           className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
                         >
-                          Nom complet <span className="text-steel font-normal text-[11px]">(optionnel)</span>
+                          Nom complet <span className="text-orsap-red">*</span>
                         </label>
                         <input
                           id="newsletter-name"
                           type="text"
+                          required
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          placeholder="Votre nom"
-                          className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
+                          placeholder="Votre nom complet"
+                          className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
                         />
                       </div>
 
-                      {clientType === "professional" ? (
-                        <div>
-                          <label
-                            htmlFor="newsletter-company"
-                            className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
-                          >
-                            Société <span className="text-steel font-normal text-[11px]">(optionnel)</span>
-                          </label>
-                          <input
-                            id="newsletter-company"
-                            type="text"
-                            value={company}
-                            onChange={(e) => setCompany(e.target.value)}
-                            placeholder="Nom de votre société"
-                            className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
-                          />
-                        </div>
-                      ) : (
-                        <div>
-                          <label
-                            htmlFor="newsletter-phone"
-                            className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
-                          >
-                            Téléphone <span className="text-steel font-normal text-[11px]">(optionnel)</span>
-                          </label>
-                          <input
-                            id="newsletter-phone"
-                            type="tel"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            placeholder="+212 6..."
-                            className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
-                          />
-                        </div>
-                      )}
+                      <div>
+                        <label
+                          htmlFor="newsletter-company"
+                          className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
+                        >
+                          Société / Entreprise <span className="text-orsap-red">*</span>
+                        </label>
+                        <input
+                          id="newsletter-company"
+                          type="text"
+                          required
+                          value={company}
+                          onChange={(e) => setCompany(e.target.value)}
+                          placeholder="Nom de votre société"
+                          className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Email & Phone */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label
+                          htmlFor="newsletter-email"
+                          className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
+                        >
+                          Adresse Email <span className="text-orsap-red">*</span>
+                        </label>
+                        <input
+                          id="newsletter-email"
+                          type="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="contact@entreprise.ma"
+                          className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
+                        />
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="newsletter-phone"
+                          className="block text-[12px] font-semibold uppercase tracking-wider text-ink-soft mb-1"
+                        >
+                          Téléphone <span className="text-steel font-normal text-[11px]">(optionnel)</span>
+                        </label>
+                        <input
+                          id="newsletter-phone"
+                          type="tel"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="+212 6..."
+                          className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-[14px] text-ink placeholder:text-steel/60 focus:border-orsap-red focus:outline-none focus:ring-1 focus:ring-orsap-red transition-all"
+                        />
+                      </div>
                     </div>
 
                     {/* Submit button */}

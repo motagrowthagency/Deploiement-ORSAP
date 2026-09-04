@@ -173,6 +173,9 @@ app.post("/api/newsletter", async (req, res) => {
   if (!email || typeof email !== "string" || !email.includes("@")) {
     return res.status(400).json({ error: "Une adresse email valide est requise." })
   }
+  if (!name || !company) {
+    return res.status(400).json({ error: "Le nom complet et le nom de la société sont obligatoires." })
+  }
 
   const entry = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
