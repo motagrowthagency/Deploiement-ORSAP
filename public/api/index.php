@@ -245,6 +245,111 @@ if (preg_match('#^/api/recrutement/([^/]+)$#', $uri, $matches)) {
     }
 }
 
+// ── Newsletter / Subscribers API ────────────────────────────────────
+if ($uri === '/api/newsletter' || $uri === '/api/newsletter/') {
+    if ($method === 'GET') {
+        if ($pdo) {
+            try {
+                $stmt = $pdo->query("SELECT * FROM `subscribers` ORDER BY `created_at` DESC");
+                $rows = $stmt->fetchAll();
+                if (!empty($rows)) {
+                    $formatted = array_map(function($r) {
+                        return [
+                            'id' => $r['id'],
+                            'createdAt' => $r['created_at'],
+                            'email' => $r['email'],
+                            'name' => $r['name'],
+                            'company' => $r['company'],
+                            'phone' => $r['phone'],
+                            'clientType' => $r['client_type'],
+                        ];
+                    }, $rows);
+                    sendJson($formatted);
+                }
+            } catch (Exception $e) {}
+        }
+        sendJson(readJsonFile('subscribers.json'));
+    }
+
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $email = trim(strtolower($body['email'] ?? ''));
+        $name = trim($body['name'] ?? '');
+        $company = trim($body['company'] ?? '');
+        $phone = trim($body['phone'] ?? '');
+        $clientType = $body['clientType'] ?? 'professional';
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            sendJson(['error' => 'Une adresse email valide est obligatoire.'], 400);
+        }
+
+        $id = dechex(time()) . substr(md5(uniqid(mt_rand(), true)), 0, 5);
+        $createdAt = date('Y-m-d H:i:s');
+
+        $entry = [
+            'id' => $id,
+            'createdAt' => $createdAt,
+            'email' => $email,
+            'name' => $name ?: null,
+            'company' => $company ?: null,
+            'phone' => $phone ?: null,
+            'clientType' => $clientType,
+        ];
+
+        saveSubscriberEntry($entry);
+        sendJson(['success' => true, 'id' => $id], 201);
+    }
+}
+
+if (preg_match('#^/api/newsletter/([^/]+)$#', $uri, $matches)) {
+    $id = $matches[1];
+    if ($method === 'DELETE') {
+        $subs = readJsonFile('subscribers.json');
+        $filtered = array_values(array_filter($subs, function($s) use ($id) {
+            return ($s['id'] ?? '') !== $id;
+        }));
+        writeJsonFile('subscribers.json', $filtered);
+
+        if ($pdo) {
+            try {
+                $stmt = $pdo->prepare("DELETE FROM `subscribers` WHERE `id` = :id");
+                $stmt->execute([':id' => $id]);
+            } catch (Exception $e) {}
+        }
+        sendJson(['success' => true]);
+    }
+}
+
+if ($uri === '/api/admin/export/subscribers' || $uri === '/api/admin/export/subscribers/') {
+    $subs = [];
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT * FROM `subscribers` ORDER BY `created_at` DESC");
+            $subs = $stmt->fetchAll();
+        } catch (Exception $e) {}
+    }
+    if (empty($subs)) {
+        $subs = readJsonFile('subscribers.json');
+    }
+    $dateStr = date('Y-m-d');
+    $csv = "\xEF\xBB\xBFID,Date Inscription,Email,Nom,Societe,Telephone,Type Client\n";
+    foreach ($subs as $s) {
+        $csv .= sprintf('"%s","%s","%s","%s","%s","%s","%s"' . "\n",
+            $s['id'] ?? '',
+            $s['created_at'] ?? ($s['createdAt'] ?? ''),
+            $s['email'] ?? '',
+            str_replace('"', '""', $s['name'] ?? ''),
+            str_replace('"', '""', $s['company'] ?? ''),
+            $s['phone'] ?? '',
+            $s['client_type'] ?? ($s['clientType'] ?? 'professional')
+        );
+    }
+    header('Content-Disposition: attachment; filename="orsap_abonnes_' . $dateStr . '.csv"');
+    header('Content-Type: text/csv; charset=utf-8');
+    echo $csv;
+    exit;
+}
+
 // ── Blogs API ───────────────────────────────────────────────────────
 if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
     if ($method === 'GET') {

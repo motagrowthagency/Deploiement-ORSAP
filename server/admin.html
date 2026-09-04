@@ -152,6 +152,11 @@
         Gestion du Blog &amp; Documents
         <span class="tab-badge">{{BLOGS_COUNT}}</span>
       </a>
+      <a href="/admin?tab=subscribers" class="tab-btn {{TAB_SUBSCRIBERS_ACTIVE}}">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+        Liste Clients &amp; Abonnés
+        <span class="tab-badge">{{SUBSCRIBERS_COUNT}}</span>
+      </a>
     </div>
   </div>
 
@@ -233,6 +238,19 @@
       const res = await fetch("/api/recrutement/" + id, { method: "DELETE" });
       if (res.ok) {
         const row = document.getElementById("app-" + id);
+        if (row) row.remove();
+        location.reload();
+      } else {
+        alert("Erreur lors de la suppression.");
+      }
+    }
+
+    // Delete subscriber
+    async function deleteSubscriber(id) {
+      if (!confirm("Supprimer cet abonné de la liste clients ?")) return;
+      const res = await fetch("/api/newsletter/" + id, { method: "DELETE" });
+      if (res.ok) {
+        const row = document.getElementById("sub-" + id);
         if (row) row.remove();
         location.reload();
       } else {

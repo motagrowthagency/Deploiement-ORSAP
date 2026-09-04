@@ -99,6 +99,17 @@ function initTables(PDO $pdo) {
             `pdf_name` VARCHAR(255) DEFAULT NULL,
             `updated_at` DATETIME DEFAULT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+
+        // 4. Subscribers table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `subscribers` (
+            `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `created_at` DATETIME NOT NULL,
+            `email` VARCHAR(255) NOT NULL,
+            `name` VARCHAR(255) DEFAULT NULL,
+            `company` VARCHAR(255) DEFAULT NULL,
+            `phone` VARCHAR(64) DEFAULT NULL,
+            `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
     } catch (Exception $e) {
         error_log('Erreur initTables: ' . $e->getMessage());
     }
@@ -210,6 +221,44 @@ function saveApplicationEntry(array $entry) {
             ]);
         } catch (Exception $e) {
             error_log('Erreur saveApplicationEntry MySQL: ' . $e->getMessage());
+        }
+    }
+}
+
+function saveSubscriberEntry(array $entry) {
+    // 1. Save to JSON
+    $subs = readJsonFile('subscribers.json');
+    $existingIdx = -1;
+    foreach ($subs as $k => $item) {
+        if (isset($item['email']) && strtolower($item['email']) === strtolower($entry['email'])) {
+            $existingIdx = $k;
+            break;
+        }
+    }
+    if ($existingIdx !== -1) {
+        $subs[$existingIdx] = array_merge($subs[$existingIdx], $entry);
+    } else {
+        array_unshift($subs, $entry);
+    }
+    writeJsonFile('subscribers.json', $subs);
+
+    // 2. Save to MySQL if available
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO `subscribers` (`id`, `created_at`, `email`, `name`, `company`, `phone`, `client_type`)
+                VALUES (:id, :created_at, :email, :name, :company, :phone, :client_type)");
+            $stmt->execute([
+                ':id' => $entry['id'],
+                ':created_at' => $entry['createdAt'],
+                ':email' => $entry['email'],
+                ':name' => $entry['name'] ?? null,
+                ':company' => $entry['company'] ?? null,
+                ':phone' => $entry['phone'] ?? null,
+                ':client_type' => $entry['clientType'] ?? 'professional',
+            ]);
+        } catch (Exception $e) {
+            error_log('Erreur saveSubscriberEntry MySQL: ' . $e->getMessage());
         }
     }
 }

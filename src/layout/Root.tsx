@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, NavLink, Outlet, ScrollRestoration } from "react-router"
 import orsapIcon from "@/imports/logo.jpg"
 import { NAV } from "@/layout/nav"
+import ClientListPopup from "@/components/ClientListPopup"
 
 function OrsapMark() {
   return (
@@ -217,6 +218,7 @@ export default function Root() {
         </div>
       </footer>
 
+      <ClientListPopup />
       <ScrollRestoration />
     </div>
   )

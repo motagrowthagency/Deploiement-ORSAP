@@ -19,6 +19,10 @@ import {
   saveApplications,
   addApplication,
   deleteApplication,
+  loadSubscribers,
+  saveSubscribers,
+  addSubscriber,
+  deleteSubscriber,
   isUsingMySQL,
 } from "./server/database.js"
 
@@ -160,6 +164,63 @@ app.get("/api/recrutement/:id/cv", async (req, res) => {
     `attachment; filename="${encodeURIComponent(appEntry.cvName || 'cv.pdf')}"`
   )
   return res.send(buffer)
+})
+
+// ── Newsletter / Subscribers API Routes ─────────────────────────────
+app.post("/api/newsletter", async (req, res) => {
+  const { email, name, company, phone, clientType } = req.body
+
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return res.status(400).json({ error: "Une adresse email valide est requise." })
+  }
+
+  const entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    createdAt: new Date().toISOString(),
+    email: email.trim().toLowerCase(),
+    name: name ? String(name).trim() : null,
+    company: company ? String(company).trim() : null,
+    phone: phone ? String(phone).trim() : null,
+    clientType: clientType || "professional",
+  }
+
+  await addSubscriber(entry)
+  console.log(`📬  New subscriber registered: ${entry.email} (${entry.clientType})`)
+  return res.status(201).json({ success: true, id: entry.id })
+})
+
+app.get("/api/newsletter", async (_req, res) => {
+  const data = await loadSubscribers()
+  return res.json(data)
+})
+
+app.delete("/api/newsletter/:id", async (req, res) => {
+  const success = await deleteSubscriber(req.params.id)
+  if (!success) {
+    return res.status(404).json({ error: "Not found" })
+  }
+  return res.json({ success: true })
+})
+
+app.get("/api/admin/export/subscribers", async (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return res.status(401).json({ error: "Non autorisé" })
+  }
+  const subs = await loadSubscribers()
+  const dateStr = new Date().toISOString().slice(0, 10)
+  
+  let csv = "ID,Date Inscription,Email,Nom,Societe,Telephone,Type Client\n"
+  subs.forEach((s) => {
+    csv += `"${s.id}","${s.createdAt || ""}","${s.email}","${(s.name || "").replace(/"/g, '""')}","${(s.company || "").replace(/"/g, '""')}","${s.phone || ""}","${s.clientType || "professional"}"\n`
+  })
+
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename=orsap_abonnes_${dateStr}.csv`
+  )
+  res.setHeader("Content-Type", "text/csv; charset=utf-8")
+  return res.send("\uFEFF" + csv)
 })
 
 // ── Blog API Routes ─────────────────────────────────────────────────
@@ -431,6 +492,36 @@ app.get("/admin", async (req, res) => {
   const submissions = await loadSubmissions()
   const blogs = await loadBlogs()
   const apps = await loadApplications()
+  const subscribers = await loadSubscribers()
+
+  // Generate rows for subscribers
+  const subscribersRows = subscribers
+    .map(
+      (s) => `
+    <tr id="sub-${s.id}">
+      <td>${
+        s.createdAt ? new Date(s.createdAt).toLocaleString("fr-FR") : "—"
+      }</td>
+      <td><span class="badge ${
+        s.clientType === "professional" ? "pro" : "perso"
+      }">${s.clientType === "professional" ? "Pro" : "Particulier"}</span></td>
+      <td style="font-weight: 700;">
+        <a href="mailto:${esc(s.email)}" style="color: #d3121a; font-weight: 700; text-decoration: none;">${esc(s.email)}</a>
+      </td>
+      <td>${esc(s.name || "—")}</td>
+      <td>${esc(s.company || "—")}</td>
+      <td>${
+        s.phone ? `<a href="tel:${esc(s.phone)}">${esc(s.phone)}</a>` : "—"
+      }</td>
+      <td>
+        <button class="del-btn" onclick="deleteSubscriber('${s.id}')">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
+    </tr>`
+    )
+    .join("")
 
   // Generate rows for devis
   const devisRows = submissions
@@ -604,6 +695,39 @@ app.get("/admin", async (req, res) => {
           }
         </div>
       </div>`
+  } else if (tab === "subscribers") {
+    tabContent = `
+      <div class="wrap">
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Liste Clients &amp; Abonnés (${subscribers.length})</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <a href="/api/admin/export/subscribers" class="view-link" title="Exporter la liste des abonnés au format CSV">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Exporter CSV
+              </a>
+            </div>
+          </div>
+          ${
+            subscribers.length === 0
+              ? '<div class="empty">Aucun abonné pour le moment.</div>'
+              : `<table>
+            <thead>
+              <tr>
+                <th>Date d\'inscription</th>
+                <th>Type</th>
+                <th>Adresse Email</th>
+                <th>Nom complet</th>
+                <th>Société</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${subscribersRows}</tbody>
+          </table>`
+          }
+        </div>
+      </div>`
   } else {
     tabContent = `
       <div class="wrap">
@@ -723,9 +847,11 @@ app.get("/admin", async (req, res) => {
     html = html.replace("{{SUBMISSIONS_COUNT}}", submissions.length)
     html = html.replace("{{BLOGS_COUNT}}", blogs.length)
     html = html.replace("{{APPLICATIONS_COUNT}}", apps.length)
+    html = html.replace("{{SUBSCRIBERS_COUNT}}", subscribers.length)
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
     html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
     html = html.replace("{{TAB_BLOG_ACTIVE}}", tab === "blog" ? "active" : "")
+    html = html.replace("{{TAB_SUBSCRIBERS_ACTIVE}}", tab === "subscribers" ? "active" : "")
     html = html.replace("{{TAB_CONTENT}}", tabContent)
 
     res.setHeader("Content-Type", "text/html; charset=utf-8")

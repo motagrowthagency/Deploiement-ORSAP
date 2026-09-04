@@ -54,6 +54,7 @@ $tab = $_GET['tab'] ?? 'devis';
 $submissions = [];
 $blogs = [];
 $apps = [];
+$subscribers = [];
 
 if ($pdo) {
     try {
@@ -76,11 +77,19 @@ if ($pdo) {
     } catch (Exception $e) {
         $apps = loadJsonData('applications.json');
     }
+
+    try {
+        $stmt4 = $pdo->query("SELECT * FROM `subscribers` ORDER BY `created_at` DESC");
+        $subscribers = $stmt4->fetchAll();
+    } catch (Exception $e) {
+        $subscribers = loadJsonData('subscribers.json');
+    }
 } else {
     // Fallback to JSON if MySQL connection failed
     $submissions = loadJsonData('submissions.json');
     $blogs = loadJsonData('blogs.json');
     $apps = loadJsonData('applications.json');
+    $subscribers = loadJsonData('subscribers.json');
 }
 
 function loadJsonData($filename) {
@@ -235,7 +244,47 @@ foreach ($apps as $a) {
     );
 }
 
-// 4. Construct tab content
+// 4. Generate subscribers rows
+$subscribersRows = '';
+foreach ($subscribers as $sub) {
+    $id = $sub['id'] ?? '';
+    $dateVal = $sub['created_at'] ?? ($sub['createdAt'] ?? '');
+    $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
+    $clientType = $sub['client_type'] ?? ($sub['clientType'] ?? 'professional');
+    $isPro = $clientType === 'professional';
+    $email = $sub['email'] ?? '';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color: #d3121a; font-weight: 700; text-decoration: none;">' . esc($email) . '</a>' : '—';
+    $phone = $sub['phone'] ?? '';
+    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+
+    $subscribersRows .= sprintf('
+    <tr id="sub-%s">
+      <td>%s</td>
+      <td><span class="badge %s">%s</span></td>
+      <td style="font-weight: 700;">%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>
+        <button class="del-btn" onclick="deleteSubscriber(\'%s\')">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
+    </tr>',
+        esc($id),
+        $dateFormatted,
+        $isPro ? 'pro' : 'perso',
+        $isPro ? 'Pro' : 'Particulier',
+        $emailHtml,
+        esc($sub['name'] ?? '—'),
+        esc($sub['company'] ?? '—'),
+        $phoneHtml,
+        esc($id)
+    );
+}
+
+// 5. Construct tab content
 $tabContent = '';
 if ($tab === 'devis') {
     $tabContent = '
@@ -288,6 +337,37 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $appsRows . '</tbody>
+        </table>') .
+      '</div>
+    </div>';
+} elseif ($tab === 'subscribers') {
+    $tabContent = '
+    <div class="wrap">
+      <div class="table-container">
+        <div class="table-header-title">
+          <span>Liste Clients &amp; Abonnés (' . count($subscribers) . ')</span>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <a href="/api/admin/export/subscribers" class="view-link" title="Exporter la liste des abonnés au format CSV">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              Exporter CSV
+            </a>
+          </div>
+        </div>' .
+        (empty($subscribers)
+            ? '<div class="empty">Aucun abonné pour le moment.</div>'
+            : '<table>
+          <thead>
+            <tr>
+              <th>Date d\'inscription</th>
+              <th>Type</th>
+              <th>Adresse Email</th>
+              <th>Nom complet</th>
+              <th>Société</th>
+              <th>Téléphone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>' . $subscribersRows . '</tbody>
         </table>') .
       '</div>
     </div>';
@@ -424,9 +504,11 @@ $html = str_replace('{{DB_STATUS_BADGE}}', $dbBadge, $html);
 $html = str_replace('{{SUBMISSIONS_COUNT}}', (string)count($submissions), $html);
 $html = str_replace('{{BLOGS_COUNT}}', (string)count($blogs), $html);
 $html = str_replace('{{APPLICATIONS_COUNT}}', (string)count($apps), $html);
+$html = str_replace('{{SUBSCRIBERS_COUNT}}', (string)count($subscribers), $html);
 $html = str_replace('{{TAB_DEVIS_ACTIVE}}', $tab === 'devis' ? 'active' : '', $html);
 $html = str_replace('{{TAB_RECRUTEMENT_ACTIVE}}', $tab === 'recrutement' ? 'active' : '', $html);
 $html = str_replace('{{TAB_BLOG_ACTIVE}}', $tab === 'blog' ? 'active' : '', $html);
+$html = str_replace('{{TAB_SUBSCRIBERS_ACTIVE}}', $tab === 'subscribers' ? 'active' : '', $html);
 $html = str_replace('{{TAB_CONTENT}}', $tabContent, $html);
 
 header('Content-Type: text/html; charset=utf-8');

@@ -10,6 +10,7 @@ const DB_PATH = join(DATA_DIR, "submissions.json")
 const BLOG_DB_PATH = join(DATA_DIR, "blogs.json")
 const BLOG_BACKUP_PATH = join(DATA_DIR, "blogs.backup.json")
 const APP_DB_PATH = join(DATA_DIR, "applications.json")
+const SUB_DB_PATH = join(DATA_DIR, "subscribers.json")
 const BACKUP_DIR = join(DATA_DIR, "backups")
 
 // Ensure fallback data directories exist
@@ -119,6 +120,18 @@ export async function initDatabase() {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `)
 
+      await connection.query(`
+        CREATE TABLE IF NOT EXISTS \`subscribers\` (
+          \`id\` VARCHAR(64) NOT NULL PRIMARY KEY,
+          \`created_at\` DATETIME NOT NULL,
+          \`email\` VARCHAR(255) NOT NULL,
+          \`name\` VARCHAR(255) DEFAULT NULL,
+          \`company\` VARCHAR(255) DEFAULT NULL,
+          \`phone\` VARCHAR(64) DEFAULT NULL,
+          \`client_type\` VARCHAR(32) NOT NULL DEFAULT 'professional'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `)
+
       console.log("✅ Tables MySQL ORSAP vérifiées / créées avec succès.")
 
       // Check if blogs table is empty, auto-seed from JSON
@@ -196,6 +209,30 @@ export async function initDatabase() {
                 a.message || null,
                 a.cv || "",
                 a.cvName || "cv.pdf",
+              ]
+            )
+          }
+        }
+      }
+
+      // Check if subscribers table is empty, auto-seed from JSON if any
+      const [subScriberRows] = await connection.query("SELECT COUNT(*) AS cnt FROM `subscribers`")
+      if (subScriberRows[0].cnt === 0) {
+        const initialSubscribers = loadSubscribersFromJSON()
+        if (initialSubscribers.length > 0) {
+          console.log(`📥 Migration de ${initialSubscribers.length} abonnés vers MySQL...`)
+          for (const sub of initialSubscribers) {
+            await connection.query(
+              `INSERT INTO \`subscribers\` (\`id\`, \`created_at\`, \`email\`, \`name\`, \`company\`, \`phone\`, \`client_type\`)
+               VALUES (?, ?, ?, ?, ?, ?, ?)`,
+              [
+                sub.id,
+                sub.createdAt ? new Date(sub.createdAt) : new Date(),
+                sub.email || "",
+                sub.name || null,
+                sub.company || null,
+                sub.phone || null,
+                sub.clientType || "professional",
               ]
             )
           }
@@ -602,3 +639,117 @@ export async function deleteBlog(id) {
   saveBlogsToJSON(filtered)
   return filtered.length < before
 }
+
+// ── Subscribers API (Unified) ───────────────────────────────────────
+function loadSubscribersFromJSON() {
+  if (!existsSync(SUB_DB_PATH)) return []
+  try {
+    return JSON.parse(readFileSync(SUB_DB_PATH, "utf-8"))
+  } catch {
+    return []
+  }
+}
+
+function saveSubscribersToJSON(data) {
+  try {
+    writeFileSync(SUB_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur sauvegarde JSON subscribers:", err)
+  }
+}
+
+export async function loadSubscribers() {
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM `subscribers` ORDER BY `created_at` DESC")
+      return rows.map((r) => ({
+        id: r.id,
+        createdAt: r.created_at ? new Date(r.created_at).toISOString() : null,
+        email: r.email,
+        name: r.name,
+        company: r.company,
+        phone: r.phone,
+        clientType: r.client_type,
+      }))
+    } catch (err) {
+      console.error("❌ Erreur lecture subscribers MySQL, repli sur JSON:", err.message)
+    }
+  }
+  return loadSubscribersFromJSON()
+}
+
+export async function saveSubscribers(data) {
+  saveSubscribersToJSON(data)
+  if (pool && Array.isArray(data)) {
+    try {
+      await pool.query("DELETE FROM `subscribers`")
+      for (const s of data) {
+        await pool.query(
+          `INSERT INTO \`subscribers\` (\`id\`, \`created_at\`, \`email\`, \`name\`, \`company\`, \`phone\`, \`client_type\`)
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [
+            s.id,
+            s.createdAt ? new Date(s.createdAt) : new Date(),
+            s.email || "",
+            s.name || null,
+            s.company || null,
+            s.phone || null,
+            s.clientType || "professional",
+          ]
+        )
+      }
+    } catch (err) {
+      console.error("❌ Erreur saveSubscribers MySQL:", err.message)
+    }
+  }
+}
+
+export async function addSubscriber(entry) {
+  if (pool) {
+    try {
+      await pool.query(
+        `INSERT INTO \`subscribers\` (\`id\`, \`created_at\`, \`email\`, \`name\`, \`company\`, \`phone\`, \`client_type\`)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          entry.id,
+          entry.createdAt ? new Date(entry.createdAt) : new Date(),
+          entry.email || "",
+          entry.name || null,
+          entry.company || null,
+          entry.phone || null,
+          entry.clientType || "professional",
+        ]
+      )
+    } catch (err) {
+      console.error("❌ Erreur addSubscriber MySQL:", err.message)
+    }
+  }
+  const subs = loadSubscribersFromJSON()
+  // Avoid duplicate email at front if already exists
+  const existingIdx = subs.findIndex((s) => s.email?.toLowerCase() === entry.email?.toLowerCase())
+  if (existingIdx !== -1) {
+    subs[existingIdx] = { ...subs[existingIdx], ...entry }
+  } else {
+    subs.unshift(entry)
+  }
+  saveSubscribersToJSON(subs)
+}
+
+export async function deleteSubscriber(id) {
+  if (pool) {
+    try {
+      const [res] = await pool.query("DELETE FROM `subscribers` WHERE `id` = ?", [id])
+      const subs = loadSubscribersFromJSON().filter((s) => s.id !== id)
+      saveSubscribersToJSON(subs)
+      return res.affectedRows > 0
+    } catch (err) {
+      console.error("❌ Erreur deleteSubscriber MySQL:", err.message)
+    }
+  }
+  const subs = loadSubscribersFromJSON()
+  const before = subs.length
+  const filtered = subs.filter((s) => s.id !== id)
+  saveSubscribersToJSON(filtered)
+  return filtered.length < before
+}
+
