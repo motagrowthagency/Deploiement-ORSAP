@@ -633,7 +633,7 @@ ${baseData.promptHero}
   <title>${result.titreSEO}</title>
   <meta name="description" content="${result.metaDesc}">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #1e293b; background: #fff; }
     h1 { color: #0f172a; font-size: 28px; border-bottom: 2px solid #e30613; padding-bottom: 12px; }
     h2 { color: #d3121a; margin-top: 32px; }
     h3 { color: #334155; }
@@ -684,7 +684,6 @@ ${baseData.promptHero}
       if (res.ok) {
         const data = await res.json()
         if (data.success && data.content) {
-          // Parse loaded markdown or set into raw
           if (result) {
             setResult({
               ...result,
@@ -703,24 +702,24 @@ ${baseData.promptHero}
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-slate-900 font-sans text-slate-100 antialiased">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-slate-50 font-sans text-slate-800 antialiased">
       {/* Top Header */}
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-800 bg-slate-950 px-6 shadow-md">
+      <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6 shadow-xs">
         <div className="flex items-center gap-4">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-90">
             <img
               src={orsapLogo}
               alt="ORSAP Logo"
-              className="size-10 rounded-lg object-contain bg-white p-1 ring-2 ring-red-600/30"
+              className="size-10 rounded-lg object-contain bg-white p-0.5 border border-slate-200 shadow-xs"
             />
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-display text-lg font-black tracking-tight text-white">ORSAP</span>
-                <span className="rounded bg-red-600/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-red-400 ring-1 ring-red-500/30">
+                <span className="font-display text-lg font-black tracking-tight text-slate-900">ORSAP</span>
+                <span className="rounded bg-red-50 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-red-600 ring-1 ring-red-200">
                   Blogmaker IA
                 </span>
               </div>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-500 font-medium">
                 Studio Éditorial &amp; SEO B2B · Expertise Industrielle &amp; HSE
               </span>
             </div>
@@ -730,9 +729,9 @@ ${baseData.promptHero}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setModalPresets(true)}
-            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-all hover:border-slate-600 hover:bg-slate-700"
+            className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition-all hover:border-slate-300 hover:bg-slate-50 active:scale-98"
           >
-            <svg className="size-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <svg className="size-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             Exemples de Sujets
@@ -740,9 +739,9 @@ ${baseData.promptHero}
 
           <button
             onClick={() => setModalHistory(true)}
-            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-all hover:border-slate-600 hover:bg-slate-700"
+            className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition-all hover:border-slate-300 hover:bg-slate-50 active:scale-98"
           >
-            <svg className="size-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <svg className="size-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Articles ({historyList.length})
@@ -751,21 +750,21 @@ ${baseData.promptHero}
           <button
             onClick={() => setModalSettings(true)}
             title="Paramètres Clé Gemini IA"
-            className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-all hover:border-slate-600 hover:bg-slate-700"
+            className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition-all hover:border-slate-300 hover:bg-slate-50 active:scale-98"
           >
-            <svg className="size-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <svg className="size-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             {apiKey ? "IA Connectée ✓" : "Clé IA (Optionnel)"}
           </button>
 
-          <div className="h-5 w-px bg-slate-800" />
+          <div className="h-5 w-px bg-slate-200" />
 
           <Link
             to="/blog"
             target="_blank"
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition-colors hover:text-white"
+            className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 transition-colors hover:text-red-600"
           >
             Voir le Blog ORSAP
             <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -778,9 +777,9 @@ ${baseData.promptHero}
       {/* Main Studio Body */}
       <div className="flex flex-1 overflow-hidden">
         {/* LEFT PANEL: Form Configuration */}
-        <aside className="w-[430px] shrink-0 overflow-y-auto border-r border-slate-800 bg-slate-950/60 p-5 scrollbar-thin scrollbar-track-slate-900 scrollbar-thumb-slate-700">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <aside className="w-[430px] shrink-0 overflow-y-auto border-r border-slate-200 bg-white p-5 shadow-xs scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-300">
+          <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-600">
               Paramètres de l'article B2B
             </h2>
             <button
@@ -789,7 +788,7 @@ ${baseData.promptHero}
                 setMotClePrincipal("")
                 setMotsClesSecondaires("")
               }}
-              className="text-[11px] text-slate-500 hover:text-red-400"
+              className="text-[11px] font-medium text-slate-400 hover:text-red-600 transition-colors"
             >
               Effacer
             </button>
@@ -798,26 +797,26 @@ ${baseData.promptHero}
           <div className="space-y-4 text-xs">
             {/* Sujet */}
             <div>
-              <label className="mb-1.5 block font-bold text-slate-300">
-                Sujet de l'article <span className="text-red-500">*</span>
+              <label className="mb-1.5 block font-bold text-slate-700">
+                Sujet de l'article <span className="text-red-600">*</span>
               </label>
               <textarea
                 value={sujet}
                 onChange={(e) => setSujet(e.target.value)}
                 rows={3}
                 placeholder="Ex: La consignation électrique et mécanique (LOTO) en milieu industriel..."
-                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-red-600 focus:bg-white focus:ring-2 focus:ring-red-600/10"
               />
             </div>
 
             {/* Rubrique & Mots max */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="mb-1.5 block font-bold text-slate-300">Rubrique</label>
+                <label className="mb-1.5 block font-bold text-slate-700">Rubrique</label>
                 <select
                   value={rubrique}
                   onChange={(e) => setRubrique(e.target.value)}
-                  className="w-full rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-2 text-xs text-slate-100 outline-none focus:border-red-500"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs text-slate-900 outline-none transition-all focus:border-red-600 focus:bg-white focus:ring-2 focus:ring-red-600/10"
                 >
                   <option value="Prévention & Sécurité">Prévention &amp; Sécurité</option>
                   <option value="Réglementation & Normes">Réglementation &amp; Normes</option>
@@ -828,9 +827,9 @@ ${baseData.promptHero}
               </div>
 
               <div>
-                <div className="mb-1.5 flex items-center justify-between font-bold text-slate-300">
+                <div className="mb-1.5 flex items-center justify-between font-bold text-slate-700">
                   <span>Longueur</span>
-                  <span className="rounded bg-red-950/80 px-1.5 py-0.2 text-[10px] font-semibold text-red-400 ring-1 ring-red-800/60">
+                  <span className="rounded bg-red-50 px-1.5 py-0.5 text-[10px] font-bold text-red-600 border border-red-200">
                     {motsMax} mots
                   </span>
                 </div>
@@ -848,19 +847,19 @@ ${baseData.promptHero}
 
             {/* Public cible */}
             <div>
-              <label className="mb-1.5 block font-bold text-slate-300">Public Cible</label>
+              <label className="mb-1.5 block font-bold text-slate-700">Public Cible</label>
               <input
                 type="text"
                 value={publicCible}
                 onChange={(e) => setPublicCible(e.target.value)}
                 placeholder="Ex: Responsables QHSE, Directeurs d'usine..."
-                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-red-500"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-red-600 focus:bg-white focus:ring-2 focus:ring-red-600/10"
               />
             </div>
 
             {/* Secteurs Cibles Chips */}
             <div>
-              <label className="mb-1.5 block font-bold text-slate-300">Secteurs Cibles</label>
+              <label className="mb-1.5 block font-bold text-slate-700">Secteurs Cibles</label>
               <div className="flex flex-wrap gap-1.5">
                 {ALL_SECTORS.map((sec) => {
                   const active = secteurs.includes(sec)
@@ -869,10 +868,10 @@ ${baseData.promptHero}
                       key={sec}
                       type="button"
                       onClick={() => toggleSector(sec)}
-                      className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-all ${
+                      className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all ${
                         active
-                          ? "bg-red-600 text-white shadow-sm shadow-red-900/40"
-                          : "border border-slate-700 bg-slate-900 text-slate-400 hover:border-slate-600 hover:text-slate-200"
+                          ? "bg-red-600 text-white shadow-xs"
+                          : "border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 hover:bg-slate-100"
                       }`}
                     >
                       {sec}
@@ -884,45 +883,45 @@ ${baseData.promptHero}
 
             {/* Mots-clés Principal & Secondaires */}
             <div>
-              <label className="mb-1.5 block font-bold text-slate-300">Mot-clé Principal (SEO)</label>
+              <label className="mb-1.5 block font-bold text-slate-700">Mot-clé Principal (SEO)</label>
               <input
                 type="text"
                 value={motClePrincipal}
                 onChange={(e) => setMotClePrincipal(e.target.value)}
                 placeholder="Ex: consignation electrique industrielle"
-                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-red-500"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-red-600 focus:bg-white focus:ring-2 focus:ring-red-600/10"
               />
             </div>
 
             <div>
-              <label className="mb-1.5 block font-bold text-slate-300">Mots-clés Secondaires</label>
+              <label className="mb-1.5 block font-bold text-slate-700">Mots-clés Secondaires</label>
               <input
                 type="text"
                 value={motsClesSecondaires}
                 onChange={(e) => setMotsClesSecondaires(e.target.value)}
                 placeholder="Séparés par des virgules..."
-                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-red-500"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-red-600 focus:bg-white focus:ring-2 focus:ring-red-600/10"
               />
             </div>
 
             {/* Options */}
-            <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
-              <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
-                <label className="flex items-center gap-2 cursor-pointer">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+              <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-700">
+                <label className="flex items-center gap-2 cursor-pointer font-medium">
                   <input
                     type="checkbox"
                     checked={withIllustration}
                     onChange={(e) => setWithIllustration(e.target.checked)}
-                    className="rounded accent-red-600"
+                    className="rounded accent-red-600 size-3.5"
                   />
                   <span>Prompts Visuels IA</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer font-medium">
                   <input
                     type="checkbox"
                     checked={withLogo}
                     onChange={(e) => setWithLogo(e.target.checked)}
-                    className="rounded accent-red-600"
+                    className="rounded accent-red-600 size-3.5"
                   />
                   <span>Signature ORSAP</span>
                 </label>
@@ -935,11 +934,11 @@ ${baseData.promptHero}
                 type="button"
                 disabled={isGenerating}
                 onClick={() => handleGenerate(true)}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-red-700 py-3 text-sm font-bold text-white shadow-lg shadow-red-950/60 transition-all hover:from-red-500 hover:to-red-600 active:scale-[0.99] disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3 text-sm font-bold text-white shadow-md shadow-red-600/20 transition-all hover:bg-red-700 active:scale-[0.99] disabled:opacity-60"
               >
                 {isGenerating ? (
                   <>
-                    <svg className="size-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <svg className="size-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                     </svg>
@@ -959,16 +958,16 @@ ${baseData.promptHero}
         </aside>
 
         {/* RIGHT WORKSPACE: Tabs & Output */}
-        <main className="flex flex-1 flex-col overflow-hidden bg-slate-900">
+        <main className="flex flex-1 flex-col overflow-hidden bg-slate-100/70">
           {/* Navigation Tabs Bar */}
-          <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-800 bg-slate-950/80 px-6">
+          <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6">
             <div className="flex gap-2">
               <button
                 onClick={() => setActiveTab("article")}
                 className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
                   activeTab === "article"
-                    ? "bg-red-600/20 text-red-400 ring-1 ring-red-500/40"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-red-50 text-red-600 ring-1 ring-red-200"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -981,8 +980,8 @@ ${baseData.promptHero}
                 onClick={() => setActiveTab("prompts")}
                 className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
                   activeTab === "prompts"
-                    ? "bg-red-600/20 text-red-400 ring-1 ring-red-500/40"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-red-50 text-red-600 ring-1 ring-red-200"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -995,8 +994,8 @@ ${baseData.promptHero}
                 onClick={() => setActiveTab("seo")}
                 className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
                   activeTab === "seo"
-                    ? "bg-red-600/20 text-red-400 ring-1 ring-red-500/40"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-red-50 text-red-600 ring-1 ring-red-200"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -1009,8 +1008,8 @@ ${baseData.promptHero}
                 onClick={() => setActiveTab("scorecard")}
                 className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
                   activeTab === "scorecard"
-                    ? "bg-red-600/20 text-red-400 ring-1 ring-red-500/40"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-red-50 text-red-600 ring-1 ring-red-200"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -1023,8 +1022,8 @@ ${baseData.promptHero}
                 onClick={() => setActiveTab("export")}
                 className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
                   activeTab === "export"
-                    ? "bg-red-600/20 text-red-400 ring-1 ring-red-500/40"
-                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                    ? "bg-red-50 text-red-600 ring-1 ring-red-200"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -1040,10 +1039,10 @@ ${baseData.promptHero}
                 <button
                   onClick={handlePublishToOrsap}
                   disabled={isPublishing || result.published}
-                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold text-white shadow transition-all ${
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold text-white shadow-xs transition-all ${
                     result.published
                       ? "bg-emerald-600 cursor-default"
-                      : "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 active:scale-95"
+                      : "bg-red-600 hover:bg-red-700 active:scale-95"
                   }`}
                 >
                   {isPublishing ? (
@@ -1064,13 +1063,13 @@ ${baseData.promptHero}
           </div>
 
           {/* Content Area */}
-          <div className="flex-1 overflow-y-auto p-8 scrollbar-thin scrollbar-track-slate-900 scrollbar-thumb-slate-700">
+          <div className="flex-1 overflow-y-auto p-8 scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-300">
             {!result ? (
-              <div className="flex h-full flex-col items-center justify-center text-center text-slate-500">
-                <svg className="mb-4 size-16 stroke-1 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex h-full flex-col items-center justify-center text-center text-slate-400">
+                <svg className="mb-4 size-16 stroke-1 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
-                <p className="text-base font-semibold text-slate-400">Aucun article généré</p>
+                <p className="text-base font-semibold text-slate-600">Aucun article généré</p>
                 <p className="mt-1 max-w-sm text-xs text-slate-500">
                   Remplissez les paramètres dans le panneau de gauche ou cliquez sur un exemple de sujet pour démarrer.
                 </p>
@@ -1079,11 +1078,11 @@ ${baseData.promptHero}
               <div className="mx-auto max-w-4xl space-y-6">
                 {/* TAB 1: ARTICLE FORMATTE */}
                 {activeTab === "article" && (
-                  <div className="rounded-2xl border border-slate-800 bg-slate-950 p-8 shadow-2xl">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xs">
                     {/* Header meta */}
-                    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-5 text-xs text-slate-400">
+                    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-5 text-xs text-slate-500">
                       <div className="flex items-center gap-3">
-                        <span className="rounded-md bg-red-950/80 px-2.5 py-1 font-bold text-red-400 ring-1 ring-red-800/50">
+                        <span className="rounded-md bg-red-50 px-2.5 py-1 font-bold text-red-600 border border-red-200">
                           {rubrique}
                         </span>
                         <span>{result.wordCount} mots</span>
@@ -1093,7 +1092,7 @@ ${baseData.promptHero}
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => copyToClipboard(result.articleMarkdown, "Contenu de l'article")}
-                          className="flex items-center gap-1 rounded-md border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-xs text-slate-300 hover:bg-slate-700"
+                          className="flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                         >
                           Copier l'article
                         </button>
@@ -1101,20 +1100,20 @@ ${baseData.promptHero}
                     </div>
 
                     {/* H1 Title */}
-                    <h1 className="mb-6 font-display text-2xl font-black leading-tight tracking-tight text-white md:text-3xl">
+                    <h1 className="mb-6 font-display text-2xl font-black leading-tight tracking-tight text-slate-900 md:text-3xl">
                       {result.h1}
                     </h1>
 
                     {/* Excerpt */}
-                    <div className="mb-8 rounded-xl border-l-4 border-red-600 bg-slate-900/80 p-4 text-sm leading-relaxed text-slate-300">
-                      <strong>En synthèse :</strong> {result.excerpt}
+                    <div className="mb-8 rounded-xl border-l-4 border-red-600 bg-red-50/50 p-4 text-sm leading-relaxed text-slate-800">
+                      <strong className="text-red-700">En synthèse :</strong> {result.excerpt}
                     </div>
 
                     {/* Hero Image Concept Box */}
                     {withIllustration && (
-                      <div className="mb-8 rounded-xl border border-slate-800 bg-slate-900 p-4">
+                      <div className="mb-8 rounded-xl border border-slate-200 bg-slate-50 p-4">
                         <div className="mb-2 flex items-center justify-between">
-                          <span className="flex items-center gap-1.5 text-xs font-bold text-red-400">
+                          <span className="flex items-center gap-1.5 text-xs font-bold text-red-600">
                             <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
@@ -1122,24 +1121,24 @@ ${baseData.promptHero}
                           </span>
                           <button
                             onClick={() => copyToClipboard(result.promptHero, "Prompt Hero")}
-                            className="text-[11px] text-slate-400 hover:text-white"
+                            className="text-[11px] font-semibold text-slate-500 hover:text-red-600"
                           >
                             Copier le Prompt IA
                           </button>
                         </div>
-                        <p className="text-xs text-slate-400">{result.conceptHero}</p>
+                        <p className="text-xs text-slate-600">{result.conceptHero}</p>
                       </div>
                     )}
 
                     {/* Article Content Rendered */}
-                    <div className="space-y-4 text-sm leading-relaxed text-slate-300">
+                    <div className="space-y-4 text-sm leading-relaxed text-slate-700">
                       {result.articleMarkdown.split("\n\n").map((block, idx) => {
                         const trimmed = block.trim()
                         if (trimmed.startsWith("## ")) {
                           return (
                             <h2
                               key={idx}
-                              className="mt-8 border-b border-slate-800 pb-2 font-display text-xl font-bold text-red-400"
+                              className="mt-8 border-b border-slate-100 pb-2 font-display text-xl font-bold text-red-600"
                             >
                               {trimmed.replace(/^## /, "")}
                             </h2>
@@ -1147,7 +1146,7 @@ ${baseData.promptHero}
                         }
                         if (trimmed.startsWith("### ")) {
                           return (
-                            <h3 key={idx} className="mt-6 font-display text-base font-bold text-white">
+                            <h3 key={idx} className="mt-6 font-display text-base font-bold text-slate-900">
                               {trimmed.replace(/^### /, "")}
                             </h3>
                           )
@@ -1156,7 +1155,7 @@ ${baseData.promptHero}
                           return (
                             <blockquote
                               key={idx}
-                              className="rounded-lg border-l-4 border-amber-500 bg-amber-950/20 p-3.5 text-xs text-amber-200"
+                              className="rounded-lg border-l-4 border-amber-500 bg-amber-50/70 p-3.5 text-xs text-amber-900"
                             >
                               {trimmed.replace(/^> /, "")}
                             </blockquote>
@@ -1165,8 +1164,8 @@ ${baseData.promptHero}
                         if (trimmed.startsWith("|")) {
                           const rows = trimmed.split("\n").filter((r) => !r.includes("---"))
                           return (
-                            <div key={idx} className="my-6 overflow-x-auto rounded-lg border border-slate-800">
-                              <table className="w-full text-left text-xs text-slate-300">
+                            <div key={idx} className="my-6 overflow-x-auto rounded-lg border border-slate-200">
+                              <table className="w-full text-left text-xs text-slate-700">
                                 <tbody>
                                   {rows.map((row, rIdx) => {
                                     const cells = row
@@ -1179,8 +1178,8 @@ ${baseData.promptHero}
                                         key={rIdx}
                                         className={
                                           isHead
-                                            ? "border-b border-slate-800 bg-slate-900/90 font-bold text-white"
-                                            : "border-b border-slate-800/50 hover:bg-slate-900/40"
+                                            ? "border-b border-slate-200 bg-slate-50 font-bold text-slate-900"
+                                            : "border-b border-slate-100 hover:bg-slate-50/50"
                                         }
                                       >
                                         {cells.map((cell, cIdx) => (
@@ -1199,7 +1198,7 @@ ${baseData.promptHero}
                         if (trimmed.startsWith("* ") || trimmed.startsWith("- ")) {
                           const items = trimmed.split("\n")
                           return (
-                            <ul key={idx} className="my-3 space-y-1.5 pl-5 list-disc text-slate-300">
+                            <ul key={idx} className="my-3 space-y-1.5 pl-5 list-disc text-slate-700">
                               {items.map((item, iIdx) => (
                                 <li key={iIdx}>{item.replace(/^(\*|-)\s+/, "")}</li>
                               ))}
@@ -1209,7 +1208,7 @@ ${baseData.promptHero}
                         if (trimmed.match(/^\d+\.\s+/)) {
                           const items = trimmed.split("\n")
                           return (
-                            <ol key={idx} className="my-3 space-y-1.5 pl-5 list-decimal text-slate-300">
+                            <ol key={idx} className="my-3 space-y-1.5 pl-5 list-decimal text-slate-700">
                               {items.map((item, iIdx) => (
                                 <li key={iIdx}>{item.replace(/^\d+\.\s+/, "")}</li>
                               ))}
@@ -1221,16 +1220,16 @@ ${baseData.promptHero}
                     </div>
 
                     {/* CTA Box ORSAP */}
-                    <div className="mt-10 rounded-2xl border border-red-600/30 bg-gradient-to-r from-red-950/40 to-slate-900 p-6 text-center">
-                      <h4 className="font-display text-base font-bold text-white">
+                    <div className="mt-10 rounded-2xl border border-red-200 bg-gradient-to-r from-red-50 to-white p-6 text-center">
+                      <h4 className="font-display text-base font-bold text-slate-900">
                         Sécurisez et optimisez vos opérations industrielles avec ORSAP
                       </h4>
-                      <p className="mt-2 text-xs text-slate-300">{result.cta}</p>
+                      <p className="mt-2 text-xs text-slate-600">{result.cta}</p>
                       <div className="mt-4 flex items-center justify-center gap-4">
                         <Link
                           to="/devis"
                           target="_blank"
-                          className="rounded-lg bg-red-600 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all hover:bg-red-500"
+                          className="rounded-lg bg-red-600 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-red-700"
                         >
                           Demander un Devis ORSAP →
                         </Link>
@@ -1242,38 +1241,38 @@ ${baseData.promptHero}
                 {/* TAB 2: PROMPTS IA */}
                 {activeTab === "prompts" && (
                   <div className="space-y-5">
-                    <div className="rounded-xl border border-slate-800 bg-slate-950 p-6">
+                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
                       <div className="mb-3 flex items-center justify-between">
-                        <span className="rounded bg-red-950 px-2.5 py-1 text-xs font-bold text-red-400 ring-1 ring-red-800">
+                        <span className="rounded bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600 border border-red-200">
                           Prompt Image Hero (Format 16:9)
                         </span>
                         <button
                           onClick={() => copyToClipboard(result.promptHero, "Prompt Hero")}
-                          className="rounded border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300 hover:bg-slate-700"
+                          className="rounded border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                         >
                           Copier
                         </button>
                       </div>
-                      <p className="mb-2 text-xs text-slate-400">{result.conceptHero}</p>
-                      <div className="rounded-lg bg-slate-900 p-3.5 font-mono text-xs text-slate-300">
+                      <p className="mb-2 text-xs text-slate-600">{result.conceptHero}</p>
+                      <div className="rounded-lg bg-slate-50 p-3.5 font-mono text-xs text-slate-800 border border-slate-200">
                         {result.promptHero}
                       </div>
                     </div>
 
                     {result.briefSections.map((sec, sIdx) => (
-                      <div key={sIdx} className="rounded-xl border border-slate-800 bg-slate-950 p-6">
+                      <div key={sIdx} className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
                         <div className="mb-3 flex items-center justify-between">
-                          <span className="rounded bg-slate-800 px-2.5 py-1 text-xs font-bold text-slate-200">
+                          <span className="rounded bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700 border border-slate-200">
                             Prompt Visuel - {sec.title}
                           </span>
                           <button
                             onClick={() => copyToClipboard(sec.prompt, `Prompt ${sec.title}`)}
-                            className="rounded border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300 hover:bg-slate-700"
+                            className="rounded border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                           >
                             Copier
                           </button>
                         </div>
-                        <div className="rounded-lg bg-slate-900 p-3.5 font-mono text-xs text-slate-300">
+                        <div className="rounded-lg bg-slate-50 p-3.5 font-mono text-xs text-slate-800 border border-slate-200">
                           {sec.prompt}
                         </div>
                       </div>
@@ -1284,26 +1283,26 @@ ${baseData.promptHero}
                 {/* TAB 3: SEO METADATA */}
                 {activeTab === "seo" && (
                   <div className="space-y-5">
-                    <div className="rounded-xl border border-slate-800 bg-slate-950 p-6">
-                      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
+                      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-600">
                         Balises Méta &amp; Architecture SEO
                       </h3>
                       <div className="space-y-4 text-xs">
                         <div>
-                          <div className="mb-1 flex justify-between text-slate-300 font-bold">
+                          <div className="mb-1 flex justify-between text-slate-700 font-bold">
                             <span>Titre SEO (&lt;title&gt;)</span>
-                            <span className="text-slate-400">{result.titreSEO.length} / 65 car.</span>
+                            <span className="text-slate-500">{result.titreSEO.length} / 65 car.</span>
                           </div>
                           <div className="flex gap-2">
                             <input
                               type="text"
                               readOnly
                               value={result.titreSEO}
-                              className="w-full rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-slate-200"
+                              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 font-medium"
                             />
                             <button
                               onClick={() => copyToClipboard(result.titreSEO, "Titre SEO")}
-                              className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-300 hover:bg-slate-700"
+                              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-semibold text-slate-700 hover:bg-slate-100"
                             >
                               Copier
                             </button>
@@ -1311,20 +1310,20 @@ ${baseData.promptHero}
                         </div>
 
                         <div>
-                          <div className="mb-1 flex justify-between text-slate-300 font-bold">
+                          <div className="mb-1 flex justify-between text-slate-700 font-bold">
                             <span>Méta Description</span>
-                            <span className="text-slate-400">{result.metaDesc.length} / 160 car.</span>
+                            <span className="text-slate-500">{result.metaDesc.length} / 160 car.</span>
                           </div>
                           <div className="flex gap-2">
                             <textarea
                               rows={2}
                               readOnly
                               value={result.metaDesc}
-                              className="w-full rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-slate-200"
+                              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 font-medium"
                             />
                             <button
                               onClick={() => copyToClipboard(result.metaDesc, "Méta-description")}
-                              className="self-start rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-300 hover:bg-slate-700"
+                              className="self-start rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-semibold text-slate-700 hover:bg-slate-100"
                             >
                               Copier
                             </button>
@@ -1332,28 +1331,28 @@ ${baseData.promptHero}
                         </div>
 
                         <div>
-                          <span className="mb-1 block font-bold text-slate-300">Slug URL Propre</span>
+                          <span className="mb-1 block font-bold text-slate-700">Slug URL Propre</span>
                           <input
                             type="text"
                             readOnly
                             value={`https://orsap.ma/blog/${result.slug}`}
-                            className="w-full rounded-lg border border-slate-800 bg-slate-900 px-3 py-2 text-slate-200"
+                            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 font-medium"
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-slate-800 bg-slate-950 p-6">
-                      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
+                      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-600">
                         Checklist Qualité SEO
                       </h3>
-                      <div className="space-y-2.5 text-xs text-slate-300">
+                      <div className="space-y-2.5 text-xs text-slate-700">
                         {result.checklist.map((item, idx) => (
                           <div key={idx} className="flex items-center gap-2.5">
-                            <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-950 text-[10px] font-black text-emerald-400 ring-1 ring-emerald-600">
+                            <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-black text-emerald-700 border border-emerald-300">
                               ✓
                             </span>
-                            <span>{item}</span>
+                            <span className="font-medium">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -1365,55 +1364,55 @@ ${baseData.promptHero}
                 {activeTab === "scorecard" && (
                   <div className="space-y-5">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                      <div className="rounded-xl border border-slate-800 bg-slate-950 p-5 text-center">
-                        <span className="text-[11px] font-bold uppercase text-slate-400">Score Global</span>
-                        <div className="my-2 font-display text-3xl font-black text-emerald-400">
+                      <div className="rounded-xl border border-slate-200 bg-white p-5 text-center shadow-xs">
+                        <span className="text-[11px] font-bold uppercase text-slate-500">Score Global</span>
+                        <div className="my-2 font-display text-3xl font-black text-emerald-600">
                           {result.score.global}/100
                         </div>
-                        <span className="text-[10px] text-emerald-500 font-semibold">Grade A+ (Prêt publication)</span>
+                        <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">Grade A+ (Prêt)</span>
                       </div>
-                      <div className="rounded-xl border border-slate-800 bg-slate-950 p-5 text-center">
-                        <span className="text-[11px] font-bold uppercase text-slate-400">Score SEO</span>
-                        <div className="my-2 font-display text-3xl font-black text-sky-400">
+                      <div className="rounded-xl border border-slate-200 bg-white p-5 text-center shadow-xs">
+                        <span className="text-[11px] font-bold uppercase text-slate-500">Score SEO</span>
+                        <div className="my-2 font-display text-3xl font-black text-sky-600">
                           {result.score.seo}/100
                         </div>
-                        <span className="text-[10px] text-slate-400">Densité sémantique optimale</span>
+                        <span className="text-[10px] text-slate-500">Densité optimale</span>
                       </div>
-                      <div className="rounded-xl border border-slate-800 bg-slate-950 p-5 text-center">
-                        <span className="text-[11px] font-bold uppercase text-slate-400">Lisibilité B2B</span>
-                        <div className="my-2 font-display text-3xl font-black text-amber-400">
+                      <div className="rounded-xl border border-slate-200 bg-white p-5 text-center shadow-xs">
+                        <span className="text-[11px] font-bold uppercase text-slate-500">Lisibilité B2B</span>
+                        <div className="my-2 font-display text-3xl font-black text-amber-600">
                           {result.score.lisibilite}/100
                         </div>
-                        <span className="text-[10px] text-slate-400">Structure dynamique &amp; aérée</span>
+                        <span className="text-[10px] text-slate-500">Structure dynamique</span>
                       </div>
-                      <div className="rounded-xl border border-slate-800 bg-slate-950 p-5 text-center">
-                        <span className="text-[11px] font-bold uppercase text-slate-400">Expertise HSE</span>
-                        <div className="my-2 font-display text-3xl font-black text-red-400">
+                      <div className="rounded-xl border border-slate-200 bg-white p-5 text-center shadow-xs">
+                        <span className="text-[11px] font-bold uppercase text-slate-500">Expertise HSE</span>
+                        <div className="my-2 font-display text-3xl font-black text-red-600">
                           {result.score.expertise}/100
                         </div>
-                        <span className="text-[10px] text-slate-400">Normes &amp; REX intégrés</span>
+                        <span className="text-[10px] text-slate-500">Normes &amp; REX intégrés</span>
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-slate-800 bg-slate-950 p-6">
-                      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
+                      <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-600">
                         Critères d'Excellence Éditoriale
                       </h3>
-                      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 text-xs text-slate-300">
+                      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 text-xs text-slate-700">
                         <div className="flex items-center gap-2">
-                          <span className="text-emerald-400 font-bold">✓</span>
+                          <span className="text-emerald-600 font-bold">✓</span>
                           <span>Alignement rigoureux avec la cible ({publicCible})</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-emerald-400 font-bold">✓</span>
+                          <span className="text-emerald-600 font-bold">✓</span>
                           <span>Zéro hallucination réglementaire (ISO / Code du Travail)</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-emerald-400 font-bold">✓</span>
+                          <span className="text-emerald-600 font-bold">✓</span>
                           <span>Vocabulaire technique professionnel valorisant l'expertise ORSAP</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-emerald-400 font-bold">✓</span>
+                          <span className="text-emerald-600 font-bold">✓</span>
                           <span>Présence d'un Call to Action orienté conversion commerciale</span>
                         </div>
                       </div>
@@ -1423,33 +1422,33 @@ ${baseData.promptHero}
 
                 {/* TAB 5: EXPORT & RAW MARKDOWN */}
                 {activeTab === "export" && (
-                  <div className="rounded-2xl border border-slate-800 bg-slate-950 p-6 shadow-2xl">
-                    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
                         Livrable Brut 13 Points (Markdown &amp; Frontmatter)
                       </span>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => copyToClipboard(result.rawMarkdown, "Livrable Markdown")}
-                          className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700"
+                          className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                         >
                           Copier Markdown
                         </button>
                         <button
                           onClick={() => downloadFile("md")}
-                          className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700"
+                          className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                         >
                           Télécharger .md
                         </button>
                         <button
                           onClick={() => downloadFile("html")}
-                          className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700"
+                          className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                         >
                           Télécharger .html
                         </button>
                         <button
                           onClick={() => downloadFile("json")}
-                          className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700"
+                          className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100"
                         >
                           Télécharger .json
                         </button>
@@ -1464,7 +1463,7 @@ ${baseData.promptHero}
                           rawMarkdown: e.target.value,
                         })
                       }
-                      className="w-full rounded-xl border border-slate-800 bg-slate-900 p-4 font-mono text-xs leading-relaxed text-slate-200 outline-none focus:border-red-500"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs leading-relaxed text-slate-800 outline-none transition-all focus:border-red-600 focus:bg-white"
                     />
                   </div>
                 )}
@@ -1476,15 +1475,15 @@ ${baseData.promptHero}
 
       {/* MODAL: Presets */}
       {modalPresets && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-950 p-6 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-display text-base font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="font-display text-base font-bold text-slate-900">
                 Exemples de Sujets Industriels &amp; HSE Prêts à l'Emploi
               </h3>
               <button
                 onClick={() => setModalPresets(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-slate-700 font-bold"
               >
                 ✕
               </button>
@@ -1494,15 +1493,15 @@ ${baseData.promptHero}
                 <div
                   key={pIdx}
                   onClick={() => applyPreset(preset)}
-                  className="cursor-pointer rounded-xl border border-slate-800 bg-slate-900/60 p-4 transition-all hover:border-red-500/50 hover:bg-slate-900"
+                  className="cursor-pointer rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:border-red-400 hover:bg-red-50/40"
                 >
                   <div className="mb-1 flex items-center justify-between">
-                    <span className="rounded bg-red-950 px-2 py-0.5 text-[10px] font-bold text-red-400">
+                    <span className="rounded bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700 border border-red-200">
                       {preset.rubrique} · {preset.motsMax} mots
                     </span>
                   </div>
-                  <h4 className="font-display text-sm font-bold text-white">{preset.title}</h4>
-                  <p className="mt-1 text-xs text-slate-400">{preset.desc}</p>
+                  <h4 className="font-display text-sm font-bold text-slate-900">{preset.title}</h4>
+                  <p className="mt-1 text-xs text-slate-600">{preset.desc}</p>
                 </div>
               ))}
             </div>
@@ -1512,15 +1511,15 @@ ${baseData.promptHero}
 
       {/* MODAL: History */}
       {modalHistory && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-950 p-6 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-display text-base font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="font-display text-base font-bold text-slate-900">
                 Articles Sauvegardés dans le Workspace
               </h3>
               <button
                 onClick={() => setModalHistory(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-slate-700 font-bold"
               >
                 ✕
               </button>
@@ -1535,15 +1534,15 @@ ${baseData.promptHero}
                   <div
                     key={idx}
                     onClick={() => loadSavedArticle(item.filename)}
-                    className="flex cursor-pointer items-center justify-between rounded-lg border border-slate-800 bg-slate-900 p-3 transition-colors hover:border-slate-600 hover:bg-slate-800"
+                    className="flex cursor-pointer items-center justify-between rounded-lg border border-slate-200 bg-slate-50 p-3 transition-colors hover:border-slate-300 hover:bg-slate-100"
                   >
                     <div>
-                      <div className="text-xs font-bold text-white">{item.filename}</div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-xs font-bold text-slate-900">{item.filename}</div>
+                      <div className="text-[10px] text-slate-500">
                         {new Date(item.modified).toLocaleString()}
                       </div>
                     </div>
-                    <span className="text-xs font-semibold text-red-400">Charger →</span>
+                    <span className="text-xs font-semibold text-red-600">Charger →</span>
                   </div>
                 ))
               )}
@@ -1554,25 +1553,25 @@ ${baseData.promptHero}
 
       {/* MODAL: Settings */}
       {modalSettings && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-950 p-6 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-display text-base font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="font-display text-base font-bold text-slate-900">
                 Paramètres Clé IA Gemini
               </h3>
               <button
                 onClick={() => setModalSettings(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-slate-700 font-bold"
               >
                 ✕
               </button>
             </div>
             <div className="space-y-4 text-xs">
-              <p className="text-slate-400">
+              <p className="text-slate-600">
                 Le studio dispose d'un moteur expert industriel intégré. Si vous souhaitez connecter votre clé Gemini personnelle pour une génération en direct via API :
               </p>
               <div>
-                <label className="mb-1.5 block font-bold text-slate-300">
+                <label className="mb-1.5 block font-bold text-slate-700">
                   Clé API Google Gemini (Optionnel)
                 </label>
                 <input
@@ -1580,7 +1579,7 @@ ${baseData.promptHero}
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
                   placeholder="AIzaSy..."
-                  className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-red-500"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-red-600 focus:bg-white"
                 />
               </div>
               <button
@@ -1590,7 +1589,7 @@ ${baseData.promptHero}
                   setModalSettings(false)
                   showToast("Clé API enregistrée !")
                 }}
-                className="w-full rounded-lg bg-red-600 py-2.5 font-bold text-white hover:bg-red-500"
+                className="w-full rounded-lg bg-red-600 py-2.5 font-bold text-white hover:bg-red-700 transition-colors"
               >
                 Enregistrer la configuration
               </button>
@@ -1601,8 +1600,8 @@ ${baseData.promptHero}
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/95 px-4 py-3 text-xs font-semibold text-white shadow-2xl backdrop-blur-md animate-in fade-in slide-in-from-bottom-3">
-          <span className="size-2 rounded-full bg-red-500" />
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-semibold text-slate-900 shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-bottom-3">
+          <span className="size-2 rounded-full bg-red-600" />
           {toastMessage}
         </div>
       )}
