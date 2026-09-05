@@ -1,8 +1,8 @@
 import "dotenv/config"
 import express from "express"
 import cors from "cors"
-import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync, existsSync } from "node:fs"
-import { join, dirname, basename } from "node:path"
+import { readFileSync, existsSync } from "node:fs"
+import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 import {
   initDatabase,
@@ -29,12 +29,7 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DIST_DIR = join(__dirname, "dist")
 const ADMIN_TEMPLATE_PATH = join(__dirname, "server", "admin.html")
-const ARTICLES_DIR = join(__dirname, "articles")
 const PORT = process.env.PORT || 3001
-
-if (!existsSync(ARTICLES_DIR)) {
-  mkdirSync(ARTICLES_DIR, { recursive: true })
-}
 
 const app = express()
 app.use(cors())
@@ -311,58 +306,6 @@ app.delete("/api/blogs/:id", async (req, res) => {
     return res.status(404).json({ error: "Not found" })
   }
   return res.json({ success: true })
-})
-
-// ── Blogmaker Studio Markdown Articles API ──────────────────────────
-app.post("/api/save-article", (req, res) => {
-  try {
-    const { slug, content } = req.body || {}
-    const safeName = (slug || "article-" + Date.now()).replace(/[^a-z0-9-_]/gi, "_") + ".md"
-    const filePath = join(ARTICLES_DIR, safeName)
-    writeFileSync(filePath, content || "", "utf8")
-    return res.json({ success: true, filename: safeName, path: filePath })
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message })
-  }
-})
-
-app.get("/api/list-articles", (_req, res) => {
-  try {
-    if (!existsSync(ARTICLES_DIR)) {
-      return res.json({ success: true, articles: [] })
-    }
-    const files = readdirSync(ARTICLES_DIR).filter((f) => f.endsWith(".md"))
-    const list = files.map((file) => {
-      const stat = statSync(join(ARTICLES_DIR, file))
-      return {
-        filename: file,
-        created: stat.birthtime,
-        modified: stat.mtime,
-        size: stat.size,
-      }
-    })
-    return res.json({ success: true, articles: list })
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message })
-  }
-})
-
-app.get("/api/load-article", (req, res) => {
-  try {
-    const filename = req.query.filename
-    if (!filename) {
-      return res.status(400).json({ success: false, error: "Filename requis" })
-    }
-    const safeFilename = basename(String(filename))
-    const filePath = join(ARTICLES_DIR, safeFilename)
-    if (!existsSync(filePath)) {
-      return res.status(404).json({ success: false, error: "Article introuvable" })
-    }
-    const content = readFileSync(filePath, "utf8")
-    return res.json({ success: true, filename: safeFilename, content })
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message })
-  }
 })
 
 // ── Blog Backup Export & Import ─────────────────────────────────────

@@ -15,7 +15,7 @@
   RewriteRule ^admin(/.*)?$ admin/index.php [QSA,L]
 
   # 3. Explicitly force all React application routes (including /blog and /blog/*) to index.html
-  RewriteRule ^(blogmaker|blog-maker|blog|produits|services|marques|temoignages|devis|recrutement|a-propos|contact)(/.*)?$ index.html [L]
+  RewriteRule ^(blog|produits|services|marques|temoignages|devis|recrutement|a-propos|contact)(/.*)?$ index.html [L]
 
   # 4. If requested static file physically exists (assets, images, etc.), serve directly
   RewriteCond %{REQUEST_FILENAME} -f
