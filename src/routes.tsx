@@ -16,8 +16,11 @@ import Blog from "@/pages/Blog"
 import BlogDetail from "@/pages/BlogDetail"
 import Contact from "@/pages/Contact"
 import Recruitment from "@/pages/Recruitment"
+import BlogMaker from "@/pages/BlogMaker"
 
 export const router = createBrowserRouter([
+  { path: "/blogmaker", Component: BlogMaker },
+  { path: "/blog-maker", Component: BlogMaker },
   {
     path: "/",
     Component: Root,

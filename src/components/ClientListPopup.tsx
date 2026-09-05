@@ -49,8 +49,8 @@ export default function ClientListPopup() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!name.trim() || !company.trim() || !email.trim()) {
-      setError("Veuillez renseigner votre nom, société et adresse email.")
+    if (!name.trim() || !company.trim() || !email.trim() || !phone.trim()) {
+      setError("Veuillez renseigner votre nom, société, adresse email et numéro de téléphone.")
       return
     }
 
@@ -236,11 +236,12 @@ export default function ClientListPopup() {
 
                       <div>
                         <label htmlFor="popup-phone" className="block text-xs font-medium text-ink-soft mb-1">
-                          Téléphone <span className="text-steel font-normal text-[11px]">(optionnel)</span>
+                          Téléphone <span className="text-orsap-red">*</span>
                         </label>
                         <input
                           id="popup-phone"
                           type="tel"
+                          required
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="+212 6..."

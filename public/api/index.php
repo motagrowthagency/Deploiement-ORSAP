@@ -282,8 +282,8 @@ if ($uri === '/api/newsletter' || $uri === '/api/newsletter/') {
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             sendJson(['error' => 'Une adresse email valide est obligatoire.'], 400);
         }
-        if (empty($name) || empty($company)) {
-            sendJson(['error' => 'Le nom complet et le nom de la société sont obligatoires.'], 400);
+        if (empty($name) || empty($company) || empty($phone)) {
+            sendJson(['error' => 'Le nom, la société et le numéro de téléphone sont obligatoires.'], 400);
         }
 
         $id = dechex(time()) . substr(md5(uniqid(mt_rand(), true)), 0, 5);
