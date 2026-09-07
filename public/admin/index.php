@@ -55,6 +55,7 @@ $submissions = [];
 $blogs = [];
 $apps = [];
 $subscribers = [];
+$users = loadUsersList();
 
 if ($pdo) {
     try {
@@ -284,7 +285,62 @@ foreach ($subscribers as $sub) {
     );
 }
 
-// 5. Construct tab content
+// 5. Generate users rows
+$usersRows = '';
+foreach ($users as $u) {
+    $id = $u['id'] ?? '';
+    $dateVal = $u['created_at'] ?? ($u['createdAt'] ?? '');
+    $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
+    $clientType = $u['client_type'] ?? ($u['clientType'] ?? 'professional');
+    $isPro = $clientType === 'professional';
+    $isVerified = !empty($u['isVerified']) || !empty($u['is_verified']);
+    $email = $u['email'] ?? '';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color: #d3121a; font-weight: 700; text-decoration: none;">' . esc($email) . '</a>' : '—';
+    $phone = $u['phone'] ?? '';
+    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+
+    $statusHtml = $isVerified
+        ? '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">✓ Vérifié</span>'
+        : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span>';
+
+    $verifyBtn = !$isVerified
+        ? '<button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer;" onclick="verifyUser(\'' . esc($id) . '\')">Valider</button>'
+        : '';
+
+    $usersRows .= sprintf('
+    <tr id="user-%s">
+      <td class="date-badge">%s</td>
+      <td><span class="badge %s">%s</span></td>
+      <td style="font-weight: 700;">%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>
+        <div class="actions-cell">
+          %s
+          <button class="del-btn" onclick="deleteUser(\'%s\')">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer
+          </button>
+        </div>
+      </td>
+    </tr>',
+        esc($id),
+        $dateFormatted,
+        $isPro ? 'pro' : 'perso',
+        $isPro ? 'Pro' : 'Particulier',
+        esc($u['name'] ?? '—'),
+        esc($u['company'] ?? '—'),
+        $emailHtml,
+        $phoneHtml,
+        $statusHtml,
+        $verifyBtn,
+        esc($id)
+    );
+}
+
+// 6. Construct tab content
 $tabContent = '';
 if ($tab === 'devis') {
     $tabContent = '
@@ -311,6 +367,32 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $devisRows . '</tbody>
+        </table>') .
+      '</div>
+    </div>';
+} elseif ($tab === 'users') {
+    $tabContent = '
+    <div class="wrap">
+      <div class="table-container">
+        <div class="table-header-title">
+          <span>Comptes Clients Inscrits (' . count($users) . ')</span>
+        </div>' .
+        (empty($users)
+            ? '<div class="empty">Aucun compte client créé pour le moment.</div>'
+            : '<table>
+          <thead>
+            <tr>
+              <th>Date d\'inscription</th>
+              <th>Type</th>
+              <th>Nom complet</th>
+              <th>Société</th>
+              <th>Adresse Email</th>
+              <th>Téléphone</th>
+              <th>Statut Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>' . $usersRows . '</tbody>
         </table>') .
       '</div>
     </div>';
@@ -505,10 +587,12 @@ $html = str_replace('{{SUBMISSIONS_COUNT}}', (string)count($submissions), $html)
 $html = str_replace('{{BLOGS_COUNT}}', (string)count($blogs), $html);
 $html = str_replace('{{APPLICATIONS_COUNT}}', (string)count($apps), $html);
 $html = str_replace('{{SUBSCRIBERS_COUNT}}', (string)count($subscribers), $html);
+$html = str_replace('{{USERS_COUNT}}', (string)count($users), $html);
 $html = str_replace('{{TAB_DEVIS_ACTIVE}}', $tab === 'devis' ? 'active' : '', $html);
 $html = str_replace('{{TAB_RECRUTEMENT_ACTIVE}}', $tab === 'recrutement' ? 'active' : '', $html);
 $html = str_replace('{{TAB_BLOG_ACTIVE}}', $tab === 'blog' ? 'active' : '', $html);
 $html = str_replace('{{TAB_SUBSCRIBERS_ACTIVE}}', $tab === 'subscribers' ? 'active' : '', $html);
+$html = str_replace('{{TAB_USERS_ACTIVE}}', $tab === 'users' ? 'active' : '', $html);
 $html = str_replace('{{TAB_CONTENT}}', $tabContent, $html);
 
 header('Content-Type: text/html; charset=utf-8');

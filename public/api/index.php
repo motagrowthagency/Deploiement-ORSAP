@@ -34,6 +34,501 @@ function getJsonBody() {
     return json_decode($raw, true) ?: [];
 }
 
+// ── JWT & User Helpers ──────────────────────────────────────────────
+$JWT_SECRET = getenv('JWT_SECRET') ?: 'orsap-secure-jwt-secret-2026-auth';
+
+function sanitizeUserPHP(array $u) {
+    return [
+        'id' => $u['id'] ?? '',
+        'createdAt' => $u['createdAt'] ?? '',
+        'email' => $u['email'] ?? '',
+        'name' => $u['name'] ?? '',
+        'company' => $u['company'] ?? null,
+        'phone' => $u['phone'] ?? '',
+        'clientType' => $u['clientType'] ?? 'professional',
+        'isVerified' => !empty($u['isVerified']),
+    ];
+}
+
+function generateJwtPHP(array $u) {
+    global $JWT_SECRET;
+    $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+    $payload = json_encode([
+        'id' => $u['id'] ?? '',
+        'email' => $u['email'] ?? '',
+        'name' => $u['name'] ?? '',
+        'clientType' => $u['clientType'] ?? 'professional',
+        'exp' => time() + (30 * 24 * 60 * 60)
+    ]);
+    $b64Header = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+    $b64Payload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+    $sig = hash_hmac('sha256', $b64Header . "." . $b64Payload, $JWT_SECRET, true);
+    $b64Sig = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($sig));
+    return $b64Header . "." . $b64Payload . "." . $b64Sig;
+}
+
+function getAuthUserPHP() {
+    global $JWT_SECRET;
+    $headers = getallheaders();
+    $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
+    if (empty($auth) || strpos($auth, 'Bearer ') !== 0) return null;
+    $token = trim(substr($auth, 7));
+    $parts = explode('.', $token);
+    if (count($parts) !== 3) return null;
+    list($h64, $p64, $s64) = $parts;
+    $expected = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(hash_hmac('sha256', $h64 . "." . $p64, $JWT_SECRET, true)));
+    if (!hash_equals($expected, $s64)) return null;
+    $payload = json_decode(base64_decode(strtr($p64, '-_', '+/')), true);
+    if (!$payload || (isset($payload['exp']) && $payload['exp'] < time())) return null;
+    if (empty($payload['id'])) return null;
+    return findUserByIdPHP($payload['id']);
+}
+
+// ── Auth API Routes (Espace Client) ─────────────────────────────────
+
+// Register
+if ($uri === '/api/auth/register' || $uri === '/api/auth/register/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $name = trim($body['name'] ?? '');
+        $email = trim(strtolower($body['email'] ?? ''));
+        $phone = trim($body['phone'] ?? '');
+        $company = trim($body['company'] ?? '');
+        $password = $body['password'] ?? '';
+        $clientType = $body['clientType'] ?? 'professional';
+
+        if (empty($name) || empty($email) || empty($phone) || empty($password)) {
+            sendJson(['error' => 'Tous les champs obligatoires (nom, email, téléphone, mot de passe) doivent être remplis.'], 400);
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            sendJson(['error' => 'Adresse email invalide.'], 400);
+        }
+        if (strlen($password) < 6) {
+            sendJson(['error' => 'Le mot de passe doit comporter au moins 6 caractères.'], 400);
+        }
+
+        $existing = findUserByEmailPHP($email);
+        if ($existing) {
+            if (!empty($existing['isVerified'])) {
+                sendJson(['error' => 'Un compte vérifié existe déjà avec cette adresse email. Veuillez vous connecter.'], 400);
+            }
+
+            // Unverified user -> regenerate tokens & resend email
+            $token = bin2hex(random_bytes(32));
+            $code = (string)mt_rand(100000, 999999);
+            $expiresAt = date('Y-m-d H:i:s', time() + 86400);
+            $hash = password_hash($password, PASSWORD_BCRYPT);
+
+            $updated = array_merge($existing, [
+                'name' => $name,
+                'phone' => $phone,
+                'company' => $company ?: ($existing['company'] ?? null),
+                'clientType' => $clientType,
+                'passwordHash' => $hash,
+                'verificationToken' => $token,
+                'verificationCode' => $code,
+                'verificationExpiresAt' => $expiresAt,
+            ]);
+
+            updateUserEntry($updated);
+            $emailRes = @sendVerificationEmailPHP($email, $name, $token, $code);
+
+            sendJson([
+                'success' => true,
+                'pendingVerification' => true,
+                'email' => $email,
+                'message' => 'Un nouvel email de vérification vous a été envoyé.',
+                'previewUrl' => $emailRes['previewUrl'] ?? null,
+            ]);
+        }
+
+        $id = dechex(time()) . substr(md5(uniqid(mt_rand(), true)), 0, 5);
+        $token = bin2hex(random_bytes(32));
+        $code = (string)mt_rand(100000, 999999);
+        $expiresAt = date('Y-m-d H:i:s', time() + 86400);
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+
+        $newUser = [
+            'id' => $id,
+            'createdAt' => date('Y-m-d H:i:s'),
+            'email' => $email,
+            'passwordHash' => $hash,
+            'name' => $name,
+            'company' => $company ?: null,
+            'phone' => $phone,
+            'clientType' => $clientType,
+            'isVerified' => false,
+            'verificationToken' => $token,
+            'verificationCode' => $code,
+            'verificationExpiresAt' => $expiresAt,
+            'resetToken' => null,
+            'resetExpiresAt' => null,
+        ];
+
+        saveUserEntry($newUser);
+
+        // Also add to subscribers list
+        saveSubscriberEntry([
+            'id' => 'sub-' . $id,
+            'createdAt' => date('Y-m-d H:i:s'),
+            'email' => $email,
+            'name' => $name,
+            'company' => $company ?: null,
+            'phone' => $phone,
+            'clientType' => $clientType,
+        ]);
+
+        $emailRes = @sendVerificationEmailPHP($email, $name, $token, $code);
+
+        sendJson([
+            'success' => true,
+            'pendingVerification' => true,
+            'email' => $email,
+            'message' => 'Compte créé ! Veuillez vérifier votre boîte de réception pour activer votre compte.',
+            'previewUrl' => $emailRes['previewUrl'] ?? null,
+        ], 201);
+    }
+}
+
+// Verify with URL Token
+if ($uri === '/api/auth/verify' || $uri === '/api/auth/verify/') {
+    $token = $_GET['token'] ?? '';
+    if (empty($token)) {
+        sendJson(['error' => 'Jeton de validation manquant.'], 400);
+    }
+
+    $user = findUserByTokenPHP($token);
+    if (!$user) {
+        sendJson(['error' => 'Lien de confirmation invalide ou expiré.'], 400);
+    }
+
+    if (!empty($user['verificationExpiresAt']) && strtotime($user['verificationExpiresAt']) < time()) {
+        sendJson(['error' => 'Ce lien de confirmation a expiré. Veuillez demander un nouvel email.', 'expired' => true, 'email' => $user['email']], 400);
+    }
+
+    $updated = array_merge($user, [
+        'isVerified' => true,
+        'verificationToken' => null,
+        'verificationCode' => null,
+        'verificationExpiresAt' => null,
+    ]);
+
+    updateUserEntry($updated);
+    $jwt = generateJwtPHP($updated);
+
+    sendJson([
+        'success' => true,
+        'message' => 'Votre compte a été activé avec succès !',
+        'token' => $jwt,
+        'user' => sanitizeUserPHP($updated),
+    ]);
+}
+
+// Verify with 6-digit Code
+if ($uri === '/api/auth/verify-code' || $uri === '/api/auth/verify-code/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $email = trim(strtolower($body['email'] ?? ''));
+        $code = trim($body['code'] ?? '');
+
+        if (empty($email) || empty($code)) {
+            sendJson(['error' => 'Email et code de validation requis.'], 400);
+        }
+
+        $user = findUserByEmailPHP($email);
+        if (!$user) {
+            sendJson(['error' => 'Aucun compte trouvé avec cet email.'], 404);
+        }
+
+        if (!empty($user['isVerified'])) {
+            $jwt = generateJwtPHP($user);
+            sendJson([
+                'success' => true,
+                'message' => 'Compte déjà vérifié.',
+                'token' => $jwt,
+                'user' => sanitizeUserPHP($user),
+            ]);
+        }
+
+        if (($user['verificationCode'] ?? '') !== $code) {
+            sendJson(['error' => 'Code de confirmation incorrect.'], 400);
+        }
+
+        if (!empty($user['verificationExpiresAt']) && strtotime($user['verificationExpiresAt']) < time()) {
+            sendJson(['error' => 'Ce code a expiré. Veuillez renvoyer un code.', 'expired' => true], 400);
+        }
+
+        $updated = array_merge($user, [
+            'isVerified' => true,
+            'verificationToken' => null,
+            'verificationCode' => null,
+            'verificationExpiresAt' => null,
+        ]);
+
+        updateUserEntry($updated);
+        $jwt = generateJwtPHP($updated);
+
+        sendJson([
+            'success' => true,
+            'message' => 'Votre compte a été activé avec succès !',
+            'token' => $jwt,
+            'user' => sanitizeUserPHP($updated),
+        ]);
+    }
+}
+
+// Resend Verification Email
+if ($uri === '/api/auth/resend-verification' || $uri === '/api/auth/resend-verification/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $email = trim(strtolower($body['email'] ?? ''));
+        if (empty($email)) {
+            sendJson(['error' => 'Adresse email requise.'], 400);
+        }
+
+        $user = findUserByEmailPHP($email);
+        if (!$user) {
+            sendJson(['error' => 'Aucun compte associé à cette adresse.'], 404);
+        }
+
+        if (!empty($user['isVerified'])) {
+            sendJson(['success' => true, 'message' => 'Ce compte est déjà vérifié.']);
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $code = (string)mt_rand(100000, 999999);
+        $expiresAt = date('Y-m-d H:i:s', time() + 86400);
+
+        $updated = array_merge($user, [
+            'verificationToken' => $token,
+            'verificationCode' => $code,
+            'verificationExpiresAt' => $expiresAt,
+        ]);
+
+        updateUserEntry($updated);
+        $emailRes = @sendVerificationEmailPHP($email, $user['name'] ?? '', $token, $code);
+
+        sendJson([
+            'success' => true,
+            'message' => 'Un nouvel email de confirmation a été envoyé.',
+            'previewUrl' => $emailRes['previewUrl'] ?? null,
+        ]);
+    }
+}
+
+// Login
+if ($uri === '/api/auth/login' || $uri === '/api/auth/login/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $email = trim(strtolower($body['email'] ?? ''));
+        $password = $body['password'] ?? '';
+
+        if (empty($email) || empty($password)) {
+            sendJson(['error' => 'Email et mot de passe requis.'], 400);
+        }
+
+        $user = findUserByEmailPHP($email);
+        if (!$user || !password_verify($password, $user['passwordHash'] ?? '')) {
+            sendJson(['error' => 'Email ou mot de passe incorrect.'], 401);
+        }
+
+        if (empty($user['isVerified'])) {
+            sendJson([
+                'error' => 'Votre compte n\'est pas encore activé. Veuillez vérifier vos emails.',
+                'unverified' => true,
+                'email' => $user['email'],
+            ], 403);
+        }
+
+        $jwt = generateJwtPHP($user);
+        sendJson([
+            'success' => true,
+            'token' => $jwt,
+            'user' => sanitizeUserPHP($user),
+        ]);
+    }
+}
+
+// Me (Current authenticated user & quotes)
+if ($uri === '/api/auth/me' || $uri === '/api/auth/me/') {
+    $user = getAuthUserPHP();
+    if (!$user) {
+        sendJson(['error' => 'Non authentifié ou session expirée.'], 401);
+    }
+
+    $allSubs = readJsonFile('submissions.json');
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT * FROM `submissions` ORDER BY `created_at` DESC");
+            $rows = $stmt->fetchAll();
+            if (!empty($rows)) {
+                $allSubs = array_map(function($r) {
+                    return [
+                        'id' => $r['id'],
+                        'createdAt' => $r['created_at'],
+                        'clientType' => $r['client_type'],
+                        'name' => $r['name'],
+                        'company' => $r['company'],
+                        'email' => $r['email'],
+                        'phone' => $r['phone'],
+                        'solutions' => is_string($r['solutions']) ? (json_decode($r['solutions'], true) ?: []) : ($r['solutions'] ?? []),
+                        'sectors' => is_string($r['sectors']) ? (json_decode($r['sectors'], true) ?: []) : ($r['sectors'] ?? []),
+                        'message' => $r['message'],
+                    ];
+                }, $rows);
+            }
+        } catch (Exception $e) {}
+    }
+
+    $uEmail = strtolower($user['email'] ?? '');
+    $uPhone = preg_replace('/\D/', '', $user['phone'] ?? '');
+
+    $clientSubs = array_values(array_filter($allSubs, function($s) use ($uEmail, $uPhone) {
+        $sEmail = strtolower($s['email'] ?? '');
+        $sPhone = preg_replace('/\D/', '', $s['phone'] ?? '');
+        return ($sEmail && $sEmail === $uEmail) || ($uPhone && $sPhone && $sPhone === $uPhone);
+    }));
+
+    sendJson([
+        'user' => sanitizeUserPHP($user),
+        'submissions' => $clientSubs,
+    ]);
+}
+
+// Profile update
+if ($uri === '/api/auth/profile' || $uri === '/api/auth/profile/') {
+    if ($method === 'PUT') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Non authentifié.'], 401);
+        }
+
+        $body = getJsonBody();
+        $name = trim($body['name'] ?? '');
+        $phone = trim($body['phone'] ?? '');
+        $company = trim($body['company'] ?? '');
+
+        if (empty($name) || empty($phone)) {
+            sendJson(['error' => 'Le nom et le téléphone sont obligatoires.'], 400);
+        }
+
+        $updated = array_merge($user, [
+            'name' => $name,
+            'phone' => $phone,
+            'company' => $company ?: null,
+        ]);
+
+        updateUserEntry($updated);
+        sendJson(['success' => true, 'user' => sanitizeUserPHP($updated)]);
+    }
+}
+
+// Forgot password
+if ($uri === '/api/auth/forgot-password' || $uri === '/api/auth/forgot-password/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $email = trim(strtolower($body['email'] ?? ''));
+        if (empty($email)) {
+            sendJson(['error' => 'Adresse email requise.'], 400);
+        }
+
+        $user = findUserByEmailPHP($email);
+        if (!$user) {
+            sendJson(['success' => true, 'message' => 'Si un compte existe avec cet email, un lien de réinitialisation vous a été envoyé.']);
+        }
+
+        $token = bin2hex(random_bytes(32));
+        $expiresAt = date('Y-m-d H:i:s', time() + 3600);
+
+        $updated = array_merge($user, [
+            'resetToken' => $token,
+            'resetExpiresAt' => $expiresAt,
+        ]);
+
+        updateUserEntry($updated);
+        @sendPasswordResetEmailPHP($email, $user['name'] ?? '', $token);
+
+        sendJson(['success' => true, 'message' => 'Si un compte existe avec cet email, un lien de réinitialisation vous a été envoyé.']);
+    }
+}
+
+// Reset password
+if ($uri === '/api/auth/reset-password' || $uri === '/api/auth/reset-password/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $token = $body['token'] ?? '';
+        $newPassword = $body['newPassword'] ?? '';
+
+        if (empty($token) || empty($newPassword)) {
+            sendJson(['error' => 'Jeton et nouveau mot de passe requis.'], 400);
+        }
+        if (strlen($newPassword) < 6) {
+            sendJson(['error' => 'Le mot de passe doit comporter au moins 6 caractères.'], 400);
+        }
+
+        $user = findUserByTokenPHP($token);
+        if (!$user || ($user['resetToken'] ?? '') !== $token) {
+            sendJson(['error' => 'Lien de réinitialisation invalide ou expiré.'], 400);
+        }
+
+        if (!empty($user['resetExpiresAt']) && strtotime($user['resetExpiresAt']) < time()) {
+            sendJson(['error' => 'Ce lien de réinitialisation a expiré.'], 400);
+        }
+
+        $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+        $updated = array_merge($user, [
+            'passwordHash' => $hash,
+            'resetToken' => null,
+            'resetExpiresAt' => null,
+            'isVerified' => true,
+        ]);
+
+        updateUserEntry($updated);
+        $jwt = generateJwtPHP($updated);
+
+        sendJson([
+            'success' => true,
+            'message' => 'Mot de passe mis à jour avec succès !',
+            'token' => $jwt,
+            'user' => sanitizeUserPHP($updated),
+        ]);
+    }
+}
+
+// ── Admin Client Management Routes ──────────────────────────────────
+if ($uri === '/api/admin/users' || $uri === '/api/admin/users/') {
+    if ($method === 'GET') {
+        $users = loadUsersList();
+        sendJson(array_map('sanitizeUserPHP', $users));
+    }
+}
+
+if (preg_match('#^/api/admin/users/([^/]+)$#', $uri, $matches)) {
+    $id = $matches[1];
+    if ($method === 'DELETE') {
+        deleteUserEntry($id);
+        sendJson(['success' => true]);
+    }
+}
+
+if (preg_match('#^/api/admin/users/([^/]+)/verify$#', $uri, $matches)) {
+    $id = $matches[1];
+    if ($method === 'POST') {
+        $user = findUserByIdPHP($id);
+        if (!$user) {
+            sendJson(['error' => 'Compte introuvable.'], 404);
+        }
+        $updated = array_merge($user, [
+            'isVerified' => true,
+            'verificationToken' => null,
+            'verificationCode' => null,
+            'verificationExpiresAt' => null,
+        ]);
+        updateUserEntry($updated);
+        sendJson(['success' => true, 'user' => sanitizeUserPHP($updated)]);
+    }
+}
+
 // ── Devis API ───────────────────────────────────────────────────────
 if ($uri === '/api/devis' || $uri === '/api/devis/') {
     if ($method === 'GET') {

@@ -290,3 +290,144 @@ HTML;
 
     @mail($to, $subject, $html, implode("\r\n", $headers));
 }
+
+function sendVerificationEmailPHP($to, $name, $token, $code) {
+    $config = require __DIR__ . '/config.php';
+    $from = $config['from_email'] ?? 'orsap@orsap.ma';
+    $appUrl = getenv('APP_URL') ?: 'https://orsap.ma';
+    $verifyUrl = rtrim($appUrl, '/') . '/espace-client/verify?token=' . urlencode($token);
+
+    $safeName = htmlspecialchars($name ?: 'Cher client', ENT_QUOTES, 'UTF-8');
+    $safeCode = htmlspecialchars($code, ENT_QUOTES, 'UTF-8');
+
+    $subject = "=?UTF-8?B?" . base64_encode("Activez votre compte — ORSAP Espace Client") . "?=";
+
+    $html = <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f2f0ec; margin: 0; padding: 0; color: #14171a; }
+    .container { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #d3121a; }
+    .header { background: #14171a; padding: 25px 30px; text-align: center; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; }
+    .header p { color: #d3121a; font-size: 13px; font-weight: 700; margin: 5px 0 0 0; text-transform: uppercase; letter-spacing: 0.1em; }
+    .content { padding: 35px 30px; line-height: 1.6; }
+    .greeting { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #14171a; }
+    .btn-container { text-align: center; margin: 30px 0; }
+    .btn { display: inline-block; background-color: #d3121a; color: #ffffff !important; padding: 14px 32px; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .code-box { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; padding: 15px; text-align: center; margin: 20px 0; }
+    .code-box .label { font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .code-box .code { font-size: 28px; font-weight: 900; letter-spacing: 6px; color: #14171a; font-family: monospace; }
+    .footer { background: #fafbfc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center; font-size: 12px; color: #64748b; }
+    .footer a { color: #d3121a; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ORSAP</h1>
+      <p>Espace Client &amp; Services Industriels</p>
+    </div>
+    <div class="content">
+      <div class="greeting">Bonjour {$safeName},</div>
+      <p>Nous vous remercions pour votre inscription à l'<strong>Espace Client ORSAP</strong>.</p>
+      <p>Pour finaliser la création de votre compte et accéder à vos demandes de devis, fiches techniques et services personnalisés, veuillez valider votre adresse email :</p>
+      
+      <div class="btn-container">
+        <a href="{$verifyUrl}" class="btn" target="_blank">Activer mon compte</a>
+      </div>
+
+      <p style="font-size: 13px; color: #64748b; text-align: center;">Ou utilisez votre code de validation à 6 chiffres :</p>
+      
+      <div class="code-box">
+        <div class="label">Code de confirmation</div>
+        <div class="code">{$safeCode}</div>
+      </div>
+
+      <p style="font-size: 13px; color: #94a3b8; margin-top: 25px;">
+        Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet email en toute sécurité. Ce lien expire dans 24 heures.
+      </p>
+    </div>
+    <div class="footer">
+      <p>ORSAP — Import, distribution &amp; services aux industries</p>
+      <p>Casablanca, Maroc · <a href="tel:+212644203030">+212 6 44 20 30 30</a> · <a href="mailto:orsap@orsap.ma">orsap@orsap.ma</a></p>
+    </div>
+  </div>
+</body>
+</html>
+HTML;
+
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        'From: ORSAP Maroc <' . $from . '>',
+        'Reply-To: ' . $from,
+        'X-Mailer: PHP/' . phpversion()
+    ];
+
+    @mail($to, $subject, $html, implode("\r\n", $headers));
+    return ['success' => true, 'previewUrl' => $verifyUrl];
+}
+
+function sendPasswordResetEmailPHP($to, $name, $token) {
+    $config = require __DIR__ . '/config.php';
+    $from = $config['from_email'] ?? 'orsap@orsap.ma';
+    $appUrl = getenv('APP_URL') ?: 'https://orsap.ma';
+    $resetUrl = rtrim($appUrl, '/') . '/espace-client?resetToken=' . urlencode($token);
+
+    $safeName = htmlspecialchars($name ?: 'Cher client', ENT_QUOTES, 'UTF-8');
+
+    $subject = "=?UTF-8?B?" . base64_encode("Réinitialisation de votre mot de passe — ORSAP") . "?=";
+
+    $html = <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f2f0ec; margin: 0; padding: 0; color: #14171a; }
+    .container { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #d3121a; }
+    .header { background: #14171a; padding: 25px 30px; text-align: center; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; }
+    .content { padding: 35px 30px; line-height: 1.6; }
+    .greeting { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #14171a; }
+    .btn-container { text-align: center; margin: 30px 0; }
+    .btn { display: inline-block; background-color: #d3121a; color: #ffffff !important; padding: 14px 32px; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 6px; text-transform: uppercase; }
+    .footer { background: #fafbfc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center; font-size: 12px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ORSAP</h1>
+    </div>
+    <div class="content">
+      <div class="greeting">Bonjour {$safeName},</div>
+      <p>Nous avons reçu une demande de réinitialisation de mot de passe pour votre Espace Client ORSAP.</p>
+      <div class="btn-container">
+        <a href="{$resetUrl}" class="btn" target="_blank">Réinitialiser mon mot de passe</a>
+      </div>
+      <p style="font-size: 13px; color: #94a3b8;">Ce lien expirera dans 1 heure. Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email.</p>
+    </div>
+    <div class="footer">
+      <p>ORSAP — Import, distribution &amp; services aux industries</p>
+    </div>
+  </div>
+</body>
+</html>
+HTML;
+
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        'From: ORSAP Maroc <' . $from . '>',
+        'Reply-To: ' . $from,
+        'X-Mailer: PHP/' . phpversion()
+    ];
+
+    @mail($to, $subject, $html, implode("\r\n", $headers));
+    return ['success' => true];
+}
+

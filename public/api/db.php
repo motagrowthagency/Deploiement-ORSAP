@@ -110,6 +110,24 @@ function initTables(PDO $pdo) {
             `phone` VARCHAR(64) DEFAULT NULL,
             `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional'
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+
+        // 5. Users table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `users` (
+            `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `created_at` DATETIME NOT NULL,
+            `email` VARCHAR(255) NOT NULL UNIQUE,
+            `password_hash` VARCHAR(255) NOT NULL,
+            `name` VARCHAR(255) NOT NULL,
+            `company` VARCHAR(255) DEFAULT NULL,
+            `phone` VARCHAR(64) NOT NULL,
+            `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional',
+            `is_verified` TINYINT(1) NOT NULL DEFAULT 0,
+            `verification_token` VARCHAR(255) DEFAULT NULL,
+            `verification_code` VARCHAR(10) DEFAULT NULL,
+            `verification_expires_at` DATETIME DEFAULT NULL,
+            `reset_token` VARCHAR(255) DEFAULT NULL,
+            `reset_expires_at` DATETIME DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
     } catch (Exception $e) {
         error_log('Erreur initTables: ' . $e->getMessage());
     }
@@ -262,3 +280,257 @@ function saveSubscriberEntry(array $entry) {
         }
     }
 }
+
+// ── Users Database Operations ───────────────────────────────────────
+function loadUsersList() {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT * FROM `users` ORDER BY `created_at` DESC");
+            $rows = $stmt->fetchAll();
+            if (!empty($rows)) {
+                return array_map(function($r) {
+                    return [
+                        'id' => $r['id'],
+                        'createdAt' => $r['created_at'],
+                        'email' => $r['email'],
+                        'passwordHash' => $r['password_hash'],
+                        'name' => $r['name'],
+                        'company' => $r['company'],
+                        'phone' => $r['phone'],
+                        'clientType' => $r['client_type'],
+                        'isVerified' => (bool)$r['is_verified'],
+                        'verificationToken' => $r['verification_token'],
+                        'verificationCode' => $r['verification_code'],
+                        'verificationExpiresAt' => $r['verification_expires_at'],
+                        'resetToken' => $r['reset_token'],
+                        'resetExpiresAt' => $r['reset_expires_at'],
+                    ];
+                }, $rows);
+            }
+        } catch (Exception $e) {}
+    }
+    return readJsonFile('users.json');
+}
+
+function findUserByEmailPHP($email) {
+    if (empty($email)) return null;
+    $clean = strtolower(trim($email));
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM `users` WHERE LOWER(`email`) = :email LIMIT 1");
+            $stmt->execute([':email' => $clean]);
+            $r = $stmt->fetch();
+            if ($r) {
+                return [
+                    'id' => $r['id'],
+                    'createdAt' => $r['created_at'],
+                    'email' => $r['email'],
+                    'passwordHash' => $r['password_hash'],
+                    'name' => $r['name'],
+                    'company' => $r['company'],
+                    'phone' => $r['phone'],
+                    'clientType' => $r['client_type'],
+                    'isVerified' => (bool)$r['is_verified'],
+                    'verificationToken' => $r['verification_token'],
+                    'verificationCode' => $r['verification_code'],
+                    'verificationExpiresAt' => $r['verification_expires_at'],
+                    'resetToken' => $r['reset_token'],
+                    'resetExpiresAt' => $r['reset_expires_at'],
+                ];
+            }
+        } catch (Exception $e) {}
+    }
+    $users = readJsonFile('users.json');
+    foreach ($users as $u) {
+        if (strtolower($u['email'] ?? '') === $clean) return $u;
+    }
+    return null;
+}
+
+function findUserByIdPHP($id) {
+    if (empty($id)) return null;
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `id` = :id LIMIT 1");
+            $stmt->execute([':id' => $id]);
+            $r = $stmt->fetch();
+            if ($r) {
+                return [
+                    'id' => $r['id'],
+                    'createdAt' => $r['created_at'],
+                    'email' => $r['email'],
+                    'passwordHash' => $r['password_hash'],
+                    'name' => $r['name'],
+                    'company' => $r['company'],
+                    'phone' => $r['phone'],
+                    'clientType' => $r['client_type'],
+                    'isVerified' => (bool)$r['is_verified'],
+                    'verificationToken' => $r['verification_token'],
+                    'verificationCode' => $r['verification_code'],
+                    'verificationExpiresAt' => $r['verification_expires_at'],
+                    'resetToken' => $r['reset_token'],
+                    'resetExpiresAt' => $r['reset_expires_at'],
+                ];
+            }
+        } catch (Exception $e) {}
+    }
+    $users = readJsonFile('users.json');
+    foreach ($users as $u) {
+        if (($u['id'] ?? '') === $id) return $u;
+    }
+    return null;
+}
+
+function findUserByTokenPHP($token) {
+    if (empty($token)) return null;
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `verification_token` = :tok OR `reset_token` = :tok LIMIT 1");
+            $stmt->execute([':tok' => $token]);
+            $r = $stmt->fetch();
+            if ($r) {
+                return [
+                    'id' => $r['id'],
+                    'createdAt' => $r['created_at'],
+                    'email' => $r['email'],
+                    'passwordHash' => $r['password_hash'],
+                    'name' => $r['name'],
+                    'company' => $r['company'],
+                    'phone' => $r['phone'],
+                    'clientType' => $r['client_type'],
+                    'isVerified' => (bool)$r['is_verified'],
+                    'verificationToken' => $r['verification_token'],
+                    'verificationCode' => $r['verification_code'],
+                    'verificationExpiresAt' => $r['verification_expires_at'],
+                    'resetToken' => $r['reset_token'],
+                    'resetExpiresAt' => $r['reset_expires_at'],
+                ];
+            }
+        } catch (Exception $e) {}
+    }
+    $users = readJsonFile('users.json');
+    foreach ($users as $u) {
+        if (($u['verificationToken'] ?? '') === $token || ($u['resetToken'] ?? '') === $token) return $u;
+    }
+    return null;
+}
+
+function saveUserEntry(array $user) {
+    // 1. Save to JSON
+    $users = readJsonFile('users.json');
+    $existingIdx = -1;
+    foreach ($users as $k => $u) {
+        if (($u['id'] ?? '') === $user['id'] || strtolower($u['email'] ?? '') === strtolower($user['email'])) {
+            $existingIdx = $k;
+            break;
+        }
+    }
+    if ($existingIdx !== -1) {
+        $users[$existingIdx] = array_merge($users[$existingIdx], $user);
+    } else {
+        array_unshift($users, $user);
+    }
+    writeJsonFile('users.json', $users);
+
+    // 2. Save to MySQL if available
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO `users` (
+                `id`, `created_at`, `email`, `password_hash`, `name`, `company`, `phone`,
+                `client_type`, `is_verified`, `verification_token`, `verification_code`, `verification_expires_at`
+            ) VALUES (
+                :id, :created_at, :email, :password_hash, :name, :company, :phone,
+                :client_type, :is_verified, :verification_token, :verification_code, :verification_expires_at
+            )");
+            $stmt->execute([
+                ':id' => $user['id'],
+                ':created_at' => $user['createdAt'],
+                ':email' => strtolower($user['email']),
+                ':password_hash' => $user['passwordHash'],
+                ':name' => $user['name'],
+                ':company' => $user['company'] ?? null,
+                ':phone' => $user['phone'],
+                ':client_type' => $user['clientType'] ?? 'professional',
+                ':is_verified' => !empty($user['isVerified']) ? 1 : 0,
+                ':verification_token' => $user['verificationToken'] ?? null,
+                ':verification_code' => $user['verificationCode'] ?? null,
+                ':verification_expires_at' => $user['verificationExpiresAt'] ?? null,
+            ]);
+        } catch (Exception $e) {
+            error_log('Erreur saveUserEntry MySQL: ' . $e->getMessage());
+        }
+    }
+}
+
+function updateUserEntry(array $user) {
+    // 1. Update JSON
+    $users = readJsonFile('users.json');
+    foreach ($users as $k => $u) {
+        if (($u['id'] ?? '') === $user['id']) {
+            $users[$k] = array_merge($users[$k], $user);
+            break;
+        }
+    }
+    writeJsonFile('users.json', $users);
+
+    // 2. Update MySQL
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("UPDATE `users` SET
+                `email` = :email,
+                `password_hash` = :password_hash,
+                `name` = :name,
+                `company` = :company,
+                `phone` = :phone,
+                `client_type` = :client_type,
+                `is_verified` = :is_verified,
+                `verification_token` = :verification_token,
+                `verification_code` = :verification_code,
+                `verification_expires_at` = :verification_expires_at,
+                `reset_token` = :reset_token,
+                `reset_expires_at` = :reset_expires_at
+                WHERE `id` = :id");
+            $stmt->execute([
+                ':id' => $user['id'],
+                ':email' => strtolower($user['email']),
+                ':password_hash' => $user['passwordHash'],
+                ':name' => $user['name'],
+                ':company' => $user['company'] ?? null,
+                ':phone' => $user['phone'],
+                ':client_type' => $user['clientType'] ?? 'professional',
+                ':is_verified' => !empty($user['isVerified']) ? 1 : 0,
+                ':verification_token' => $user['verificationToken'] ?? null,
+                ':verification_code' => $user['verificationCode'] ?? null,
+                ':verification_expires_at' => $user['verificationExpiresAt'] ?? null,
+                ':reset_token' => $user['resetToken'] ?? null,
+                ':reset_expires_at' => $user['resetExpiresAt'] ?? null,
+            ]);
+        } catch (Exception $e) {
+            error_log('Erreur updateUserEntry MySQL: ' . $e->getMessage());
+        }
+    }
+}
+
+function deleteUserEntry($id) {
+    $users = readJsonFile('users.json');
+    $filtered = array_values(array_filter($users, function($u) use ($id) {
+        return ($u['id'] ?? '') !== $id;
+    }));
+    writeJsonFile('users.json', $filtered);
+
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM `users` WHERE `id` = :id");
+            $stmt->execute([':id' => $id]);
+        } catch (Exception $e) {}
+    }
+    return true;
+}
+
