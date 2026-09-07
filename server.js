@@ -4,6 +4,10 @@ import cors from "cors"
 import { readFileSync, existsSync } from "node:fs"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
+import { randomBytes } from "node:crypto"
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import { sendVerificationEmail, sendPasswordResetEmail } from "./server/email.js"
 import {
   initDatabase,
   loadSubmissions,
@@ -23,6 +27,13 @@ import {
   saveSubscribers,
   addSubscriber,
   deleteSubscriber,
+  loadUsers,
+  findUserByEmail,
+  findUserById,
+  findUserByToken,
+  addUser,
+  updateUser,
+  deleteUser,
   isUsingMySQL,
 } from "./server/database.js"
 
@@ -46,6 +57,503 @@ function esc(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
 }
+
+const JWT_SECRET = process.env.JWT_SECRET || "orsap-secure-jwt-secret-2026-auth"
+
+function sanitizeUser(u) {
+  if (!u) return null
+  return {
+    id: u.id,
+    createdAt: u.createdAt,
+    email: u.email,
+    name: u.name,
+    company: u.company || null,
+    phone: u.phone,
+    clientType: u.clientType || "professional",
+    isVerified: Boolean(u.isVerified),
+  }
+}
+
+function generateJWT(u) {
+  return jwt.sign(
+    {
+      id: u.id,
+      email: u.email,
+      name: u.name,
+      clientType: u.clientType || "professional",
+    },
+    JWT_SECRET,
+    { expiresIn: "30d" }
+  )
+}
+
+async function getAuthUser(req) {
+  const authHeader = req.headers.authorization
+  if (!authHeader || !authHeader.startsWith("Bearer ")) return null
+  const token = authHeader.slice(7).trim()
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET)
+    if (decoded && decoded.id) {
+      return await findUserById(decoded.id)
+    }
+  } catch {}
+  return null
+}
+
+// ── Auth API Routes (Espace Client) ─────────────────────────────────
+
+// Register new client
+app.post("/api/auth/register", async (req, res) => {
+  const { name, email, phone, company, password, clientType } = req.body
+
+  if (!name || !email || !phone || !password) {
+    return res.status(400).json({
+      error: "Tous les champs obligatoires (nom, email, téléphone, mot de passe) doivent être remplis.",
+    })
+  }
+
+  const cleanEmail = email.trim().toLowerCase()
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+    return res.status(400).json({ error: "Adresse email invalide." })
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({
+      error: "Le mot de passe doit comporter au moins 6 caractères.",
+    })
+  }
+
+  const existingUser = await findUserByEmail(cleanEmail)
+  if (existingUser) {
+    if (existingUser.isVerified) {
+      return res.status(400).json({
+        error: "Un compte vérifié existe déjà avec cette adresse email. Veuillez vous connecter.",
+      })
+    }
+
+    // Account exists but not verified -> regenerate tokens and resend email
+    const verificationToken = randomBytes(32).toString("hex")
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString()
+    const verificationExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+    const passwordHash = await bcrypt.hash(password, 10)
+
+    const updated = {
+      ...existingUser,
+      name,
+      phone,
+      company: company || existingUser.company || null,
+      clientType: clientType || existingUser.clientType || "professional",
+      passwordHash,
+      verificationToken,
+      verificationCode,
+      verificationExpiresAt,
+    }
+
+    await updateUser(updated)
+    const emailResult = await sendVerificationEmail({
+      to: cleanEmail,
+      name,
+      token: verificationToken,
+      code: verificationCode,
+    })
+
+    return res.status(200).json({
+      success: true,
+      pendingVerification: true,
+      email: cleanEmail,
+      message: "Un nouvel email de vérification vous a été envoyé.",
+      previewUrl: emailResult.previewUrl,
+    })
+  }
+
+  // Create new user
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7)
+  const passwordHash = await bcrypt.hash(password, 10)
+  const verificationToken = randomBytes(32).toString("hex")
+  const verificationCode = Math.floor(100000 + Math.random() * 900000).toString()
+  const verificationExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+
+  const newUser = {
+    id,
+    createdAt: new Date().toISOString(),
+    email: cleanEmail,
+    passwordHash,
+    name,
+    company: company || null,
+    phone,
+    clientType: clientType || "professional",
+    isVerified: false,
+    verificationToken,
+    verificationCode,
+    verificationExpiresAt,
+    resetToken: null,
+    resetExpiresAt: null,
+  }
+
+  await addUser(newUser)
+
+  // Automatically add to subscribers list as well
+  await addSubscriber({
+    id: "sub-" + id,
+    createdAt: new Date().toISOString(),
+    email: cleanEmail,
+    name,
+    company: company || null,
+    phone,
+    clientType: clientType || "professional",
+  })
+
+  const emailResult = await sendVerificationEmail({
+    to: cleanEmail,
+    name,
+    token: verificationToken,
+    code: verificationCode,
+  })
+
+  console.log(`👤 Nouveau client inscrit : ${name} (${cleanEmail}) [En attente de vérification]`)
+
+  return res.status(201).json({
+    success: true,
+    pendingVerification: true,
+    email: cleanEmail,
+    message: "Compte créé ! Veuillez vérifier votre boîte de réception pour activer votre compte.",
+    previewUrl: emailResult.previewUrl,
+  })
+})
+
+// Verify email with token (URL link)
+app.get("/api/auth/verify", async (req, res) => {
+  const { token } = req.query
+  if (!token) {
+    return res.status(400).json({ error: "Jeton de validation manquant." })
+  }
+
+  const user = await findUserByToken(token)
+  if (!user) {
+    return res.status(400).json({ error: "Lien de confirmation invalide ou expiré." })
+  }
+
+  if (user.verificationExpiresAt && new Date(user.verificationExpiresAt) < new Date()) {
+    return res.status(400).json({
+      error: "Ce lien de confirmation a expiré. Veuillez demander un nouvel email.",
+      expired: true,
+      email: user.email,
+    })
+  }
+
+  const updated = {
+    ...user,
+    isVerified: true,
+    verificationToken: null,
+    verificationCode: null,
+    verificationExpiresAt: null,
+  }
+
+  await updateUser(updated)
+  const authToken = generateJWT(updated)
+
+  console.log(`✅ Compte client vérifié avec succès : ${user.email}`)
+
+  return res.json({
+    success: true,
+    message: "Votre compte a été activé avec succès !",
+    token: authToken,
+    user: sanitizeUser(updated),
+  })
+})
+
+// Verify email with 6-digit PIN code
+app.post("/api/auth/verify-code", async (req, res) => {
+  const { email, code } = req.body
+  if (!email || !code) {
+    return res.status(400).json({ error: "Email et code de validation requis." })
+  }
+
+  const cleanEmail = email.trim().toLowerCase()
+  const user = await findUserByEmail(cleanEmail)
+  if (!user) {
+    return res.status(404).json({ error: "Aucun compte trouvé avec cet email." })
+  }
+
+  if (user.isVerified) {
+    const authToken = generateJWT(user)
+    return res.json({
+      success: true,
+      message: "Compte déjà vérifié.",
+      token: authToken,
+      user: sanitizeUser(user),
+    })
+  }
+
+  if (user.verificationCode !== code.trim()) {
+    return res.status(400).json({ error: "Code de confirmation incorrect." })
+  }
+
+  if (user.verificationExpiresAt && new Date(user.verificationExpiresAt) < new Date()) {
+    return res.status(400).json({
+      error: "Ce code a expiré. Veuillez renvoyer un code.",
+      expired: true,
+    })
+  }
+
+  const updated = {
+    ...user,
+    isVerified: true,
+    verificationToken: null,
+    verificationCode: null,
+    verificationExpiresAt: null,
+  }
+
+  await updateUser(updated)
+  const authToken = generateJWT(updated)
+
+  console.log(`✅ Compte client vérifié par code : ${user.email}`)
+
+  return res.json({
+    success: true,
+    message: "Votre compte a été activé avec succès !",
+    token: authToken,
+    user: sanitizeUser(updated),
+  })
+})
+
+// Resend verification email
+app.post("/api/auth/resend-verification", async (req, res) => {
+  const { email } = req.body
+  if (!email) {
+    return res.status(400).json({ error: "Adresse email requise." })
+  }
+
+  const cleanEmail = email.trim().toLowerCase()
+  const user = await findUserByEmail(cleanEmail)
+  if (!user) {
+    return res.status(404).json({ error: "Aucun compte associé à cette adresse." })
+  }
+
+  if (user.isVerified) {
+    return res.json({ success: true, message: "Ce compte est déjà vérifié." })
+  }
+
+  const verificationToken = randomBytes(32).toString("hex")
+  const verificationCode = Math.floor(100000 + Math.random() * 900000).toString()
+  const verificationExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+
+  const updated = {
+    ...user,
+    verificationToken,
+    verificationCode,
+    verificationExpiresAt,
+  }
+
+  await updateUser(updated)
+  const emailResult = await sendVerificationEmail({
+    to: cleanEmail,
+    name: user.name,
+    token: verificationToken,
+    code: verificationCode,
+  })
+
+  return res.json({
+    success: true,
+    message: "Un nouvel email de confirmation a été envoyé.",
+    previewUrl: emailResult.previewUrl,
+  })
+})
+
+// Login
+app.post("/api/auth/login", async (req, res) => {
+  const { email, password } = req.body
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email et mot de passe requis." })
+  }
+
+  const cleanEmail = email.trim().toLowerCase()
+  const user = await findUserByEmail(cleanEmail)
+  if (!user) {
+    return res.status(401).json({ error: "Email ou mot de passe incorrect." })
+  }
+
+  const valid = await bcrypt.compare(password, user.passwordHash)
+  if (!valid) {
+    return res.status(401).json({ error: "Email ou mot de passe incorrect." })
+  }
+
+  if (!user.isVerified) {
+    return res.status(403).json({
+      error: "Votre compte n'est pas encore activé. Veuillez vérifier vos emails.",
+      unverified: true,
+      email: user.email,
+    })
+  }
+
+  const authToken = generateJWT(user)
+  console.log(`🔓 Connexion réussie : ${user.email}`)
+
+  return res.json({
+    success: true,
+    token: authToken,
+    user: sanitizeUser(user),
+  })
+})
+
+// Get current logged-in user profile & associated quote history
+app.get("/api/auth/me", async (req, res) => {
+  const user = await getAuthUser(req)
+  if (!user) {
+    return res.status(401).json({ error: "Non authentifié ou session expirée." })
+  }
+
+  // Find all quote submissions matching the client's email or phone
+  const allSubmissions = await loadSubmissions()
+  const clientSubmissions = allSubmissions.filter(
+    (s) =>
+      (s.email && s.email.toLowerCase() === user.email.toLowerCase()) ||
+      (s.phone && user.phone && s.phone.replace(/\D/g, "") === user.phone.replace(/\D/g, ""))
+  )
+
+  return res.json({
+    user: sanitizeUser(user),
+    submissions: clientSubmissions,
+  })
+})
+
+// Update user profile
+app.put("/api/auth/profile", async (req, res) => {
+  const user = await getAuthUser(req)
+  if (!user) {
+    return res.status(401).json({ error: "Non authentifié." })
+  }
+
+  const { name, phone, company } = req.body
+  if (!name || !phone) {
+    return res.status(400).json({ error: "Le nom et le téléphone sont obligatoires." })
+  }
+
+  const updated = {
+    ...user,
+    name: name.trim(),
+    phone: phone.trim(),
+    company: company ? company.trim() : null,
+  }
+
+  await updateUser(updated)
+  return res.json({ success: true, user: sanitizeUser(updated) })
+})
+
+// Password reset request
+app.post("/api/auth/forgot-password", async (req, res) => {
+  const { email } = req.body
+  if (!email) {
+    return res.status(400).json({ error: "Adresse email requise." })
+  }
+
+  const cleanEmail = email.trim().toLowerCase()
+  const user = await findUserByEmail(cleanEmail)
+  if (!user) {
+    // Return success to avoid email enumeration
+    return res.json({
+      success: true,
+      message: "Si un compte existe avec cet email, un lien de réinitialisation vous a été envoyé.",
+    })
+  }
+
+  const resetToken = randomBytes(32).toString("hex")
+  const resetExpiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString() // 1 hour
+
+  const updated = { ...user, resetToken, resetExpiresAt }
+  await updateUser(updated)
+
+  await sendPasswordResetEmail({
+    to: cleanEmail,
+    name: user.name,
+    token: resetToken,
+  })
+
+  return res.json({
+    success: true,
+    message: "Si un compte existe avec cet email, un lien de réinitialisation vous a été envoyé.",
+  })
+})
+
+// Password reset submission
+app.post("/api/auth/reset-password", async (req, res) => {
+  const { token, newPassword } = req.body
+  if (!token || !newPassword) {
+    return res.status(400).json({ error: "Jeton et nouveau mot de passe requis." })
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: "Le mot de passe doit comporter au moins 6 caractères." })
+  }
+
+  const user = await findUserByToken(token)
+  if (!user || user.resetToken !== token) {
+    return res.status(400).json({ error: "Lien de réinitialisation invalide ou expiré." })
+  }
+
+  if (user.resetExpiresAt && new Date(user.resetExpiresAt) < new Date()) {
+    return res.status(400).json({ error: "Ce lien de réinitialisation a expiré." })
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 10)
+  const updated = {
+    ...user,
+    passwordHash,
+    resetToken: null,
+    resetExpiresAt: null,
+    isVerified: true, // auto-verify if reset via email
+  }
+
+  await updateUser(updated)
+  const authToken = generateJWT(updated)
+
+  return res.json({
+    success: true,
+    message: "Mot de passe mis à jour avec succès !",
+    token: authToken,
+    user: sanitizeUser(updated),
+  })
+})
+
+// ── Admin Client Management Routes ──────────────────────────────────
+app.get("/api/admin/users", async (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return res.status(401).json({ error: "Non autorisé." })
+  }
+  const users = await loadUsers()
+  return res.json(users.map(sanitizeUser))
+})
+
+app.delete("/api/admin/users/:id", async (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return res.status(401).json({ error: "Non autorisé." })
+  }
+  const success = await deleteUser(req.params.id)
+  if (!success) return res.status(404).json({ error: "Compte introuvable." })
+  return res.json({ success: true })
+})
+
+app.post("/api/admin/users/:id/verify", async (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return res.status(401).json({ error: "Non autorisé." })
+  }
+  const user = await findUserById(req.params.id)
+  if (!user) return res.status(404).json({ error: "Compte introuvable." })
+
+  const updated = {
+    ...user,
+    isVerified: true,
+    verificationToken: null,
+    verificationCode: null,
+    verificationExpiresAt: null,
+  }
+  await updateUser(updated)
+  return res.json({ success: true, user: sanitizeUser(updated) })
+})
+
 
 // ── Devis API Routes ────────────────────────────────────────────────
 app.post("/api/devis", async (req, res) => {
@@ -496,6 +1004,48 @@ app.get("/admin", async (req, res) => {
   const blogs = await loadBlogs()
   const apps = await loadApplications()
   const subscribers = await loadSubscribers()
+  const users = await loadUsers()
+
+  // Generate rows for users
+  const usersRows = users
+    .map(
+      (u) => `
+    <tr id="user-${u.id}">
+      <td class="date-badge">${
+        u.createdAt ? new Date(u.createdAt).toLocaleString("fr-FR") : "—"
+      }</td>
+      <td>
+        <span class="badge ${
+          u.clientType === "professional" ? "pro" : "perso"
+        }">${u.clientType === "professional" ? "Pro" : "Particulier"}</span>
+      </td>
+      <td style="font-weight: 700;">${esc(u.name)}</td>
+      <td>${esc(u.company || "—")}</td>
+      <td><a href="mailto:${esc(u.email)}" style="color: #d3121a; font-weight: 700; text-decoration: none;">${esc(u.email)}</a></td>
+      <td><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a></td>
+      <td>
+        ${
+          u.isVerified
+            ? '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">✓ Vérifié</span>'
+            : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span>'
+        }
+      </td>
+      <td>
+        <div class="actions-cell">
+          ${
+            !u.isVerified
+              ? `<button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer;" onclick="verifyUser('${u.id}')">Valider</button>`
+              : ""
+          }
+          <button class="del-btn" onclick="deleteUser('${u.id}')">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer
+          </button>
+        </div>
+      </td>
+    </tr>`
+    )
+    .join("")
 
   // Generate rows for subscribers
   const subscribersRows = subscribers
@@ -731,6 +1281,34 @@ app.get("/admin", async (req, res) => {
           }
         </div>
       </div>`
+  } else if (tab === "users") {
+    tabContent = `
+      <div class="wrap">
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Comptes Clients Inscrits (${users.length})</span>
+          </div>
+          ${
+            users.length === 0
+              ? '<div class="empty">Aucun compte client créé pour le moment.</div>'
+              : `<table>
+            <thead>
+              <tr>
+                <th>Date d\'inscription</th>
+                <th>Type</th>
+                <th>Nom complet</th>
+                <th>Société</th>
+                <th>Adresse Email</th>
+                <th>Téléphone</th>
+                <th>Statut Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${usersRows}</tbody>
+          </table>`
+          }
+        </div>
+      </div>`
   } else {
     tabContent = `
       <div class="wrap">
@@ -851,10 +1429,12 @@ app.get("/admin", async (req, res) => {
     html = html.replace("{{BLOGS_COUNT}}", blogs.length)
     html = html.replace("{{APPLICATIONS_COUNT}}", apps.length)
     html = html.replace("{{SUBSCRIBERS_COUNT}}", subscribers.length)
+    html = html.replace("{{USERS_COUNT}}", users.length)
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
     html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
     html = html.replace("{{TAB_BLOG_ACTIVE}}", tab === "blog" ? "active" : "")
     html = html.replace("{{TAB_SUBSCRIBERS_ACTIVE}}", tab === "subscribers" ? "active" : "")
+    html = html.replace("{{TAB_USERS_ACTIVE}}", tab === "users" ? "active" : "")
     html = html.replace("{{TAB_CONTENT}}", tabContent)
 
     res.setHeader("Content-Type", "text/html; charset=utf-8")

@@ -5,9 +5,11 @@ node_modules/
 # Builds
 dist/
 
-# Local form submissions
+# Local form submissions & user data
 /data/submissions.json
 /data/applications.json
+/data/users.json
+/data/subscribers.json
 /public/data/submissions.json
 /public/data/applications.json
 

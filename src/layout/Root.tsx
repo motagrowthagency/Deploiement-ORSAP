@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, ScrollRestoration } from "react-router"
 import orsapIcon from "@/imports/logo.jpg"
 import { NAV } from "@/layout/nav"
 import ClientListPopup from "@/components/ClientListPopup"
+import { useAuth } from "@/context/AuthContext"
 
 function OrsapMark() {
   return (
@@ -21,6 +22,7 @@ function OrsapMark() {
 
 export default function Root() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { user } = useAuth()
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink">
@@ -35,9 +37,17 @@ export default function Root() {
               +212 6 44 20 30 30
             </a>
             <span className="text-white/25">/</span>
-            <a href="#" className="hover:text-white">
-              Espace client
-            </a>
+            <Link to="/espace-client" className="inline-flex items-center gap-1.5 hover:text-white transition">
+              {user ? (
+                <>
+                  <span className="size-2 rounded-full bg-emerald-400 inline-block" />
+                  <span className="text-white font-semibold">{user.name ? user.name.split(" ")[0] : "Mon Espace"}</span>
+                  <span className="text-white/60">(Espace client)</span>
+                </>
+              ) : (
+                <span>Espace client</span>
+              )}
+            </Link>
           </div>
         </div>
       </div>
@@ -122,6 +132,21 @@ export default function Root() {
                   </NavLink>
                 </li>
               ))}
+              <li>
+                <NavLink
+                  to="/espace-client"
+                  onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `block border-b border-hairline/60 py-3.5 text-[15px] font-semibold transition-colors ${
+                      isActive
+                        ? "text-orsap-red"
+                        : "text-ink hover:text-orsap-red"
+                    }`
+                  }
+                >
+                  {user ? `👤 Mon Espace (${user.name})` : "👤 Espace Client (Connexion / Inscription)"}
+                </NavLink>
+              </li>
             </ul>
             <div className="mx-auto max-w-[1240px] px-6 pb-4">
               <Link

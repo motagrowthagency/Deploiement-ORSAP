@@ -11,6 +11,7 @@ const BLOG_DB_PATH = join(DATA_DIR, "blogs.json")
 const BLOG_BACKUP_PATH = join(DATA_DIR, "blogs.backup.json")
 const APP_DB_PATH = join(DATA_DIR, "applications.json")
 const SUB_DB_PATH = join(DATA_DIR, "subscribers.json")
+const USERS_DB_PATH = join(DATA_DIR, "users.json")
 const BACKUP_DIR = join(DATA_DIR, "backups")
 
 // Ensure fallback data directories exist
@@ -129,6 +130,25 @@ export async function initDatabase() {
           \`company\` VARCHAR(255) DEFAULT NULL,
           \`phone\` VARCHAR(64) DEFAULT NULL,
           \`client_type\` VARCHAR(32) NOT NULL DEFAULT 'professional'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `)
+
+      await connection.query(`
+        CREATE TABLE IF NOT EXISTS \`users\` (
+          \`id\` VARCHAR(64) NOT NULL PRIMARY KEY,
+          \`created_at\` DATETIME NOT NULL,
+          \`email\` VARCHAR(255) NOT NULL UNIQUE,
+          \`password_hash\` VARCHAR(255) NOT NULL,
+          \`name\` VARCHAR(255) NOT NULL,
+          \`company\` VARCHAR(255) DEFAULT NULL,
+          \`phone\` VARCHAR(64) NOT NULL,
+          \`client_type\` VARCHAR(32) NOT NULL DEFAULT 'professional',
+          \`is_verified\` TINYINT(1) NOT NULL DEFAULT 0,
+          \`verification_token\` VARCHAR(255) DEFAULT NULL,
+          \`verification_code\` VARCHAR(10) DEFAULT NULL,
+          \`verification_expires_at\` DATETIME DEFAULT NULL,
+          \`reset_token\` VARCHAR(255) DEFAULT NULL,
+          \`reset_expires_at\` DATETIME DEFAULT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `)
 
@@ -752,4 +772,257 @@ export async function deleteSubscriber(id) {
   saveSubscribersToJSON(filtered)
   return filtered.length < before
 }
+
+// ── Users Operations ────────────────────────────────────────────────
+function loadUsersFromJSON() {
+  try {
+    if (existsSync(USERS_DB_PATH)) {
+      const data = JSON.parse(readFileSync(USERS_DB_PATH, "utf-8"))
+      return Array.isArray(data) ? data : []
+    }
+  } catch (err) {
+    console.error("❌ Erreur lecture users.json:", err.message)
+  }
+  return []
+}
+
+function saveUsersToJSON(data) {
+  try {
+    writeFileSync(USERS_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur écriture users.json:", err.message)
+  }
+}
+
+export async function loadUsers() {
+  if (pool) {
+    try {
+      const [rows] = await pool.query(
+        "SELECT * FROM `users` ORDER BY `created_at` DESC"
+      )
+      return rows.map((r) => ({
+        id: r.id,
+        createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+        email: r.email,
+        passwordHash: r.password_hash,
+        name: r.name,
+        company: r.company || null,
+        phone: r.phone,
+        clientType: r.client_type || "professional",
+        isVerified: Boolean(r.is_verified),
+        verificationToken: r.verification_token || null,
+        verificationCode: r.verification_code || null,
+        verificationExpiresAt: r.verification_expires_at ? new Date(r.verification_expires_at).toISOString() : null,
+        resetToken: r.reset_token || null,
+        resetExpiresAt: r.reset_expires_at ? new Date(r.reset_expires_at).toISOString() : null,
+      }))
+    } catch (err) {
+      console.error("❌ Erreur loadUsers MySQL:", err.message)
+    }
+  }
+  return loadUsersFromJSON()
+}
+
+export async function findUserByEmail(email) {
+  if (!email) return null
+  const cleanEmail = email.trim().toLowerCase()
+  if (pool) {
+    try {
+      const [rows] = await pool.query(
+        "SELECT * FROM `users` WHERE LOWER(`email`) = ? LIMIT 1",
+        [cleanEmail]
+      )
+      if (rows.length > 0) {
+        const r = rows[0]
+        return {
+          id: r.id,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          email: r.email,
+          passwordHash: r.password_hash,
+          name: r.name,
+          company: r.company || null,
+          phone: r.phone,
+          clientType: r.client_type || "professional",
+          isVerified: Boolean(r.is_verified),
+          verificationToken: r.verification_token || null,
+          verificationCode: r.verification_code || null,
+          verificationExpiresAt: r.verification_expires_at ? new Date(r.verification_expires_at).toISOString() : null,
+          resetToken: r.reset_token || null,
+          resetExpiresAt: r.reset_expires_at ? new Date(r.reset_expires_at).toISOString() : null,
+        }
+      }
+      return null
+    } catch (err) {
+      console.error("❌ Erreur findUserByEmail MySQL:", err.message)
+    }
+  }
+  const users = loadUsersFromJSON()
+  return users.find((u) => u.email?.toLowerCase() === cleanEmail) || null
+}
+
+export async function findUserById(id) {
+  if (!id) return null
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM `users` WHERE `id` = ? LIMIT 1", [id])
+      if (rows.length > 0) {
+        const r = rows[0]
+        return {
+          id: r.id,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          email: r.email,
+          passwordHash: r.password_hash,
+          name: r.name,
+          company: r.company || null,
+          phone: r.phone,
+          clientType: r.client_type || "professional",
+          isVerified: Boolean(r.is_verified),
+          verificationToken: r.verification_token || null,
+          verificationCode: r.verification_code || null,
+          verificationExpiresAt: r.verification_expires_at ? new Date(r.verification_expires_at).toISOString() : null,
+          resetToken: r.reset_token || null,
+          resetExpiresAt: r.reset_expires_at ? new Date(r.reset_expires_at).toISOString() : null,
+        }
+      }
+      return null
+    } catch (err) {
+      console.error("❌ Erreur findUserById MySQL:", err.message)
+    }
+  }
+  const users = loadUsersFromJSON()
+  return users.find((u) => u.id === id) || null
+}
+
+export async function findUserByToken(token) {
+  if (!token) return null
+  if (pool) {
+    try {
+      const [rows] = await pool.query(
+        "SELECT * FROM `users` WHERE `verification_token` = ? OR `reset_token` = ? LIMIT 1",
+        [token, token]
+      )
+      if (rows.length > 0) {
+        const r = rows[0]
+        return {
+          id: r.id,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          email: r.email,
+          passwordHash: r.password_hash,
+          name: r.name,
+          company: r.company || null,
+          phone: r.phone,
+          clientType: r.client_type || "professional",
+          isVerified: Boolean(r.is_verified),
+          verificationToken: r.verification_token || null,
+          verificationCode: r.verification_code || null,
+          verificationExpiresAt: r.verification_expires_at ? new Date(r.verification_expires_at).toISOString() : null,
+          resetToken: r.reset_token || null,
+          resetExpiresAt: r.reset_expires_at ? new Date(r.reset_expires_at).toISOString() : null,
+        }
+      }
+      return null
+    } catch (err) {
+      console.error("❌ Erreur findUserByToken MySQL:", err.message)
+    }
+  }
+  const users = loadUsersFromJSON()
+  return users.find((u) => u.verificationToken === token || u.resetToken === token) || null
+}
+
+export async function addUser(user) {
+  if (pool) {
+    try {
+      await pool.query(
+        `INSERT INTO \`users\` (
+          \`id\`, \`created_at\`, \`email\`, \`password_hash\`, \`name\`, \`company\`, \`phone\`,
+          \`client_type\`, \`is_verified\`, \`verification_token\`, \`verification_code\`, \`verification_expires_at\`
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          user.id,
+          user.createdAt ? new Date(user.createdAt) : new Date(),
+          user.email.toLowerCase(),
+          user.passwordHash,
+          user.name,
+          user.company || null,
+          user.phone,
+          user.clientType || "professional",
+          user.isVerified ? 1 : 0,
+          user.verificationToken || null,
+          user.verificationCode || null,
+          user.verificationExpiresAt ? new Date(user.verificationExpiresAt) : null,
+        ]
+      )
+    } catch (err) {
+      console.error("❌ Erreur addUser MySQL:", err.message)
+    }
+  }
+  const users = loadUsersFromJSON()
+  users.unshift(user)
+  saveUsersToJSON(users)
+}
+
+export async function updateUser(user) {
+  if (pool) {
+    try {
+      await pool.query(
+        `UPDATE \`users\` SET
+          \`email\` = ?,
+          \`password_hash\` = ?,
+          \`name\` = ?,
+          \`company\` = ?,
+          \`phone\` = ?,
+          \`client_type\` = ?,
+          \`is_verified\` = ?,
+          \`verification_token\` = ?,
+          \`verification_code\` = ?,
+          \`verification_expires_at\` = ?,
+          \`reset_token\` = ?,
+          \`reset_expires_at\` = ?
+        WHERE \`id\` = ?`,
+        [
+          user.email.toLowerCase(),
+          user.passwordHash,
+          user.name,
+          user.company || null,
+          user.phone,
+          user.clientType || "professional",
+          user.isVerified ? 1 : 0,
+          user.verificationToken || null,
+          user.verificationCode || null,
+          user.verificationExpiresAt ? new Date(user.verificationExpiresAt) : null,
+          user.resetToken || null,
+          user.resetExpiresAt ? new Date(user.resetExpiresAt) : null,
+          user.id,
+        ]
+      )
+    } catch (err) {
+      console.error("❌ Erreur updateUser MySQL:", err.message)
+    }
+  }
+  const users = loadUsersFromJSON()
+  const idx = users.findIndex((u) => u.id === user.id)
+  if (idx !== -1) {
+    users[idx] = { ...users[idx], ...user }
+    saveUsersToJSON(users)
+  }
+}
+
+export async function deleteUser(id) {
+  if (pool) {
+    try {
+      const [res] = await pool.query("DELETE FROM `users` WHERE `id` = ?", [id])
+      const users = loadUsersFromJSON().filter((u) => u.id !== id)
+      saveUsersToJSON(users)
+      return res.affectedRows > 0
+    } catch (err) {
+      console.error("❌ Erreur deleteUser MySQL:", err.message)
+    }
+  }
+  const users = loadUsersFromJSON()
+  const before = users.length
+  const filtered = users.filter((u) => u.id !== id)
+  saveUsersToJSON(filtered)
+  return filtered.length < before
+}
+
 

@@ -16,6 +16,7 @@ import Blog from "@/pages/Blog"
 import BlogDetail from "@/pages/BlogDetail"
 import Contact from "@/pages/Contact"
 import Recruitment from "@/pages/Recruitment"
+import EspaceClient from "@/pages/EspaceClient"
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,8 @@ export const router = createBrowserRouter([
       { path: "blog/:id", Component: BlogDetail },
       { path: "recrutement", Component: Recruitment },
       { path: "contact", Component: Contact },
+      { path: "espace-client", Component: EspaceClient },
+      { path: "espace-client/verify", Component: EspaceClient },
       {
         path: "*",
         element: (

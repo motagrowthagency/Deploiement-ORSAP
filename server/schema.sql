@@ -50,3 +50,21 @@ CREATE TABLE IF NOT EXISTS `subscribers` (
   `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+  `created_at` DATETIME NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `company` VARCHAR(255) DEFAULT NULL,
+  `phone` VARCHAR(64) NOT NULL,
+  `client_type` VARCHAR(32) NOT NULL DEFAULT 'professional',
+  `is_verified` TINYINT(1) NOT NULL DEFAULT 0,
+  `verification_token` VARCHAR(255) DEFAULT NULL,
+  `verification_code` VARCHAR(10) DEFAULT NULL,
+  `verification_expires_at` DATETIME DEFAULT NULL,
+  `reset_token` VARCHAR(255) DEFAULT NULL,
+  `reset_expires_at` DATETIME DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
