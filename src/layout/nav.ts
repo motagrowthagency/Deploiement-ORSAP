@@ -8,4 +8,5 @@ export const NAV = [
   { label: "Blog", to: "/blog" },
   { label: "Recrutement", to: "/recrutement" },
   { label: "Contact", to: "/contact" },
+  { label: "Intranet", to: "/intranet" },
 ]

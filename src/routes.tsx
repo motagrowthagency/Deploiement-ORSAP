@@ -41,6 +41,12 @@ export const router = createBrowserRouter([
       { path: "espace-client", Component: EspaceClient },
       { path: "espace-client/verify", Component: EspaceClient },
       {
+        path: "intranet",
+        element: (
+          <ComingSoon title="Intranet" description="Très prochainement" />
+        ),
+      },
+      {
         path: "*",
         element: (
           <ComingSoon
