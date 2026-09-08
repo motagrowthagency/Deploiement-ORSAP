@@ -48,10 +48,6 @@ export default function Root() {
                 <span>Espace client</span>
               )}
             </Link>
-            <span className="text-white/25">/</span>
-            <Link to="/intranet" className="hover:text-white transition">
-              Intranet
-            </Link>
           </div>
         </div>
       </div>
@@ -204,14 +200,6 @@ export default function Root() {
                   </NavLink>
                 </li>
               ))}
-              <li>
-                <NavLink
-                  to="/intranet"
-                  className="text-[14px] text-white/70 transition-colors hover:text-white"
-                >
-                  Intranet
-                </NavLink>
-              </li>
             </ul>
           </div>
           <div>
