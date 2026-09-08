@@ -30,7 +30,7 @@ export default function Root() {
       <div className="hidden bg-ink text-paper md:block">
         <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-2 text-[12px]">
           <span className="text-white/60">
-            Import &amp; distribution · Services aux industries · &nbsp; - EPI &nbsp; - Travail en Hauteur &nbsp; - Manutention &nbsp; - Personnalisation de vêtement de Travail
+            EPI · Travail en hauteur · Manutention · Personnalisation de vêtement de travail
           </span>
           <div className="flex items-center gap-5 text-white/70">
             <a href="tel:+212644203030" className="hover:text-white">
@@ -48,21 +48,25 @@ export default function Root() {
                 <span>Espace client</span>
               )}
             </Link>
+            <span className="text-white/25">/</span>
+            <Link to="/intranet" className="hover:text-white transition">
+              Intranet
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-hairline bg-paper/95 backdrop-blur">
-        <nav className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-4">
+        <nav className="mx-auto grid max-w-[1240px] grid-cols-[auto_1fr_auto] items-center gap-4 px-6 py-3.5">
           <OrsapMark />
-          <ul className="hidden items-center gap-8 lg:flex">
+          <ul className="hidden min-w-0 items-center justify-center gap-x-5 gap-y-1 whitespace-nowrap xl:flex">
             {NAV.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `text-[14px] font-medium transition-colors ${
+                    `text-[13px] font-medium tracking-[-0.005em] transition-colors ${
                       isActive
                         ? "text-orsap-red"
                         : "text-ink-soft hover:text-orsap-red"
@@ -74,7 +78,7 @@ export default function Root() {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-3">
             <Link
               to="/devis"
               className="hidden bg-orsap-red px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep sm:inline-block"
@@ -86,7 +90,7 @@ export default function Root() {
               aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className="grid size-11 place-items-center border border-hairline text-ink lg:hidden"
+              className="grid size-11 place-items-center border border-hairline text-ink xl:hidden"
             >
               <span className="relative block h-4 w-5">
                 <span
@@ -113,7 +117,7 @@ export default function Root() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="border-t border-hairline bg-paper lg:hidden">
+          <div className="border-t border-hairline bg-paper xl:hidden">
             <ul className="mx-auto max-w-[1240px] px-6 py-3">
               {NAV.map((item) => (
                 <li key={item.to}>
@@ -200,6 +204,14 @@ export default function Root() {
                   </NavLink>
                 </li>
               ))}
+              <li>
+                <NavLink
+                  to="/intranet"
+                  className="text-[14px] text-white/70 transition-colors hover:text-white"
+                >
+                  Intranet
+                </NavLink>
+              </li>
             </ul>
           </div>
           <div>
