@@ -1200,7 +1200,7 @@ app.get("/admin", async (req, res) => {
           ${
             submissions.length === 0
               ? '<div class="empty">Aucune demande de devis pour le moment.</div>'
-              : `<table>
+              : `<div class="table-responsive"><table>
             <thead>
               <tr>
                 <th>Date</th>
@@ -1216,7 +1216,7 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${devisRows}</tbody>
-          </table>`
+          </table></div>`
           }
         </div>
       </div>`
