@@ -127,7 +127,7 @@ foreach ($submissions as $s) {
     }, $solutions)) : '—';
 
     $secHtml = !empty($sectors) ? implode('', array_map(function($sec) {
-        return '<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px; background: #14171a;">' . esc($sec) . '</span>';
+        return '<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">' . esc($sec) . '</span>';
     }, $sectors)) : '—';
 
     $email = $s['email'] ?? '';

@@ -1113,7 +1113,7 @@ app.get("/admin", async (req, res) => {
             ? s.sectors
                 .map(
                   (sec) =>
-                    `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px; background: #14171a;">${esc(
+                    `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">${esc(
                       sec
                     )}</span>`
                 )
