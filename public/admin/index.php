@@ -351,7 +351,7 @@ if ($tab === 'devis') {
         </div>' .
         (empty($submissions)
             ? '<div class="empty">Aucune demande de devis pour le moment.</div>'
-            : '<table>
+            : '<div class="table-responsive"><table>
           <thead>
             <tr>
               <th>Date</th>
@@ -367,7 +367,7 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $devisRows . '</tbody>
-        </table>') .
+        </table></div>') .
       '</div>
     </div>';
 } elseif ($tab === 'users') {
@@ -379,7 +379,7 @@ if ($tab === 'devis') {
         </div>' .
         (empty($users)
             ? '<div class="empty">Aucun compte client créé pour le moment.</div>'
-            : '<table>
+            : '<div class="table-responsive"><table>
           <thead>
             <tr>
               <th>Date d\'inscription</th>
@@ -393,7 +393,7 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $usersRows . '</tbody>
-        </table>') .
+        </table></div>') .
       '</div>
     </div>';
 } elseif ($tab === 'recrutement') {
@@ -405,7 +405,7 @@ if ($tab === 'devis') {
         </div>' .
         (empty($apps)
             ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
-            : '<table>
+            : '<div class="table-responsive"><table>
           <thead>
             <tr>
               <th>Date</th>
@@ -419,7 +419,7 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $appsRows . '</tbody>
-        </table>') .
+        </table></div>') .
       '</div>
     </div>';
 } elseif ($tab === 'subscribers') {
@@ -437,7 +437,7 @@ if ($tab === 'devis') {
         </div>' .
         (empty($subscribers)
             ? '<div class="empty">Aucun abonné pour le moment.</div>'
-            : '<table>
+            : '<div class="table-responsive"><table>
           <thead>
             <tr>
               <th>Date d\'inscription</th>
@@ -450,7 +450,7 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $subscribersRows . '</tbody>
-        </table>') .
+        </table></div>') .
       '</div>
     </div>';
 } else {
@@ -555,7 +555,7 @@ if ($tab === 'devis') {
         </div>' .
         (empty($blogs)
             ? '<div class="empty">Aucun article publié pour le moment.</div>'
-            : '<table>
+            : '<div class="table-responsive"><table>
           <thead>
             <tr>
               <th style="width: 130px;">Date</th>
@@ -565,7 +565,7 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $blogRows . '</tbody>
-        </table>') .
+        </table></div>') .
       '</div>
     </div>';
 }

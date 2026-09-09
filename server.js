@@ -1230,7 +1230,7 @@ app.get("/admin", async (req, res) => {
           ${
             apps.length === 0
               ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
-              : `<table>
+              : `<div class="table-responsive"><table>
             <thead>
               <tr>
                 <th>Date</th>
@@ -1244,7 +1244,7 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${appsRows}</tbody>
-          </table>`
+          </table></div>`
           }
         </div>
       </div>`
@@ -1264,7 +1264,7 @@ app.get("/admin", async (req, res) => {
           ${
             subscribers.length === 0
               ? '<div class="empty">Aucun abonné pour le moment.</div>'
-              : `<table>
+              : `<div class="table-responsive"><table>
             <thead>
               <tr>
                 <th>Date d\'inscription</th>
@@ -1277,7 +1277,7 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${subscribersRows}</tbody>
-          </table>`
+          </table></div>`
           }
         </div>
       </div>`
@@ -1291,7 +1291,7 @@ app.get("/admin", async (req, res) => {
           ${
             users.length === 0
               ? '<div class="empty">Aucun compte client créé pour le moment.</div>'
-              : `<table>
+              : `<div class="table-responsive"><table>
             <thead>
               <tr>
                 <th>Date d\'inscription</th>
@@ -1305,7 +1305,7 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${usersRows}</tbody>
-          </table>`
+          </table></div>`
           }
         </div>
       </div>`
@@ -1406,7 +1406,7 @@ app.get("/admin", async (req, res) => {
           ${
             blogs.length === 0
               ? '<div class="empty">Aucun article publié pour le moment.</div>'
-              : `<table>
+              : `<div class="table-responsive"><table>
             <thead>
               <tr>
                 <th style="width: 130px;">Date</th>
@@ -1416,7 +1416,7 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${blogRows}</tbody>
-          </table>`
+          </table></div>`
           }
         </div>
       </div>`
