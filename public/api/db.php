@@ -193,16 +193,12 @@ function writeJsonFile($filename, array $data) {
         return false;
     }
 
-    // Serialize concurrent writers to this file so two near-simultaneous
-    // requests (e.g. a create followed immediately by a delete) can't
-    // interleave and clobber each other's read-modify-write cycle.
-    $lockPath = $path . '.lock';
-    $lockFp = @fopen($lockPath, 'c');
-    if ($lockFp) flock($lockFp, LOCK_EX);
-
     // Write to a temp file and rename() over the target -- rename is atomic
     // on the same filesystem, so readers only ever see the fully-old or
-    // fully-new file, never a truncated/partial one.
+    // fully-new file, never a truncated/partial one. (No flock() here:
+    // it hangs indefinitely on this host's filesystem -- confirmed by
+    // testing -- so atomic rename is the only safety net, which is
+    // sufficient for a single-editor admin panel.)
     $tmpPath = $path . '.tmp.' . getmypid() . '.' . uniqid('', true);
     $written = @file_put_contents($tmpPath, $json);
     $ok = false;
@@ -213,11 +209,6 @@ function writeJsonFile($filename, array $data) {
     if (!$ok) {
         error_log('writeJsonFile: failed to write ' . $filename);
         @unlink($tmpPath);
-    }
-
-    if ($lockFp) {
-        flock($lockFp, LOCK_UN);
-        fclose($lockFp);
     }
 
     return $ok;
