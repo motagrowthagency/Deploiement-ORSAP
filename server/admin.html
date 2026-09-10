@@ -228,39 +228,66 @@
     // Delete devis
     async function deleteEntry(id) {
       if (!confirm("Supprimer cette demande ?")) return;
-      const res = await fetch("/api/devis/" + id, { method: "DELETE" });
-      if (res.ok) {
-        const row = document.getElementById("row-" + id);
-        if (row) row.remove();
-        location.reload();
-      } else {
-        alert("Erreur lors de la suppression.");
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/devis/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("row-" + id);
+          if (row) row.remove();
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la suppression (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
     }
 
     // Delete application
     async function deleteApp(id) {
       if (!confirm("Supprimer cette candidature ?")) return;
-      const res = await fetch("/api/recrutement/" + id, { method: "DELETE" });
-      if (res.ok) {
-        const row = document.getElementById("app-" + id);
-        if (row) row.remove();
-        location.reload();
-      } else {
-        alert("Erreur lors de la suppression.");
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/recrutement/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("app-" + id);
+          if (row) row.remove();
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la suppression (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
     }
 
     // Delete subscriber
     async function deleteSubscriber(id) {
       if (!confirm("Supprimer cet abonné de la liste clients ?")) return;
-      const res = await fetch("/api/newsletter/" + id, { method: "DELETE" });
-      if (res.ok) {
-        const row = document.getElementById("sub-" + id);
-        if (row) row.remove();
-        location.reload();
-      } else {
-        alert("Erreur lors de la suppression.");
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/newsletter/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("sub-" + id);
+          if (row) row.remove();
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la suppression (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
     }
 
@@ -432,13 +459,33 @@
     // Delete blog
     async function deleteBlog(id) {
       if (!confirm("Supprimer cet article de blog définitivement ?")) return;
-      const res = await fetch("/api/blogs/" + id, { method: "DELETE" });
-      if (res.ok) {
-        const row = document.getElementById("blog-" + id);
-        if (row) row.remove();
-        location.reload();
-      } else {
-        alert("Erreur lors de la suppression.");
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Suppression...";
+      }
+      try {
+        const res = await fetch("/api/blogs/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("blog-" + id);
+          if (row) row.remove();
+          location.reload();
+          return;
+        }
+        let errorMsg = "Erreur HTTP " + res.status;
+        try {
+          const data = await res.json();
+          if (data && data.error) errorMsg = data.error;
+        } catch {}
+        alert("Erreur lors de la suppression : " + errorMsg);
+      } catch (err) {
+        alert("Erreur de connexion lors de la suppression : " + err.message + "\n\nLa suppression peut prendre jusqu'à une minute (fichier volumineux). Réessayez et patientez sans recharger la page.");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+        }
       }
     }
 
@@ -526,24 +573,42 @@
     // Delete user account
     async function deleteUser(id) {
       if (!confirm("Supprimer définitivement ce compte client ?")) return;
-      const res = await fetch("/api/admin/users/" + id, { method: "DELETE" });
-      if (res.ok) {
-        const row = document.getElementById("user-" + id);
-        if (row) row.remove();
-        location.reload();
-      } else {
-        alert("Erreur lors de la suppression.");
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/admin/users/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("user-" + id);
+          if (row) row.remove();
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la suppression (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
     }
 
     // Verify user account manually
     async function verifyUser(id) {
       if (!confirm("Activer et valider ce compte client manuellement ?")) return;
-      const res = await fetch("/api/admin/users/" + id + "/verify", { method: "POST" });
-      if (res.ok) {
-        location.reload();
-      } else {
-        alert("Erreur lors de la validation.");
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/admin/users/" + id + "/verify", { method: "POST" });
+        if (res.ok) {
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la validation (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
     }
   </script>
