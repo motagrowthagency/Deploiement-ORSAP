@@ -336,25 +336,48 @@
       const url = editingBlogId ? "/api/blogs/" + editingBlogId : "/api/blogs";
       const method = editingBlogId ? "PUT" : "POST";
 
-      const res = await fetch(url, {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          summary,
-          content,
-          image: base64Image,
-          pdf: base64Pdf,
-          pdfName: pdfFileName
-        })
-      });
+      const submitBtn = document.getElementById("submitBtn");
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "⏳ Envoi en cours...";
+      }
 
-      if (res.ok) {
-        alert(editingBlogId ? "Article modifié avec succès !" : "Article publié avec succès !");
-        location.reload();
-      } else {
-        const data = await res.json();
-        alert(data.error || "Erreur lors de l'enregistrement.");
+      try {
+        const res = await fetch(url, {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            summary,
+            content,
+            image: base64Image,
+            pdf: base64Pdf,
+            pdfName: pdfFileName
+          })
+        });
+
+        if (res.ok) {
+          alert(editingBlogId ? "Article modifié avec succès !" : "Article publié avec succès !");
+          location.reload();
+          return;
+        }
+
+        let errorMsg = "Erreur HTTP " + res.status;
+        try {
+          const data = await res.json();
+          if (data && data.error) errorMsg = data.error;
+        } catch {
+          errorMsg = "Le serveur a rejeté la requête (code " + res.status + "). L'image ou le PDF joint est probablement trop volumineux.";
+        }
+        alert("Échec de l'enregistrement : " + errorMsg);
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message + "\n\nCela arrive généralement quand l'image ou le PDF joint est trop volumineux pour être envoyé au serveur. Essayez avec un fichier plus léger.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
       }
     }
 

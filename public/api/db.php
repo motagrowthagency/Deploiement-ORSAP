@@ -3,6 +3,12 @@
  * ORSAP - Couche de données PDO MySQL & JSON Redondant
  */
 
+// blogs.json accumulates large base64-encoded images/PDFs; reading, decoding,
+// modifying and re-encoding the whole file on every write needs well above
+// PHP's default 256M. Raise it (best-effort -- ignored if the host locks
+// memory_limit at PHP_INI_SYSTEM level).
+@ini_set('memory_limit', '1024M');
+
 $GLOBALS['db_status'] = 'Non initialisé';
 $GLOBALS['db_error'] = '';
 
