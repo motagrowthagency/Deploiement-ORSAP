@@ -184,9 +184,43 @@ function writeJsonFile($filename, array $data) {
     if (!is_dir($dir)) {
         @mkdir($dir, 0777, true);
     }
+
     $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    @file_put_contents($path, $json);
-    @chmod($path, 0666);
+    if ($json === false) {
+        // Never overwrite good data with a failed encode (e.g. memory
+        // exhaustion) -- that's exactly what silently wiped blogs.json.
+        error_log('writeJsonFile: json_encode failed for ' . $filename . ': ' . json_last_error_msg());
+        return false;
+    }
+
+    // Serialize concurrent writers to this file so two near-simultaneous
+    // requests (e.g. a create followed immediately by a delete) can't
+    // interleave and clobber each other's read-modify-write cycle.
+    $lockPath = $path . '.lock';
+    $lockFp = @fopen($lockPath, 'c');
+    if ($lockFp) flock($lockFp, LOCK_EX);
+
+    // Write to a temp file and rename() over the target -- rename is atomic
+    // on the same filesystem, so readers only ever see the fully-old or
+    // fully-new file, never a truncated/partial one.
+    $tmpPath = $path . '.tmp.' . getmypid() . '.' . uniqid('', true);
+    $written = @file_put_contents($tmpPath, $json);
+    $ok = false;
+    if ($written !== false && $written === strlen($json)) {
+        @chmod($tmpPath, 0666);
+        $ok = @rename($tmpPath, $path);
+    }
+    if (!$ok) {
+        error_log('writeJsonFile: failed to write ' . $filename);
+        @unlink($tmpPath);
+    }
+
+    if ($lockFp) {
+        flock($lockFp, LOCK_UN);
+        fclose($lockFp);
+    }
+
+    return $ok;
 }
 
 // ── Dual Save Operations ────────────────────────────────────────────
