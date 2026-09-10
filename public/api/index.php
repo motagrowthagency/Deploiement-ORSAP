@@ -852,10 +852,9 @@ if ($uri === '/api/admin/export/subscribers' || $uri === '/api/admin/export/subs
 // ── Blogs API ───────────────────────────────────────────────────────
 if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
     if ($method === 'GET') {
-        // List endpoint: omit the heavy base64 `pdf` field (can be tens of MB
-        // per article) since it's never used on the list page — only the
-        // single-article endpoint below needs it. Keeps the list payload
-        // light without touching stored data at all.
+        // Images/PDFs are now stored as real files (see saveBlogAsset()) and
+        // blogs.json only holds their URL paths, so the list payload is tiny
+        // -- no need to strip anything out anymore.
         if ($pdo) {
             try {
                 $stmt = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
@@ -869,8 +868,7 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
                             'summary' => $r['summary'],
                             'content' => $r['content'],
                             'image' => $r['image'],
-                            'pdf' => null,
-                            'hasPdf' => !empty($r['pdf']),
+                            'pdf' => $r['pdf'],
                             'pdfName' => $r['pdf_name'],
                             'updatedAt' => $r['updated_at'],
                         ];
@@ -879,12 +877,7 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
                 }
             } catch (Exception $e) {}
         }
-        $blogsLite = array_map(function($b) {
-            $b['hasPdf'] = !empty($b['pdf']);
-            $b['pdf'] = null;
-            return $b;
-        }, readJsonFile('blogs.json'));
-        sendJson($blogsLite);
+        sendJson(readJsonFile('blogs.json'));
     }
 
     if ($method === 'POST') {
@@ -892,8 +885,6 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
         $title = trim($body['title'] ?? '');
         $summary = trim($body['summary'] ?? '');
         $content = trim($body['content'] ?? '');
-        $image = $body['image'] ?? null;
-        $pdf = $body['pdf'] ?? null;
         $pdfName = $body['pdfName'] ?? null;
 
         if (empty($title) || empty($summary) || empty($content)) {
@@ -903,6 +894,11 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
         $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $title), '-'));
         $id = $slug . '-' . substr(md5(uniqid(mt_rand(), true)), 0, 4);
         $date = date('Y-m-d H:i:s');
+
+        // Decode & save any base64 image/PDF to a real file; blogs.json
+        // only stores the resulting URL path, not the raw data.
+        $image = saveBlogAsset($body['image'] ?? null, $id, 'image');
+        $pdf = saveBlogAsset($body['pdf'] ?? null, $id, 'document');
 
         $newPost = [
             'id' => $id,
@@ -995,8 +991,8 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
                 $blogs[$k]['title'] = $title;
                 $blogs[$k]['summary'] = $summary;
                 $blogs[$k]['content'] = $content;
-                if (array_key_exists('image', $body)) $blogs[$k]['image'] = $body['image'];
-                if (array_key_exists('pdf', $body)) $blogs[$k]['pdf'] = $body['pdf'];
+                if (array_key_exists('image', $body)) $blogs[$k]['image'] = saveBlogAsset($body['image'], $id, 'image');
+                if (array_key_exists('pdf', $body)) $blogs[$k]['pdf'] = saveBlogAsset($body['pdf'], $id, 'document');
                 if (array_key_exists('pdfName', $body)) $blogs[$k]['pdfName'] = $body['pdfName'];
                 $blogs[$k]['updatedAt'] = date('Y-m-d H:i:s');
                 $updatedItem = $blogs[$k];
@@ -1013,8 +1009,10 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
                 $stmt->execute([':id' => $id]);
                 $cur = $stmt->fetch();
                 if ($cur) {
-                    $image = array_key_exists('image', $body) ? $body['image'] : $cur['image'];
-                    $pdf = array_key_exists('pdf', $body) ? $body['pdf'] : $cur['pdf'];
+                    // Reuse the already-saved-to-disk paths from the JSON
+                    // branch above rather than re-decoding raw base64 again.
+                    $image = $updatedItem['image'] ?? $cur['image'];
+                    $pdf = $updatedItem['pdf'] ?? $cur['pdf'];
                     $pdfName = array_key_exists('pdfName', $body) ? $body['pdfName'] : $cur['pdf_name'];
                     $updatedAt = date('Y-m-d H:i:s');
 
@@ -1048,6 +1046,7 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
             return ($b['id'] ?? '') !== $id;
         }));
         writeJsonFile('blogs.json', $filtered);
+        deleteBlogAssets($id);
 
         if ($pdo) {
             try {
@@ -1061,6 +1060,55 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
 
         sendJson(['success' => true]);
     }
+}
+
+// One-time migration: move existing base64-embedded images/PDFs out of
+// blogs.json into real files, replacing them with URL paths. Safe to run
+// more than once -- already-migrated posts (image/pdf not a data: URI)
+// are left untouched on a re-run.
+if ($uri === '/api/admin/migrate-blog-assets' && $method === 'POST') {
+    @set_time_limit(300);
+    $blogs = readJsonFile('blogs.json');
+    $migrated = 0;
+    $skipped = 0;
+
+    foreach ($blogs as $k => $b) {
+        $id = $b['id'] ?? '';
+        if (empty($id)) {
+            $skipped++;
+            continue;
+        }
+
+        $changed = false;
+        if (!empty($b['image']) && strpos($b['image'], 'data:') === 0) {
+            $newImage = saveBlogAsset($b['image'], $id, 'image');
+            if ($newImage) {
+                $blogs[$k]['image'] = $newImage;
+                $changed = true;
+            }
+        }
+        if (!empty($b['pdf']) && strpos($b['pdf'], 'data:') === 0) {
+            $newPdf = saveBlogAsset($b['pdf'], $id, 'document');
+            if ($newPdf) {
+                $blogs[$k]['pdf'] = $newPdf;
+                $changed = true;
+            }
+        }
+        if ($changed) {
+            $migrated++;
+        } else {
+            $skipped++;
+        }
+    }
+
+    if ($migrated > 0) {
+        $ok = writeJsonFile('blogs.json', $blogs);
+        if (!$ok) {
+            sendJson(['error' => "Échec de l'écriture de blogs.json après migration -- aucune donnée n'a été perdue, les fichiers d'origine sont intacts."], 500);
+        }
+    }
+
+    sendJson(['success' => true, 'migrated' => $migrated, 'skipped' => $skipped, 'total' => count($blogs)]);
 }
 
 // ── Admin Export, Import & GitHub Sync ──────────────────────────────

@@ -214,6 +214,68 @@ function writeJsonFile($filename, array $data) {
     return $ok;
 }
 
+// ── Blog Asset Storage (images/PDFs as real files, not base64-in-JSON) ──
+// blogs.json used to embed every image/PDF as a base64 string, so a single
+// article could carry tens of MB and every read/write had to move the
+// whole file. Assets now live as real files under the web root, served
+// directly and instantly by the webserver; blogs.json only stores the
+// public URL path.
+function getBlogUploadsDir() {
+    $dir = __DIR__ . '/../uploads/blogs';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0777, true);
+    }
+    return $dir;
+}
+
+function mimeToExtension($mime) {
+    $map = [
+        'image/jpeg' => 'jpg',
+        'image/jpg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+        'image/gif' => 'gif',
+        'image/svg+xml' => 'svg',
+        'application/pdf' => 'pdf',
+    ];
+    return $map[$mime] ?? 'bin';
+}
+
+// Accepts either a base64 data: URI (decodes and saves it to disk,
+// returning the new public URL path) or an already-saved URL path
+// (passed through unchanged, e.g. when editing a post without
+// re-uploading its image). Returns null for empty input.
+function saveBlogAsset($value, $blogId, $baseName) {
+    if (empty($value)) return null;
+    if (strpos($value, 'data:') !== 0) return $value; // already a path, or invalid -- leave as-is
+
+    if (!preg_match('#^data:([^;]+);base64,(.+)$#', $value, $m)) return null;
+    $binary = base64_decode($m[2]);
+    if ($binary === false) return null;
+
+    $dir = getBlogUploadsDir() . '/' . $blogId;
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0777, true);
+    }
+    $filename = $baseName . '.' . mimeToExtension($m[1]);
+    $path = $dir . '/' . $filename;
+    $written = @file_put_contents($path, $binary);
+    if ($written === false) return null;
+    @chmod($path, 0644);
+
+    return '/uploads/blogs/' . $blogId . '/' . $filename;
+}
+
+function deleteBlogAssets($blogId) {
+    $dir = getBlogUploadsDir() . '/' . $blogId;
+    if (is_dir($dir)) {
+        foreach (glob($dir . '/*') ?: [] as $f) {
+            @unlink($f);
+        }
+        @rmdir($dir);
+    }
+}
+
 // ── Dual Save Operations ────────────────────────────────────────────
 function saveSubmissionEntry(array $entry) {
     // 1. Save to JSON
