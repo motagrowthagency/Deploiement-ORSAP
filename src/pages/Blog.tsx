@@ -3,37 +3,48 @@ import { Link } from "react-router"
 import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogPost[]>(() => {
-    try {
-      const cached = localStorage.getItem("orsap_cached_blogs")
-      if (cached) {
-        const parsed = JSON.parse(cached)
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed
-      }
-    } catch {}
-    return INITIAL_BLOGS
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [blogs, setBlogs] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let cancelled = false
+
     async function fetchBlogs() {
       try {
         const res = await fetch("/api/blogs")
-        if (res.ok) {
-          const data = await res.json()
-          if (Array.isArray(data) && data.length > 0) {
-            setBlogs(data)
-            try {
-              localStorage.setItem("orsap_cached_blogs", JSON.stringify(data))
-            } catch {}
-          }
+        if (!res.ok) throw new Error("Réponse invalide du serveur.")
+        const data = await res.json()
+        if (cancelled) return
+
+        if (Array.isArray(data) && data.length > 0) {
+          setBlogs(data)
+          try {
+            localStorage.setItem("orsap_cached_blogs", JSON.stringify(data))
+          } catch {}
+        } else {
+          setBlogs(INITIAL_BLOGS)
         }
       } catch (err: unknown) {
-        console.warn("Using cached / bundled blogs fallback:", err)
+        if (cancelled) return
+        console.warn("Falling back to cached / bundled blogs:", err)
+        try {
+          const cached = localStorage.getItem("orsap_cached_blogs")
+          const parsed = cached ? JSON.parse(cached) : null
+          setBlogs(
+            Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_BLOGS
+          )
+        } catch {
+          setBlogs(INITIAL_BLOGS)
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
       }
     }
+
     fetchBlogs()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (
@@ -65,12 +76,14 @@ export default function Blog() {
       {/* Blog list */}
       <section className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
         {loading ? (
-          <div className="py-20 text-center font-display text-[16px] font-bold text-ink-soft">
-            Chargement des articles...
-          </div>
-        ) : error ? (
-          <div className="mx-auto max-w-md border border-orsap-red/30 bg-orsap-red/5 p-6 text-center text-[15px] text-orsap-red">
-            {error}
+          <div className="flex flex-col items-center justify-center gap-4 py-32">
+            <span
+              aria-hidden="true"
+              className="size-10 animate-spin rounded-full border-[3px] border-hairline border-t-orsap-red"
+            />
+            <div className="font-display text-[13px] font-bold uppercase tracking-[0.08em] text-ink-soft">
+              Chargement des articles...
+            </div>
           </div>
         ) : blogs.length === 0 ? (
           <div className="py-20 text-center text-ink-soft">
