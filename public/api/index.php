@@ -852,6 +852,10 @@ if ($uri === '/api/admin/export/subscribers' || $uri === '/api/admin/export/subs
 // ── Blogs API ───────────────────────────────────────────────────────
 if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
     if ($method === 'GET') {
+        // List endpoint: omit the heavy base64 `pdf` field (can be tens of MB
+        // per article) since it's never used on the list page — only the
+        // single-article endpoint below needs it. Keeps the list payload
+        // light without touching stored data at all.
         if ($pdo) {
             try {
                 $stmt = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
@@ -865,7 +869,8 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
                             'summary' => $r['summary'],
                             'content' => $r['content'],
                             'image' => $r['image'],
-                            'pdf' => $r['pdf'],
+                            'pdf' => null,
+                            'hasPdf' => !empty($r['pdf']),
                             'pdfName' => $r['pdf_name'],
                             'updatedAt' => $r['updated_at'],
                         ];
@@ -874,7 +879,12 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
                 }
             } catch (Exception $e) {}
         }
-        sendJson(readJsonFile('blogs.json'));
+        $blogsLite = array_map(function($b) {
+            $b['hasPdf'] = !empty($b['pdf']);
+            $b['pdf'] = null;
+            return $b;
+        }, readJsonFile('blogs.json'));
+        sendJson($blogsLite);
     }
 
     if ($method === 'POST') {

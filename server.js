@@ -737,7 +737,11 @@ app.get("/api/admin/export/subscribers", async (req, res) => {
 // ── Blog API Routes ─────────────────────────────────────────────────
 app.get("/api/blogs", async (_req, res) => {
   const blogs = await loadBlogs()
-  return res.json(blogs)
+  // Omit the heavy base64 `pdf` field on the list endpoint — it's only
+  // needed on the single-article endpoint below, and can be tens of MB
+  // per article, which was making the list payload unusably large.
+  const blogsLite = blogs.map((b) => ({ ...b, pdf: null, hasPdf: Boolean(b.pdf) }))
+  return res.json(blogsLite)
 })
 
 app.get("/api/blogs/:id", async (req, res) => {
