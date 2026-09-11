@@ -1119,19 +1119,6 @@ app.get("/admin", async (req, res) => {
       (u) => `
     <tr id="user-${u.id}">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-users" value="${u.id}" onchange="onRowCheck('users')"></td>
-      <td class="actions-col">
-        <div class="actions-cell">
-          ${
-            !u.isVerified
-              ? `<button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer;" onclick="verifyUser('${u.id}')">Valider</button>`
-              : ""
-          }
-          <button class="del-btn" onclick="deleteUser('${u.id}')" title="Supprimer ce compte">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
-          </button>
-        </div>
-      </td>
       <td class="date-badge">${
         u.createdAt ? new Date(u.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
@@ -1148,7 +1135,7 @@ app.get("/admin", async (req, res) => {
         ${
           u.isVerified
             ? '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">✓ Vérifié</span>'
-            : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span>'
+            : `<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span> <button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer; margin-left:6px; padding:3px 8px; font-size:11px;" onclick="verifyUser('${u.id}')">Valider</button>`
         }
       </td>
     </tr>`
@@ -1161,12 +1148,6 @@ app.get("/admin", async (req, res) => {
       (s) => `
     <tr id="sub-${s.id}">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-subscribers" value="${s.id}" onchange="onRowCheck('subscribers')"></td>
-      <td class="actions-col">
-        <button class="del-btn" onclick="deleteSubscriber('${s.id}')" title="Supprimer cet abonné">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
       <td class="date-badge">${
         s.createdAt ? new Date(s.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
@@ -1191,12 +1172,6 @@ app.get("/admin", async (req, res) => {
       (s) => `
     <tr id="row-${s.id}">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="${s.id}" onchange="onRowCheck('devis')"></td>
-      <td class="actions-col">
-        <button class="del-btn" onclick="deleteEntry('${s.id}')" title="Supprimer cette demande">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
       <td class="date-badge">${
         s.createdAt ? new Date(s.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
@@ -1248,7 +1223,7 @@ app.get("/admin", async (req, res) => {
       (b) => `
     <tr id="blog-${b.id}">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-blog" value="${b.id}" onchange="onRowCheck('blog')"></td>
-      <td class="actions-col">
+      <td style="width: 170px; white-space: nowrap;">
         <div class="actions-cell">
           <a href="/blog/${b.id}" target="_blank" class="view-link">
             <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -1257,10 +1232,6 @@ app.get("/admin", async (req, res) => {
           <button class="edit-btn" onclick="editBlog('${b.id}')">
             <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             Modifier
-          </button>
-          <button class="del-btn" onclick="deleteBlog('${b.id}')">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
           </button>
         </div>
       </td>
@@ -1277,20 +1248,6 @@ app.get("/admin", async (req, res) => {
       (a) => `
     <tr id="app-${a.id}">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-recrutement" value="${a.id}" onchange="onRowCheck('recrutement')"></td>
-      <td class="actions-col">
-        <div class="actions-cell">
-          <button class="del-btn" onclick="deleteApp('${a.id}')" title="Supprimer cette candidature">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
-          </button>
-          <a href="/api/recrutement/${
-            a.id
-          }/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;" title="Télécharger le CV">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-            CV
-          </a>
-        </div>
-      </td>
       <td class="date-badge">${
         a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
@@ -1300,6 +1257,14 @@ app.get("/admin", async (req, res) => {
         a.email ? `<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>` : "—"
       }</td>
       <td><a href="tel:${esc(a.phone)}">${esc(a.phone)}</a></td>
+      <td>
+        <a href="/api/recrutement/${
+          a.id
+        }/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;" title="Télécharger le CV">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          Télécharger CV
+        </a>
+      </td>
       <td class="msg">${esc(a.message || "—")}</td>
     </tr>`
     )
@@ -1312,13 +1277,11 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-              <span>Demandes de Devis Reçues (${submissions.length})</span>
-              <button id="bulk-btn-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('devis', '/api/devis', 'demandes')">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                Supprimer la sélection (<span id="selected-count-devis">0</span>)
-              </button>
-            </div>
+            <span>Demandes de Devis Reçues (${submissions.length})</span>
+            <button id="bulk-btn-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('devis', '/api/devis', 'demandes')">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Supprimer (<span id="selected-count-devis">0</span>)
+            </button>
           </div>
           ${
             submissions.length === 0
@@ -1327,7 +1290,6 @@ app.get("/admin", async (req, res) => {
             <thead>
               <tr>
                 <th class="chk-cell"><input type="checkbox" id="selectAll-devis" class="row-chk" onchange="toggleSelectAll('devis', this.checked)" title="Tout sélectionner"></th>
-                <th class="actions-col">Action</th>
                 <th>Date</th>
                 <th>Type</th>
                 <th>Nom</th>
@@ -1349,13 +1311,11 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-              <span>Candidatures de Recrutement (${apps.length})</span>
-              <button id="bulk-btn-recrutement" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('recrutement', '/api/recrutement', 'candidatures')">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                Supprimer la sélection (<span id="selected-count-recrutement">0</span>)
-              </button>
-            </div>
+            <span>Candidatures de Recrutement (${apps.length})</span>
+            <button id="bulk-btn-recrutement" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('recrutement', '/api/recrutement', 'candidatures')">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Supprimer (<span id="selected-count-recrutement">0</span>)
+            </button>
           </div>
           ${
             apps.length === 0
@@ -1364,12 +1324,12 @@ app.get("/admin", async (req, res) => {
             <thead>
               <tr>
                 <th class="chk-cell"><input type="checkbox" id="selectAll-recrutement" class="row-chk" onchange="toggleSelectAll('recrutement', this.checked)" title="Tout sélectionner"></th>
-                <th class="actions-col">Actions</th>
                 <th>Date</th>
                 <th>Nom complet</th>
                 <th>Poste souhaité</th>
                 <th>Email</th>
                 <th>Téléphone</th>
+                <th>CV (Fichier)</th>
                 <th>Message</th>
               </tr>
             </thead>
@@ -1383,14 +1343,12 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-              <span>Liste Clients &amp; Abonnés (${subscribers.length})</span>
+            <span>Liste Clients &amp; Abonnés (${subscribers.length})</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
               <button id="bulk-btn-subscribers" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('subscribers', '/api/newsletter', 'abonnés')">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                Supprimer la sélection (<span id="selected-count-subscribers">0</span>)
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                Supprimer (<span id="selected-count-subscribers">0</span>)
               </button>
-            </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
               <a href="/api/admin/export/subscribers" class="view-link" title="Exporter la liste des abonnés au format CSV">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Exporter CSV
@@ -1404,7 +1362,6 @@ app.get("/admin", async (req, res) => {
             <thead>
               <tr>
                 <th class="chk-cell"><input type="checkbox" id="selectAll-subscribers" class="row-chk" onchange="toggleSelectAll('subscribers', this.checked)" title="Tout sélectionner"></th>
-                <th class="actions-col">Action</th>
                 <th>Date d\'inscription</th>
                 <th>Type</th>
                 <th>Adresse Email</th>
@@ -1423,13 +1380,11 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-              <span>Comptes Clients Inscrits (${users.length})</span>
-              <button id="bulk-btn-users" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('users', '/api/admin/users', 'comptes')">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                Supprimer la sélection (<span id="selected-count-users">0</span>)
-              </button>
-            </div>
+            <span>Comptes Clients Inscrits (${users.length})</span>
+            <button id="bulk-btn-users" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('users', '/api/admin/users', 'comptes')">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Supprimer (<span id="selected-count-users">0</span>)
+            </button>
           </div>
           ${
             users.length === 0
@@ -1438,7 +1393,6 @@ app.get("/admin", async (req, res) => {
             <thead>
               <tr>
                 <th class="chk-cell"><input type="checkbox" id="selectAll-users" class="row-chk" onchange="toggleSelectAll('users', this.checked)" title="Tout sélectionner"></th>
-                <th class="actions-col">Actions</th>
                 <th>Date d\'inscription</th>
                 <th>Type</th>
                 <th>Nom complet</th>

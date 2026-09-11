@@ -169,7 +169,6 @@ foreach ($submissions as $s) {
     $devisRows .= sprintf('
     <tr id="row-%s">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="%s" onchange="onRowCheck(\'devis\')"></td>
-      <td class="actions-col"><button class="del-btn" onclick="deleteEntry(\'%s\')">Supprimer</button></td>
       <td>%s</td>
       <td><span class="badge %s">%s</span></td>
       <td style="font-weight:700;">%s</td>
@@ -180,7 +179,6 @@ foreach ($submissions as $s) {
       <td>%s</td>
       <td class="msg">%s</td>
     </tr>',
-        esc($id),
         esc($id),
         esc($id),
         $dateFormatted,
@@ -205,7 +203,7 @@ foreach ($blogs as $b) {
     $blogRows .= sprintf('
     <tr id="blog-%s">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-blog" value="%s" onchange="onRowCheck(\'blog\')"></td>
-      <td>
+      <td style="width: 170px; white-space: nowrap;">
         <div class="actions-cell">
           <a href="/blog/%s" target="_blank" class="view-link">
             <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -215,17 +213,12 @@ foreach ($blogs as $b) {
             <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             Modifier
           </button>
-          <button class="del-btn" onclick="deleteBlog(\'%s\')">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
-          </button>
         </div>
       </td>
       <td class="date-badge">%s</td>
       <td style="font-weight: 700; color: #1e293b;">%s</td>
       <td class="msg">%s</td>
     </tr>',
-        esc($id),
         esc($id),
         esc($id),
         esc($id),
@@ -250,12 +243,6 @@ foreach ($apps as $a) {
     $appsRows .= sprintf('
     <tr id="app-%s">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-recrutement" value="%s" onchange="onRowCheck(\'recrutement\')"></td>
-      <td class="actions-col">
-        <button class="del-btn" onclick="deleteApp(\'%s\')">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
       <td class="date-badge">%s</td>
       <td style="font-weight: 700;">%s</td>
       <td><span class="badge pro">%s</span></td>
@@ -269,7 +256,6 @@ foreach ($apps as $a) {
       </td>
       <td class="msg">%s</td>
     </tr>',
-        esc($id),
         esc($id),
         esc($id),
         $dateFormatted,
@@ -298,12 +284,6 @@ foreach ($subscribers as $sub) {
     $subscribersRows .= sprintf('
     <tr id="sub-%s">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-subscribers" value="%s" onchange="onRowCheck(\'subscribers\')"></td>
-      <td class="actions-col">
-        <button class="del-btn" onclick="deleteSubscriber(\'%s\')">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
       <td>%s</td>
       <td><span class="badge %s">%s</span></td>
       <td>%s</td>
@@ -311,7 +291,6 @@ foreach ($subscribers as $sub) {
       <td>%s</td>
       <td>%s</td>
     </tr>',
-        esc($id),
         esc($id),
         esc($id),
         $dateFormatted,
@@ -340,24 +319,11 @@ foreach ($users as $u) {
 
     $statusHtml = $isVerified
         ? '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">✓ Vérifié</span>'
-        : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span>';
-
-    $verifyBtn = !$isVerified
-        ? '<button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer;" onclick="verifyUser(\'' . esc($id) . '\')">Valider</button>'
-        : '';
+        : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span> <button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer; margin-left:6px; padding:3px 8px; font-size:11px;" onclick="verifyUser(\'' . esc($id) . '\')">Valider</button>';
 
     $usersRows .= sprintf('
     <tr id="user-%s">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-users" value="%s" onchange="onRowCheck(\'users\')"></td>
-      <td class="actions-col">
-        <div class="actions-cell">
-          <button class="del-btn" onclick="deleteUser(\'%s\')">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
-          </button>
-          %s
-        </div>
-      </td>
       <td class="date-badge">%s</td>
       <td><span class="badge %s">%s</span></td>
       <td style="font-weight: 700;">%s</td>
@@ -368,8 +334,6 @@ foreach ($users as $u) {
     </tr>',
         esc($id),
         esc($id),
-        esc($id),
-        $verifyBtn,
         $dateFormatted,
         $isPro ? 'pro' : 'perso',
         $isPro ? 'Pro' : 'Particulier',
@@ -388,12 +352,11 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span>Demandes de Devis Reçues (' . count($submissions) . ')</span>
-            <button id="bulk-btn-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'devis\', \'/api/devis\', \'demandes\')">
-              🗑️ Supprimer la sélection (<span id="selected-count-devis">0</span>)
-            </button>
-          </div>
+          <span>Demandes de Devis Reçues (' . count($submissions) . ')</span>
+          <button id="bulk-btn-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'devis\', \'/api/devis\', \'demandes\')">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer (<span id="selected-count-devis">0</span>)
+          </button>
         </div>' .
         (empty($submissions)
             ? '<div class="empty">Aucune demande de devis pour le moment.</div>'
@@ -401,15 +364,14 @@ if ($tab === 'devis') {
           <thead>
             <tr>
               <th class="chk-cell"><input type="checkbox" id="selectAll-devis" class="row-chk" onchange="toggleSelectAll(\'devis\', this.checked)"></th>
-              <th class="actions-col">Action</th>
               <th>Date</th>
               <th>Type</th>
               <th>Nom</th>
               <th>Entreprise</th>
               <th>Email</th>
               <th>Téléphone</th>
-              <th>Solutions</th>
-              <th>Secteurs</th>
+              <th>Solutions souhaitées</th>
+              <th>Secteurs d\'activité</th>
               <th>Message</th>
             </tr>
           </thead>
@@ -422,12 +384,11 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span>Comptes Clients Inscrits (' . count($users) . ')</span>
-            <button id="bulk-btn-users" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'users\', \'/api/admin/users\', \'comptes\')">
-              🗑️ Supprimer la sélection (<span id="selected-count-users">0</span>)
-            </button>
-          </div>
+          <span>Comptes Clients Inscrits (' . count($users) . ')</span>
+          <button id="bulk-btn-users" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'users\', \'/api/admin/users\', \'comptes\')">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer (<span id="selected-count-users">0</span>)
+          </button>
         </div>' .
         (empty($users)
             ? '<div class="empty">Aucun compte client créé pour le moment.</div>'
@@ -435,7 +396,6 @@ if ($tab === 'devis') {
           <thead>
             <tr>
               <th class="chk-cell"><input type="checkbox" id="selectAll-users" class="row-chk" onchange="toggleSelectAll(\'users\', this.checked)"></th>
-              <th class="actions-col">Actions</th>
               <th>Date d\'inscription</th>
               <th>Type</th>
               <th>Nom complet</th>
@@ -454,12 +414,11 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span>Candidatures de Recrutement (' . count($apps) . ')</span>
-            <button id="bulk-btn-recrutement" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'recrutement\', \'/api/recrutement\', \'candidatures\')">
-              🗑️ Supprimer la sélection (<span id="selected-count-recrutement">0</span>)
-            </button>
-          </div>
+          <span>Candidatures de Recrutement (' . count($apps) . ')</span>
+          <button id="bulk-btn-recrutement" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'recrutement\', \'/api/recrutement\', \'candidatures\')">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer (<span id="selected-count-recrutement">0</span>)
+          </button>
         </div>' .
         (empty($apps)
             ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
@@ -467,7 +426,6 @@ if ($tab === 'devis') {
           <thead>
             <tr>
               <th class="chk-cell"><input type="checkbox" id="selectAll-recrutement" class="row-chk" onchange="toggleSelectAll(\'recrutement\', this.checked)"></th>
-              <th class="actions-col">Action</th>
               <th>Date</th>
               <th>Nom complet</th>
               <th>Poste souhaité</th>
@@ -486,13 +444,12 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span>Liste Clients &amp; Abonnés (' . count($subscribers) . ')</span>
+          <span>Liste Clients &amp; Abonnés (' . count($subscribers) . ')</span>
+          <div style="display: flex; gap: 10px; align-items: center;">
             <button id="bulk-btn-subscribers" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'subscribers\', \'/api/newsletter\', \'abonnés\')">
-              🗑️ Supprimer la sélection (<span id="selected-count-subscribers">0</span>)
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Supprimer (<span id="selected-count-subscribers">0</span>)
             </button>
-          </div>
-          <div style="display: flex; gap: 8px; align-items: center;">
             <a href="/api/admin/export/subscribers" class="view-link" title="Exporter la liste des abonnés au format CSV">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
               Exporter CSV
@@ -505,7 +462,6 @@ if ($tab === 'devis') {
           <thead>
             <tr>
               <th class="chk-cell"><input type="checkbox" id="selectAll-subscribers" class="row-chk" onchange="toggleSelectAll(\'subscribers\', this.checked)"></th>
-              <th class="actions-col">Action</th>
               <th>Date d\'inscription</th>
               <th>Type</th>
               <th>Adresse Email</th>
@@ -598,13 +554,12 @@ if ($tab === 'devis') {
 
       <div class="table-container">
         <div class="table-header-title">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span>Articles Publiés (' . count($blogs) . ')</span>
-            <button id="bulk-btn-blog" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'blog\', \'/api/blogs\', \'articles\')">
-              🗑️ Supprimer la sélection (<span id="selected-count-blog">0</span>)
-            </button>
-          </div>
+          <span>Articles Publiés (' . count($blogs) . ')</span>
           <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <button id="bulk-btn-blog" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'blog\', \'/api/blogs\', \'articles\')">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Supprimer (<span id="selected-count-blog">0</span>)
+            </button>
             <button type="button" onclick="triggerGitHubSync()" class="view-link" style="background: #22c55e; color: #fff; border-color: #22c55e; cursor: pointer;" title="Synchroniser immédiatement tous les articles avec GitHub et Heberjahiz">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
               Sync GitHub
@@ -629,7 +584,7 @@ if ($tab === 'devis') {
           <thead>
             <tr>
               <th class="chk-cell"><input type="checkbox" id="selectAll-blog" class="row-chk" onchange="toggleSelectAll(\'blog\', this.checked)"></th>
-              <th style="width: 220px;">Actions</th>
+              <th style="width: 170px;">Actions</th>
               <th style="width: 130px;">Date</th>
               <th>Titre de l\'article</th>
               <th>Résumé</th>
