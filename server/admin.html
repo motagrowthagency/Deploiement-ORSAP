@@ -103,9 +103,18 @@
     .view-link:hover { background: #e2e8f0; color: var(--primary); }
     .edit-btn { display: inline-flex; align-items: center; gap: 4px; background: #1e293b; border: 1px solid #1e293b; color: #fff; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; border-radius: 4px; }
     .edit-btn:hover { background: var(--primary); border-color: var(--primary); }
-    .del-btn { display: inline-flex; align-items: center; gap: 4px; background: transparent; border: 1px solid #fca5a5; color: #dc2626; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; border-radius: 4px; }
-    .del-btn:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
+    .del-btn { display: inline-flex; align-items: center; gap: 4px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); color: #dc2626; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; border-radius: 6px; }
+    .del-btn:hover { background: #dc2626; color: #fff; border-color: #dc2626; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25); }
     
+    /* Selection & Bulk Actions */
+    .row-chk { width: 17px; height: 17px; cursor: pointer; accent-color: #d3121a; vertical-align: middle; }
+    .chk-cell { width: 44px; text-align: center; padding-left: 14px; padding-right: 8px; }
+    .actions-col { width: 120px; white-space: nowrap; }
+    tr.selected-row { background-color: #fff1f2 !important; }
+    .bulk-del-btn { display: inline-flex; align-items: center; gap: 6px; background: #dc2626; color: #fff; border: none; padding: 7px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25); }
+    .bulk-del-btn:hover { background: #b91c1c; transform: translateY(-1px); }
+    .bulk-del-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
     /* Badges */
     .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
     .badge.pro { background: #fee2e2; color: #991b1b; }
@@ -223,6 +232,86 @@
       if (preview) { preview.src = ""; }
       const previewCard = document.getElementById("imgPreviewCard");
       if (previewCard) previewCard.style.display = "none";
+    }
+
+    // ── Multi-selection & Bulk Delete Handlers ───────────────────────
+    function onRowCheck(tab) {
+      const checkboxes = document.querySelectorAll('.chk-' + tab + ':checked');
+      const count = checkboxes.length;
+      const allCheckboxes = document.querySelectorAll('.chk-' + tab);
+      const selectAllBox = document.getElementById('selectAll-' + tab);
+      if (selectAllBox) {
+        selectAllBox.checked = count > 0 && count === allCheckboxes.length;
+        selectAllBox.indeterminate = count > 0 && count < allCheckboxes.length;
+      }
+
+      const bulkBtn = document.getElementById('bulk-btn-' + tab);
+      const countSpan = document.getElementById('selected-count-' + tab);
+      if (bulkBtn) {
+        bulkBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (countSpan) {
+        countSpan.textContent = count;
+      }
+
+      allCheckboxes.forEach(cb => {
+        const row = cb.closest('tr');
+        if (row) {
+          if (cb.checked) row.classList.add('selected-row');
+          else row.classList.remove('selected-row');
+        }
+      });
+    }
+
+    function toggleSelectAll(tab, isChecked) {
+      const checkboxes = document.querySelectorAll('.chk-' + tab);
+      checkboxes.forEach(cb => {
+        cb.checked = isChecked;
+        const row = cb.closest('tr');
+        if (row) {
+          if (isChecked) row.classList.add('selected-row');
+          else row.classList.remove('selected-row');
+        }
+      });
+      const bulkBtn = document.getElementById('bulk-btn-' + tab);
+      const countSpan = document.getElementById('selected-count-' + tab);
+      const count = isChecked ? checkboxes.length : 0;
+      if (bulkBtn) {
+        bulkBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (countSpan) {
+        countSpan.textContent = count;
+      }
+    }
+
+    async function handleBulkDelete(tab, endpointPrefix, itemLabel) {
+      const checkedBoxes = Array.from(document.querySelectorAll('.chk-' + tab + ':checked'));
+      if (checkedBoxes.length === 0) return;
+      const count = checkedBoxes.length;
+      if (!confirm(`Supprimer définitivement les ${count} ${itemLabel} sélectionné(e)s ?`)) return;
+
+      const bulkBtn = document.getElementById('bulk-btn-' + tab);
+      const origHtml = bulkBtn ? bulkBtn.innerHTML : '';
+      if (bulkBtn) {
+        bulkBtn.disabled = true;
+        bulkBtn.innerHTML = '⏳ Suppression en cours...';
+      }
+
+      try {
+        for (const cb of checkedBoxes) {
+          const id = cb.value;
+          await fetch(endpointPrefix + '/' + id, { method: 'DELETE' });
+        }
+        location.reload();
+      } catch (err) {
+        alert('Erreur lors de la suppression groupée : ' + err.message);
+        location.reload();
+      } finally {
+        if (bulkBtn) {
+          bulkBtn.disabled = false;
+          bulkBtn.innerHTML = origHtml;
+        }
+      }
     }
 
     // Delete devis

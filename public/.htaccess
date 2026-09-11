@@ -8,6 +8,10 @@
   # Allow large payload uploads (base64 images, PDFs up to 100MB)
   LimitRequestBody 104857600
 
+  # ── Security: Deny direct HTTP access to data folders and sensitive file extensions ──
+  RewriteRule ^(data|public/data|server)/ - [F,L]
+  RewriteRule \.(json|sql|env|log|md|yml|yaml|sh|git|gitignore|lock)$ - [F,L]
+
   # 1. Route API requests to PHP router
   RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
 
@@ -15,7 +19,7 @@
   RewriteRule ^admin(/.*)?$ admin/index.php [QSA,L]
 
   # 3. Explicitly force all React application routes (including /blog and /blog/*) to index.html
-  RewriteRule ^(blog|produits|services|marques|temoignages|devis|recrutement|a-propos|contact)(/.*)?$ index.html [L]
+  RewriteRule ^(blog|produits|services|marques|temoignages|devis|recrutement|a-propos|contact|espace-client|intranet)(/.*)?$ index.html [L]
 
   # 4. If requested static file physically exists (assets, images, etc.), serve directly
   RewriteCond %{REQUEST_FILENAME} -f
@@ -25,8 +29,17 @@
   RewriteRule ^ index.html [L]
 </IfModule>
 
-# Security: prevent direct access to sensitive files
-<FilesMatch "^\.(env|git|htaccess)">
+# ── Security Headers ────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-XSS-Protection "1; mode=block"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ── Prevent Direct Access to Hidden or Sensitive Files ─────────────
+<FilesMatch "^\.(env|git|htaccess)|(\.json|\.sql|\.log|\.md|\.sh|\.lock)$">
   Order allow,deny
   Deny from all
 </FilesMatch>

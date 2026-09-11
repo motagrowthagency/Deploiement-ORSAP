@@ -84,6 +84,59 @@ function getAuthUserPHP() {
     return findUserByIdPHP($payload['id']);
 }
 
+function isAdminAuthenticatedPHP() {
+    global $JWT_SECRET;
+    if (session_status() === PHP_SESSION_NONE) {
+        @session_start();
+    }
+    if (isset($_SESSION['orsap_admin_auth']) && $_SESSION['orsap_admin_auth'] === true) {
+        return true;
+    }
+
+    $cookieToken = $_COOKIE['orsap_admin_token'] ?? '';
+    if (!empty($cookieToken)) {
+        $decoded = base64_decode($cookieToken);
+        if ($decoded) {
+            $parts = explode(':', $decoded);
+            if (count($parts) === 3) {
+                list($prefix, $time, $hash) = $parts;
+                if ($prefix === 'orsap_admin' && (time() - intval($time) <= (86400 * 7))) {
+                    $expected = hash_hmac('sha256', $prefix . ":" . $time, $JWT_SECRET);
+                    if (hash_equals($expected, $hash)) return true;
+                }
+            }
+        }
+    }
+
+    // Check Bearer JWT token
+    $headers = getallheaders();
+    $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
+    if (!empty($auth) && strpos($auth, 'Bearer ') === 0) {
+        $token = trim(substr($auth, 7));
+        $parts = explode('.', $token);
+        if (count($parts) === 3) {
+            list($h64, $p64, $s64) = $parts;
+            $expected = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(hash_hmac('sha256', $h64 . "." . $p64, $JWT_SECRET, true)));
+            if (hash_equals($expected, $s64)) {
+                $payload = json_decode(base64_decode(strtr($p64, '-_', '+/')), true);
+                if ($payload && (empty($payload['exp']) || $payload['exp'] >= time())) {
+                    if (!empty($payload['role']) && $payload['role'] === 'admin') {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+function requireAdminPHP() {
+    if (!isAdminAuthenticatedPHP()) {
+        sendJson(['error' => 'Accès non autorisé. Session d\'administration requise.'], 401);
+    }
+}
+
 // ── Auth API Routes (Espace Client) ─────────────────────────────────
 
 // Register
@@ -497,6 +550,7 @@ if ($uri === '/api/auth/reset-password' || $uri === '/api/auth/reset-password/')
 
 // ── Admin Client Management Routes ──────────────────────────────────
 if ($uri === '/api/admin/users' || $uri === '/api/admin/users/') {
+    requireAdminPHP();
     if ($method === 'GET') {
         $users = loadUsersList();
         sendJson(array_map('sanitizeUserPHP', $users));
@@ -504,6 +558,7 @@ if ($uri === '/api/admin/users' || $uri === '/api/admin/users/') {
 }
 
 if (preg_match('#^/api/admin/users/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
     $id = $matches[1];
     if ($method === 'DELETE') {
         deleteUserEntry($id);
@@ -512,6 +567,7 @@ if (preg_match('#^/api/admin/users/([^/]+)$#', $uri, $matches)) {
 }
 
 if (preg_match('#^/api/admin/users/([^/]+)/verify$#', $uri, $matches)) {
+    requireAdminPHP();
     $id = $matches[1];
     if ($method === 'POST') {
         $user = findUserByIdPHP($id);
@@ -532,6 +588,7 @@ if (preg_match('#^/api/admin/users/([^/]+)/verify$#', $uri, $matches)) {
 // ── Devis API ───────────────────────────────────────────────────────
 if ($uri === '/api/devis' || $uri === '/api/devis/') {
     if ($method === 'GET') {
+        requireAdminPHP();
         if ($pdo) {
             try {
                 $stmt = $pdo->query("SELECT * FROM `submissions` ORDER BY `created_at` DESC");
@@ -599,6 +656,7 @@ if ($uri === '/api/devis' || $uri === '/api/devis/') {
 }
 
 if (preg_match('#^/api/devis/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
     $id = $matches[1];
     if ($method === 'DELETE') {
         $subs = readJsonFile('submissions.json');
@@ -620,6 +678,7 @@ if (preg_match('#^/api/devis/([^/]+)$#', $uri, $matches)) {
 // ── Recruitment API ─────────────────────────────────────────────────
 if ($uri === '/api/recrutement' || $uri === '/api/recrutement/') {
     if ($method === 'GET') {
+        requireAdminPHP();
         if ($pdo) {
             try {
                 $stmt = $pdo->query("SELECT `id`, `created_at`, `name`, `email`, `phone`, `position`, `message`, `cv_name` FROM `applications` ORDER BY `created_at` DESC");
@@ -680,6 +739,7 @@ if ($uri === '/api/recrutement' || $uri === '/api/recrutement/') {
 }
 
 if (preg_match('#^/api/recrutement/([^/]+)/cv$#', $uri, $matches)) {
+    requireAdminPHP();
     $id = $matches[1];
     $cvBase64 = null;
     $cvName = 'cv.pdf';
@@ -722,6 +782,7 @@ if (preg_match('#^/api/recrutement/([^/]+)/cv$#', $uri, $matches)) {
 }
 
 if (preg_match('#^/api/recrutement/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
     $id = $matches[1];
     if ($method === 'DELETE') {
         $apps = readJsonFile('applications.json');
@@ -743,6 +804,7 @@ if (preg_match('#^/api/recrutement/([^/]+)$#', $uri, $matches)) {
 // ── Newsletter / Subscribers API ────────────────────────────────────
 if ($uri === '/api/newsletter' || $uri === '/api/newsletter/') {
     if ($method === 'GET') {
+        requireAdminPHP();
         if ($pdo) {
             try {
                 $stmt = $pdo->query("SELECT * FROM `subscribers` ORDER BY `created_at` DESC");
@@ -801,6 +863,7 @@ if ($uri === '/api/newsletter' || $uri === '/api/newsletter/') {
 }
 
 if (preg_match('#^/api/newsletter/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
     $id = $matches[1];
     if ($method === 'DELETE') {
         $subs = readJsonFile('subscribers.json');
@@ -820,6 +883,7 @@ if (preg_match('#^/api/newsletter/([^/]+)$#', $uri, $matches)) {
 }
 
 if ($uri === '/api/admin/export/subscribers' || $uri === '/api/admin/export/subscribers/') {
+    requireAdminPHP();
     $subs = [];
     if ($pdo) {
         try {
@@ -881,6 +945,7 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
     }
 
     if ($method === 'POST') {
+        requireAdminPHP();
         $body = getJsonBody();
         $title = trim($body['title'] ?? '');
         $summary = trim($body['summary'] ?? '');
@@ -975,6 +1040,7 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
     }
 
     if ($method === 'PUT') {
+        requireAdminPHP();
         $body = getJsonBody();
         $title = trim($body['title'] ?? '');
         $summary = trim($body['summary'] ?? '');
@@ -1009,8 +1075,6 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
                 $stmt->execute([':id' => $id]);
                 $cur = $stmt->fetch();
                 if ($cur) {
-                    // Reuse the already-saved-to-disk paths from the JSON
-                    // branch above rather than re-decoding raw base64 again.
                     $image = $updatedItem['image'] ?? $cur['image'];
                     $pdf = $updatedItem['pdf'] ?? $cur['pdf'];
                     $pdfName = array_key_exists('pdfName', $body) ? $body['pdfName'] : $cur['pdf_name'];
@@ -1041,6 +1105,7 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
     }
 
     if ($method === 'DELETE') {
+        requireAdminPHP();
         $blogs = readJsonFile('blogs.json');
         $filtered = array_values(array_filter($blogs, function($b) use ($id) {
             return ($b['id'] ?? '') !== $id;
@@ -1062,11 +1127,8 @@ if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
     }
 }
 
-// One-time migration: move existing base64-embedded images/PDFs out of
-// blogs.json into real files, replacing them with URL paths. Safe to run
-// more than once -- already-migrated posts (image/pdf not a data: URI)
-// are left untouched on a re-run.
 if ($uri === '/api/admin/migrate-blog-assets' && $method === 'POST') {
+    requireAdminPHP();
     @set_time_limit(300);
     $blogs = readJsonFile('blogs.json');
     $migrated = 0;
@@ -1104,7 +1166,7 @@ if ($uri === '/api/admin/migrate-blog-assets' && $method === 'POST') {
     if ($migrated > 0) {
         $ok = writeJsonFile('blogs.json', $blogs);
         if (!$ok) {
-            sendJson(['error' => "Échec de l'écriture de blogs.json après migration -- aucune donnée n'a été perdue, les fichiers d'origine sont intacts."], 500);
+            sendJson(['error' => "Échec de l'écriture de blogs.json après migration."], 500);
         }
     }
 
@@ -1113,6 +1175,7 @@ if ($uri === '/api/admin/migrate-blog-assets' && $method === 'POST') {
 
 // ── Admin Export, Import & GitHub Sync ──────────────────────────────
 if ($uri === '/api/admin/export/blogs') {
+    requireAdminPHP();
     $blogs = readJsonFile('blogs.json');
     if ($pdo) {
         try {
@@ -1122,7 +1185,6 @@ if ($uri === '/api/admin/export/blogs') {
         } catch (Exception $e) {}
     }
     
-    // Auto-sync to GitHub when downloading/exporting
     @syncBlogsToGitHub($blogs);
 
     $dateStr = date('Y-m-d');
@@ -1133,6 +1195,7 @@ if ($uri === '/api/admin/export/blogs') {
 }
 
 if ($uri === '/api/admin/import/blogs' && $method === 'POST') {
+    requireAdminPHP();
     $imported = getJsonBody();
     if (empty($imported)) {
         sendJson(['error' => 'Corps de la requête vide.'], 400);
@@ -1196,12 +1259,14 @@ if ($uri === '/api/admin/import/blogs' && $method === 'POST') {
 
 // Dedicated GitHub Sync Endpoint
 if ($uri === '/api/admin/sync/github' && $method === 'POST') {
+    requireAdminPHP();
     $res = syncBlogsToGitHub();
     sendJson($res, $res['success'] ? 200 : 400);
 }
 
 // GitHub Token Configuration Endpoint
 if ($uri === '/api/admin/config/github') {
+    requireAdminPHP();
     if ($method === 'GET') {
         $token = getGitHubToken();
         $config = require __DIR__ . '/config.php';

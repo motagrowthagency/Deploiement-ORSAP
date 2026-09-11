@@ -19,24 +19,55 @@ function esc($str) {
     return htmlspecialchars((string)($str ?? ''), ENT_QUOTES, 'UTF-8');
 }
 
+function generateAdminTokenPHP($jwtSecret) {
+    $time = time();
+    $data = "orsap_admin:" . $time;
+    $hash = hash_hmac('sha256', $data, $jwtSecret);
+    return base64_encode($data . ":" . $hash);
+}
+
+function verifyAdminTokenPHP($token, $jwtSecret) {
+    if (empty($token)) return false;
+    $decoded = base64_decode($token);
+    if (!$decoded) return false;
+    $parts = explode(':', $decoded);
+    if (count($parts) !== 3) return false;
+    list($prefix, $time, $hash) = $parts;
+    if ($prefix !== 'orsap_admin') return false;
+    if (time() - intval($time) > (86400 * 7)) return false; // 7 days expiration
+    $expectedHash = hash_hmac('sha256', $prefix . ":" . $time, $jwtSecret);
+    return hash_equals($expectedHash, $hash);
+}
+
 // ── Logout ──────────────────────────────────────────────────────────
 if (strpos($uri, '/logout') !== false || isset($_GET['logout'])) {
-    setcookie('orsap_admin_session', '', time() - 3600, '/');
-    unset($_SESSION['orsap_admin_session']);
+    setcookie('orsap_admin_token', '', time() - 3600, '/');
+    unset($_SESSION['orsap_admin_auth']);
     header('Location: /admin');
     exit;
 }
 
 $loginError = '';
-$isAuth = (isset($_COOKIE['orsap_admin_session']) && $_COOKIE['orsap_admin_session'] === 'authenticated')
-       || (isset($_SESSION['orsap_admin_session']) && $_SESSION['orsap_admin_session'] === 'authenticated');
+$cookieToken = $_COOKIE['orsap_admin_token'] ?? '';
+$jwtSecret = $config['jwt_secret'] ?? 'orsap-secure-jwt-secret-2026-auth';
+$isAuth = (isset($_SESSION['orsap_admin_auth']) && $_SESSION['orsap_admin_auth'] === true)
+       || verifyAdminTokenPHP($cookieToken, $jwtSecret);
 
 // ── Handle Login Form Submission ────────────────────────────────────
 if ($method === 'POST' && isset($_POST['password'])) {
     $password = trim($_POST['password']);
-    if ($password === $config['admin_password'] || $password === 'MotaFouad223') {
-        @setcookie('orsap_admin_session', 'authenticated', time() + (86400 * 30), '/');
-        $_SESSION['orsap_admin_session'] = 'authenticated';
+    $expected = $config['admin_password'] ?? 'MotaFouad223';
+    if ($password && $password === $expected) {
+        $token = generateAdminTokenPHP($jwtSecret);
+        $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+        @setcookie('orsap_admin_token', $token, [
+            'expires' => time() + (86400 * 7),
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Strict',
+            'secure' => $secure
+        ]);
+        $_SESSION['orsap_admin_auth'] = true;
         $isAuth = true;
     } else {
         $loginError = "Mot de passe incorrect.";
@@ -137,17 +168,20 @@ foreach ($submissions as $s) {
 
     $devisRows .= sprintf('
     <tr id="row-%s">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="%s" onchange="onRowCheck(\'devis\')"></td>
+      <td class="actions-col"><button class="del-btn" onclick="deleteEntry(\'%s\')">Supprimer</button></td>
       <td>%s</td>
       <td><span class="badge %s">%s</span></td>
-      <td>%s</td>
+      <td style="font-weight:700;">%s</td>
       <td>%s</td>
       <td>%s</td>
       <td>%s</td>
       <td>%s</td>
       <td>%s</td>
       <td class="msg">%s</td>
-      <td><button class="del-btn" onclick="deleteEntry(\'%s\')">Supprimer</button></td>
     </tr>',
+        esc($id),
+        esc($id),
         esc($id),
         $dateFormatted,
         $isPro ? 'pro' : 'perso',
@@ -158,8 +192,7 @@ foreach ($submissions as $s) {
         $phoneHtml,
         $solHtml,
         $secHtml,
-        esc($s['message'] ?? '—'),
-        esc($id)
+        esc($s['message'] ?? '—')
     );
 }
 
@@ -171,9 +204,7 @@ foreach ($blogs as $b) {
     $dateFormatted = $dateVal ? date('d/m/Y', strtotime($dateVal)) : '—';
     $blogRows .= sprintf('
     <tr id="blog-%s">
-      <td class="date-badge">%s</td>
-      <td style="font-weight: 700; color: #1e293b;">%s</td>
-      <td class="msg">%s</td>
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-blog" value="%s" onchange="onRowCheck(\'blog\')"></td>
       <td>
         <div class="actions-cell">
           <a href="/blog/%s" target="_blank" class="view-link">
@@ -190,14 +221,18 @@ foreach ($blogs as $b) {
           </button>
         </div>
       </td>
+      <td class="date-badge">%s</td>
+      <td style="font-weight: 700; color: #1e293b;">%s</td>
+      <td class="msg">%s</td>
     </tr>',
+        esc($id),
+        esc($id),
+        esc($id),
+        esc($id),
         esc($id),
         $dateFormatted,
         esc($b['title'] ?? 'Sans titre'),
-        esc($b['summary'] ?? '—'),
-        esc($id),
-        esc($id),
-        esc($id)
+        esc($b['summary'] ?? '—')
     );
 }
 
@@ -214,34 +249,36 @@ foreach ($apps as $a) {
 
     $appsRows .= sprintf('
     <tr id="app-%s">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-recrutement" value="%s" onchange="onRowCheck(\'recrutement\')"></td>
+      <td class="actions-col">
+        <button class="del-btn" onclick="deleteApp(\'%s\')">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
       <td class="date-badge">%s</td>
       <td style="font-weight: 700;">%s</td>
       <td><span class="badge pro">%s</span></td>
       <td>%s</td>
       <td>%s</td>
-      <td class="msg">%s</td>
       <td>
         <a href="/api/recrutement/%s/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;">
           <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
           Télécharger CV
         </a>
       </td>
-      <td>
-        <button class="del-btn" onclick="deleteApp(\'%s\')">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
+      <td class="msg">%s</td>
     </tr>',
+        esc($id),
+        esc($id),
         esc($id),
         $dateFormatted,
         esc($a['name'] ?? '—'),
         esc($a['position'] ?? '—'),
         $emailHtml,
         $phoneHtml,
-        esc($a['message'] ?? '—'),
         esc($id),
-        esc($id)
+        esc($a['message'] ?? '—')
     );
 }
 
@@ -260,19 +297,22 @@ foreach ($subscribers as $sub) {
 
     $subscribersRows .= sprintf('
     <tr id="sub-%s">
-      <td>%s</td>
-      <td><span class="badge %s">%s</span></td>
-      <td style="font-weight: 700;">%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-subscribers" value="%s" onchange="onRowCheck(\'subscribers\')"></td>
+      <td class="actions-col">
         <button class="del-btn" onclick="deleteSubscriber(\'%s\')">
           <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
           Supprimer
         </button>
       </td>
+      <td>%s</td>
+      <td><span class="badge %s">%s</span></td>
+      <td>%s</td>
+      <td style="font-weight: 700;">%s</td>
+      <td>%s</td>
+      <td>%s</td>
     </tr>',
+        esc($id),
+        esc($id),
         esc($id),
         $dateFormatted,
         $isPro ? 'pro' : 'perso',
@@ -280,8 +320,7 @@ foreach ($subscribers as $sub) {
         $emailHtml,
         esc($sub['name'] ?? '—'),
         esc($sub['company'] ?? '—'),
-        $phoneHtml,
-        esc($id)
+        $phoneHtml
     );
 }
 
@@ -297,7 +336,7 @@ foreach ($users as $u) {
     $email = $u['email'] ?? '';
     $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color: #d3121a; font-weight: 700; text-decoration: none;">' . esc($email) . '</a>' : '—';
     $phone = $u['phone'] ?? '';
-    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
 
     $statusHtml = $isVerified
         ? '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">✓ Vérifié</span>'
@@ -309,6 +348,16 @@ foreach ($users as $u) {
 
     $usersRows .= sprintf('
     <tr id="user-%s">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-users" value="%s" onchange="onRowCheck(\'users\')"></td>
+      <td class="actions-col">
+        <div class="actions-cell">
+          <button class="del-btn" onclick="deleteUser(\'%s\')">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer
+          </button>
+          %s
+        </div>
+      </td>
       <td class="date-badge">%s</td>
       <td><span class="badge %s">%s</span></td>
       <td style="font-weight: 700;">%s</td>
@@ -316,17 +365,11 @@ foreach ($users as $u) {
       <td>%s</td>
       <td>%s</td>
       <td>%s</td>
-      <td>
-        <div class="actions-cell">
-          %s
-          <button class="del-btn" onclick="deleteUser(\'%s\')">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
-          </button>
-        </div>
-      </td>
     </tr>',
         esc($id),
+        esc($id),
+        esc($id),
+        $verifyBtn,
         $dateFormatted,
         $isPro ? 'pro' : 'perso',
         $isPro ? 'Pro' : 'Particulier',
@@ -334,9 +377,7 @@ foreach ($users as $u) {
         esc($u['company'] ?? '—'),
         $emailHtml,
         $phoneHtml,
-        $statusHtml,
-        $verifyBtn,
-        esc($id)
+        $statusHtml
     );
 }
 
@@ -347,23 +388,29 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <span>Demandes de Devis Reçues (' . count($submissions) . ')</span>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span>Demandes de Devis Reçues (' . count($submissions) . ')</span>
+            <button id="bulk-btn-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'devis\', \'/api/devis\', \'demandes\')">
+              🗑️ Supprimer la sélection (<span id="selected-count-devis">0</span>)
+            </button>
+          </div>
         </div>' .
         (empty($submissions)
             ? '<div class="empty">Aucune demande de devis pour le moment.</div>'
             : '<div class="table-responsive"><table>
           <thead>
             <tr>
+              <th class="chk-cell"><input type="checkbox" id="selectAll-devis" class="row-chk" onchange="toggleSelectAll(\'devis\', this.checked)"></th>
+              <th class="actions-col">Action</th>
               <th>Date</th>
               <th>Type</th>
               <th>Nom</th>
               <th>Entreprise</th>
               <th>Email</th>
               <th>Téléphone</th>
-              <th>Solutions souhaitées</th>
-              <th>Secteurs d\'activité</th>
+              <th>Solutions</th>
+              <th>Secteurs</th>
               <th>Message</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>' . $devisRows . '</tbody>
@@ -375,13 +422,20 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <span>Comptes Clients Inscrits (' . count($users) . ')</span>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span>Comptes Clients Inscrits (' . count($users) . ')</span>
+            <button id="bulk-btn-users" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'users\', \'/api/admin/users\', \'comptes\')">
+              🗑️ Supprimer la sélection (<span id="selected-count-users">0</span>)
+            </button>
+          </div>
         </div>' .
         (empty($users)
             ? '<div class="empty">Aucun compte client créé pour le moment.</div>'
             : '<div class="table-responsive"><table>
           <thead>
             <tr>
+              <th class="chk-cell"><input type="checkbox" id="selectAll-users" class="row-chk" onchange="toggleSelectAll(\'users\', this.checked)"></th>
+              <th class="actions-col">Actions</th>
               <th>Date d\'inscription</th>
               <th>Type</th>
               <th>Nom complet</th>
@@ -389,7 +443,6 @@ if ($tab === 'devis') {
               <th>Adresse Email</th>
               <th>Téléphone</th>
               <th>Statut Email</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>' . $usersRows . '</tbody>
@@ -401,21 +454,27 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <span>Candidatures de Recrutement (' . count($apps) . ')</span>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span>Candidatures de Recrutement (' . count($apps) . ')</span>
+            <button id="bulk-btn-recrutement" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'recrutement\', \'/api/recrutement\', \'candidatures\')">
+              🗑️ Supprimer la sélection (<span id="selected-count-recrutement">0</span>)
+            </button>
+          </div>
         </div>' .
         (empty($apps)
             ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
             : '<div class="table-responsive"><table>
           <thead>
             <tr>
+              <th class="chk-cell"><input type="checkbox" id="selectAll-recrutement" class="row-chk" onchange="toggleSelectAll(\'recrutement\', this.checked)"></th>
+              <th class="actions-col">Action</th>
               <th>Date</th>
               <th>Nom complet</th>
               <th>Poste souhaité</th>
               <th>Email</th>
               <th>Téléphone</th>
-              <th>Message</th>
               <th>CV (Fichier)</th>
-              <th>Actions</th>
+              <th>Message</th>
             </tr>
           </thead>
           <tbody>' . $appsRows . '</tbody>
@@ -427,7 +486,12 @@ if ($tab === 'devis') {
     <div class="wrap">
       <div class="table-container">
         <div class="table-header-title">
-          <span>Liste Clients &amp; Abonnés (' . count($subscribers) . ')</span>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span>Liste Clients &amp; Abonnés (' . count($subscribers) . ')</span>
+            <button id="bulk-btn-subscribers" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'subscribers\', \'/api/newsletter\', \'abonnés\')">
+              🗑️ Supprimer la sélection (<span id="selected-count-subscribers">0</span>)
+            </button>
+          </div>
           <div style="display: flex; gap: 8px; align-items: center;">
             <a href="/api/admin/export/subscribers" class="view-link" title="Exporter la liste des abonnés au format CSV">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
@@ -440,13 +504,14 @@ if ($tab === 'devis') {
             : '<div class="table-responsive"><table>
           <thead>
             <tr>
+              <th class="chk-cell"><input type="checkbox" id="selectAll-subscribers" class="row-chk" onchange="toggleSelectAll(\'subscribers\', this.checked)"></th>
+              <th class="actions-col">Action</th>
               <th>Date d\'inscription</th>
               <th>Type</th>
               <th>Adresse Email</th>
               <th>Nom complet</th>
               <th>Société</th>
               <th>Téléphone</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>' . $subscribersRows . '</tbody>
@@ -533,7 +598,12 @@ if ($tab === 'devis') {
 
       <div class="table-container">
         <div class="table-header-title">
-          <span>Articles Publiés (' . count($blogs) . ')</span>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span>Articles Publiés (' . count($blogs) . ')</span>
+            <button id="bulk-btn-blog" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete(\'blog\', \'/api/blogs\', \'articles\')">
+              🗑️ Supprimer la sélection (<span id="selected-count-blog">0</span>)
+            </button>
+          </div>
           <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
             <button type="button" onclick="triggerGitHubSync()" class="view-link" style="background: #22c55e; color: #fff; border-color: #22c55e; cursor: pointer;" title="Synchroniser immédiatement tous les articles avec GitHub et Heberjahiz">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
@@ -558,10 +628,11 @@ if ($tab === 'devis') {
             : '<div class="table-responsive"><table>
           <thead>
             <tr>
+              <th class="chk-cell"><input type="checkbox" id="selectAll-blog" class="row-chk" onchange="toggleSelectAll(\'blog\', this.checked)"></th>
+              <th style="width: 220px;">Actions</th>
               <th style="width: 130px;">Date</th>
               <th>Titre de l\'article</th>
               <th>Résumé</th>
-              <th style="width: 250px;">Actions</th>
             </tr>
           </thead>
           <tbody>' . $blogRows . '</tbody>

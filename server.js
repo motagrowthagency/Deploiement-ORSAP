@@ -43,11 +43,91 @@ const ADMIN_TEMPLATE_PATH = join(__dirname, "server", "admin.html")
 const PORT = process.env.PORT || 3001
 
 const app = express()
-app.use(cors())
+
+// ── Security Headers ────────────────────────────────────────────────
+app.use((_req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff")
+  res.setHeader("X-Frame-Options", "SAMEORIGIN")
+  res.setHeader("X-XSS-Protection", "1; mode=block")
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin")
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+  next()
+})
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",").map((s) => s.trim())
+  : null
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true)
+      if (
+        !allowedOrigins ||
+        allowedOrigins.includes(origin) ||
+        origin.includes("localhost") ||
+        origin.includes("127.0.0.1") ||
+        origin.includes("orsap.ma")
+      ) {
+        return callback(null, true)
+      }
+      return callback(new Error("CORS policy violation: domain not permitted."))
+    },
+    credentials: true,
+  })
+)
 
 // Increase body limit to support base64 images and PDFs
 app.use(express.json({ limit: "100mb" }))
 app.use(express.urlencoded({ limit: "100mb", extended: true }))
+
+// ── In-Memory Rate Limiting ─────────────────────────────────────────
+const rateLimitMap = new Map()
+
+function rateLimiter({ windowMs, max, message }) {
+  return (req, res, next) => {
+    const ip =
+      req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+      req.socket?.remoteAddress ||
+      "unknown"
+    const now = Date.now()
+    const key = `${req.baseUrl || ""}${req.path}_${ip}`
+
+    let record = rateLimitMap.get(key)
+    if (!record || now - record.startTime > windowMs) {
+      record = { count: 1, startTime: now }
+      rateLimitMap.set(key, record)
+    } else {
+      record.count += 1
+    }
+
+    if (rateLimitMap.size > 10000) {
+      for (const [k, v] of rateLimitMap.entries()) {
+        if (now - v.startTime > windowMs) rateLimitMap.delete(k)
+      }
+    }
+
+    if (record.count > max) {
+      return res.status(429).json({
+        error: message || "Trop de requêtes. Veuillez patienter.",
+      })
+    }
+
+    next()
+  }
+}
+
+const authLimiter = rateLimiter({
+  windowMs: 60 * 1000,
+  max: 10,
+  message: "Trop de tentatives de connexion. Veuillez patienter 1 minute.",
+})
+
+const submissionLimiter = rateLimiter({
+  windowMs: 5 * 60 * 1000,
+  max: 15,
+  message: "Trop de soumissions envoyées. Veuillez patienter quelques minutes.",
+})
 
 // HTML string escaping helper
 function esc(str) {
@@ -59,6 +139,35 @@ function esc(str) {
 }
 
 const JWT_SECRET = process.env.JWT_SECRET || "orsap-secure-jwt-secret-2026-auth"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "MotaFouad223"
+
+function isRequestAdminAuthenticated(req) {
+  const cookies = req.headers.cookie || ""
+  let token = null
+  const match = cookies.match(/(?:^|;\s*)orsap_admin_token=([^;]+)/)
+  if (match) {
+    token = match[1]
+  } else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+    token = req.headers.authorization.slice(7).trim()
+  }
+
+  if (!token) return false
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET)
+    return Boolean(decoded && decoded.role === "admin")
+  } catch {
+    return false
+  }
+}
+
+function requireAdmin(req, res, next) {
+  if (!isRequestAdminAuthenticated(req)) {
+    return res.status(401).json({
+      error: "Accès non autorisé. Session d'administration requise.",
+    })
+  }
+  next()
+}
 
 function sanitizeUser(u) {
   if (!u) return null
@@ -103,7 +212,7 @@ async function getAuthUser(req) {
 // ── Auth API Routes (Espace Client) ─────────────────────────────────
 
 // Register new client
-app.post("/api/auth/register", async (req, res) => {
+app.post("/api/auth/register", authLimiter, async (req, res) => {
   const { name, email, phone, company, password, clientType } = req.body
 
   if (!name || !email || !phone || !password) {
@@ -263,7 +372,7 @@ app.get("/api/auth/verify", async (req, res) => {
 })
 
 // Verify email with 6-digit PIN code
-app.post("/api/auth/verify-code", async (req, res) => {
+app.post("/api/auth/verify-code", authLimiter, async (req, res) => {
   const { email, code } = req.body
   if (!email || !code) {
     return res.status(400).json({ error: "Email et code de validation requis." })
@@ -318,7 +427,7 @@ app.post("/api/auth/verify-code", async (req, res) => {
 })
 
 // Resend verification email
-app.post("/api/auth/resend-verification", async (req, res) => {
+app.post("/api/auth/resend-verification", authLimiter, async (req, res) => {
   const { email } = req.body
   if (!email) {
     return res.status(400).json({ error: "Adresse email requise." })
@@ -361,7 +470,7 @@ app.post("/api/auth/resend-verification", async (req, res) => {
 })
 
 // Login
-app.post("/api/auth/login", async (req, res) => {
+app.post("/api/auth/login", authLimiter, async (req, res) => {
   const { email, password } = req.body
   if (!email || !password) {
     return res.status(400).json({ error: "Email et mot de passe requis." })
@@ -441,7 +550,7 @@ app.put("/api/auth/profile", async (req, res) => {
 })
 
 // Password reset request
-app.post("/api/auth/forgot-password", async (req, res) => {
+app.post("/api/auth/forgot-password", authLimiter, async (req, res) => {
   const { email } = req.body
   if (!email) {
     return res.status(400).json({ error: "Adresse email requise." })
@@ -476,7 +585,7 @@ app.post("/api/auth/forgot-password", async (req, res) => {
 })
 
 // Password reset submission
-app.post("/api/auth/reset-password", async (req, res) => {
+app.post("/api/auth/reset-password", authLimiter, async (req, res) => {
   const { token, newPassword } = req.body
   if (!token || !newPassword) {
     return res.status(400).json({ error: "Jeton et nouveau mot de passe requis." })
@@ -516,30 +625,18 @@ app.post("/api/auth/reset-password", async (req, res) => {
 })
 
 // ── Admin Client Management Routes ──────────────────────────────────
-app.get("/api/admin/users", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Non autorisé." })
-  }
+app.get("/api/admin/users", requireAdmin, async (req, res) => {
   const users = await loadUsers()
   return res.json(users.map(sanitizeUser))
 })
 
-app.delete("/api/admin/users/:id", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Non autorisé." })
-  }
+app.delete("/api/admin/users/:id", requireAdmin, async (req, res) => {
   const success = await deleteUser(req.params.id)
   if (!success) return res.status(404).json({ error: "Compte introuvable." })
   return res.json({ success: true })
 })
 
-app.post("/api/admin/users/:id/verify", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Non autorisé." })
-  }
+app.post("/api/admin/users/:id/verify", requireAdmin, async (req, res) => {
   const user = await findUserById(req.params.id)
   if (!user) return res.status(404).json({ error: "Compte introuvable." })
 
@@ -556,7 +653,7 @@ app.post("/api/admin/users/:id/verify", async (req, res) => {
 
 
 // ── Devis API Routes ────────────────────────────────────────────────
-app.post("/api/devis", async (req, res) => {
+app.post("/api/devis", submissionLimiter, async (req, res) => {
   const {
     clientType,
     name,
@@ -597,12 +694,14 @@ app.post("/api/devis", async (req, res) => {
   return res.status(201).json({ success: true, id: entry.id })
 })
 
-app.get("/api/devis", async (_req, res) => {
+// Protected: Only authenticated admins can read all quotes
+app.get("/api/devis", requireAdmin, async (_req, res) => {
   const data = await loadSubmissions()
   return res.json(data)
 })
 
-app.delete("/api/devis/:id", async (req, res) => {
+// Protected: Only authenticated admins can delete quotes
+app.delete("/api/devis/:id", requireAdmin, async (req, res) => {
   const success = await deleteSubmission(req.params.id)
   if (!success) {
     return res.status(404).json({ error: "Not found" })
@@ -611,7 +710,7 @@ app.delete("/api/devis/:id", async (req, res) => {
 })
 
 // ── Recruitment API Routes ──────────────────────────────────────────
-app.post("/api/recrutement", async (req, res) => {
+app.post("/api/recrutement", submissionLimiter, async (req, res) => {
   const { name, email, phone, position, message, cv, cvName } = req.body
 
   if (!name || !email || !phone || !position || !cv) {
@@ -637,12 +736,14 @@ app.post("/api/recrutement", async (req, res) => {
   return res.status(201).json({ success: true, id: entry.id })
 })
 
-app.get("/api/recrutement", async (_req, res) => {
+// Protected: Only authenticated admins can read applications
+app.get("/api/recrutement", requireAdmin, async (_req, res) => {
   const data = await loadApplications()
   return res.json(data)
 })
 
-app.delete("/api/recrutement/:id", async (req, res) => {
+// Protected: Only authenticated admins can delete applications
+app.delete("/api/recrutement/:id", requireAdmin, async (req, res) => {
   const success = await deleteApplication(req.params.id)
   if (!success) {
     return res.status(404).json({ error: "Not found" })
@@ -650,7 +751,8 @@ app.delete("/api/recrutement/:id", async (req, res) => {
   return res.json({ success: true })
 })
 
-app.get("/api/recrutement/:id/cv", async (req, res) => {
+// Protected: Only authenticated admins can download resumes
+app.get("/api/recrutement/:id/cv", requireAdmin, async (req, res) => {
   const apps = await loadApplications()
   const appEntry = apps.find((a) => a.id === req.params.id)
   if (!appEntry || !appEntry.cv) {
@@ -675,7 +777,7 @@ app.get("/api/recrutement/:id/cv", async (req, res) => {
 })
 
 // ── Newsletter / Subscribers API Routes ─────────────────────────────
-app.post("/api/newsletter", async (req, res) => {
+app.post("/api/newsletter", submissionLimiter, async (req, res) => {
   const { email, name, company, phone, clientType } = req.body
 
   if (!email || typeof email !== "string" || !email.includes("@")) {
@@ -700,12 +802,14 @@ app.post("/api/newsletter", async (req, res) => {
   return res.status(201).json({ success: true, id: entry.id })
 })
 
-app.get("/api/newsletter", async (_req, res) => {
+// Protected: Only authenticated admins can read subscriber list
+app.get("/api/newsletter", requireAdmin, async (_req, res) => {
   const data = await loadSubscribers()
   return res.json(data)
 })
 
-app.delete("/api/newsletter/:id", async (req, res) => {
+// Protected: Only authenticated admins can delete subscriber
+app.delete("/api/newsletter/:id", requireAdmin, async (req, res) => {
   const success = await deleteSubscriber(req.params.id)
   if (!success) {
     return res.status(404).json({ error: "Not found" })
@@ -713,11 +817,8 @@ app.delete("/api/newsletter/:id", async (req, res) => {
   return res.json({ success: true })
 })
 
-app.get("/api/admin/export/subscribers", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Non autorisé" })
-  }
+// Protected: Export subscribers CSV
+app.get("/api/admin/export/subscribers", requireAdmin, async (req, res) => {
   const subs = await loadSubscribers()
   const dateStr = new Date().toISOString().slice(0, 10)
   
@@ -735,15 +836,14 @@ app.get("/api/admin/export/subscribers", async (req, res) => {
 })
 
 // ── Blog API Routes ─────────────────────────────────────────────────
+// Public read-only
 app.get("/api/blogs", async (_req, res) => {
   const blogs = await loadBlogs()
-  // Omit the heavy base64 `pdf` field on the list endpoint — it's only
-  // needed on the single-article endpoint below, and can be tens of MB
-  // per article, which was making the list payload unusably large.
   const blogsLite = blogs.map((b) => ({ ...b, pdf: null, hasPdf: Boolean(b.pdf) }))
   return res.json(blogsLite)
 })
 
+// Public read-only
 app.get("/api/blogs/:id", async (req, res) => {
   const blogs = await loadBlogs()
   const blog = blogs.find((b) => b.id === req.params.id)
@@ -751,7 +851,8 @@ app.get("/api/blogs/:id", async (req, res) => {
   return res.json(blog)
 })
 
-app.post("/api/blogs", async (req, res) => {
+// Protected: Admin only can create blog
+app.post("/api/blogs", requireAdmin, async (req, res) => {
   const { title, summary, content, image, pdf, pdfName } = req.body
 
   if (!title || !summary || !content) {
@@ -782,7 +883,8 @@ app.post("/api/blogs", async (req, res) => {
   return res.status(201).json({ success: true, blog: newPost })
 })
 
-app.put("/api/blogs/:id", async (req, res) => {
+// Protected: Admin only can update blog
+app.put("/api/blogs/:id", requireAdmin, async (req, res) => {
   const { title, summary, content, image, pdf, pdfName } = req.body
 
   if (!title || !summary || !content) {
@@ -812,7 +914,8 @@ app.put("/api/blogs/:id", async (req, res) => {
   return res.json({ success: true, blog: updated })
 })
 
-app.delete("/api/blogs/:id", async (req, res) => {
+// Protected: Admin only can delete blog
+app.delete("/api/blogs/:id", requireAdmin, async (req, res) => {
   const success = await deleteBlog(req.params.id)
   if (!success) {
     return res.status(404).json({ error: "Not found" })
@@ -821,11 +924,8 @@ app.delete("/api/blogs/:id", async (req, res) => {
 })
 
 // ── Blog Backup Export & Import ─────────────────────────────────────
-app.get("/api/admin/export/blogs", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res.status(401).json({ error: "Non autorisé" })
-  }
+// Protected: Admin only
+app.get("/api/admin/export/blogs", requireAdmin, async (req, res) => {
   const blogs = await loadBlogs()
   const dateStr = new Date().toISOString().slice(0, 10)
   res.setHeader(
@@ -836,13 +936,8 @@ app.get("/api/admin/export/blogs", async (req, res) => {
   return res.send(JSON.stringify(blogs, null, 2))
 })
 
-app.post("/api/admin/import/blogs", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
-    return res
-      .status(401)
-      .json({ error: "Session expirée. Veuillez vous reconnecter à l'administration." })
-  }
+// Protected: Admin only
+app.post("/api/admin/import/blogs", requireAdmin, async (req, res) => {
   let importedBlogs = req.body
   if (!importedBlogs) {
     return res.status(400).json({ error: "Corps de la requête vide." })
@@ -975,12 +1070,21 @@ function renderLoginPage(res, errorMsg = "") {
   return res.end(html)
 }
 
-app.post("/admin/login", (req, res) => {
+app.post("/admin/login", authLimiter, (req, res) => {
   const { password } = req.body
-  if (password === "MotaFouad223") {
+  const expectedPassword = process.env.ADMIN_PASSWORD || ADMIN_PASSWORD
+  if (password && password === expectedPassword) {
+    const adminToken = jwt.sign(
+      { role: "admin", iat: Math.floor(Date.now() / 1000) },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    )
+    const isProd = process.env.NODE_ENV === "production"
     res.setHeader(
       "Set-Cookie",
-      "orsap_admin_session=authenticated; Path=/; Max-Age=604800; HttpOnly; SameSite=Strict"
+      `orsap_admin_token=${adminToken}; Path=/; Max-Age=604800; HttpOnly; SameSite=Strict${
+        isProd ? "; Secure" : ""
+      }`
     )
     return res.redirect("/admin")
   } else {
@@ -991,15 +1095,14 @@ app.post("/admin/login", (req, res) => {
 app.get("/admin/logout", (_req, res) => {
   res.setHeader(
     "Set-Cookie",
-    "orsap_admin_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    "orsap_admin_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict"
   )
   return res.redirect("/admin")
 })
 
 // ── Admin Dashboard ─────────────────────────────────────────────────
 app.get("/admin", async (req, res) => {
-  const cookies = req.headers.cookie || ""
-  if (!cookies.includes("orsap_admin_session=authenticated")) {
+  if (!isRequestAdminAuthenticated(req)) {
     return renderLoginPage(res)
   }
 
@@ -1015,6 +1118,20 @@ app.get("/admin", async (req, res) => {
     .map(
       (u) => `
     <tr id="user-${u.id}">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-users" value="${u.id}" onchange="onRowCheck('users')"></td>
+      <td class="actions-col">
+        <div class="actions-cell">
+          ${
+            !u.isVerified
+              ? `<button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer;" onclick="verifyUser('${u.id}')">Valider</button>`
+              : ""
+          }
+          <button class="del-btn" onclick="deleteUser('${u.id}')" title="Supprimer ce compte">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer
+          </button>
+        </div>
+      </td>
       <td class="date-badge">${
         u.createdAt ? new Date(u.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
@@ -1034,19 +1151,6 @@ app.get("/admin", async (req, res) => {
             : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span>'
         }
       </td>
-      <td>
-        <div class="actions-cell">
-          ${
-            !u.isVerified
-              ? `<button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer;" onclick="verifyUser('${u.id}')">Valider</button>`
-              : ""
-          }
-          <button class="del-btn" onclick="deleteUser('${u.id}')">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-            Supprimer
-          </button>
-        </div>
-      </td>
     </tr>`
     )
     .join("")
@@ -1056,7 +1160,14 @@ app.get("/admin", async (req, res) => {
     .map(
       (s) => `
     <tr id="sub-${s.id}">
-      <td>${
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-subscribers" value="${s.id}" onchange="onRowCheck('subscribers')"></td>
+      <td class="actions-col">
+        <button class="del-btn" onclick="deleteSubscriber('${s.id}')" title="Supprimer cet abonné">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
+      <td class="date-badge">${
         s.createdAt ? new Date(s.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
       <td><span class="badge ${
@@ -1070,12 +1181,6 @@ app.get("/admin", async (req, res) => {
       <td>${
         s.phone ? `<a href="tel:${esc(s.phone)}">${esc(s.phone)}</a>` : "—"
       }</td>
-      <td>
-        <button class="del-btn" onclick="deleteSubscriber('${s.id}')">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
     </tr>`
     )
     .join("")
@@ -1085,13 +1190,20 @@ app.get("/admin", async (req, res) => {
     .map(
       (s) => `
     <tr id="row-${s.id}">
-      <td>${
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="${s.id}" onchange="onRowCheck('devis')"></td>
+      <td class="actions-col">
+        <button class="del-btn" onclick="deleteEntry('${s.id}')" title="Supprimer cette demande">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
+      <td class="date-badge">${
         s.createdAt ? new Date(s.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
       <td><span class="badge ${
         s.clientType === "professional" ? "pro" : "perso"
       }">${s.clientType === "professional" ? "Pro" : "Particulier"}</span></td>
-      <td>${esc(s.name)}</td>
+      <td style="font-weight: 700;">${esc(s.name)}</td>
       <td>${esc(s.company || "—")}</td>
       <td>${
         s.email ? `<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>` : "—"
@@ -1126,7 +1238,6 @@ app.get("/admin", async (req, res) => {
         }
       </td>
       <td class="msg">${esc(s.message || "—")}</td>
-      <td><button class="del-btn" onclick="deleteEntry('${s.id}')">Supprimer</button></td>
     </tr>`
     )
     .join("")
@@ -1136,10 +1247,8 @@ app.get("/admin", async (req, res) => {
     .map(
       (b) => `
     <tr id="blog-${b.id}">
-      <td class="date-badge">${new Date(b.date).toLocaleDateString("fr-FR")}</td>
-      <td style="font-weight: 700; color: #1e293b;">${esc(b.title)}</td>
-      <td class="msg">${esc(b.summary || "—")}</td>
-      <td>
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-blog" value="${b.id}" onchange="onRowCheck('blog')"></td>
+      <td class="actions-col">
         <div class="actions-cell">
           <a href="/blog/${b.id}" target="_blank" class="view-link">
             <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -1155,6 +1264,9 @@ app.get("/admin", async (req, res) => {
           </button>
         </div>
       </td>
+      <td class="date-badge">${new Date(b.date).toLocaleDateString("fr-FR")}</td>
+      <td style="font-weight: 700; color: #1e293b;">${esc(b.title)}</td>
+      <td class="msg">${esc(b.summary || "—")}</td>
     </tr>`
     )
     .join("")
@@ -1164,6 +1276,21 @@ app.get("/admin", async (req, res) => {
     .map(
       (a) => `
     <tr id="app-${a.id}">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-recrutement" value="${a.id}" onchange="onRowCheck('recrutement')"></td>
+      <td class="actions-col">
+        <div class="actions-cell">
+          <button class="del-btn" onclick="deleteApp('${a.id}')" title="Supprimer cette candidature">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Supprimer
+          </button>
+          <a href="/api/recrutement/${
+            a.id
+          }/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;" title="Télécharger le CV">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+            CV
+          </a>
+        </div>
+      </td>
       <td class="date-badge">${
         a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"
       }</td>
@@ -1174,20 +1301,6 @@ app.get("/admin", async (req, res) => {
       }</td>
       <td><a href="tel:${esc(a.phone)}">${esc(a.phone)}</a></td>
       <td class="msg">${esc(a.message || "—")}</td>
-      <td>
-        <a href="/api/recrutement/${
-          a.id
-        }/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          Télécharger CV
-        </a>
-      </td>
-      <td>
-        <button class="del-btn" onclick="deleteApp('${a.id}')">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          Supprimer
-        </button>
-      </td>
     </tr>`
     )
     .join("")
@@ -1199,7 +1312,13 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <span>Demandes de Devis Reçues (${submissions.length})</span>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <span>Demandes de Devis Reçues (${submissions.length})</span>
+              <button id="bulk-btn-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('devis', '/api/devis', 'demandes')">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                Supprimer la sélection (<span id="selected-count-devis">0</span>)
+              </button>
+            </div>
           </div>
           ${
             submissions.length === 0
@@ -1207,6 +1326,8 @@ app.get("/admin", async (req, res) => {
               : `<div class="table-responsive"><table>
             <thead>
               <tr>
+                <th class="chk-cell"><input type="checkbox" id="selectAll-devis" class="row-chk" onchange="toggleSelectAll('devis', this.checked)" title="Tout sélectionner"></th>
+                <th class="actions-col">Action</th>
                 <th>Date</th>
                 <th>Type</th>
                 <th>Nom</th>
@@ -1216,7 +1337,6 @@ app.get("/admin", async (req, res) => {
                 <th>Solutions souhaitées</th>
                 <th>Secteurs d\'activité</th>
                 <th>Message</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>${devisRows}</tbody>
@@ -1229,7 +1349,13 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <span>Candidatures de Recrutement (${apps.length})</span>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <span>Candidatures de Recrutement (${apps.length})</span>
+              <button id="bulk-btn-recrutement" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('recrutement', '/api/recrutement', 'candidatures')">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                Supprimer la sélection (<span id="selected-count-recrutement">0</span>)
+              </button>
+            </div>
           </div>
           ${
             apps.length === 0
@@ -1237,14 +1363,14 @@ app.get("/admin", async (req, res) => {
               : `<div class="table-responsive"><table>
             <thead>
               <tr>
+                <th class="chk-cell"><input type="checkbox" id="selectAll-recrutement" class="row-chk" onchange="toggleSelectAll('recrutement', this.checked)" title="Tout sélectionner"></th>
+                <th class="actions-col">Actions</th>
                 <th>Date</th>
                 <th>Nom complet</th>
                 <th>Poste souhaité</th>
                 <th>Email</th>
                 <th>Téléphone</th>
                 <th>Message</th>
-                <th>CV (Fichier)</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>${appsRows}</tbody>
@@ -1257,7 +1383,13 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <span>Liste Clients &amp; Abonnés (${subscribers.length})</span>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <span>Liste Clients &amp; Abonnés (${subscribers.length})</span>
+              <button id="bulk-btn-subscribers" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('subscribers', '/api/newsletter', 'abonnés')">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                Supprimer la sélection (<span id="selected-count-subscribers">0</span>)
+              </button>
+            </div>
             <div style="display: flex; gap: 8px; align-items: center;">
               <a href="/api/admin/export/subscribers" class="view-link" title="Exporter la liste des abonnés au format CSV">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
@@ -1271,13 +1403,14 @@ app.get("/admin", async (req, res) => {
               : `<div class="table-responsive"><table>
             <thead>
               <tr>
+                <th class="chk-cell"><input type="checkbox" id="selectAll-subscribers" class="row-chk" onchange="toggleSelectAll('subscribers', this.checked)" title="Tout sélectionner"></th>
+                <th class="actions-col">Action</th>
                 <th>Date d\'inscription</th>
                 <th>Type</th>
                 <th>Adresse Email</th>
                 <th>Nom complet</th>
                 <th>Société</th>
                 <th>Téléphone</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>${subscribersRows}</tbody>
@@ -1290,7 +1423,13 @@ app.get("/admin", async (req, res) => {
       <div class="wrap">
         <div class="table-container">
           <div class="table-header-title">
-            <span>Comptes Clients Inscrits (${users.length})</span>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <span>Comptes Clients Inscrits (${users.length})</span>
+              <button id="bulk-btn-users" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('users', '/api/admin/users', 'comptes')">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                Supprimer la sélection (<span id="selected-count-users">0</span>)
+              </button>
+            </div>
           </div>
           ${
             users.length === 0
@@ -1298,6 +1437,8 @@ app.get("/admin", async (req, res) => {
               : `<div class="table-responsive"><table>
             <thead>
               <tr>
+                <th class="chk-cell"><input type="checkbox" id="selectAll-users" class="row-chk" onchange="toggleSelectAll('users', this.checked)" title="Tout sélectionner"></th>
+                <th class="actions-col">Actions</th>
                 <th>Date d\'inscription</th>
                 <th>Type</th>
                 <th>Nom complet</th>
@@ -1305,7 +1446,6 @@ app.get("/admin", async (req, res) => {
                 <th>Adresse Email</th>
                 <th>Téléphone</th>
                 <th>Statut Email</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>${usersRows}</tbody>
@@ -1394,7 +1534,13 @@ app.get("/admin", async (req, res) => {
 
         <div class="table-container">
           <div class="table-header-title">
-            <span>Articles Publiés (${blogs.length})</span>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <span>Articles Publiés (${blogs.length})</span>
+              <button id="bulk-btn-blog" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('blog', '/api/blogs', 'articles')">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                Supprimer la sélection (<span id="selected-count-blog">0</span>)
+              </button>
+            </div>
             <div style="display: flex; gap: 8px; align-items: center;">
               <a href="/api/admin/export/blogs" class="view-link" title="Télécharger une copie de secours de tous les articles">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
@@ -1413,10 +1559,11 @@ app.get("/admin", async (req, res) => {
               : `<div class="table-responsive"><table>
             <thead>
               <tr>
+                <th class="chk-cell"><input type="checkbox" id="selectAll-blog" class="row-chk" onchange="toggleSelectAll('blog', this.checked)" title="Tout sélectionner"></th>
+                <th class="actions-col" style="width: 220px;">Actions</th>
                 <th style="width: 130px;">Date</th>
                 <th>Titre de l\'article</th>
                 <th>Résumé</th>
-                <th style="width: 250px;">Actions</th>
               </tr>
             </thead>
             <tbody>${blogRows}</tbody>
