@@ -247,26 +247,53 @@ export default function SolutionDetail() {
               {item.subRangesTitle}
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {item.subRanges.map((sub, idx) => (
-                <div
-                  key={idx}
-                  className="group relative border border-hairline bg-card p-5 transition-all hover:border-orsap-red hover:shadow-sm"
-                >
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <h4 className="font-display text-[16px] font-bold text-ink group-hover:text-orsap-red transition-colors">
-                      {sub.title}
-                    </h4>
-                    {sub.badge && (
-                      <span className="shrink-0 bg-ink px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                        {sub.badge}
-                      </span>
+              {item.subRanges.map((sub, idx) => {
+                const CardInner = (
+                  <>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <h4 className="font-display text-[16px] font-bold text-ink group-hover:text-orsap-red transition-colors flex items-center gap-1.5">
+                        {sub.title}
+                        {sub.to && (
+                          <span className="text-orsap-red opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-sm font-bold">
+                            →
+                          </span>
+                        )}
+                      </h4>
+                      {sub.badge && (
+                        <span className="shrink-0 bg-ink group-hover:bg-orsap-red transition-colors px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                          {sub.badge}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[13.5px] text-ink-soft leading-relaxed">
+                      {sub.desc}
+                    </p>
+                    {sub.to && (
+                      <div className="mt-3 flex items-center gap-1 text-[12px] font-bold text-orsap-red">
+                        <span>Explorer la gamme</span>
+                        <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                      </div>
                     )}
+                  </>
+                )
+
+                return sub.to ? (
+                  <Link
+                    key={idx}
+                    to={sub.to}
+                    className="group relative block border border-hairline bg-card p-5 transition-all hover:border-orsap-red hover:shadow-md cursor-pointer rounded-sm"
+                  >
+                    {CardInner}
+                  </Link>
+                ) : (
+                  <div
+                    key={idx}
+                    className="group relative border border-hairline bg-card p-5 transition-all hover:border-hairline/80 hover:shadow-none rounded-sm"
+                  >
+                    {CardInner}
                   </div>
-                  <p className="text-[13.5px] text-ink-soft leading-relaxed">
-                    {sub.desc}
-                  </p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
 

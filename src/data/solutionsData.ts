@@ -23,7 +23,7 @@ export type SolutionItem = {
   technicalFeaturesTitle: string;
   technicalFeatures: string[];
   subRangesTitle: string;
-  subRanges: { title: string; desc: string; badge?: string }[];
+  subRanges: { title: string; desc: string; badge?: string; to?: string }[];
   expertAdvice: string;
   faq: { q: string; a: string }[];
   linkedArticles: SolutionArticleRef[];
@@ -62,12 +62,12 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Nos gammes d'équipements de protection individuelle :",
     subRanges: [
-      { title: "Protection de la Tête", desc: "Casques de chantier ventilés, casquettes anti-heurt, visières intégrées.", badge: "EN 397" },
-      { title: "Protection des Pieds", desc: "Chaussures de sécurité S1P, S3, S7S, bottes de sécurité et semelles SRC.", badge: "ISO 20345" },
-      { title: "Protection des Mains", desc: "Gants anti-coupure, manutention, chimiques, thermiques et isolants.", badge: "EN 388 / 374" },
-      { title: "Protection Respiratoire", desc: "Masques FFP2/FFP3, demi-masques à cartouches ABEK, masques complets.", badge: "EN 149 / 140" },
-      { title: "Protection Auditive", desc: "Bouchons d'oreilles réutilisables, casques anti-bruit passifs et électroniques.", badge: "EN 352" },
-      { title: "Protection Antichute", desc: "Harnais de sécurité, longes avec absorbeur, lignes de vie et enrouleurs.", badge: "EN 361 / 355" }
+      { title: "Protection de la Tête", desc: "Casques de chantier ventilés, casquettes anti-heurt, visières intégrées.", badge: "EN 397", to: "/solutions/epi/casques" },
+      { title: "Protection des Pieds", desc: "Chaussures de sécurité S1P, S3, S7S, bottes de sécurité et semelles SRC.", badge: "ISO 20345", to: "/solutions/epi/chaussures-securite" },
+      { title: "Protection des Mains", desc: "Gants anti-coupure, manutention, chimiques, thermiques et isolants.", badge: "EN 388 / 374", to: "/solutions/epi/gants" },
+      { title: "Protection Respiratoire", desc: "Masques FFP2/FFP3, demi-masques à cartouches ABEK, masques complets.", badge: "EN 149 / 140", to: "/solutions/epi/protection-respiratoire" },
+      { title: "Protection Auditive", desc: "Bouchons d'oreilles réutilisables, casques anti-bruit passifs et électroniques.", badge: "EN 352", to: "/solutions/epi/protection-auditive" },
+      { title: "Protection Antichute", desc: "Harnais de sécurité, longes avec absorbeur, lignes de vie et enrouleurs.", badge: "EN 361 / 355", to: "/solutions/travail-en-hauteur" }
     ],
     expertAdvice: "Le saviez-vous ? 70% des accidents de la main et de la tête surviennent lorsque l'opérateur a retiré son EPI en raison d'un inconfort ou d'une mauvaise taille. Nos experts vous accompagnent pour tester et sélectionner les modèles les plus ergonomiques.",
     faq: [
@@ -176,8 +176,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de casques disponibles :",
     subRanges: [
-      { title: "Casques Chantier Ventilés", desc: "Aérations réglables pour un flux d'air continu et réduction de la température interne.", badge: "Best-Seller" },
-      { title: "Casques Travail en Hauteur", desc: "Calotte compacte sans visière pour vision dégagée vers le haut et jugulaire 4 points.", badge: "Hauteur" },
+      { title: "Casques Chantier Ventilés", desc: "Aérations réglables pour un flux d'air continu et réduction de la température interne.", badge: "Best-Seller", to: "/solutions/epi/btp" },
+      { title: "Casques Travail en Hauteur", desc: "Calotte compacte sans visière pour vision dégagée vers le haut et jugulaire 4 points.", badge: "Hauteur", to: "/solutions/travail-en-hauteur" },
       { title: "Casquettes Anti-Heurt", desc: "Look casquette sportive légère avec coque de protection ergonomique interne.", badge: "EN 812" },
       { title: "Casques Électricien Isolants", desc: "Sans aération métallique, certifiés 1000V et résistance aux projections de métal en fusion.", badge: "1000V" }
     ],
@@ -228,8 +228,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de chaussures de sécurité :",
     subRanges: [
-      { title: "Chaussures Basses Légères S1P", desc: "Design basket sportive, tissu mesh respirant pour logistique et ateliers.", badge: "Légèreté" },
-      { title: "Chaussures Montantes BTP S3", desc: "Cuir pleine fleur hydrofuge, maintien de cheville et sur-embout anti-choc.", badge: "BTP" },
+      { title: "Chaussures Basses Légères S1P", desc: "Design basket sportive, tissu mesh respirant pour logistique et ateliers.", badge: "Légèreté", to: "/solutions/logistique" },
+      { title: "Chaussures Montantes BTP S3", desc: "Cuir pleine fleur hydrofuge, maintien de cheville et sur-embout anti-choc.", badge: "BTP", to: "/solutions/epi/btp" },
       { title: "Bottes de Sécurité S5 / Polyuréthane", desc: "Imperméabilité totale, résistance aux hydrocarbures, graisses et lisiers.", badge: "Étanche" },
       { title: "Chaussures Agroalimentaire & Hygiène", desc: "Microfibre lavable en machine, semelle blanche non marquante et anti-bactérienne.", badge: "Agro" }
     ],
@@ -281,8 +281,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Sous-catégories de gants professionnels :",
     subRanges: [
-      { title: "Gants Anti-Coupure (Niveaux B à F)", desc: "Protection renforcée pour tôlerie, découpe et manipulation de verre.", badge: "Anti-Coupure" },
-      { title: "Gants de Manutention & Assemblage", desc: "Grip optimisé, résistance à l'abrasion et légèreté pour manutentionnaires.", badge: "Manutention" },
+      { title: "Gants Anti-Coupure (Niveaux B à F)", desc: "Protection renforcée pour tôlerie, découpe et manipulation de verre.", badge: "Anti-Coupure", to: "/solutions/epi/gants/anti-coupure" },
+      { title: "Gants de Manutention & Assemblage", desc: "Grip optimisé, résistance à l'abrasion et légèreté pour manutentionnaires.", badge: "Manutention", to: "/solutions/epi/gants/manutention" },
       { title: "Gants Chimiques Étanches", desc: "Nitrile lourd, néoprène ou PVC pour la manipulation de liquides dangereux.", badge: "EN 374" },
       { title: "Gants Chaleur & Soudeur", desc: "Croûte de cuir traitée anti-chaleur ou tricot aramide résistant jusqu'à 350°C.", badge: "EN 407" }
     ],
@@ -381,9 +381,9 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Modèles adaptés à vos opérations :",
     subRanges: [
-      { title: "Gants PU Blancs & Gris", desc: "Idéals pour les opérations propres, l'électronique et le contrôle qualité.", badge: "Précision" },
-      { title: "Gants Mousse de Nitrile Noirs", desc: "Résistance accrue aux salissures et environnements poussiéreux ou huileux.", badge: "Robuste" },
-      { title: "Gants à Picots PVC", desc: "Adhérence renforcée pour la manipulation intensive de cartons lisses.", badge: "Grip Max" }
+      { title: "Gants PU Blancs & Gris", desc: "Idéals pour les opérations propres, l'électronique et le contrôle qualité.", badge: "Précision", to: "/solutions/manutention" },
+      { title: "Gants Mousse de Nitrile Noirs", desc: "Résistance accrue aux salissures et environnements poussiéreux ou huileux.", badge: "Robuste", to: "/solutions/manutention" },
+      { title: "Gants à Picots PVC", desc: "Adhérence renforcée pour la manipulation intensive de cartons lisses.", badge: "Grip Max", to: "/solutions/logistique" }
     ],
     expertAdvice: "Le saviez-vous ? L'utilisation de gants de manutention adaptés permet de réduire le temps de manipulation de colis de 8% tout en éliminant les risques de coupures par papier ou ruban adhésif.",
     faq: [
@@ -686,9 +686,9 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de manutention et levage :",
     subRanges: [
-      { title: "Transpalettes Manuels Standards & Pèseurs", desc: "Capacité 2 000 à 3 000 kg, fourches standards 1150 mm ou courtes.", badge: "Indispensable" },
-      { title: "Transpalettes Électriques Compacts Lithium", desc: "Déplacement et levée 100% motorisés, poids plume (130 kg), idéal hayon camion.", badge: "Lithium" },
-      { title: "Gerbeurs Manuels & Semi-Électriques", desc: "Levée jusqu'à 3,5 mètres pour chargement de rayonnages et mise à niveau de palettes.", badge: "Hauteur" },
+      { title: "Transpalettes Manuels Standards & Pèseurs", desc: "Capacité 2 000 à 3 000 kg, fourches standards 1150 mm ou courtes.", badge: "Indispensable", to: "/solutions/logistique" },
+      { title: "Transpalettes Électriques Compacts Lithium", desc: "Déplacement et levée 100% motorisés, poids plume (130 kg), idéal hayon camion.", badge: "Lithium", to: "/solutions/logistique" },
+      { title: "Gerbeurs Manuels & Semi-Électriques", desc: "Levée jusqu'à 3,5 mètres pour chargement de rayonnages et mise à niveau de palettes.", badge: "Hauteur", to: "/solutions/logistique" },
       { title: "Élingues & Accessoires de Levage", desc: "Élingues textiles 1T à 10T, manilles haute résistance, palans à chaîne et crochets.", badge: "Levage" }
     ],
     expertAdvice: "Réglez vos postes de travail à hauteur d'homme : l'utilisation d'une table élévatrice ou d'un transpalette haute levée permet à l'opérateur de prélever des pièces sans jamais se pencher, réduisant la fatigue lombaire de 70%.",
@@ -737,10 +737,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Composants de la chaîne antichute :",
     subRanges: [
-      { title: "Harnais Antichute (EN 361)", desc: "1, 2 ou 4 points d'accrochage, ceintures de maintien au travail et cuissards.", badge: "Baudriers" },
-      { title: "Points d'Ancrage (EN 795)", desc: "Potelets toiture bac acier, anneaux rotatifs, trépieds espaces confinés et pinces IPN.", badge: "Ancrages" },
-      { title: "Lignes de Vie Câble & Rail", desc: "Lignes horizontales permanentes ou temporaires en sangle pour chantiers.", badge: "Lignes de Vie" },
-      { title: "Longes & Antichutes à Rappel Automatique", desc: "Longes en Y avec absorbeur d'énergie et enrouleurs à sangle/câble jusqu'à 20m.", badge: "Liaison" }
+      { title: "Harnais Antichute (EN 361)", desc: "1, 2 ou 4 points d'accrochage, ceintures de maintien au travail et cuissards.", badge: "Baudriers", to: "/solutions/travail-en-hauteur/harnais" },
+      { title: "Points d'Ancrage (EN 795)", desc: "Potelets toiture bac acier, anneaux rotatifs, trépieds espaces confinés et pinces IPN.", badge: "Ancrages", to: "/solutions/travail-en-hauteur/ancrages" },
+      { title: "Lignes de Vie Câble & Rail", desc: "Lignes horizontales permanentes ou temporaires en sangle pour chantiers.", badge: "Lignes de Vie", to: "/solutions/travail-en-hauteur/lignes-de-vie" },
+      { title: "Longes & Antichutes à Rappel Automatique", desc: "Longes en Y avec absorbeur d'énergie et enrouleurs à sangle/câble jusqu'à 20m.", badge: "Liaison", to: "/solutions/travail-en-hauteur/longes" }
     ],
     expertAdvice: "Le saviez-vous ? Un harnais d'antichute doit obligatoirement faire l'objet d'une Vérification Générale Périodique (VGP) au minimum tous les 12 mois par une personne qualifiée, et immédiatement après avoir arrêté une chute.",
     faq: [
@@ -999,8 +999,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
       { title: "Pantalons & Combinaisons de Travail", desc: "Multi-poches, taille élastiquée, renforts Cordura® et poches genouillères amovibles.", badge: "Workwear" },
       { title: "Vêtements Été & Respirants", desc: "Polos techniques respirants, bermudas de travail et t-shirts anti-UV légers.", badge: "Été" },
       { title: "Parkas, Vestes & Softshells Intempéries", desc: "Imperméables EN 343, doublures polaires amovibles, coupe-vent respirant.", badge: "Hiver/Pluie" },
-      { title: "Vêtements Haute Visibilité (Classes 2 & 3)", desc: "Gilets, vestes, polos et pantalons bicolores jaunes ou oranges fluorescents.", badge: "EN 20471" },
-      { title: "Vêtements Multirisques ATEX & Non-Feu", desc: "Protection retardatrice de flamme, antistatique et anti-arc électrique (EN 11612/1149).", badge: "Multirisque" }
+      { title: "Vêtements Haute Visibilité (Classes 2 & 3)", desc: "Gilets, vestes, polos et pantalons bicolores jaunes ou oranges fluorescents.", badge: "EN 20471", to: "/solutions/logistique" },
+      { title: "Vêtements Multirisques ATEX & Non-Feu", desc: "Protection retardatrice de flamme, antistatique et anti-arc électrique (EN 11612/1149).", badge: "Multirisque", to: "/solutions/industrie" }
     ],
     expertAdvice: "Attention au marquage sur les vêtements haute visibilité et ignifugés : tout logo brodé ou floqué doit respecter les surfaces minimales fluorescentes de l'EN 20471 et être réalisé avec des fils ininflammables certifiés pour ne pas dégrader la protection de la tenue.",
     faq: [
