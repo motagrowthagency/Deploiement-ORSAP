@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router"
 import { SUCCESSES } from "@/data/successes"
+import SEO from "@/components/SEO"
 
 export default function TestimonialDetail() {
   const { client = "" } = useParams()
@@ -9,6 +10,7 @@ export default function TestimonialDetail() {
   if (!data) {
     return (
       <div className="mx-auto max-w-[1240px] px-6 py-24 lg:py-32">
+        <SEO title="Témoignage introuvable | ORSAP Maroc" noIndex={true} />
         <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-black tracking-[-0.025em]">
           Témoignage introuvable
         </h1>
@@ -26,6 +28,16 @@ export default function TestimonialDetail() {
 
   return (
     <div>
+      <SEO
+        title={`Étude de Cas : ${data.client} (${data.sector}) | ORSAP Maroc`}
+        description={data.summary || data.quote}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Témoignages", url: "/temoignages" },
+          { name: data.client, url: `/temoignages/${data.slug}` }
+        ]}
+      />
+
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

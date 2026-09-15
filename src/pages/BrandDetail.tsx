@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router"
 import { BRANDS, CATEGORY_COPY } from "@/data/brands"
+import SEO from "@/components/SEO"
 
 export default function BrandDetail() {
   const { brand = "" } = useParams()
@@ -8,6 +9,7 @@ export default function BrandDetail() {
   if (!data) {
     return (
       <div className="mx-auto max-w-[1240px] px-6 py-24 lg:py-32">
+        <SEO title="Marque introuvable | ORSAP Maroc" noIndex={true} />
         <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-black tracking-[-0.025em]">
           Marque introuvable
         </h1>
@@ -26,6 +28,22 @@ export default function BrandDetail() {
 
   return (
     <div>
+      <SEO
+        title={`${data.name} Maroc — Produits & Solutions Industrielles | ORSAP`}
+        description={`Découvrez les équipements et références ${data.name} distribués au Maroc par ORSAP : ${data.positioning}`}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Marques", url: "/marques" },
+          { name: data.name, url: `/marques/${data.slug}` }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Brand",
+          "name": data.name,
+          "description": data.positioning
+        }}
+      />
+
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router"
 import { PREVENTION_DATA, type PreventionHubItem } from "@/data/preventionData"
+import SEO from "@/components/SEO"
 
 export default function PreventionPage() {
   const location = useLocation()
@@ -12,6 +13,13 @@ export default function PreventionPage() {
 
   return (
     <div>
+      <SEO
+        title={`${data.heroTitle} | Pôle Prévention ORSAP Maroc`}
+        description={data.subtitle || data.intro.slice(0, 160)}
+        keywords={data.seoClusters}
+        breadcrumbs={data.breadcrumbs.map((b) => ({ name: b.label, url: b.to }))}
+      />
+
       {/* Header Banner */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

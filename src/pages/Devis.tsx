@@ -1,5 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react"
 import { Link } from "react-router"
+import SEO from "@/components/SEO"
+import { trackFormStart, trackGenerateLead } from "@/utils/analytics"
+import { classifyLead, getStoredAttribution } from "@/utils/attribution"
 
 type ClientType = "professional" | "personal"
 
@@ -10,6 +13,7 @@ export default function Devis() {
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [formStarted, setFormStarted] = useState(false)
   const [form, setForm] = useState({
     name: "",
     company: "",
@@ -31,6 +35,10 @@ export default function Devis() {
   const SECTORS_OPTIONS = ["Industrie", "Facility Management", "BTP", "Energie"]
 
   function update(field: keyof typeof form, value: string) {
+    if (!formStarted) {
+      setFormStarted(true)
+      trackFormStart("devis")
+    }
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
@@ -38,6 +46,14 @@ export default function Devis() {
     e.preventDefault()
     setSending(true)
     setError(null)
+
+    const leadType = classifyLead({
+      formType: "devis",
+      solutions: clientType === "professional" ? solutions : [],
+      sectors: clientType === "professional" ? sectors : [],
+      message: form.message,
+    })
+    const attribution = getStoredAttribution()
 
     try {
       const res = await fetch(API_URL, {
@@ -48,6 +64,8 @@ export default function Devis() {
           ...form,
           solutions: clientType === "professional" ? solutions : [],
           sectors: clientType === "professional" ? sectors : [],
+          leadType,
+          attribution,
         }),
       })
 
@@ -55,6 +73,13 @@ export default function Devis() {
         const data = await res.json().catch(() => null)
         throw new Error(data?.error || "Erreur serveur. Veuillez réessayer.")
       }
+
+      trackGenerateLead({
+        formName: "devis",
+        leadType,
+        company: form.company,
+        solutions: clientType === "professional" ? solutions : [],
+      })
 
       setSubmitted(true)
     } catch (err: unknown) {
@@ -82,6 +107,22 @@ export default function Devis() {
 
   return (
     <div>
+      <SEO
+        title="Demander un Devis B2B — Équipements Industriels & EPI | ORSAP Maroc"
+        description="Obtenez une cotation rapide et personnalisée pour vos équipements de protection individuelle (EPI), solutions antichute, manutention et vêtements professionnels."
+        keywords={[
+          "devis EPI Maroc",
+          "cotation matériel industriel Casablanca",
+          "prix harnais antichute",
+          "devis vêtements de travail personnalisés",
+          "fournisseur B2B Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Demander un devis", url: "/devis" }
+        ]}
+      />
+
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

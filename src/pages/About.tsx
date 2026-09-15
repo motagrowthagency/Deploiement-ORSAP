@@ -1,5 +1,6 @@
 import { Link } from "react-router"
 import aboutPhoto from "@/imports/plate_forme_Orsap-1.jpeg"
+import SEO from "@/components/SEO"
 
 const VALUES = [
   {
@@ -57,6 +58,20 @@ const COMMITMENTS = [
 export default function About() {
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-20 lg:py-28">
+      <SEO
+        title="À Propos d'ORSAP — Import & Solutions Industrielles au Maroc"
+        description="Découvrez l'histoire, les engagements et l'expertise d'ORSAP : plus de 15 000 références et 300 marques au service des industriels et entreprises au Maroc."
+        keywords={[
+          "qui sommes nous ORSAP",
+          "distributeur industriel Casablanca",
+          "fournisseur EPI Maroc",
+          "entreprise outillage et sécurité Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "À propos", url: "/a-propos" }
+        ]}
+      />
       {/* Intro + image */}
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">

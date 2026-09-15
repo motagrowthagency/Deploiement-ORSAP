@@ -1,10 +1,14 @@
 import { useState, type FormEvent } from "react"
 import { Link } from "react-router"
+import SEO from "@/components/SEO"
+import { trackFormStart, trackEvent } from "@/utils/analytics"
+import { getStoredAttribution } from "@/utils/attribution"
 
 export default function Recruitment() {
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [formStarted, setFormStarted] = useState(false)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -25,6 +29,10 @@ export default function Recruitment() {
   ]
 
   function update(field: keyof typeof form, value: string) {
+    if (!formStarted) {
+      setFormStarted(true)
+      trackFormStart("recrutement")
+    }
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
@@ -59,18 +67,26 @@ export default function Recruitment() {
 
     setSending(true)
     setError(null)
+    const attribution = getStoredAttribution()
 
     try {
       const res = await fetch("/api/recrutement", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          attribution,
+        }),
       })
 
       if (!res.ok) {
         const data = await res.json().catch(() => null)
         throw new Error(data?.error || "Une erreur est survenue lors de l'envoi.")
       }
+
+      trackEvent("job_application_submitted", {
+        position: form.position,
+      })
 
       setSubmitted(true)
     } catch (err: unknown) {
@@ -96,6 +112,21 @@ export default function Recruitment() {
 
   return (
     <div>
+      <SEO
+        title="Rejoignez les Équipes ORSAP — Recrutement & Opportunités B2B | Maroc"
+        description="Consultez nos opportunités de carrière chez ORSAP au Maroc : Technico-commerciaux, Logistique, Achats industriels et candidatures spontanées."
+        keywords={[
+          "recrutement ORSAP Maroc",
+          "emploi technico-commercial Casablanca",
+          "carrière distribution industrielle",
+          "stage PFE industrie Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Recrutement", url: "/recrutement" }
+        ]}
+      />
+
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

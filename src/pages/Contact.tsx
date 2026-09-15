@@ -1,5 +1,14 @@
 import { useState } from "react"
 import { Link, useSearchParams } from "react-router"
+import SEO from "@/components/SEO"
+import {
+  trackFormStart,
+  trackGenerateLead,
+  trackPhoneClick,
+  trackWhatsAppClick,
+  trackEmailClick,
+} from "@/utils/analytics"
+import { classifyLead, getStoredAttribution } from "@/utils/attribution"
 
 const CONTACT_SEO_CLUSTERS = [
   "Achats EPI",
@@ -37,6 +46,7 @@ export default function Contact() {
   const [searchParams] = useSearchParams()
   const initialSubject = searchParams.get("subject") || ""
 
+  const [formStarted, setFormStarted] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -59,9 +69,25 @@ export default function Contact() {
     "https://www.google.com/maps/search/?api=1&query=" +
     encodeURIComponent("ORSAP Casablanca Maroc")
 
+  const handleInputChange = (field: string, value: string) => {
+    if (!formStarted) {
+      setFormStarted(true)
+      trackFormStart("contact")
+    }
+    setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+
+    const leadType = classifyLead({
+      formType: "contact",
+      category: formData.subject,
+      message: formData.message,
+    })
+    const attribution = getStoredAttribution()
+
     try {
       await fetch("/api/devis", {
         method: "POST",
@@ -74,7 +100,15 @@ export default function Contact() {
           category: formData.subject,
           details: formData.message,
           type: "Demande de contact / Conseil",
+          leadType,
+          attribution,
         }),
+      })
+
+      trackGenerateLead({
+        formName: "contact",
+        leadType,
+        company: formData.company,
       })
     } catch {}
     setLoading(false)
@@ -83,6 +117,21 @@ export default function Contact() {
 
   return (
     <div>
+      <SEO
+        title="Contactez nos Experts & Conseil Technique | ORSAP Maroc"
+        description="Besoin d'un accompagnement technique pour vos EPI, audit de travail en hauteur ou devis d'équipements industriels ? Contactez les équipes ORSAP à Casablanca."
+        keywords={[
+          "contact ORSAP Maroc",
+          "conseil technique EPI Casablanca",
+          "expert sécurité travail en hauteur",
+          "fournisseur industriel contact",
+          "téléphone ORSAP"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Contact", url: "/contact" }
+        ]}
+      />
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">
@@ -142,6 +191,7 @@ export default function Contact() {
             </div>
             <a
               href={PHONE_HREF}
+              onClick={() => trackPhoneClick(PHONE_DISPLAY, "contact_page_card")}
               className="mt-8 inline-flex items-center justify-center border border-ink px-6 py-3.5 font-display text-[13.5px] font-bold uppercase tracking-[0.04em] text-ink transition-colors hover:bg-ink hover:text-paper"
             >
               Appeler le standard
@@ -166,6 +216,7 @@ export default function Contact() {
               href={WHATSAPP_HREF}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick("contact_page_card")}
               className="mt-8 inline-flex items-center justify-center bg-orsap-red px-6 py-3.5 font-display text-[13.5px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep"
             >
               Écrire sur WhatsApp
@@ -188,6 +239,7 @@ export default function Contact() {
             </div>
             <a
               href={EMAIL_HREF}
+              onClick={() => trackEmailClick(EMAIL_DISPLAY, "contact_page_card")}
               className="mt-8 inline-flex items-center justify-center border border-ink px-6 py-3.5 font-display text-[13.5px] font-bold uppercase tracking-[0.04em] text-ink transition-colors hover:bg-ink hover:text-paper"
             >
               Envoyer un email
@@ -240,7 +292,7 @@ export default function Contact() {
                       type="text"
                       required
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) => handleInputChange("name", e.target.value)}
                       placeholder="Ex: Yassine Bennani"
                       className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none"
                     />
@@ -253,7 +305,7 @@ export default function Contact() {
                       type="text"
                       required
                       value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      onChange={(e) => handleInputChange("company", e.target.value)}
                       placeholder="Ex: Société Industrielle SA"
                       className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none"
                     />
@@ -269,7 +321,7 @@ export default function Contact() {
                       type="email"
                       required
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="contact@entreprise.ma"
                       className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none"
                     />
@@ -282,7 +334,7 @@ export default function Contact() {
                       type="tel"
                       required
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) => handleInputChange("phone", e.target.value)}
                       placeholder="+212 6..."
                       className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none"
                     />
@@ -295,41 +347,38 @@ export default function Contact() {
                   </label>
                   <select
                     value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    onChange={(e) => handleInputChange("subject", e.target.value)}
                     className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none"
                   >
                     <option>Conseil technique &amp; audit de sécurité</option>
-                    <option>Équipements de Protection Individuelle (EPI)</option>
-                    <option>Travail en Hauteur &amp; Systèmes Antichute</option>
-                    <option>Vêtements Professionnels &amp; Personnalisation</option>
-                    <option>Manutention &amp; Transpalettes</option>
-                    <option>Sécurité Logistique &amp; Entrepôt</option>
-                    <option>Risque Chimique &amp; Rétention</option>
-                    <option>Espaces Confinés &amp; Détection Gaz</option>
-                    <option>Autre demande spécifique</option>
+                    <option>EPI &amp; Protection Individuelle</option>
+                    <option>Travail en Hauteur &amp; Antichute</option>
+                    <option>Manutention &amp; Levage</option>
+                    <option>Personnalisation de Vêtements de Travail</option>
+                    <option>Autre demande commerciale</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-ink mb-1.5">
-                    Détail de votre besoin ou message *
+                    Votre message / Description du besoin *
                   </label>
                   <textarea
-                    rows={4}
                     required
+                    rows={4}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Précisez votre environnement de travail, les risques identifiés, le nombre d'opérateurs à équiper..."
-                    className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none resize-none"
+                    onChange={(e) => handleInputChange("message", e.target.value)}
+                    placeholder="Précisez votre environnement de travail, les risques identifiés, le nombre d'opérateurs concernés..."
+                    className="w-full border border-hairline bg-paper px-4 py-3 text-[14px] text-ink focus:border-orsap-red focus:outline-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-orsap-red py-4 text-center font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep disabled:opacity-50"
+                  className="w-full bg-orsap-red py-4 text-center font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep disabled:opacity-60"
                 >
-                  {loading ? "Transmission en cours..." : "Envoyer ma demande"}
+                  {loading ? "Envoi en cours..." : "Transmettre ma demande"}
                 </button>
               </form>
             )}

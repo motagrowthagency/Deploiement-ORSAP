@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
 import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
+import SEO from "@/components/SEO"
 
 export default function Blog() {
   const [blogs, setBlogs] = useState<BlogPost[]>([])
@@ -49,6 +50,22 @@ export default function Blog() {
 
   return (
     <div>
+      <SEO
+        title="Blog Technique, Normes de Sécurité & Veille HSE | ORSAP Maroc"
+        description="Articles d'experts, guides de conformité des équipements de protection individuelle (EPI), normes EN et bonnes pratiques de sécurité industrielle au Maroc."
+        keywords={[
+          "blog sécurité industrielle",
+          "normes EPI Maroc",
+          "prévention des risques professionnels",
+          "conseils travail en hauteur",
+          "actualités HSE Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Blog", url: "/blog" }
+        ]}
+      />
+
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

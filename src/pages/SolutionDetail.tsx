@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router"
 import { SOLUTIONS_DATA, type SolutionItem } from "@/data/solutionsData"
 import { CATEGORY_ARTICLES } from "@/data/categoryArticles"
+import SEO from "@/components/SEO"
+import { trackCtaClick } from "@/utils/analytics"
 
 export default function SolutionDetail() {
   const location = useLocation()
@@ -18,6 +20,7 @@ export default function SolutionDetail() {
   if (!solution && !legacyArticle) {
     return (
       <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24 text-center">
+        <SEO title="Solution introuvable | ORSAP Maroc" noIndex={true} />
         <h1 className="font-display text-[2rem] font-bold text-ink">Solution introuvable</h1>
         <p className="mt-4 text-ink-soft">Cette gamme ou solution n&apos;existe pas ou a été déplacée.</p>
         <Link to="/solutions" className="mt-6 inline-flex bg-orsap-red px-6 py-3 text-white font-bold uppercase tracking-wider">
@@ -31,6 +34,16 @@ export default function SolutionDetail() {
   if (!solution && legacyArticle) {
     return (
       <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
+        <SEO
+          title={`${legacyArticle.title} — Solutions Techniques | ORSAP Maroc`}
+          description={legacyArticle.subtitle || legacyArticle.intro.slice(0, 160)}
+          breadcrumbs={[
+            { name: "Accueil", url: "/" },
+            { name: "Solutions", url: "/solutions" },
+            { name: legacyArticle.title, url: location.pathname }
+          ]}
+        />
+
         {/* Breadcrumb */}
         <nav className="mb-8 flex items-center gap-2 text-[12.5px] text-ink-soft">
           <Link to="/" className="hover:text-orsap-red">
@@ -177,8 +190,59 @@ export default function SolutionDetail() {
   // Render Full-Feature Solution Page (from SOLUTIONS_DATA)
   const item: SolutionItem = solution!
 
+  const productSchema: Record<string, any> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": item.title,
+    "description": item.description || item.intro,
+    "category": item.category,
+    "brand": {
+      "@type": "Brand",
+      "name": "ORSAP"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "MAD",
+      "price": "0.00",
+      "priceValidUntil": "2027-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": `https://orsap.ma${item.route}`,
+      "seller": {
+        "@type": "Organization",
+        "name": "ORSAP"
+      }
+    }
+  }
+
+  const customSchemas: Array<Record<string, any>> = [productSchema]
+
+  if (item.faq && item.faq.length > 0) {
+    customSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": item.faq.map((f) => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.a
+        }
+      }))
+    })
+  }
+
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
+      <SEO
+        title={`${item.title} — Solutions B2B | ORSAP Maroc`}
+        description={item.subtitle || item.intro.slice(0, 160)}
+        keywords={item.seoClusters}
+        canonical={`https://orsap.ma${item.route}`}
+        type="product"
+        breadcrumbs={item.breadcrumbs.map((b) => ({ name: b.label, url: b.to }))}
+        jsonLd={customSchemas}
+      />
+
       {/* Breadcrumbs */}
       <nav className="mb-8 flex flex-wrap items-center gap-2 text-[12.5px] text-ink-soft">
         {item.breadcrumbs.map((crumb, idx) => (

@@ -1,5 +1,6 @@
 import { Link } from "react-router"
 import { SERVICES, PROCESS } from "@/data/services"
+import SEO from "@/components/SEO"
 
 const STATS = [
   { value: "15 000+", label: "produits" },
@@ -11,6 +12,22 @@ const STATS = [
 export default function Services() {
   return (
     <div>
+      <SEO
+        title="Services & Ingénierie Industrielle au Maroc | ORSAP"
+        description="Études et réalisations d'équipements industriels, maintenance & SAV, revêtements de sols, plomberie industrielle, climatisation et aménagement d'ateliers."
+        keywords={[
+          "services industriels Maroc",
+          "maintenance industrielle Casablanca",
+          "installation réseaux fluides",
+          "revêtements résine industrielle",
+          "climatisation professionnelle Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Services", url: "/services" }
+        ]}
+      />
+
       {/* Intro */}
       <section className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
         <nav className="mb-8 flex items-center gap-2 text-[12.5px] text-ink-soft">

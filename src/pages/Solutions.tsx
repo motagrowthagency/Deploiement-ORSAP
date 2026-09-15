@@ -1,4 +1,5 @@
 import { Link } from "react-router"
+import SEO from "@/components/SEO"
 import manutentionPhoto from "@/imports/manutention_gerbeur.jpg"
 import revetementPhoto from "@/imports/revetement_bois.jpg"
 import outillagePhoto from "@/imports/outillage_bosch.jpg"
@@ -171,6 +172,35 @@ const SOLUTION_CATEGORIES: SolutionCategory[] = [
 export default function Solutions() {
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
+      <SEO
+        title="Solutions Industrielles, EPI, Travail en Hauteur & Manutention | ORSAP Maroc"
+        description="Découvrez l'ensemble des gammes d'équipements industriels, solutions antichute, vêtements professionnels et outillage distribués par ORSAP au Maroc."
+        keywords={[
+          "solutions industrielles Maroc",
+          "catalogue EPI Casablanca",
+          "sécurité travail en hauteur",
+          "matériel manutention Maroc",
+          "vêtements de travail normés",
+          "outillage professionnel Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Solutions", url: "/solutions" }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Solutions Industrielles ORSAP",
+          "description": "Gammes d'équipements industriels et de sécurité au travail",
+          "itemListElement": SOLUTION_CATEGORIES.map((cat, idx) => ({
+            "@type": "ListItem",
+            "position": idx + 1,
+            "name": cat.title,
+            "url": `https://orsap.ma/solutions/${cat.slug}`
+          }))
+        }}
+      />
+
       {/* Breadcrumb */}
       <nav className="mb-8 flex items-center gap-2 text-[12.5px] text-ink-soft">
         <Link to="/" className="hover:text-orsap-red">

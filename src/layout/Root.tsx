@@ -1,9 +1,17 @@
-import { useState } from "react"
-import { Link, NavLink, Outlet, ScrollRestoration } from "react-router"
+import { useEffect, useState } from "react"
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from "react-router"
 import orsapIcon from "@/imports/logo.jpg"
 import { NAV } from "@/layout/nav"
 import ClientListPopup from "@/components/ClientListPopup"
 import { useAuth } from "@/context/AuthContext"
+import { initAttribution } from "@/utils/attribution"
+import {
+  trackPageView,
+  trackPhoneClick,
+  trackWhatsAppClick,
+  trackEmailClick,
+  trackCtaClick,
+} from "@/utils/analytics"
 
 function OrsapMark() {
   return (
@@ -23,6 +31,13 @@ function OrsapMark() {
 export default function Root() {
   const [menuOpen, setMenuOpen] = useState(false)
   const { user } = useAuth()
+  const location = useLocation()
+
+  // Initialize attribution and track SPA virtual pageviews
+  useEffect(() => {
+    initAttribution()
+    trackPageView(location.pathname + location.search)
+  }, [location.pathname, location.search])
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink">
@@ -33,7 +48,11 @@ export default function Root() {
             EPI · Travail en hauteur · Manutention · Personnalisation de vêtement de travail
           </span>
           <div className="flex items-center gap-5 text-white/70">
-            <a href="tel:+212644203030" className="hover:text-white">
+            <a
+              href="tel:+212644203030"
+              onClick={() => trackPhoneClick("+212644203030", "top_utility_bar")}
+              className="hover:text-white"
+            >
               +212 6 44 20 30 30
             </a>
             <span className="text-white/25">/</span>
@@ -77,6 +96,7 @@ export default function Root() {
           <div className="flex items-center justify-end gap-3">
             <Link
               to="/devis"
+              onClick={() => trackCtaClick("Demander un devis", "/devis", "header_desktop")}
               className="hidden bg-orsap-red px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep sm:inline-block"
             >
               Demander un devis
@@ -151,7 +171,10 @@ export default function Root() {
             <div className="mx-auto max-w-[1240px] px-6 pb-4">
               <Link
                 to="/devis"
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  trackCtaClick("Demander un devis", "/devis", "header_mobile")
+                  setMenuOpen(false)
+                }}
                 className="block bg-orsap-red px-5 py-3.5 text-center font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep"
               >
                 Demander un devis
@@ -209,7 +232,11 @@ export default function Root() {
             <ul className="mt-4 space-y-2 text-[14px] text-white/70">
               <li>Casablanca, Maroc</li>
               <li>
-                <a href="tel:+212644203030" className="hover:text-white">
+                <a
+                  href="tel:+212644203030"
+                  onClick={() => trackPhoneClick("+212644203030", "footer")}
+                  className="hover:text-white"
+                >
                   +212 6 44 20 30 30
                 </a>
               </li>
@@ -218,18 +245,27 @@ export default function Root() {
                   href="https://wa.me/212644203030"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick("footer")}
                   className="hover:text-white"
                 >
                   WhatsApp : +212 6 44 20 30 30
                 </a>
               </li>
               <li>
-                <a href="mailto:orsap@orsap.ma" className="hover:text-white">
+                <a
+                  href="mailto:orsap@orsap.ma"
+                  onClick={() => trackEmailClick("orsap@orsap.ma", "footer")}
+                  className="hover:text-white"
+                >
                   orsap@orsap.ma
                 </a>
               </li>
               <li>
-                <Link to="/devis" className="text-white hover:text-orsap-red">
+                <Link
+                  to="/devis"
+                  onClick={() => trackCtaClick("Demander un devis", "/devis", "footer")}
+                  className="text-white hover:text-orsap-red"
+                >
                   Demander un devis →
                 </Link>
               </li>

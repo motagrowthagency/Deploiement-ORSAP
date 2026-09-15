@@ -1,10 +1,27 @@
 import { Link } from "react-router"
 import heroPhoto from "@/imports/Hero_Acceuil.jpeg"
 import logoButec from "@/imports/logo_butec.svg"
+import SEO from "@/components/SEO"
+import { trackCtaClick } from "@/utils/analytics"
 
 export default function Home() {
   return (
     <>
+      <SEO
+        title="ORSAP — Import & Distribution d'Équipements Industriels, EPI & Travail en Hauteur au Maroc"
+        description="Leader au Maroc dans l'importation et la distribution d'équipements de protection individuelle (EPI), solutions antichute, manutention et vêtements professionnels personnalisés."
+        keywords={[
+          "EPI Maroc",
+          "équipements de protection individuelle Casablanca",
+          "travail en hauteur Maroc",
+          "harnais antichute",
+          "manutention industrielle",
+          "vêtements de travail personnalisés",
+          "fournisseur industriel Maroc",
+          "ORSAP"
+        ]}
+      />
+
       {/* Hero */}
       <section className="relative min-h-[calc(100svh-118px)] w-full overflow-hidden bg-ink">
         <img
@@ -34,12 +51,14 @@ export default function Home() {
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
               to="/devis"
+              onClick={() => trackCtaClick("Demander un devis", "/devis", "hero_home")}
               className="inline-flex items-center justify-center bg-orsap-red px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep"
             >
               Demander un devis
             </Link>
             <Link
               to="/solutions"
+              onClick={() => trackCtaClick("Découvrir nos solutions", "/solutions", "hero_home")}
               className="inline-flex items-center justify-center border border-white/70 px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-white hover:text-ink"
             >
               Découvrir nos solutions

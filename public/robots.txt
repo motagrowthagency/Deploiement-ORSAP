@@ -1,0 +1,10 @@
+# Robots.txt for ORSAP.ma
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /server/
+Disallow: /data/
+Disallow: /espace-client/verify
+
+Sitemap: https://orsap.ma/sitemap.xml

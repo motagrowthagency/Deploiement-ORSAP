@@ -1,6 +1,7 @@
 import { useState, useEffect, useId } from "react"
 import { useSearchParams, Link, useNavigate } from "react-router"
 import { useAuth, AuthUser } from "@/context/AuthContext"
+import SEO from "@/components/SEO"
 
 interface Submission {
   id: string
@@ -386,6 +387,7 @@ export default function EspaceClient() {
   if (user) {
     return (
       <div className="min-h-screen bg-[#f8f9fa] py-10 text-ink">
+        <SEO title="Mon Espace Client | ORSAP Maroc" noIndex={true} />
         <div className="mx-auto max-w-[1240px] px-6">
           {/* Header Banner */}
           <div className="relative overflow-hidden rounded-2xl bg-ink p-8 text-white shadow-xl md:p-12">
@@ -844,6 +846,11 @@ export default function EspaceClient() {
   // ══════════════════════════════════════════════════════════════════════
   return (
     <div className="min-h-[85vh] bg-paper py-12 text-ink flex items-center justify-center">
+      <SEO
+        title="Espace Client — Connexion & Inscription | ORSAP Maroc"
+        description="Connectez-vous à votre espace client ORSAP pour suivre vos devis, commandes et télécharger les documentations techniques exclusives."
+        noIndex={true}
+      />
       <div className="w-full max-w-xl px-6">
         {/* Verification banner if coming from email link */}
         {verifyingToken && (

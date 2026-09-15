@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import { Link } from "react-router"
 import { BRANDS, CATEGORIES, type Category } from "@/data/brands"
+import SEO from "@/components/SEO"
 
 import logoBosch from "@/imports/logo_bosch.jpg"
 import logoDewalt from "@/imports/logo_dewalt.png"
@@ -219,6 +220,23 @@ export default function Brands() {
 
   return (
     <div>
+      <SEO
+        title="300+ Marques Internationales d'Outillage & EPI | ORSAP Maroc"
+        description="Distributeur officiel et partenaire des plus grandes marques mondiales : Bosch, DeWalt, Facom, Delta Plus, 3M, Honeywell, Schneider Electric, Makita au Maroc."
+        keywords={[
+          "marques outillage Maroc",
+          "distributeur Bosch Maroc",
+          "catalogue Facom Casablanca",
+          "EPI Delta Plus Maroc",
+          "matériel 3M Maroc",
+          "Schneider Electric Maroc"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Marques", url: "/marques" }
+        ]}
+      />
+
       {/* Intro */}
       <section className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
         <nav className="mb-8 flex items-center gap-2 text-[12.5px] text-ink-soft">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router"
 import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
+import SEO from "@/components/SEO"
 
 export default function BlogDetail() {
   const { id } = useParams()
@@ -42,65 +43,44 @@ export default function BlogDetail() {
     fetchPost()
   }, [id])
 
-  // Enhanced SEO optimization (Meta tags, keywords & Schema.org JSON-LD)
-  useEffect(() => {
-    if (!post) return
-
-    const prevTitle = document.title
-    document.title = `${post.title} | Blog Technique ORSAP`
-
-    let metaDesc = document.querySelector('meta[name="description"]')
-    const prevDesc = metaDesc?.getAttribute("content") || ""
-    if (!metaDesc) {
-      metaDesc = document.createElement("meta")
-      metaDesc.setAttribute("name", "description")
-      document.head.appendChild(metaDesc)
-    }
-    metaDesc.setAttribute("content", post.summary || post.content.slice(0, 160))
-
-    let metaKeywords = document.querySelector('meta[name="keywords"]')
-    const prevKeywords = metaKeywords?.getAttribute("content") || ""
-    if (!metaKeywords) {
-      metaKeywords = document.createElement("meta")
-      metaKeywords.setAttribute("name", "keywords")
-      document.head.appendChild(metaKeywords)
-    }
-    metaKeywords.setAttribute("content", post.content)
-
-    // JSON-LD Structured Data for search engines
-    const schemaScript = document.createElement("script")
-    schemaScript.type = "application/ld+json"
-    schemaScript.id = "blog-json-ld"
-    schemaScript.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": post.title,
-      "description": post.summary,
-      "articleBody": post.content,
-      "datePublished": post.date,
-      "keywords": post.content,
-      "author": {
-        "@type": "Organization",
-        "name": "ORSAP"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "ORSAP"
-      }
-    })
-    document.head.appendChild(schemaScript)
-
-    return () => {
-      document.title = prevTitle
-      if (metaDesc) metaDesc.setAttribute("content", prevDesc)
-      if (metaKeywords) metaKeywords.setAttribute("content", prevKeywords)
-      const existingScript = document.getElementById("blog-json-ld")
-      if (existingScript) existingScript.remove()
-    }
-  }, [post])
-
   return (
     <div>
+      {post ? (
+        <SEO
+          title={`${post.title} | Blog Technique ORSAP`}
+          description={post.summary || post.content.replace(/<[^>]+>/g, "").slice(0, 160)}
+          image={post.image || undefined}
+          type="article"
+          breadcrumbs={[
+            { name: "Accueil", url: "/" },
+            { name: "Blog", url: "/blog" },
+            { name: post.title, url: `/blog/${post.id}` }
+          ]}
+          jsonLd={{
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.summary,
+            "datePublished": post.date,
+            "image": post.image ? (post.image.startsWith("http") ? post.image : `https://orsap.ma${post.image}`) : undefined,
+            "author": {
+              "@type": "Organization",
+              "name": "ORSAP"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "ORSAP",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://orsap.ma/apple-touch-icon.png"
+              }
+            }
+          }}
+        />
+      ) : (
+        <SEO title="Article introuvable | Blog ORSAP" noIndex={true} />
+      )}
+
       {/* Header */}
       <section className="border-b border-hairline bg-ink text-paper">
         <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-20">

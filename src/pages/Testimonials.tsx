@@ -1,5 +1,6 @@
 import { Link } from "react-router"
 import { SUCCESSES } from "@/data/successes"
+import SEO from "@/components/SEO"
 
 const STATS = [
   { value: "8", label: "secteurs accompagnés" },
@@ -11,6 +12,21 @@ const STATS = [
 export default function Testimonials() {
   return (
     <div>
+      <SEO
+        title="Témoignages & Références Clients | ORSAP Maroc"
+        description="Découvrez comment ORSAP accompagne les leaders de l'industrie, du BTP et de la logistique au Maroc dans leurs projets d'approvisionnement et de sécurité."
+        keywords={[
+          "clients ORSAP Maroc",
+          "références industrielles Casablanca",
+          "études de cas B2B Maroc",
+          "témoignages sécurité industrielle"
+        ]}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Témoignages", url: "/temoignages" }
+        ]}
+      />
+
       {/* Intro */}
       <section className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
         <nav className="mb-8 flex items-center gap-2 text-[12.5px] text-ink-soft">

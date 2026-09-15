@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router"
 import { SERVICES } from "@/data/services"
+import SEO from "@/components/SEO"
 
 function List({
   title,
@@ -42,6 +43,7 @@ export default function ServiceDetail() {
   if (!data) {
     return (
       <div className="mx-auto max-w-[1240px] px-6 py-24 lg:py-32">
+        <SEO title="Service introuvable | ORSAP Maroc" noIndex={true} />
         <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-black tracking-[-0.025em]">
           Service introuvable
         </h1>
@@ -59,6 +61,28 @@ export default function ServiceDetail() {
 
   return (
     <div>
+      <SEO
+        title={`${data.title} | Services ORSAP Maroc`}
+        description={data.short}
+        image={data.img}
+        breadcrumbs={[
+          { name: "Accueil", url: "/" },
+          { name: "Services", url: "/services" },
+          { name: data.title, url: `/services/${data.slug}` }
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": data.title,
+          "description": data.short,
+          "provider": {
+            "@type": "Organization",
+            "name": "ORSAP"
+          },
+          "areaServed": "MA"
+        }}
+      />
+
       {/* Header with image */}
       <section className="relative overflow-hidden bg-ink text-paper">
         <img

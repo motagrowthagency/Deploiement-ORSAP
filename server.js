@@ -45,13 +45,39 @@ const PORT = process.env.PORT || 3001
 const app = express()
 
 // ── Security Headers ────────────────────────────────────────────────
-app.use((_req, res, next) => {
+app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff")
   res.setHeader("X-Frame-Options", "SAMEORIGIN")
   res.setHeader("X-XSS-Protection", "1; mode=block")
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin")
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+  if (req.secure || req.headers["x-forwarded-proto"] === "https") {
+    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
+  }
   next()
+})
+
+// ── Static SEO endpoints (robots.txt, sitemap.xml) ──────────────────
+app.get("/robots.txt", (_req, res) => {
+  const robotsPath = existsSync(join(DIST_DIR, "robots.txt"))
+    ? join(DIST_DIR, "robots.txt")
+    : join(__dirname, "public", "robots.txt")
+  if (existsSync(robotsPath)) {
+    res.setHeader("Content-Type", "text/plain; charset=utf-8")
+    return res.sendFile(robotsPath)
+  }
+  res.type("text/plain").send("User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\nSitemap: https://orsap.ma/sitemap.xml\n")
+})
+
+app.get("/sitemap.xml", (_req, res) => {
+  const sitemapPath = existsSync(join(DIST_DIR, "sitemap.xml"))
+    ? join(DIST_DIR, "sitemap.xml")
+    : join(__dirname, "public", "sitemap.xml")
+  if (existsSync(sitemapPath)) {
+    res.setHeader("Content-Type", "application/xml; charset=utf-8")
+    return res.sendFile(sitemapPath)
+  }
+  res.status(404).send("Sitemap not found")
 })
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS
