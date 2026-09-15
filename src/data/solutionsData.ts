@@ -125,9 +125,9 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Packs EPI Chantier recommandés :",
     subRanges: [
-      { title: "Pack Gros Œuvre & Maçonnerie", desc: "Casque jugulaire + Chaussures S3 montantes + Gants de prise + Lunettes étanches.", badge: "Indispensable" },
-      { title: "Pack Second Œuvre & Finition", desc: "Casquette anti-heurt + Chaussures légères S1P + Gants dextérité PU + Masque FFP2.", badge: "Confort" },
-      { title: "Pack Voirie & Travaux Publics", desc: "Vêtement Haute Visibilité Fluo + Bottes S5 + Casque anti-bruit + Gants étanches.", badge: "Sécurité Max" }
+      { title: "Pack Gros Œuvre & Maçonnerie", desc: "Casque jugulaire + Chaussures S3 montantes + Gants de prise + Lunettes étanches.", badge: "Indispensable", to: "/solutions/epi/casques" },
+      { title: "Pack Second Œuvre & Finition", desc: "Casquette anti-heurt + Chaussures légères S1P + Gants dextérité PU + Masque FFP2.", badge: "Confort", to: "/solutions/epi/gants" },
+      { title: "Pack Voirie & Travaux Publics", desc: "Vêtement Haute Visibilité Fluo + Bottes S5 + Casque anti-bruit + Gants étanches.", badge: "Sécurité Max", to: "/solutions/vetements-professionnels" }
     ],
     expertAdvice: "Sur chantier, 45% des accidents graves touchent les pieds et la tête. Exigez des semelles anti-perforation non métalliques (souples et légères) et des casques équipés de jugulaires pour éviter la perte du casque lors des mouvements amples.",
     faq: [
@@ -178,8 +178,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     subRanges: [
       { title: "Casques Chantier Ventilés", desc: "Aérations réglables pour un flux d'air continu et réduction de la température interne.", badge: "Best-Seller", to: "/solutions/epi/btp" },
       { title: "Casques Travail en Hauteur", desc: "Calotte compacte sans visière pour vision dégagée vers le haut et jugulaire 4 points.", badge: "Hauteur", to: "/solutions/travail-en-hauteur" },
-      { title: "Casquettes Anti-Heurt", desc: "Look casquette sportive légère avec coque de protection ergonomique interne.", badge: "EN 812" },
-      { title: "Casques Électricien Isolants", desc: "Sans aération métallique, certifiés 1000V et résistance aux projections de métal en fusion.", badge: "1000V" }
+      { title: "Casquettes Anti-Heurt", desc: "Look casquette sportive légère avec coque de protection ergonomique interne.", badge: "EN 812", to: "/solutions/epi/casques" },
+      { title: "Casques Électricien Isolants", desc: "Sans aération métallique, certifiés 1000V et résistance aux projections de métal en fusion.", badge: "1000V", to: "/solutions/industrie" }
     ],
     expertAdvice: "Attention à la date de péremption : un casque de sécurité a une durée de vie limitée (généralement 3 à 5 ans selon le matériau ABS ou PE). Tout casque ayant subi un choc violent doit être immédiatement mis au rebut, même sans fissure visible.",
     faq: [
@@ -230,8 +230,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     subRanges: [
       { title: "Chaussures Basses Légères S1P", desc: "Design basket sportive, tissu mesh respirant pour logistique et ateliers.", badge: "Légèreté", to: "/solutions/logistique" },
       { title: "Chaussures Montantes BTP S3", desc: "Cuir pleine fleur hydrofuge, maintien de cheville et sur-embout anti-choc.", badge: "BTP", to: "/solutions/epi/btp" },
-      { title: "Bottes de Sécurité S5 / Polyuréthane", desc: "Imperméabilité totale, résistance aux hydrocarbures, graisses et lisiers.", badge: "Étanche" },
-      { title: "Chaussures Agroalimentaire & Hygiène", desc: "Microfibre lavable en machine, semelle blanche non marquante et anti-bactérienne.", badge: "Agro" }
+      { title: "Bottes de Sécurité S5 / Polyuréthane", desc: "Imperméabilité totale, résistance aux hydrocarbures, graisses et lisiers.", badge: "Étanche", to: "/solutions/industrie" },
+      { title: "Chaussures Agroalimentaire & Hygiène", desc: "Microfibre lavable en machine, semelle blanche non marquante et anti-bactérienne.", badge: "Agro", to: "/solutions/epi/chaussures-securite" }
     ],
     expertAdvice: "Pour les travailleurs effectuant des stations debout prolongées, nous préconisons des semelles à technologie d'amorti actif en polyuréthane expansé (E-TPU), qui réduisent de 40% l'impact articulaire.",
     faq: [
@@ -283,8 +283,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     subRanges: [
       { title: "Gants Anti-Coupure (Niveaux B à F)", desc: "Protection renforcée pour tôlerie, découpe et manipulation de verre.", badge: "Anti-Coupure", to: "/solutions/epi/gants/anti-coupure" },
       { title: "Gants de Manutention & Assemblage", desc: "Grip optimisé, résistance à l'abrasion et légèreté pour manutentionnaires.", badge: "Manutention", to: "/solutions/epi/gants/manutention" },
-      { title: "Gants Chimiques Étanches", desc: "Nitrile lourd, néoprène ou PVC pour la manipulation de liquides dangereux.", badge: "EN 374" },
-      { title: "Gants Chaleur & Soudeur", desc: "Croûte de cuir traitée anti-chaleur ou tricot aramide résistant jusqu'à 350°C.", badge: "EN 407" }
+      { title: "Gants Chimiques Étanches", desc: "Nitrile lourd, néoprène ou PVC pour la manipulation de liquides dangereux.", badge: "EN 374", to: "/solutions/industrie" },
+      { title: "Gants Chaleur & Soudeur", desc: "Croûte de cuir traitée anti-chaleur ou tricot aramide résistant jusqu'à 350°C.", badge: "EN 407", to: "/solutions/industrie" }
     ],
     expertAdvice: "Pour tester l'adéquation d'un gant, réalisez toujours un essai de préhension avec vos pièces réelles : un gant trop épais fatigue les muscles de la main, tandis qu'un gant trop fin expose à la blessure.",
     faq: [
@@ -332,9 +332,9 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Niveaux de protection anti-coupure :",
     subRanges: [
-      { title: "Niveau B & C (Moyen Risque)", desc: "Assemblage mécanique, électroménager, montage de menuiseries.", badge: "Niveau B/C" },
-      { title: "Niveau D & E (Haut Risque)", desc: "Tôlerie automobile, pliage, plasturgie et chaudronnerie.", badge: "Niveau D/E" },
-      { title: "Niveau F (Risque Extrême)", desc: "Manipulation de verre brut, profilés acier tranchants, découpe industrielle.", badge: "Niveau F" }
+      { title: "Niveau B & C (Moyen Risque)", desc: "Assemblage mécanique, électroménager, montage de menuiseries.", badge: "Niveau B/C", to: "/solutions/epi/gants" },
+      { title: "Niveau D & E (Haut Risque)", desc: "Tôlerie automobile, pliage, plasturgie et chaudronnerie.", badge: "Niveau D/E", to: "/solutions/epi/gants/anti-coupure" },
+      { title: "Niveau F (Risque Extrême)", desc: "Manipulation de verre brut, profilés acier tranchants, découpe industrielle.", badge: "Niveau F", to: "/solutions/industrie" }
     ],
     expertAdvice: "Attention : un gant anti-coupure ne protège pas contre le risque de perforation par pointe fine (ex: aiguilles médicales) ni contre le happement par des machines tournantes (perceuses, meules). Pour les machines tournantes, le port de gants peut être formellement contre-indiqué.",
     faq: [
@@ -688,8 +688,8 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     subRanges: [
       { title: "Transpalettes Manuels Standards & Pèseurs", desc: "Capacité 2 000 à 3 000 kg, fourches standards 1150 mm ou courtes.", badge: "Indispensable", to: "/solutions/logistique" },
       { title: "Transpalettes Électriques Compacts Lithium", desc: "Déplacement et levée 100% motorisés, poids plume (130 kg), idéal hayon camion.", badge: "Lithium", to: "/solutions/logistique" },
-      { title: "Gerbeurs Manuels & Semi-Électriques", desc: "Levée jusqu'à 3,5 mètres pour chargement de rayonnages et mise à niveau de palettes.", badge: "Hauteur", to: "/solutions/logistique" },
-      { title: "Élingues & Accessoires de Levage", desc: "Élingues textiles 1T à 10T, manilles haute résistance, palans à chaîne et crochets.", badge: "Levage" }
+      { title: "Gerbeurs Manuels & Semi-Électriques", desc: "Levée jusqu'à 3,5 mètres pour chargement de rayonnages et mise à niveau de palettes.", badge: "Hauteur", to: "/solutions/industrie" },
+      { title: "Élingues & Accessoires de Levage", desc: "Élingues textiles 1T à 10T, manilles haute résistance, palans à chaîne et crochets.", badge: "Levage", to: "/solutions/travail-en-hauteur" }
     ],
     expertAdvice: "Réglez vos postes de travail à hauteur d'homme : l'utilisation d'une table élévatrice ou d'un transpalette haute levée permet à l'opérateur de prélever des pièces sans jamais se pencher, réduisant la fatigue lombaire de 70%.",
     faq: [
@@ -996,9 +996,9 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de vêtements professionnels :",
     subRanges: [
-      { title: "Pantalons & Combinaisons de Travail", desc: "Multi-poches, taille élastiquée, renforts Cordura® et poches genouillères amovibles.", badge: "Workwear" },
-      { title: "Vêtements Été & Respirants", desc: "Polos techniques respirants, bermudas de travail et t-shirts anti-UV légers.", badge: "Été" },
-      { title: "Parkas, Vestes & Softshells Intempéries", desc: "Imperméables EN 343, doublures polaires amovibles, coupe-vent respirant.", badge: "Hiver/Pluie" },
+      { title: "Pantalons & Combinaisons de Travail", desc: "Multi-poches, taille élastiquée, renforts Cordura® et poches genouillères amovibles.", badge: "Workwear", to: "/solutions/epi/btp" },
+      { title: "Vêtements Été & Respirants", desc: "Polos techniques respirants, bermudas de travail et t-shirts anti-UV légers.", badge: "Été", to: "/solutions/epi/chaussures-securite" },
+      { title: "Parkas, Vestes & Softshells Intempéries", desc: "Imperméables EN 343, doublures polaires amovibles, coupe-vent respirant.", badge: "Hiver/Pluie", to: "/solutions/epi/gants" },
       { title: "Vêtements Haute Visibilité (Classes 2 & 3)", desc: "Gilets, vestes, polos et pantalons bicolores jaunes ou oranges fluorescents.", badge: "EN 20471", to: "/solutions/logistique" },
       { title: "Vêtements Multirisques ATEX & Non-Feu", desc: "Protection retardatrice de flamme, antistatique et anti-arc électrique (EN 11612/1149).", badge: "Multirisque", to: "/solutions/industrie" }
     ],
