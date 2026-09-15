@@ -30,9 +30,11 @@ function formatMAD(n: number) {
 export default function CatalogueDevisBuilder({
   token,
   onSubmitted,
+  onSessionExpired,
 }: {
   token: string
   onSubmitted: () => void
+  onSessionExpired: () => void
 }) {
   const [query, setQuery] = useState("")
   const [rayon, setRayon] = useState("")
@@ -56,7 +58,13 @@ export default function CatalogueDevisBuilder({
   // Load category facets once
   useEffect(() => {
     fetch("/api/articles/facets", { headers: { Authorization: `Bearer ${token}` } })
-      .then((r) => (r.ok ? r.json() : null))
+      .then((r) => {
+        if (r.status === 401) {
+          onSessionExpired()
+          return null
+        }
+        return r.ok ? r.json() : null
+      })
       .then((data) => {
         if (data) setFacets(data)
       })
@@ -85,6 +93,10 @@ export default function CatalogueDevisBuilder({
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((r) => {
+          if (r.status === 401) {
+            onSessionExpired()
+            throw new Error("session-expired")
+          }
           if (!r.ok) throw new Error("Erreur lors de la recherche.")
           return r.json()
         })
@@ -92,7 +104,10 @@ export default function CatalogueDevisBuilder({
           setResults(data.items || [])
           setTotal(data.total || 0)
         })
-        .catch(() => setSearchError("Impossible de charger les articles. Réessayez."))
+        .catch((err) => {
+          if (err instanceof Error && err.message === "session-expired") return
+          setSearchError("Impossible de charger les articles. Réessayez.")
+        })
         .finally(() => setLoading(false))
     }, 280)
     return () => {
@@ -159,6 +174,10 @@ export default function CatalogueDevisBuilder({
           note,
         }),
       })
+      if (res.status === 401) {
+        onSessionExpired()
+        return
+      }
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || "Erreur lors de l'envoi de la demande.")
       setSubmitted(data.id)

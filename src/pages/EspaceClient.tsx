@@ -700,7 +700,7 @@ export default function EspaceClient() {
 
           {/* TAB: CATALOGUE DEVIS BUILDER */}
           {activeTab === "catalogue" && token && (
-            <CatalogueDevisBuilder token={token} onSubmitted={loadClientData} />
+            <CatalogueDevisBuilder token={token} onSubmitted={loadClientData} onSessionExpired={logout} />
           )}
 
           {/* TAB 2: PROFILE */}
