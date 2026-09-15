@@ -1295,6 +1295,191 @@ if ($uri === '/api/admin/config/github') {
     }
 }
 
+// ── Article Catalogue API (Espace Client search & devis builder) ────
+
+// Search/browse the article catalogue -- requires a logged-in client account
+if ($uri === '/api/articles' || $uri === '/api/articles/') {
+    if ($method === 'GET') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Connexion requise pour accéder au catalogue.'], 401);
+        }
+        $result = searchArticlesPHP(
+            $_GET['q'] ?? '',
+            $_GET['rayon'] ?? '',
+            $_GET['famille'] ?? '',
+            $_GET['page'] ?? 1,
+            $_GET['pageSize'] ?? 24
+        );
+        sendJson($result);
+    }
+}
+
+// Category / sub-category filters for the search UI
+if ($uri === '/api/articles/facets' || $uri === '/api/articles/facets/') {
+    if ($method === 'GET') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Connexion requise pour accéder au catalogue.'], 401);
+        }
+        sendJson(getArticleFacetsPHP());
+    }
+}
+
+// ── Itemized Devis (built from the article catalogue) ───────────────
+
+// Create an itemized devis request from the client's cart
+if ($uri === '/api/devis-catalogue' || $uri === '/api/devis-catalogue/') {
+    if ($method === 'POST') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Connexion requise pour accéder au catalogue.'], 401);
+        }
+
+        $body = getJsonBody();
+        $items = $body['items'] ?? [];
+        $note = trim((string)($body['note'] ?? ''));
+
+        if (!is_array($items) || empty($items)) {
+            sendJson(['error' => 'Votre panier de devis est vide.'], 400);
+        }
+        if (count($items) > 200) {
+            sendJson(['error' => 'Trop d\'articles dans cette demande (200 maximum).'], 400);
+        }
+
+        $resolvedItems = [];
+        foreach ($items as $raw) {
+            $code = trim((string)($raw['code'] ?? ''));
+            $quantity = max(1, min(100000, (int)($raw['quantity'] ?? 1)));
+            if ($code === '') continue;
+            $article = findArticleByCodePHP($code);
+            if (!$article) continue;
+            $resolvedItems[] = [
+                'id' => uniqid('', true),
+                'articleCode' => $article['code'],
+                'designation' => $article['designation'],
+                'quantity' => $quantity,
+                'priceTtc' => $article['priceTtc'],
+            ];
+        }
+
+        if (empty($resolvedItems)) {
+            sendJson(['error' => 'Aucun article valide trouvé dans votre panier.'], 400);
+        }
+
+        $entry = [
+            'id' => dechex(time()) . substr(md5(uniqid(mt_rand(), true)), 0, 5),
+            'createdAt' => date('Y-m-d H:i:s'),
+            'userId' => $user['id'],
+            'name' => $user['name'],
+            'company' => $user['company'] ?? null,
+            'email' => $user['email'],
+            'phone' => $user['phone'],
+            'note' => $note !== '' ? mb_substr($note, 0, 2000) : null,
+            'status' => 'pending',
+        ];
+
+        createDevisRequestPHP($entry, $resolvedItems);
+
+        @sendCatalogueDevisEmailsPHP($entry['id'], [
+            'name' => $user['name'],
+            'company' => $user['company'] ?? null,
+            'email' => $user['email'],
+            'phone' => $user['phone'],
+        ], $resolvedItems, $entry['note']);
+
+        sendJson(['success' => true, 'id' => $entry['id'], 'items' => $resolvedItems], 201);
+    }
+}
+
+// The logged-in client's own itemized devis history
+if ($uri === '/api/devis-catalogue/mine' || $uri === '/api/devis-catalogue/mine/') {
+    if ($method === 'GET') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Connexion requise pour accéder au catalogue.'], 401);
+        }
+        sendJson(loadDevisRequestsForUserPHP($user['id']));
+    }
+}
+
+// Admin: list every itemized devis request
+if ($uri === '/api/admin/devis-catalogue' || $uri === '/api/admin/devis-catalogue/') {
+    requireAdminPHP();
+    if ($method === 'GET') {
+        sendJson(loadAllDevisRequestsPHP());
+    }
+}
+
+// Admin: delete an itemized devis request
+if (preg_match('#^/api/admin/devis-catalogue/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
+    $id = $matches[1];
+    if ($method === 'DELETE') {
+        $success = deleteDevisRequestPHP($id);
+        if (!$success) {
+            sendJson(['error' => 'Not found'], 404);
+        }
+        sendJson(['success' => true]);
+    }
+}
+
+// Admin: search/browse the catalogue (Articles & Prix admin tab)
+if ($uri === '/api/admin/articles' || $uri === '/api/admin/articles/') {
+    requireAdminPHP();
+    if ($method === 'GET') {
+        $result = searchArticlesPHP(
+            $_GET['q'] ?? '',
+            $_GET['rayon'] ?? '',
+            $_GET['famille'] ?? '',
+            $_GET['page'] ?? 1,
+            $_GET['pageSize'] ?? 24
+        );
+        sendJson($result);
+    }
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $code = trim((string)($body['code'] ?? ''));
+        $designation = trim((string)($body['designation'] ?? ''));
+        if ($code === '' || $designation === '') {
+            sendJson(['error' => 'Code et désignation sont obligatoires.'], 400);
+        }
+        $result = importArticlesPHP([$body]);
+        sendJson(array_merge(['success' => true], $result));
+    }
+}
+
+// Admin: remove an article from the catalogue
+if (preg_match('#^/api/admin/articles/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
+    $code = $matches[1];
+    if ($method === 'DELETE') {
+        $success = deleteArticlePHP($code);
+        if (!$success) {
+            sendJson(['error' => 'Article introuvable.'], 404);
+        }
+        sendJson(['success' => true]);
+    }
+}
+
+// Admin: bulk import/refresh the article catalogue (JSON array of
+// {code, designation, tva, priceTtc, rayon, famille})
+if ($uri === '/api/admin/import/articles' && $method === 'POST') {
+    requireAdminPHP();
+    $rows = getJsonBody();
+    if (!is_array($rows)) {
+        sendJson(['error' => 'Format JSON non reconnu. Une liste d\'articles est attendue.'], 400);
+    }
+    if (isset($rows['articles']) && is_array($rows['articles'])) {
+        $rows = $rows['articles'];
+    }
+    if (empty($rows)) {
+        sendJson(['error' => 'Aucun article trouvé dans le fichier importé.'], 400);
+    }
+    $result = importArticlesPHP($rows);
+    sendJson(array_merge(['success' => true], $result));
+}
+
 // Fallback 404
 sendJson(['error' => 'Endpoint introuvable'], 404);
 

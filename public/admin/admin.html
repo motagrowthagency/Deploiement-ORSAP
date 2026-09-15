@@ -152,6 +152,16 @@
         Demandes de devis
         <span class="tab-badge">{{SUBMISSIONS_COUNT}}</span>
       </a>
+      <a href="/admin?tab=articles" class="tab-btn {{TAB_ARTICLES_ACTIVE}}">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+        Articles &amp; Prix
+        <span class="tab-badge">{{ARTICLES_COUNT}}</span>
+      </a>
+      <a href="/admin?tab=catalogue" class="tab-btn {{TAB_CATALOGUE_ACTIVE}}">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m-10 4a1 1 0 102 0 1 1 0 00-2 0zm10 0a1 1 0 102 0 1 1 0 00-2 0z" /></svg>
+        Devis Catalogue
+        <span class="tab-badge">{{CATALOGUE_COUNT}}</span>
+      </a>
       <a href="/admin?tab=recrutement" class="tab-btn {{TAB_RECRUTEMENT_ACTIVE}}">
         <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
         Recrutement
@@ -324,6 +334,28 @@
         const res = await fetch("/api/devis/" + id, { method: "DELETE" });
         if (res.ok) {
           const row = document.getElementById("row-" + id);
+          if (row) row.remove();
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la suppression (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
+      }
+    }
+
+    // Delete catalogue devis (itemized)
+    async function deleteCatalogueDevis(id) {
+      if (!confirm("Supprimer cette demande de devis catalogue ?")) return;
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/admin/devis-catalogue/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("cat-devis-" + id);
           if (row) row.remove();
           location.reload();
           return;
@@ -679,6 +711,298 @@
       } finally {
         if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
+    }
+
+    // ── Articles & Prix (catalogue management) ──────────────────────
+    let artCurrentPage = 1;
+    let artSearchTimer = null;
+    let artRowCache = {};
+
+    function escapeHtmlAdmin(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function debouncedArticleSearch() {
+      clearTimeout(artSearchTimer);
+      artSearchTimer = setTimeout(() => searchArticlesAdmin(1), 300);
+    }
+
+    async function searchArticlesAdmin(page) {
+      artCurrentPage = page || 1;
+      const q = document.getElementById("artSearchInput").value.trim();
+      const container = document.getElementById("artResultsContainer");
+      const countEl = document.getElementById("artResultCount");
+      const pagEl = document.getElementById("artPagination");
+      container.innerHTML = '<div class="empty">Recherche en cours...</div>';
+      try {
+        const params = new URLSearchParams({ q, page: String(artCurrentPage), pageSize: "24" });
+        const res = await fetch("/api/admin/articles?" + params.toString());
+        if (!res.ok) throw new Error("status " + res.status);
+        const data = await res.json();
+        countEl.textContent = data.total.toLocaleString("fr-FR") + " article(s) trouvé(s)";
+
+        if (data.items.length === 0) {
+          container.innerHTML = '<div class="empty">Aucun article ne correspond à votre recherche.</div>';
+          pagEl.innerHTML = "";
+          return;
+        }
+
+        data.items.forEach((a) => (artRowCache[a.code] = a));
+
+        container.innerHTML =
+          '<div class="table-responsive"><table><thead><tr><th>Code</th><th>Désignation</th><th>Prix TTC</th><th>TVA</th><th>Catégorie</th><th style="width:170px;">Actions</th></tr></thead><tbody>' +
+          data.items
+            .map(
+              (a) => `
+          <tr id="art-row-${escapeHtmlAdmin(a.code)}">
+            <td style="font-family:monospace; font-size:12px;">${escapeHtmlAdmin(a.code)}</td>
+            <td>${escapeHtmlAdmin(a.designation)}</td>
+            <td style="font-weight:700; white-space:nowrap;">${a.priceTtc.toFixed(2)} MAD</td>
+            <td>${a.tva}%</td>
+            <td style="font-size:11px; color:#64748b;">${escapeHtmlAdmin(a.rayon)}${a.famille ? " · " + escapeHtmlAdmin(a.famille) : ""}</td>
+            <td style="white-space:nowrap;">
+              <button class="edit-btn" onclick="openEditArticleModal('${escapeHtmlAdmin(a.code)}')">Modifier</button>
+              <button class="view-link" style="background:#d3121a; color:#fff; border-color:#d3121a; cursor:pointer; margin-left:4px;" onclick="deleteArticleRow('${escapeHtmlAdmin(a.code)}')">Suppr.</button>
+            </td>
+          </tr>`
+            )
+            .join("") +
+          "</tbody></table></div>";
+
+        const totalPages = Math.max(1, Math.ceil(data.total / 24));
+        pagEl.innerHTML = `
+          <button onclick="searchArticlesAdmin(${artCurrentPage - 1})" ${artCurrentPage <= 1 ? "disabled" : ""} style="padding:6px 12px; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer;">← Précédent</button>
+          <span>Page ${artCurrentPage} / ${totalPages}</span>
+          <button onclick="searchArticlesAdmin(${artCurrentPage + 1})" ${artCurrentPage >= totalPages ? "disabled" : ""} style="padding:6px 12px; border:1px solid #ddd; border-radius:6px; background:#fff; cursor:pointer;">Suivant →</button>
+        `;
+      } catch (err) {
+        container.innerHTML = '<div class="empty">Erreur lors de la recherche.</div>';
+      }
+    }
+
+    function openAddArticleModal() {
+      document.getElementById("articleModalTitle").textContent = "Nouvel article";
+      document.getElementById("artCode").value = "";
+      document.getElementById("artCode").disabled = false;
+      document.getElementById("artDesignation").value = "";
+      document.getElementById("artPrice").value = "";
+      document.getElementById("artTva").value = "20";
+      document.getElementById("artRayon").value = "";
+      document.getElementById("artFamille").value = "";
+      document.getElementById("articleModalError").style.display = "none";
+      document.getElementById("articleModalOverlay").style.display = "flex";
+    }
+
+    function openEditArticleModal(code) {
+      const a = artRowCache[code];
+      if (!a) return;
+      document.getElementById("articleModalTitle").textContent = "Modifier l'article";
+      document.getElementById("artCode").value = a.code;
+      document.getElementById("artCode").disabled = true;
+      document.getElementById("artDesignation").value = a.designation;
+      document.getElementById("artPrice").value = a.priceTtc;
+      document.getElementById("artTva").value = a.tva;
+      document.getElementById("artRayon").value = a.rayon;
+      document.getElementById("artFamille").value = a.famille;
+      document.getElementById("articleModalError").style.display = "none";
+      document.getElementById("articleModalOverlay").style.display = "flex";
+    }
+
+    function closeArticleModal() {
+      document.getElementById("articleModalOverlay").style.display = "none";
+    }
+
+    async function saveArticleModal() {
+      const code = document.getElementById("artCode").value.trim();
+      const designation = document.getElementById("artDesignation").value.trim();
+      const priceTtc = parseFloat(document.getElementById("artPrice").value);
+      const tva = parseFloat(document.getElementById("artTva").value) || 20;
+      const rayon = document.getElementById("artRayon").value.trim();
+      const famille = document.getElementById("artFamille").value.trim();
+      const errEl = document.getElementById("articleModalError");
+
+      if (!code || !designation || isNaN(priceTtc)) {
+        errEl.textContent = "Code, désignation et prix sont obligatoires.";
+        errEl.style.display = "block";
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/admin/articles", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, designation, priceTtc, tva, rayon, famille }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Erreur serveur");
+        closeArticleModal();
+        searchArticlesAdmin(artCurrentPage);
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.style.display = "block";
+      }
+    }
+
+    async function deleteArticleRow(code) {
+      if (!confirm("Supprimer définitivement l'article " + code + " ?")) return;
+      try {
+        const res = await fetch("/api/admin/articles/" + encodeURIComponent(code), { method: "DELETE" });
+        if (res.ok) {
+          searchArticlesAdmin(artCurrentPage);
+        } else {
+          alert("Erreur lors de la suppression.");
+        }
+      } catch (err) {
+        alert("Erreur réseau : " + err.message);
+      }
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [],
+        field = "",
+        inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (inQuotes) {
+          if (c === '"') {
+            if (text[i + 1] === '"') {
+              field += '"';
+              i++;
+            } else {
+              inQuotes = false;
+            }
+          } else {
+            field += c;
+          }
+        } else if (c === '"') {
+          inQuotes = true;
+        } else if (c === ",") {
+          row.push(field);
+          field = "";
+        } else if (c === "\n" || c === "\r") {
+          if (c === "\r" && text[i + 1] === "\n") i++;
+          row.push(field);
+          field = "";
+          if (row.length > 1 || row[0] !== "") rows.push(row);
+          row = [];
+        } else {
+          field += c;
+        }
+      }
+      if (field !== "" || row.length) {
+        row.push(field);
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    const ACCENT_MAP = {
+      é: "e", è: "e", ê: "e", ë: "e",
+      à: "a", â: "a", ä: "a",
+      î: "i", ï: "i",
+      ô: "o", ö: "o",
+      ù: "u", û: "u", ü: "u",
+      ç: "c",
+    };
+
+    function normalizeHeader(h) {
+      return h
+        .toLowerCase()
+        .split("")
+        .map((ch) => ACCENT_MAP[ch] || ch)
+        .join("")
+        .trim()
+        .replace(/\s+/g, " ");
+    }
+
+    const ARTICLE_HEADER_ALIASES = {
+      code: ["code", "code article", "code de l'article"],
+      designation: ["designation", "designation de l'article", "nom", "article", "produit"],
+      tva: ["tva"],
+      priceTtc: ["prix", "prix ttc", "pv ttc", "price", "pricettc"],
+      rayon: ["rayon", "categorie"],
+      famille: ["famille", "sous categorie", "sous-categorie"],
+    };
+
+    function mapArticleHeaders(headerRow) {
+      const norm = headerRow.map(normalizeHeader);
+      const map = {};
+      for (const key in ARTICLE_HEADER_ALIASES) {
+        const idx = norm.findIndex((h) => ARTICLE_HEADER_ALIASES[key].includes(h));
+        if (idx !== -1) map[key] = idx;
+      }
+      return map;
+    }
+
+    async function importArticlesCsv(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      const rows = parseCSV(text).filter((r) => r.length > 1 || r[0] !== "");
+      if (rows.length < 2) {
+        alert("Fichier CSV vide ou invalide.");
+        event.target.value = "";
+        return;
+      }
+
+      const headerMap = mapArticleHeaders(rows[0]);
+      if (headerMap.code === undefined || headerMap.designation === undefined) {
+        alert(
+          'Colonnes "code" et "désignation" introuvables dans le CSV. Colonnes attendues : code, designation, tva, prix, rayon, famille.'
+        );
+        event.target.value = "";
+        return;
+      }
+
+      const articles = rows
+        .slice(1)
+        .map((r) => ({
+          code: (r[headerMap.code] || "").trim(),
+          designation: (r[headerMap.designation] || "").trim(),
+          tva: headerMap.tva !== undefined ? parseFloat(String(r[headerMap.tva] || "20").replace(",", ".")) : 20,
+          priceTtc:
+            headerMap.priceTtc !== undefined ? parseFloat(String(r[headerMap.priceTtc] || "0").replace(",", ".")) : 0,
+          rayon: headerMap.rayon !== undefined ? (r[headerMap.rayon] || "").trim() : "",
+          famille: headerMap.famille !== undefined ? (r[headerMap.famille] || "").trim() : "",
+        }))
+        .filter((a) => a.code && a.designation);
+
+      if (articles.length === 0) {
+        alert("Aucun article valide trouvé dans le fichier.");
+        event.target.value = "";
+        return;
+      }
+
+      if (!confirm(`Importer ${articles.length} article(s) ? Les articles existants (même code) seront mis à jour.`)) {
+        event.target.value = "";
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/admin/import/articles", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(articles),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Erreur serveur");
+        alert(`${data.imported} article(s) importé(s)/actualisé(s). Total catalogue : ${data.total}.`);
+        location.reload();
+      } catch (err) {
+        alert("Erreur lors de l'import : " + err.message);
+      } finally {
+        event.target.value = "";
+      }
+    }
+
+    if (document.getElementById("artSearchInput")) {
+      searchArticlesAdmin(1);
     }
 
     // Verify user account manually

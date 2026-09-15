@@ -87,6 +87,8 @@ $blogs = [];
 $apps = [];
 $subscribers = [];
 $users = loadUsersList();
+$catalogueDevis = loadAllDevisRequestsPHP();
+$articlesTotal = countArticlesPHP();
 
 if ($pdo) {
     try {
@@ -345,6 +347,67 @@ foreach ($users as $u) {
     );
 }
 
+// 5b. Generate itemized catalogue devis rows
+$catalogueRows = '';
+foreach ($catalogueDevis as $d) {
+    $id = $d['id'] ?? '';
+    $dateVal = $d['createdAt'] ?? '';
+    $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
+    $items = $d['items'] ?? [];
+    $total = 0;
+    $itemsHtml = '';
+    foreach ($items as $it) {
+        $lineTotal = (float)($it['priceTtc'] ?? 0) * (int)($it['quantity'] ?? 1);
+        $total += $lineTotal;
+        $itemsHtml .= sprintf(
+            '<div style="padding:4px 0;border-bottom:1px dashed #e2e8f0;font-size:12px;">
+               <span style="font-family:monospace;color:#64748b;">%s</span>
+               &nbsp;%s
+               &nbsp;<b>×%d</b>
+               &nbsp;<span style="color:#94a3b8;">(%s MAD)</span>
+             </div>',
+            esc($it['articleCode'] ?? ''),
+            esc($it['designation'] ?? ''),
+            (int)($it['quantity'] ?? 1),
+            number_format((float)($it['priceTtc'] ?? 0), 2)
+        );
+    }
+    $email = $d['email'] ?? '';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
+    $phone = $d['phone'] ?? '';
+    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
+
+    $catalogueRows .= sprintf('
+    <tr id="cat-devis-%s">
+      <td class="chk-cell"></td>
+      <td class="date-badge">%s</td>
+      <td style="font-weight: 700;">%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td>%s</td>
+      <td style="max-width:360px;">%s</td>
+      <td style="font-weight: 800; white-space: nowrap;">%s MAD</td>
+      <td class="msg">%s</td>
+      <td>
+        <button class="view-link" style="background:#d3121a; color:#fff; border-color:#d3121a; cursor:pointer;" onclick="deleteCatalogueDevis(\'%s\')">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
+    </tr>',
+        esc($id),
+        $dateFormatted,
+        esc($d['name'] ?? '—'),
+        esc($d['company'] ?? '—'),
+        $emailHtml,
+        $phoneHtml,
+        $itemsHtml ?: '—',
+        number_format($total, 2),
+        esc($d['note'] ?? '—'),
+        esc($id)
+    );
+}
+
 // 6. Construct tab content
 $tabContent = '';
 if ($tab === 'devis') {
@@ -471,6 +534,87 @@ if ($tab === 'devis') {
             </tr>
           </thead>
           <tbody>' . $subscribersRows . '</tbody>
+        </table></div>') .
+      '</div>
+    </div>';
+} elseif ($tab === 'articles') {
+    $tabContent = '
+    <div class="wrap">
+      <div class="table-container">
+        <div class="table-header-title">
+          <span>Articles du Catalogue (' . number_format($articlesTotal, 0, ',', ' ') . ')</span>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="view-link" style="cursor: pointer;" onclick="openAddArticleModal()">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+              Nouvel article
+            </button>
+            <label class="view-link" style="cursor: pointer; margin-bottom: 0;" title="Importer un CSV (colonnes: code, designation, tva, prix, rayon, famille)">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12" /></svg>
+              Importer CSV
+              <input type="file" accept=".csv" onchange="importArticlesCsv(event)" style="display: none;" />
+            </label>
+          </div>
+        </div>
+        <div style="padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <input
+            type="text"
+            id="artSearchInput"
+            placeholder="Rechercher par mot-clé ou code article..."
+            oninput="debouncedArticleSearch()"
+            style="flex: 1; min-width: 260px; padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;"
+          />
+          <span id="artResultCount" style="font-size: 12px; color: #64748b;"></span>
+        </div>
+        <div id="artResultsContainer">
+          <div class="empty">Tapez un mot-clé ou un code article pour rechercher dans le catalogue.</div>
+        </div>
+        <div id="artPagination" style="padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #64748b;"></div>
+      </div>
+    </div>
+
+    <div id="articleModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 999; align-items: center; justify-content: center;">
+      <div style="background: #fff; border-radius: 10px; padding: 24px; width: 100%; max-width: 440px;">
+        <h3 id="articleModalTitle" style="margin: 0 0 16px; font-size: 16px;">Nouvel article</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <input type="text" id="artCode" placeholder="Code article (ex: OR12345)" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+          <input type="text" id="artDesignation" placeholder="Désignation" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+          <input type="number" id="artPrice" placeholder="Prix TTC (MAD)" step="0.01" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+          <input type="number" id="artTva" placeholder="TVA (%)" value="20" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+          <input type="text" id="artRayon" placeholder="Catégorie (Rayon)" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+          <input type="text" id="artFamille" placeholder="Sous-catégorie (Famille)" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+        </div>
+        <div id="articleModalError" style="display: none; margin-top: 10px; padding: 8px 10px; background: #fef2f2; color: #b91c1c; font-size: 12px; border-radius: 6px;"></div>
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+          <button onclick="closeArticleModal()" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer;">Annuler</button>
+          <button onclick="saveArticleModal()" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #d3121a; color: #fff; font-weight: 700; cursor: pointer;">Enregistrer</button>
+        </div>
+      </div>
+    </div>';
+} elseif ($tab === 'catalogue') {
+    $tabContent = '
+    <div class="wrap">
+      <div class="table-container">
+        <div class="table-header-title">
+          <span>Devis Catalogue — Articles &amp; Quantités (' . count($catalogueDevis) . ')</span>
+        </div>' .
+        (empty($catalogueDevis)
+            ? '<div class="empty">Aucune demande de devis catalogue pour le moment.</div>'
+            : '<div class="table-responsive"><table>
+          <thead>
+            <tr>
+              <th class="chk-cell"></th>
+              <th>Date</th>
+              <th>Nom</th>
+              <th>Entreprise</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Articles demandés</th>
+              <th>Total estimé</th>
+              <th>Message</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>' . $catalogueRows . '</tbody>
         </table></div>') .
       '</div>
     </div>';
@@ -614,6 +758,10 @@ $html = str_replace('{{BLOGS_COUNT}}', (string)count($blogs), $html);
 $html = str_replace('{{APPLICATIONS_COUNT}}', (string)count($apps), $html);
 $html = str_replace('{{SUBSCRIBERS_COUNT}}', (string)count($subscribers), $html);
 $html = str_replace('{{USERS_COUNT}}', (string)count($users), $html);
+$html = str_replace('{{ARTICLES_COUNT}}', number_format($articlesTotal, 0, ',', ' '), $html);
+$html = str_replace('{{TAB_ARTICLES_ACTIVE}}', $tab === 'articles' ? 'active' : '', $html);
+$html = str_replace('{{CATALOGUE_COUNT}}', (string)count($catalogueDevis), $html);
+$html = str_replace('{{TAB_CATALOGUE_ACTIVE}}', $tab === 'catalogue' ? 'active' : '', $html);
 $html = str_replace('{{TAB_DEVIS_ACTIVE}}', $tab === 'devis' ? 'active' : '', $html);
 $html = str_replace('{{TAB_RECRUTEMENT_ACTIVE}}', $tab === 'recrutement' ? 'active' : '', $html);
 $html = str_replace('{{TAB_BLOG_ACTIVE}}', $tab === 'blog' ? 'active' : '', $html);

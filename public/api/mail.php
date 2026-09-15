@@ -431,3 +431,157 @@ HTML;
     return ['success' => true];
 }
 
+function formatMADPHP($n) {
+    return number_format((float)$n, 2, ',', ' ') . ' MAD';
+}
+
+/**
+ * Send an itemized catalogue devis to the sales team, and a confirmation
+ * copy to the client. Called after a devis is created via the Espace
+ * Client catalogue/devis builder.
+ */
+function sendCatalogueDevisEmailsPHP($devisId, array $user, array $items, $note) {
+    $config = require __DIR__ . '/config.php';
+    $notifyTo = $config['notification_email'] ?? 'orsap@orsap.ma';
+    $from = $config['from_email'] ?? 'no-reply@orsap.ma';
+
+    $total = 0;
+    foreach ($items as $it) {
+        $total += (float)$it['priceTtc'] * (int)$it['quantity'];
+    }
+
+    $rows = '';
+    foreach ($items as $it) {
+        $rows .= sprintf(
+            '<tr>
+              <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;font-family:monospace;font-size:12px;color:#64748b;">%s</td>
+              <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#14171a;">%s</td>
+              <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#14171a;text-align:center;">%d</td>
+              <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#14171a;text-align:right;">%s</td>
+              <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#14171a;text-align:right;font-weight:700;">%s</td>
+            </tr>',
+            htmlspecialchars($it['articleCode'], ENT_QUOTES, 'UTF-8'),
+            htmlspecialchars($it['designation'], ENT_QUOTES, 'UTF-8'),
+            (int)$it['quantity'],
+            formatMADPHP($it['priceTtc']),
+            formatMADPHP($it['priceTtc'] * $it['quantity'])
+        );
+    }
+
+    $tableHeader = '<tr style="background:#f8fafc;">
+      <th style="padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;">Code</th>
+      <th style="padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;">Article</th>
+      <th style="padding:10px 12px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;">Qté</th>
+      <th style="padding:10px 12px;text-align:right;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;">PU TTC</th>
+      <th style="padding:10px 12px;text-align:right;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;">Total</th>
+    </tr>';
+
+    $baseStyle = "
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f2f0ec; margin: 0; padding: 0; color: #14171a; }
+    .container { max-width: 680px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #d3121a; }
+    .header { background: #14171a; padding: 25px 30px; text-align: center; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; }
+    .header p { color: #d3121a; font-size: 13px; font-weight: 700; margin: 5px 0 0 0; text-transform: uppercase; letter-spacing: 0.1em; }
+    .content { padding: 30px; line-height: 1.6; }
+    .meta { font-size: 13px; color: #3c434b; margin-bottom: 20px; }
+    .meta b { color: #14171a; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .total-row td { padding: 14px 12px; font-size: 15px; font-weight: 900; color: #14171a; border-top: 2px solid #14171a; }
+    .note-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px; margin-top: 20px; font-size: 13px; color: #3c434b; }
+    .footer { background: #fafbfc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center; font-size: 12px; color: #64748b; }
+    .footer a { color: #d3121a; text-decoration: none; }
+    ";
+
+    $safeName = htmlspecialchars($user['name'] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeCompany = !empty($user['company']) ? ' — ' . htmlspecialchars($user['company'], ENT_QUOTES, 'UTF-8') : '';
+    $safeEmail = htmlspecialchars($user['email'] ?? '', ENT_QUOTES, 'UTF-8');
+    $safePhone = htmlspecialchars($user['phone'] ?? '', ENT_QUOTES, 'UTF-8');
+    $safeDevisId = strtoupper($devisId);
+
+    $clientMeta = "<div class=\"meta\">
+      <div><b>Référence :</b> {$safeDevisId}</div>
+      <div><b>Client :</b> {$safeName}{$safeCompany}</div>
+      <div><b>Email :</b> {$safeEmail} &nbsp;·&nbsp; <b>Téléphone :</b> {$safePhone}</div>
+    </div>";
+
+    $tableHtml = "<table>
+      <thead>{$tableHeader}</thead>
+      <tbody>
+        {$rows}
+        <tr class=\"total-row\">
+          <td colspan=\"4\" style=\"text-align:right;\">Total estimé (TTC)</td>
+          <td style=\"text-align:right;\">" . formatMADPHP($total) . "</td>
+        </tr>
+      </tbody>
+    </table>";
+
+    $noteHtml = !empty($note)
+        ? '<div class="note-box"><b>Message du client :</b><br/>' . nl2br(htmlspecialchars($note, ENT_QUOTES, 'UTF-8')) . '</div>'
+        : '';
+
+    $itemCount = count($items);
+
+    $salesHtml = "<!DOCTYPE html>
+<html lang=\"fr\">
+<head><meta charset=\"UTF-8\"><style>{$baseStyle}</style></head>
+<body>
+  <div class=\"container\">
+    <div class=\"header\"><h1>ORSAP</h1><p>Nouvelle demande de devis — Catalogue</p></div>
+    <div class=\"content\">
+      {$clientMeta}
+      {$tableHtml}
+      {$noteHtml}
+    </div>
+    <div class=\"footer\">
+      <p>Demande transmise depuis l'Espace Client ORSAP · <a href=\"https://orsap.ma/admin?tab=catalogue\">Ouvrir le tableau de bord</a></p>
+    </div>
+  </div>
+</body>
+</html>";
+
+    $clientHtml = "<!DOCTYPE html>
+<html lang=\"fr\">
+<head><meta charset=\"UTF-8\"><style>{$baseStyle}</style></head>
+<body>
+  <div class=\"container\">
+    <div class=\"header\"><h1>ORSAP</h1><p>Confirmation de votre demande de devis</p></div>
+    <div class=\"content\">
+      <p>Bonjour {$safeName},</p>
+      <p>Nous avons bien reçu votre demande de devis (réf. <b>{$safeDevisId}</b>) portant sur {$itemCount} article(s). Un expert ORSAP vous recontactera très prochainement avec une offre personnalisée.</p>
+      {$tableHtml}
+      {$noteHtml}
+      <p style=\"font-size:13px;color:#94a3b8;margin-top:25px;\">Les prix affichés sont indicatifs (TTC) et seront confirmés dans votre devis final, sous réserve de disponibilité.</p>
+    </div>
+    <div class=\"footer\">
+      <p>ORSAP — Import, distribution &amp; services aux industries</p>
+      <p>Casablanca, Maroc · <a href=\"tel:+212644203030\">+212 6 44 20 30 30</a> · <a href=\"mailto:orsap@orsap.ma\">orsap@orsap.ma</a></p>
+    </div>
+  </div>
+</body>
+</html>";
+
+    $salesHeaders = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        'From: ORSAP Notifications <' . $from . '>',
+        'Reply-To: ' . (!empty($user['email']) ? $user['email'] : $from),
+        'X-Mailer: PHP/' . phpversion(),
+    ];
+    $salesSubject = "=?UTF-8?B?" . base64_encode("🛒 Nouveau devis catalogue — {$user['name']} ({$itemCount} articles)") . "?=";
+    @mail($notifyTo, $salesSubject, $salesHtml, implode("\r\n", $salesHeaders));
+
+    if (!empty($user['email'])) {
+        $clientHeaders = [
+            'MIME-Version: 1.0',
+            'Content-type: text/html; charset=UTF-8',
+            'From: ORSAP Maroc <' . $from . '>',
+            'Reply-To: ' . $from,
+            'X-Mailer: PHP/' . phpversion(),
+        ];
+        $clientSubject = "=?UTF-8?B?" . base64_encode("Confirmation de votre demande de devis — {$safeDevisId}") . "?=";
+        @mail($user['email'], $clientSubject, $clientHtml, implode("\r\n", $clientHeaders));
+    }
+
+    return ['success' => true];
+}
+
