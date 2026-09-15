@@ -2,6 +2,7 @@ import { useState, useEffect, useId } from "react"
 import { useSearchParams, Link, useNavigate } from "react-router"
 import { useAuth, AuthUser } from "@/context/AuthContext"
 import SEO from "@/components/SEO"
+import CatalogueDevisBuilder from "@/components/CatalogueDevisBuilder"
 
 interface Submission {
   id: string
@@ -14,6 +15,30 @@ interface Submission {
   solutions?: string[]
   sectors?: string[]
   message?: string | null
+}
+
+interface CatalogueDevisItem {
+  id: string
+  articleCode: string
+  designation: string
+  quantity: number
+  priceTtc: number
+}
+
+interface CatalogueDevis {
+  id: string
+  createdAt: string
+  name: string
+  company?: string | null
+  email: string
+  phone: string
+  note?: string | null
+  status: string
+  items: CatalogueDevisItem[]
+}
+
+function formatMAD(n: number) {
+  return `${n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
 }
 
 export default function EspaceClient() {
@@ -65,8 +90,9 @@ export default function EspaceClient() {
   const [resetLoading, setResetLoading] = useState(false)
 
   // Client dashboard state
-  const [activeTab, setActiveTab] = useState<"devis" | "profile" | "docs">("devis")
+  const [activeTab, setActiveTab] = useState<"devis" | "catalogue" | "profile" | "docs">("devis")
   const [userSubmissions, setUserSubmissions] = useState<Submission[]>([])
+  const [catalogueDevis, setCatalogueDevis] = useState<CatalogueDevis[]>([])
   const [loadingDashboard, setLoadingDashboard] = useState(false)
   const [profileSuccess, setProfileSuccess] = useState<string | null>(null)
   const [profileError, setProfileError] = useState<string | null>(null)
@@ -138,12 +164,16 @@ export default function EspaceClient() {
     if (!token) return
     setLoadingDashboard(true)
     try {
-      const res = await fetch("/api/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (res.ok) {
-        const data = await res.json()
+      const [meRes, catalogueRes] = await Promise.all([
+        fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } }),
+        fetch("/api/devis-catalogue/mine", { headers: { Authorization: `Bearer ${token}` } }),
+      ])
+      if (meRes.ok) {
+        const data = await meRes.json()
         setUserSubmissions(data.submissions || [])
+      }
+      if (catalogueRes.ok) {
+        setCatalogueDevis(await catalogueRes.json())
       }
     } catch (e) {
       console.error("Failed to load client data:", e)
@@ -441,7 +471,23 @@ export default function EspaceClient() {
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                Mes Demandes de Devis ({userSubmissions.length})
+                Mes Demandes de Devis ({userSubmissions.length + catalogueDevis.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("catalogue")}
+                className={`relative rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "catalogue"
+                    ? "bg-orsap-red text-white"
+                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                Catalogue Produits
+                {activeTab !== "catalogue" && (
+                  <span className="ml-1.5 rounded-full bg-safety px-1.5 py-0.5 text-[9px] font-black text-ink">
+                    NOUVEAU
+                  </span>
+                )}
               </button>
               <button
                 type="button"
@@ -471,24 +517,30 @@ export default function EspaceClient() {
           {/* TAB 1: DEVIS */}
           {activeTab === "devis" && (
             <div className="mt-8">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h2 className="font-display text-lg font-bold text-ink">Historique de vos demandes de devis</h2>
-                  <p className="text-xs text-ink-soft">Consultez le statut et les solutions demandées</p>
+                  <p className="text-xs text-ink-soft">Consultez le statut, les articles et les solutions demandées</p>
                 </div>
-                <Link
-                  to="/devis"
-                  className="text-xs font-bold text-orsap-red hover:underline"
-                >
-                  Faire une nouvelle demande →
-                </Link>
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("catalogue")}
+                    className="text-xs font-bold text-orsap-red hover:underline"
+                  >
+                    Devis depuis le catalogue →
+                  </button>
+                  <Link to="/devis" className="text-xs font-bold text-orsap-red hover:underline">
+                    Demande générale →
+                  </Link>
+                </div>
               </div>
 
               {loadingDashboard ? (
                 <div className="mt-6 rounded-xl border border-hairline bg-card p-12 text-center text-sm text-ink-soft">
                   Chargement de vos demandes...
                 </div>
-              ) : userSubmissions.length === 0 ? (
+              ) : userSubmissions.length === 0 && catalogueDevis.length === 0 ? (
                 <div className="mt-6 rounded-xl border border-dashed border-hairline bg-card p-12 text-center">
                   <div className="mx-auto size-12 rounded-full bg-orsap-red/10 text-orsap-red grid place-items-center mb-3">
                     <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -499,15 +551,75 @@ export default function EspaceClient() {
                   <p className="mt-1 text-xs text-ink-soft max-w-sm mx-auto">
                     Vous n'avez pas encore envoyé de demande de devis avec cette adresse email ({user.email}).
                   </p>
-                  <Link
-                    to="/devis"
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("catalogue")}
                     className="mt-4 inline-block rounded-lg bg-orsap-red px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white hover:bg-orsap-red-deep"
                   >
                     Demander mon premier devis
-                  </Link>
+                  </button>
                 </div>
               ) : (
                 <div className="mt-6 grid grid-cols-1 gap-4">
+                  {catalogueDevis.map((d) => {
+                    const dTotal = d.items.reduce((sum, it) => sum + it.priceTtc * it.quantity, 0)
+                    return (
+                      <div
+                        key={d.id}
+                        className="rounded-xl border border-hairline bg-card p-6 shadow-sm transition hover:shadow-md"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-xs font-semibold text-ink-soft">
+                              {new Date(d.createdAt).toLocaleDateString("fr-FR", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                            <span className="rounded bg-orsap-red/10 px-2 py-0.5 text-[10px] font-bold uppercase text-orsap-red border border-orsap-red/20">
+                              Catalogue
+                            </span>
+                            <span className="rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase text-emerald-700 border border-emerald-200">
+                              ✓ Transmis à nos équipes
+                            </span>
+                          </div>
+                          <span className="font-mono text-xs text-ink-soft/70">Réf: {d.id.toUpperCase()}</span>
+                        </div>
+
+                        <div className="mt-4 divide-y divide-hairline">
+                          {d.items.map((it) => (
+                            <div key={it.id} className="flex items-center justify-between gap-3 py-2 text-sm">
+                              <div className="min-w-0">
+                                <span className="font-mono text-[11px] text-ink-soft">{it.articleCode}</span>{" "}
+                                <span className="text-ink">{it.designation}</span>
+                              </div>
+                              <div className="shrink-0 text-xs text-ink-soft">
+                                ×{it.quantity} · {formatMAD(it.priceTtc * it.quantity)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-between border-t border-hairline pt-3">
+                          <span className="text-xs font-bold uppercase tracking-wider text-ink-soft">
+                            Total estimé (TTC)
+                          </span>
+                          <span className="font-display text-base font-black text-ink">{formatMAD(dTotal)}</span>
+                        </div>
+
+                        {d.note && (
+                          <div className="mt-3 rounded-lg bg-paper p-3 text-xs text-ink-soft">
+                            <span className="font-bold text-ink">Message : </span>
+                            {d.note}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+
                   {userSubmissions.map((sub) => (
                     <div
                       key={sub.id}
@@ -584,6 +696,11 @@ export default function EspaceClient() {
                 </div>
               )}
             </div>
+          )}
+
+          {/* TAB: CATALOGUE DEVIS BUILDER */}
+          {activeTab === "catalogue" && token && (
+            <CatalogueDevisBuilder token={token} onSubmitted={loadClientData} />
           )}
 
           {/* TAB 2: PROFILE */}

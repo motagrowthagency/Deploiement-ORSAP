@@ -67,4 +67,41 @@ CREATE TABLE IF NOT EXISTS `users` (
   `reset_expires_at` DATETIME DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Article catalogue (imported from ORSAP's internal inventory export)
+CREATE TABLE IF NOT EXISTS `articles` (
+  `code` VARCHAR(32) NOT NULL PRIMARY KEY,
+  `designation` VARCHAR(500) NOT NULL,
+  `tva` TINYINT NOT NULL DEFAULT 20,
+  `price_ttc` DECIMAL(12,2) NOT NULL DEFAULT 0,
+  `rayon` VARCHAR(120) NOT NULL DEFAULT '',
+  `famille` VARCHAR(120) NOT NULL DEFAULT '',
+  KEY `idx_rayon` (`rayon`),
+  KEY `idx_famille` (`famille`),
+  KEY `idx_designation` (`designation`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Itemized quote requests built from the article catalogue (Espace Client)
+CREATE TABLE IF NOT EXISTS `devis_requests` (
+  `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+  `created_at` DATETIME NOT NULL,
+  `user_id` VARCHAR(64) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `company` VARCHAR(255) DEFAULT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(64) NOT NULL,
+  `note` TEXT DEFAULT NULL,
+  `status` VARCHAR(32) NOT NULL DEFAULT 'pending',
+  KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `devis_items` (
+  `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+  `devis_id` VARCHAR(64) NOT NULL,
+  `article_code` VARCHAR(32) NOT NULL,
+  `designation` VARCHAR(500) NOT NULL,
+  `quantity` INT NOT NULL DEFAULT 1,
+  `price_ttc` DECIMAL(12,2) NOT NULL DEFAULT 0,
+  KEY `idx_devis_id` (`devis_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 

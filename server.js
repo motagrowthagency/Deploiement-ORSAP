@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url"
 import { randomBytes } from "node:crypto"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { sendVerificationEmail, sendPasswordResetEmail } from "./server/email.js"
+import { sendVerificationEmail, sendPasswordResetEmail, sendCatalogueDevisEmails } from "./server/email.js"
 import {
   initDatabase,
   loadSubmissions,
@@ -35,6 +35,16 @@ import {
   updateUser,
   deleteUser,
   isUsingMySQL,
+  searchArticles,
+  findArticleByCode,
+  getArticleFacets,
+  importArticles,
+  countArticles,
+  deleteArticle,
+  createDevisRequest,
+  loadDevisRequestsForUser,
+  loadAllDevisRequests,
+  deleteDevisRequest,
 } from "./server/database.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -233,6 +243,15 @@ async function getAuthUser(req) {
     }
   } catch {}
   return null
+}
+
+async function requireClientAuth(req, res, next) {
+  const user = await getAuthUser(req)
+  if (!user) {
+    return res.status(401).json({ error: "Connexion requise pour accéder au catalogue." })
+  }
+  req.clientUser = user
+  next()
 }
 
 // ── Auth API Routes (Espace Client) ─────────────────────────────────
@@ -735,6 +754,169 @@ app.delete("/api/devis/:id", requireAdmin, async (req, res) => {
   return res.json({ success: true })
 })
 
+// ── Article Catalogue API Routes (Espace Client search & devis builder) ──
+
+// Search/browse the article catalogue — requires a logged-in client account
+app.get("/api/articles", requireClientAuth, async (req, res) => {
+  const { q, rayon, famille, page, pageSize } = req.query
+  try {
+    const result = await searchArticles({ q, rayon, famille, page, pageSize })
+    return res.json(result)
+  } catch (err) {
+    console.error("❌ Erreur /api/articles:", err.message)
+    return res.status(500).json({ error: "Erreur lors de la recherche d'articles." })
+  }
+})
+
+// Category / sub-category filters for the search UI
+app.get("/api/articles/facets", requireClientAuth, async (_req, res) => {
+  try {
+    const facets = await getArticleFacets()
+    return res.json(facets)
+  } catch (err) {
+    console.error("❌ Erreur /api/articles/facets:", err.message)
+    return res.status(500).json({ error: "Erreur lors du chargement des catégories." })
+  }
+})
+
+// ── Itemized Devis (built from the article catalogue) ───────────────
+
+// Create an itemized devis request from the client's cart
+app.post("/api/devis-catalogue", requireClientAuth, submissionLimiter, async (req, res) => {
+  const user = req.clientUser
+  const { items, note } = req.body
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: "Votre panier de devis est vide." })
+  }
+  if (items.length > 200) {
+    return res.status(400).json({ error: "Trop d'articles dans cette demande (200 maximum)." })
+  }
+
+  // Never trust client-submitted prices — look up each article server-side.
+  const resolvedItems = []
+  for (const raw of items) {
+    const code = String(raw?.code || "").trim()
+    const quantity = Math.max(1, Math.min(100000, parseInt(raw?.quantity, 10) || 1))
+    if (!code) continue
+    const article = await findArticleByCode(code)
+    if (!article) continue
+    resolvedItems.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      articleCode: article.code,
+      designation: article.designation,
+      quantity,
+      priceTtc: article.priceTtc,
+    })
+  }
+
+  if (resolvedItems.length === 0) {
+    return res.status(400).json({ error: "Aucun article valide trouvé dans votre panier." })
+  }
+
+  const entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    createdAt: new Date().toISOString(),
+    userId: user.id,
+    name: user.name,
+    company: user.company || null,
+    email: user.email,
+    phone: user.phone,
+    note: note ? String(note).slice(0, 2000) : null,
+    status: "pending",
+  }
+
+  await createDevisRequest(entry, resolvedItems)
+
+  console.log(`✅  New catalogue devis from ${user.name} (${resolvedItems.length} articles)`)
+
+  sendCatalogueDevisEmails({
+    devisId: entry.id,
+    user: { name: user.name, company: user.company, email: user.email, phone: user.phone },
+    items: resolvedItems,
+    note: entry.note,
+  }).catch((err) => console.error("❌ Erreur envoi email devis catalogue:", err.message))
+
+  return res.status(201).json({ success: true, id: entry.id, items: resolvedItems })
+})
+
+// The logged-in client's own itemized devis history
+app.get("/api/devis-catalogue/mine", requireClientAuth, async (req, res) => {
+  const requests = await loadDevisRequestsForUser(req.clientUser.id)
+  return res.json(requests)
+})
+
+// Admin: list every itemized devis request
+app.get("/api/admin/devis-catalogue", requireAdmin, async (_req, res) => {
+  const requests = await loadAllDevisRequests()
+  return res.json(requests)
+})
+
+// Admin: delete an itemized devis request
+app.delete("/api/admin/devis-catalogue/:id", requireAdmin, async (req, res) => {
+  const success = await deleteDevisRequest(req.params.id)
+  if (!success) {
+    return res.status(404).json({ error: "Not found" })
+  }
+  return res.json({ success: true })
+})
+
+// Admin: bulk import/refresh the article catalogue (JSON array of
+// {code, designation, tva, priceTtc, rayon, famille})
+app.post("/api/admin/import/articles", requireAdmin, async (req, res) => {
+  let rows = req.body
+  if (!Array.isArray(rows)) {
+    if (Array.isArray(rows?.articles)) rows = rows.articles
+    else return res.status(400).json({ error: "Format JSON non reconnu. Une liste d'articles est attendue." })
+  }
+  if (rows.length === 0) {
+    return res.status(400).json({ error: "Aucun article trouvé dans le fichier importé." })
+  }
+  try {
+    const result = await importArticles(rows)
+    return res.json({ success: true, ...result })
+  } catch (err) {
+    console.error("❌ Erreur /api/admin/import/articles:", err.message)
+    return res.status(500).json({ error: "Erreur lors de l'import des articles." })
+  }
+})
+
+// Admin: search/browse the catalogue (for the Articles & Prix admin tab)
+app.get("/api/admin/articles", requireAdmin, async (req, res) => {
+  const { q, rayon, famille, page, pageSize } = req.query
+  try {
+    const result = await searchArticles({ q, rayon, famille, page, pageSize })
+    return res.json(result)
+  } catch (err) {
+    console.error("❌ Erreur /api/admin/articles:", err.message)
+    return res.status(500).json({ error: "Erreur lors de la recherche d'articles." })
+  }
+})
+
+// Admin: create or update a single article (price/name/category changes)
+app.post("/api/admin/articles", requireAdmin, async (req, res) => {
+  const { code, designation, tva, priceTtc, rayon, famille } = req.body
+  if (!code || !designation) {
+    return res.status(400).json({ error: "Code et désignation sont obligatoires." })
+  }
+  try {
+    const result = await importArticles([{ code, designation, tva, priceTtc, rayon, famille }])
+    return res.json({ success: true, ...result })
+  } catch (err) {
+    console.error("❌ Erreur /api/admin/articles POST:", err.message)
+    return res.status(500).json({ error: "Erreur lors de l'enregistrement de l'article." })
+  }
+})
+
+// Admin: remove an article from the catalogue
+app.delete("/api/admin/articles/:code", requireAdmin, async (req, res) => {
+  const success = await deleteArticle(req.params.code)
+  if (!success) {
+    return res.status(404).json({ error: "Article introuvable." })
+  }
+  return res.json({ success: true })
+})
+
 // ── Recruitment API Routes ──────────────────────────────────────────
 app.post("/api/recrutement", submissionLimiter, async (req, res) => {
   const { name, email, phone, position, message, cv, cvName } = req.body
@@ -1138,6 +1320,8 @@ app.get("/admin", async (req, res) => {
   const apps = await loadApplications()
   const subscribers = await loadSubscribers()
   const users = await loadUsers()
+  const catalogueDevis = await loadAllDevisRequests()
+  const articlesTotal = await countArticles()
 
   // Generate rows for users
   const usersRows = users
@@ -1243,6 +1427,42 @@ app.get("/admin", async (req, res) => {
     )
     .join("")
 
+  // Generate rows for itemized catalogue devis
+  const catalogueRows = catalogueDevis
+    .map((d) => {
+      const total = (d.items || []).reduce((sum, it) => sum + it.priceTtc * it.quantity, 0)
+      const itemsHtml = (d.items || [])
+        .map(
+          (it) =>
+            `<div style="padding:4px 0;border-bottom:1px dashed #e2e8f0;font-size:12px;">
+               <span style="font-family:monospace;color:#64748b;">${esc(it.articleCode)}</span>
+               &nbsp;${esc(it.designation)}
+               &nbsp;<b>×${it.quantity}</b>
+               &nbsp;<span style="color:#94a3b8;">(${esc(it.priceTtc.toFixed(2))} MAD)</span>
+             </div>`
+        )
+        .join("")
+      return `
+    <tr id="cat-devis-${d.id}">
+      <td class="chk-cell"></td>
+      <td class="date-badge">${d.createdAt ? new Date(d.createdAt).toLocaleString("fr-FR") : "—"}</td>
+      <td style="font-weight: 700;">${esc(d.name)}</td>
+      <td>${esc(d.company || "—")}</td>
+      <td><a href="mailto:${esc(d.email)}">${esc(d.email)}</a></td>
+      <td><a href="tel:${esc(d.phone)}">${esc(d.phone)}</a></td>
+      <td style="max-width:360px;">${itemsHtml || "—"}</td>
+      <td style="font-weight: 800; white-space: nowrap;">${total.toFixed(2)} MAD</td>
+      <td class="msg">${esc(d.note || "—")}</td>
+      <td>
+        <button class="view-link" style="background:#d3121a; color:#fff; border-color:#d3121a; cursor:pointer;" onclick="deleteCatalogueDevis('${d.id}')">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          Supprimer
+        </button>
+      </td>
+    </tr>`
+    })
+    .join("")
+
   // Generate rows for blogs
   const blogRows = blogs
     .map(
@@ -1328,6 +1548,89 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${devisRows}</tbody>
+          </table></div>`
+          }
+        </div>
+      </div>`
+  } else if (tab === "articles") {
+    tabContent = `
+      <div class="wrap">
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Articles du Catalogue (${articlesTotal.toLocaleString("fr-FR")})</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button class="view-link" style="cursor: pointer;" onclick="openAddArticleModal()">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                Nouvel article
+              </button>
+              <label class="view-link" style="cursor: pointer; margin-bottom: 0;" title="Importer un CSV (colonnes: code, designation, tva, prix, rayon, famille)">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12" /></svg>
+                Importer CSV
+                <input type="file" accept=".csv" onchange="importArticlesCsv(event)" style="display: none;" />
+              </label>
+            </div>
+          </div>
+          <div style="padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+            <input
+              type="text"
+              id="artSearchInput"
+              placeholder="Rechercher par mot-clé ou code article..."
+              oninput="debouncedArticleSearch()"
+              style="flex: 1; min-width: 260px; padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;"
+            />
+            <span id="artResultCount" style="font-size: 12px; color: #64748b;"></span>
+          </div>
+          <div id="artResultsContainer">
+            <div class="empty">Tapez un mot-clé ou un code article pour rechercher dans le catalogue.</div>
+          </div>
+          <div id="artPagination" style="padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #64748b;"></div>
+        </div>
+      </div>
+
+      <div id="articleModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 999; align-items: center; justify-content: center;">
+        <div style="background: #fff; border-radius: 10px; padding: 24px; width: 100%; max-width: 440px;">
+          <h3 id="articleModalTitle" style="margin: 0 0 16px; font-size: 16px;">Nouvel article</h3>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="text" id="artCode" placeholder="Code article (ex: OR12345)" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+            <input type="text" id="artDesignation" placeholder="Désignation" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+            <input type="number" id="artPrice" placeholder="Prix TTC (MAD)" step="0.01" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+            <input type="number" id="artTva" placeholder="TVA (%)" value="20" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+            <input type="text" id="artRayon" placeholder="Catégorie (Rayon)" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+            <input type="text" id="artFamille" placeholder="Sous-catégorie (Famille)" style="padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px;" />
+          </div>
+          <div id="articleModalError" style="display: none; margin-top: 10px; padding: 8px 10px; background: #fef2f2; color: #b91c1c; font-size: 12px; border-radius: 6px;"></div>
+          <div style="display: flex; gap: 10px; margin-top: 18px;">
+            <button onclick="closeArticleModal()" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer;">Annuler</button>
+            <button onclick="saveArticleModal()" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #d3121a; color: #fff; font-weight: 700; cursor: pointer;">Enregistrer</button>
+          </div>
+        </div>
+      </div>`
+  } else if (tab === "catalogue") {
+    tabContent = `
+      <div class="wrap">
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Devis Catalogue — Articles &amp; Quantités (${catalogueDevis.length})</span>
+          </div>
+          ${
+            catalogueDevis.length === 0
+              ? '<div class="empty">Aucune demande de devis catalogue pour le moment.</div>'
+              : `<div class="table-responsive"><table>
+            <thead>
+              <tr>
+                <th class="chk-cell"></th>
+                <th>Date</th>
+                <th>Nom</th>
+                <th>Entreprise</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Articles demandés</th>
+                <th>Total estimé</th>
+                <th>Message</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>${catalogueRows}</tbody>
           </table></div>`
           }
         </div>
@@ -1561,6 +1864,10 @@ app.get("/admin", async (req, res) => {
     html = html.replace("{{APPLICATIONS_COUNT}}", apps.length)
     html = html.replace("{{SUBSCRIBERS_COUNT}}", subscribers.length)
     html = html.replace("{{USERS_COUNT}}", users.length)
+    html = html.replace("{{ARTICLES_COUNT}}", articlesTotal.toLocaleString("fr-FR"))
+    html = html.replace("{{TAB_ARTICLES_ACTIVE}}", tab === "articles" ? "active" : "")
+    html = html.replace("{{CATALOGUE_COUNT}}", catalogueDevis.length)
+    html = html.replace("{{TAB_CATALOGUE_ACTIVE}}", tab === "catalogue" ? "active" : "")
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
     html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
     html = html.replace("{{TAB_BLOG_ACTIVE}}", tab === "blog" ? "active" : "")

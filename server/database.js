@@ -12,6 +12,9 @@ const BLOG_BACKUP_PATH = join(DATA_DIR, "blogs.backup.json")
 const APP_DB_PATH = join(DATA_DIR, "applications.json")
 const SUB_DB_PATH = join(DATA_DIR, "subscribers.json")
 const USERS_DB_PATH = join(DATA_DIR, "users.json")
+const ARTICLES_DB_PATH = join(DATA_DIR, "articles.json")
+const DEVIS_REQ_DB_PATH = join(DATA_DIR, "devis_requests.json")
+const DEVIS_ITEMS_DB_PATH = join(DATA_DIR, "devis_items.json")
 const BACKUP_DIR = join(DATA_DIR, "backups")
 
 // Ensure fallback data directories exist
@@ -152,6 +155,47 @@ export async function initDatabase() {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `)
 
+      await connection.query(`
+        CREATE TABLE IF NOT EXISTS \`articles\` (
+          \`code\` VARCHAR(32) NOT NULL PRIMARY KEY,
+          \`designation\` VARCHAR(500) NOT NULL,
+          \`tva\` TINYINT NOT NULL DEFAULT 20,
+          \`price_ttc\` DECIMAL(12,2) NOT NULL DEFAULT 0,
+          \`rayon\` VARCHAR(120) NOT NULL DEFAULT '',
+          \`famille\` VARCHAR(120) NOT NULL DEFAULT '',
+          KEY \`idx_rayon\` (\`rayon\`),
+          KEY \`idx_famille\` (\`famille\`),
+          KEY \`idx_designation\` (\`designation\`(191))
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `)
+
+      await connection.query(`
+        CREATE TABLE IF NOT EXISTS \`devis_requests\` (
+          \`id\` VARCHAR(64) NOT NULL PRIMARY KEY,
+          \`created_at\` DATETIME NOT NULL,
+          \`user_id\` VARCHAR(64) NOT NULL,
+          \`name\` VARCHAR(255) NOT NULL,
+          \`company\` VARCHAR(255) DEFAULT NULL,
+          \`email\` VARCHAR(255) NOT NULL,
+          \`phone\` VARCHAR(64) NOT NULL,
+          \`note\` TEXT DEFAULT NULL,
+          \`status\` VARCHAR(32) NOT NULL DEFAULT 'pending',
+          KEY \`idx_user_id\` (\`user_id\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `)
+
+      await connection.query(`
+        CREATE TABLE IF NOT EXISTS \`devis_items\` (
+          \`id\` VARCHAR(64) NOT NULL PRIMARY KEY,
+          \`devis_id\` VARCHAR(64) NOT NULL,
+          \`article_code\` VARCHAR(32) NOT NULL,
+          \`designation\` VARCHAR(500) NOT NULL,
+          \`quantity\` INT NOT NULL DEFAULT 1,
+          \`price_ttc\` DECIMAL(12,2) NOT NULL DEFAULT 0,
+          KEY \`idx_devis_id\` (\`devis_id\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `)
+
       console.log("✅ Tables MySQL ORSAP vérifiées / créées avec succès.")
 
       // Check if blogs table is empty, auto-seed from JSON
@@ -232,6 +276,35 @@ export async function initDatabase() {
               ]
             )
           }
+        }
+      }
+
+      // Check if articles table is empty, auto-seed from the bundled catalogue JSON
+      const [articleRows] = await connection.query("SELECT COUNT(*) AS cnt FROM `articles`")
+      if (articleRows[0].cnt === 0) {
+        const initialArticles = loadArticlesFromJSON()
+        if (initialArticles.length > 0) {
+          console.log(`📥 Import initial de ${initialArticles.length} articles du catalogue vers MySQL...`)
+          const chunkSize = 500
+          for (let i = 0; i < initialArticles.length; i += chunkSize) {
+            const chunk = initialArticles.slice(i, i + chunkSize)
+            const placeholders = chunk.map(() => "(?, ?, ?, ?, ?, ?)").join(", ")
+            const params = chunk.flatMap((a) => [
+              a.code,
+              a.designation,
+              a.tva ?? 20,
+              a.priceTtc ?? 0,
+              a.rayon || "",
+              a.famille || "",
+            ])
+            await connection.query(
+              `INSERT INTO \`articles\` (\`code\`, \`designation\`, \`tva\`, \`price_ttc\`, \`rayon\`, \`famille\`)
+               VALUES ${placeholders}
+               ON DUPLICATE KEY UPDATE \`designation\` = VALUES(\`designation\`)`,
+              params
+            )
+          }
+          console.log("✅ Import du catalogue d'articles terminé.")
         }
       }
 
@@ -1025,4 +1098,446 @@ export async function deleteUser(id) {
   return filtered.length < before
 }
 
+// ── Article Catalogue (Espace Client search & devis builder) ────────
+
+function loadArticlesFromJSON() {
+  try {
+    if (existsSync(ARTICLES_DB_PATH)) {
+      const data = JSON.parse(readFileSync(ARTICLES_DB_PATH, "utf-8"))
+      return Array.isArray(data) ? data : []
+    }
+  } catch (err) {
+    console.error("❌ Erreur lecture articles.json:", err.message)
+  }
+  return []
+}
+
+// In-memory cache used in JSON-fallback mode (and as a fast facet source
+// even when MySQL is active) — 49k small records is trivial to hold in RAM
+// and avoids re-reading a multi-MB file on every keystroke of a search.
+let articlesCache = null
+
+function getArticlesCache() {
+  if (!articlesCache) {
+    articlesCache = loadArticlesFromJSON()
+    console.log(`📦 ${articlesCache.length} articles du catalogue chargés en mémoire.`)
+  }
+  return articlesCache
+}
+
+function normalizeArticleRow(r) {
+  return {
+    code: String(r.code).trim(),
+    designation: String(r.designation).trim(),
+    tva: Number.isFinite(Number(r.tva)) ? Number(r.tva) : 20,
+    priceTtc: Number.isFinite(Number(r.priceTtc)) ? Number(r.priceTtc) : 0,
+    rayon: String(r.rayon || "").trim(),
+    famille: String(r.famille || "").trim(),
+  }
+}
+
+/**
+ * Bulk import/refresh articles — used for the initial catalogue seed and
+ * for future re-imports (e.g. an updated export from the internal system).
+ * Upserts by article code in both MySQL and the local JSON mirror.
+ */
+export async function importArticles(rows) {
+  const clean = (rows || [])
+    .filter((r) => r && r.code && r.designation)
+    .map(normalizeArticleRow)
+
+  if (pool && clean.length > 0) {
+    try {
+      const chunkSize = 500
+      for (let i = 0; i < clean.length; i += chunkSize) {
+        const chunk = clean.slice(i, i + chunkSize)
+        const placeholders = chunk.map(() => "(?, ?, ?, ?, ?, ?)").join(", ")
+        const params = chunk.flatMap((a) => [a.code, a.designation, a.tva, a.priceTtc, a.rayon, a.famille])
+        await pool.query(
+          `INSERT INTO \`articles\` (\`code\`, \`designation\`, \`tva\`, \`price_ttc\`, \`rayon\`, \`famille\`)
+           VALUES ${placeholders}
+           ON DUPLICATE KEY UPDATE
+             \`designation\` = VALUES(\`designation\`),
+             \`tva\` = VALUES(\`tva\`),
+             \`price_ttc\` = VALUES(\`price_ttc\`),
+             \`rayon\` = VALUES(\`rayon\`),
+             \`famille\` = VALUES(\`famille\`)`,
+          params
+        )
+      }
+      console.log(`✅ ${clean.length} articles importés/actualisés dans MySQL.`)
+    } catch (err) {
+      console.error("❌ Erreur importArticles MySQL:", err.message)
+    }
+  }
+
+  const existing = loadArticlesFromJSON()
+  const byCode = new Map(existing.map((a) => [a.code, a]))
+  for (const a of clean) byCode.set(a.code, a)
+  const merged = Array.from(byCode.values())
+  writeFileSync(ARTICLES_DB_PATH, JSON.stringify(merged), "utf-8")
+  articlesCache = merged
+
+  return { imported: clean.length, total: merged.length }
+}
+
+/**
+ * Keyword + category search across the article catalogue, paginated.
+ * Every word in `q` must appear somewhere in the code or designation
+ * (simple, predictable "contains all these words" search).
+ */
+export async function searchArticles({ q = "", rayon = "", famille = "", page = 1, pageSize = 24 } = {}) {
+  const pageNum = Math.max(1, parseInt(page, 10) || 1)
+  const size = Math.min(60, Math.max(1, parseInt(pageSize, 10) || 24))
+  const offset = (pageNum - 1) * size
+  const terms = String(q || "").trim().split(/\s+/).filter(Boolean).slice(0, 8)
+
+  if (pool) {
+    try {
+      const where = []
+      const params = []
+      for (const t of terms) {
+        where.push("(`designation` LIKE ? OR `code` LIKE ?)")
+        params.push(`%${t}%`, `%${t}%`)
+      }
+      if (rayon) {
+        where.push("`rayon` = ?")
+        params.push(rayon)
+      }
+      if (famille) {
+        where.push("`famille` = ?")
+        params.push(famille)
+      }
+      const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : ""
+
+      const [countRows] = await pool.query(`SELECT COUNT(*) AS cnt FROM \`articles\` ${whereSql}`, params)
+      const total = countRows[0].cnt
+
+      const [rows] = await pool.query(
+        `SELECT \`code\`, \`designation\`, \`tva\`, \`price_ttc\`, \`rayon\`, \`famille\`
+         FROM \`articles\` ${whereSql}
+         ORDER BY \`designation\` ASC
+         LIMIT ? OFFSET ?`,
+        [...params, size, offset]
+      )
+
+      return {
+        items: rows.map((r) => ({
+          code: r.code,
+          designation: r.designation,
+          tva: r.tva,
+          priceTtc: Number(r.price_ttc),
+          rayon: r.rayon,
+          famille: r.famille,
+        })),
+        total,
+        page: pageNum,
+        pageSize: size,
+      }
+    } catch (err) {
+      console.error("❌ Erreur searchArticles MySQL:", err.message)
+    }
+  }
+
+  const all = getArticlesCache()
+  const lowerTerms = terms.map((t) => t.toLowerCase())
+  let filtered = all
+  if (lowerTerms.length > 0) {
+    filtered = filtered.filter((a) => {
+      const hay = `${a.code} ${a.designation}`.toLowerCase()
+      return lowerTerms.every((t) => hay.includes(t))
+    })
+  }
+  if (rayon) filtered = filtered.filter((a) => a.rayon === rayon)
+  if (famille) filtered = filtered.filter((a) => a.famille === famille)
+
+  return {
+    items: filtered.slice(offset, offset + size),
+    total: filtered.length,
+    page: pageNum,
+    pageSize: size,
+  }
+}
+
+export async function findArticleByCode(code) {
+  if (!code) return null
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM `articles` WHERE `code` = ? LIMIT 1", [code])
+      if (rows.length > 0) {
+        const r = rows[0]
+        return {
+          code: r.code,
+          designation: r.designation,
+          tva: r.tva,
+          priceTtc: Number(r.price_ttc),
+          rayon: r.rayon,
+          famille: r.famille,
+        }
+      }
+      return null
+    } catch (err) {
+      console.error("❌ Erreur findArticleByCode MySQL:", err.message)
+    }
+  }
+  return getArticlesCache().find((a) => a.code === code) || null
+}
+
+export async function countArticles() {
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT COUNT(*) AS cnt FROM `articles`")
+      return rows[0].cnt
+    } catch (err) {
+      console.error("❌ Erreur countArticles MySQL:", err.message)
+    }
+  }
+  return getArticlesCache().length
+}
+
+/** Permanently remove an article from the catalogue (MySQL + JSON mirror). */
+export async function deleteArticle(code) {
+  if (pool) {
+    try {
+      await pool.query("DELETE FROM `articles` WHERE `code` = ?", [code])
+    } catch (err) {
+      console.error("❌ Erreur deleteArticle MySQL:", err.message)
+    }
+  }
+  const existing = loadArticlesFromJSON()
+  const filtered = existing.filter((a) => a.code !== code)
+  writeFileSync(ARTICLES_DB_PATH, JSON.stringify(filtered), "utf-8")
+  articlesCache = filtered
+  return filtered.length < existing.length
+}
+
+/** Category / sub-category counts used to populate search filters. */
+export async function getArticleFacets() {
+  if (pool) {
+    try {
+      const [rows] = await pool.query(
+        "SELECT `rayon`, `famille`, COUNT(*) AS cnt FROM `articles` GROUP BY `rayon`, `famille`"
+      )
+      const rayonMap = new Map()
+      const familles = []
+      for (const r of rows) {
+        rayonMap.set(r.rayon, (rayonMap.get(r.rayon) || 0) + r.cnt)
+        familles.push({ name: r.famille, rayon: r.rayon, count: r.cnt })
+      }
+      return {
+        rayons: Array.from(rayonMap.entries())
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count),
+        familles: familles.sort((a, b) => b.count - a.count),
+      }
+    } catch (err) {
+      console.error("❌ Erreur getArticleFacets MySQL:", err.message)
+    }
+  }
+
+  const all = getArticlesCache()
+  const rayonMap = new Map()
+  const familleMap = new Map()
+  for (const a of all) {
+    rayonMap.set(a.rayon, (rayonMap.get(a.rayon) || 0) + 1)
+    const key = `${a.rayon} ${a.famille}`
+    familleMap.set(key, (familleMap.get(key) || 0) + 1)
+  }
+  return {
+    rayons: Array.from(rayonMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count),
+    familles: Array.from(familleMap.entries())
+      .map(([key, count]) => {
+        const [rayon, name] = key.split(" ")
+        return { name, rayon, count }
+      })
+      .sort((a, b) => b.count - a.count),
+  }
+}
+
+// ── Itemized Devis Requests (built from the article catalogue) ──────
+
+function loadDevisRequestsFromJSON() {
+  try {
+    if (existsSync(DEVIS_REQ_DB_PATH)) {
+      const data = JSON.parse(readFileSync(DEVIS_REQ_DB_PATH, "utf-8"))
+      return Array.isArray(data) ? data : []
+    }
+  } catch (err) {
+    console.error("❌ Erreur lecture devis_requests.json:", err.message)
+  }
+  return []
+}
+
+function saveDevisRequestsToJSON(data) {
+  try {
+    writeFileSync(DEVIS_REQ_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur écriture devis_requests.json:", err.message)
+  }
+}
+
+function loadDevisItemsFromJSON() {
+  try {
+    if (existsSync(DEVIS_ITEMS_DB_PATH)) {
+      const data = JSON.parse(readFileSync(DEVIS_ITEMS_DB_PATH, "utf-8"))
+      return Array.isArray(data) ? data : []
+    }
+  } catch (err) {
+    console.error("❌ Erreur lecture devis_items.json:", err.message)
+  }
+  return []
+}
+
+function saveDevisItemsToJSON(data) {
+  try {
+    writeFileSync(DEVIS_ITEMS_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur écriture devis_items.json:", err.message)
+  }
+}
+
+function mapDevisRequestRow(r) {
+  return {
+    id: r.id,
+    createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+    userId: r.user_id,
+    name: r.name,
+    company: r.company || null,
+    email: r.email,
+    phone: r.phone,
+    note: r.note || null,
+    status: r.status || "pending",
+  }
+}
+
+async function attachDevisItems(requests) {
+  if (requests.length === 0) return requests
+
+  if (pool) {
+    try {
+      const ids = requests.map((r) => r.id)
+      const [rows] = await pool.query(
+        `SELECT * FROM \`devis_items\` WHERE \`devis_id\` IN (${ids.map(() => "?").join(",")})`,
+        ids
+      )
+      const itemsByDevis = new Map()
+      for (const r of rows) {
+        const arr = itemsByDevis.get(r.devis_id) || []
+        arr.push({
+          id: r.id,
+          articleCode: r.article_code,
+          designation: r.designation,
+          quantity: r.quantity,
+          priceTtc: Number(r.price_ttc),
+        })
+        itemsByDevis.set(r.devis_id, arr)
+      }
+      return requests.map((r) => ({ ...r, items: itemsByDevis.get(r.id) || [] }))
+    } catch (err) {
+      console.error("❌ Erreur attachDevisItems MySQL:", err.message)
+    }
+  }
+
+  const allItems = loadDevisItemsFromJSON()
+  const itemsByDevis = new Map()
+  for (const it of allItems) {
+    const arr = itemsByDevis.get(it.devisId) || []
+    arr.push(it)
+    itemsByDevis.set(it.devisId, arr)
+  }
+  return requests.map((r) => ({ ...r, items: itemsByDevis.get(r.id) || [] }))
+}
+
+/** Create an itemized devis request + its line items (MySQL + JSON mirror). */
+export async function createDevisRequest(entry, items) {
+  if (pool) {
+    try {
+      await pool.query(
+        `INSERT INTO \`devis_requests\` (\`id\`, \`created_at\`, \`user_id\`, \`name\`, \`company\`, \`email\`, \`phone\`, \`note\`, \`status\`)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          entry.id,
+          entry.createdAt ? new Date(entry.createdAt) : new Date(),
+          entry.userId,
+          entry.name,
+          entry.company || null,
+          entry.email,
+          entry.phone,
+          entry.note || null,
+          entry.status || "pending",
+        ]
+      )
+      for (const it of items) {
+        await pool.query(
+          `INSERT INTO \`devis_items\` (\`id\`, \`devis_id\`, \`article_code\`, \`designation\`, \`quantity\`, \`price_ttc\`)
+           VALUES (?, ?, ?, ?, ?, ?)`,
+          [it.id, entry.id, it.articleCode, it.designation, it.quantity, it.priceTtc]
+        )
+      }
+    } catch (err) {
+      console.error("❌ Erreur createDevisRequest MySQL:", err.message)
+    }
+  }
+
+  const reqs = loadDevisRequestsFromJSON()
+  reqs.unshift(entry)
+  saveDevisRequestsToJSON(reqs)
+
+  const allItems = loadDevisItemsFromJSON()
+  allItems.push(...items.map((it) => ({ ...it, devisId: entry.id })))
+  saveDevisItemsToJSON(allItems)
+}
+
+export async function loadDevisRequestsForUser(userId) {
+  if (pool) {
+    try {
+      const [rows] = await pool.query(
+        "SELECT * FROM `devis_requests` WHERE `user_id` = ? ORDER BY `created_at` DESC",
+        [userId]
+      )
+      return attachDevisItems(rows.map(mapDevisRequestRow))
+    } catch (err) {
+      console.error("❌ Erreur loadDevisRequestsForUser MySQL:", err.message)
+    }
+  }
+  const requests = loadDevisRequestsFromJSON().filter((r) => r.userId === userId)
+  return attachDevisItems(requests)
+}
+
+export async function loadAllDevisRequests() {
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM `devis_requests` ORDER BY `created_at` DESC")
+      return attachDevisItems(rows.map(mapDevisRequestRow))
+    } catch (err) {
+      console.error("❌ Erreur loadAllDevisRequests MySQL:", err.message)
+    }
+  }
+  return attachDevisItems(loadDevisRequestsFromJSON())
+}
+
+export async function deleteDevisRequest(id) {
+  if (pool) {
+    try {
+      const [res] = await pool.query("DELETE FROM `devis_requests` WHERE `id` = ?", [id])
+      await pool.query("DELETE FROM `devis_items` WHERE `devis_id` = ?", [id])
+      const reqs = loadDevisRequestsFromJSON().filter((r) => r.id !== id)
+      saveDevisRequestsToJSON(reqs)
+      const items = loadDevisItemsFromJSON().filter((it) => it.devisId !== id)
+      saveDevisItemsToJSON(items)
+      return res.affectedRows > 0
+    } catch (err) {
+      console.error("❌ Erreur deleteDevisRequest MySQL:", err.message)
+    }
+  }
+  const reqs = loadDevisRequestsFromJSON()
+  const before = reqs.length
+  const filteredReqs = reqs.filter((r) => r.id !== id)
+  saveDevisRequestsToJSON(filteredReqs)
+  const items = loadDevisItemsFromJSON().filter((it) => it.devisId !== id)
+  saveDevisItemsToJSON(items)
+  return filteredReqs.length < before
+}
 
