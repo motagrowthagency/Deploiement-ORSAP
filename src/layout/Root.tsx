@@ -144,7 +144,7 @@ export default function Root() {
                     }`
                   }
                 >
-                  {user ? `👤 Mon Espace (${user.name})` : "👤 Espace Client (Connexion / Inscription)"}
+                  {user ? `Mon Espace (${user.name})` : "Espace Client (Connexion / Inscription)"}
                 </NavLink>
               </li>
             </ul>

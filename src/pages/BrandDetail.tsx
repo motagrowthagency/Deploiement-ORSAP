@@ -131,10 +131,10 @@ export default function BrandDetail() {
               ))}
             </div>
             <Link
-              to="/produits"
+              to="/solutions"
               className="mt-5 inline-flex items-center gap-2 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-ink transition-colors hover:text-orsap-red"
             >
-              Voir tous les produits
+              Voir toutes les solutions
               <span>→</span>
             </Link>
           </div>

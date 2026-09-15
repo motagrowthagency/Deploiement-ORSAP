@@ -121,19 +121,19 @@ export default function ProductCategory() {
               </h4>
               <ul className="space-y-3.5">
                 <li className="flex items-center gap-3 text-[13px] text-ink-soft">
-                  <span className="text-orsap-red font-bold">⏱</span>
+                  <span className="text-orsap-red font-bold text-xs bg-paper px-1.5 py-0.5 border border-hairline">48H</span>
                   <span>Livraison express sous 48 heures</span>
                 </li>
                 <li className="flex items-center gap-3 text-[13px] text-ink-soft">
-                  <span className="text-orsap-red font-bold">🤝</span>
+                  <span className="text-orsap-red font-bold text-xs bg-paper px-1.5 py-0.5 border border-hairline">B2B</span>
                   <span>Interlocuteur commercial unique</span>
                 </li>
                 <li className="flex items-center gap-3 text-[13px] text-ink-soft">
-                  <span className="text-orsap-red font-bold">📋</span>
+                  <span className="text-orsap-red font-bold text-xs bg-paper px-1.5 py-0.5 border border-hairline">ISO</span>
                   <span>Solutions certifiées et conformes</span>
                 </li>
                 <li className="flex items-center gap-3 text-[13px] text-ink-soft">
-                  <span className="text-orsap-red font-bold">⚙️</span>
+                  <span className="text-orsap-red font-bold text-xs bg-paper px-1.5 py-0.5 border border-hairline">SAV</span>
                   <span>Support technique et SAV réactif</span>
                 </li>
               </ul>

@@ -284,13 +284,13 @@ export default function EspaceClient() {
       })
       const data = await res.json()
       if (res.ok && data.success) {
-        setResendStatus("✅ Un nouvel email a été envoyé !")
+        setResendStatus("Un nouvel email a été envoyé !")
         if (data.previewUrl) setDevPreviewUrl(data.previewUrl)
       } else {
-        setResendStatus("⚠️ Erreur lors de l'envoi.")
+        setResendStatus("Erreur lors de l'envoi.")
       }
     } catch {
-      setResendStatus("⚠️ Erreur réseau.")
+      setResendStatus("Erreur réseau.")
     }
   }
 
@@ -439,7 +439,7 @@ export default function EspaceClient() {
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                📋 Mes Demandes de Devis ({userSubmissions.length})
+                Mes Demandes de Devis ({userSubmissions.length})
               </button>
               <button
                 type="button"
@@ -450,7 +450,7 @@ export default function EspaceClient() {
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                🏢 Mon Profil &amp; Coordonnées
+                Mon Profil &amp; Coordonnées
               </button>
               <button
                 type="button"
@@ -461,7 +461,7 @@ export default function EspaceClient() {
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                📑 Catalogues &amp; Fiches Techniques
+                Catalogues &amp; Fiches Techniques
               </button>
             </div>
           </div>
@@ -688,10 +688,10 @@ export default function EspaceClient() {
                     </p>
                   </div>
                   <a
-                    href="/produits"
+                    href="/solutions"
                     className="mt-4 inline-block text-xs font-bold text-orsap-red hover:underline"
                   >
-                    Consulter le catalogue en ligne →
+                    Consulter nos solutions en ligne →
                   </a>
                 </div>
 
@@ -1042,7 +1042,7 @@ export default function EspaceClient() {
                           : "border-hairline bg-paper hover:border-ink/30"
                       }`}
                     >
-                      <div className="font-display text-xs font-bold text-ink">🏢 Professionnel</div>
+                      <div className="font-display text-xs font-bold text-ink">Professionnel</div>
                       <div className="text-[10px] text-ink-soft mt-0.5">Entreprise, Industrie, BTP</div>
                     </button>
                     <button
@@ -1054,7 +1054,7 @@ export default function EspaceClient() {
                           : "border-hairline bg-paper hover:border-ink/30"
                       }`}
                     >
-                      <div className="font-display text-xs font-bold text-ink">👤 Particulier</div>
+                      <div className="font-display text-xs font-bold text-ink">Particulier</div>
                       <div className="text-[10px] text-ink-soft mt-0.5">Artisan, Projet personnel</div>
                     </button>
                   </div>

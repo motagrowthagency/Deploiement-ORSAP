@@ -2,8 +2,9 @@ import { createBrowserRouter, Navigate } from "react-router"
 import Root from "@/layout/Root"
 import Home from "@/pages/Home"
 import About from "@/pages/About"
-import Products from "@/pages/Products"
-import ProductCategory from "@/pages/ProductCategory"
+import Solutions from "@/pages/Solutions"
+import SolutionDetail from "@/pages/SolutionDetail"
+import PreventionPage from "@/pages/PreventionPage"
 import Services from "@/pages/Services"
 import ServiceDetail from "@/pages/ServiceDetail"
 import Brands from "@/pages/Brands"
@@ -25,8 +26,23 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Home },
       { path: "a-propos", Component: About },
-      { path: "produits", Component: Products },
-      { path: "produits/:category", Component: ProductCategory },
+      
+      // Solutions architecture
+      { path: "solutions", Component: Solutions },
+      { path: "solutions/:category", Component: SolutionDetail },
+      { path: "solutions/:category/:sub", Component: SolutionDetail },
+      { path: "solutions/:category/:sub/:sub2", Component: SolutionDetail },
+
+      // Prevention & HSE Hubs
+      { path: "blog/prevention", Component: PreventionPage },
+      { path: "blog/prevention/ergonomie", Component: PreventionPage },
+      { path: "blog/prevention/tms", Component: PreventionPage },
+
+      // Legacy products redirects & aliases
+      { path: "produits", element: <Navigate to="/solutions" replace /> },
+      { path: "produits/:category", Component: SolutionDetail },
+      { path: "produits/:category/:sub", Component: SolutionDetail },
+
       { path: "services", Component: Services },
       { path: "services/:service", Component: ServiceDetail },
       { path: "marques", Component: Brands },

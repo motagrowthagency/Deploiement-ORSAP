@@ -39,10 +39,10 @@ export default function Home() {
               Demander un devis
             </Link>
             <Link
-              to="/produits"
+              to="/solutions"
               className="inline-flex items-center justify-center border border-white/70 px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-white hover:text-ink"
             >
-              Parcourir le catalogue
+              Découvrir nos solutions
             </Link>
           </div>
         </div>

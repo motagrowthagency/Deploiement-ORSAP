@@ -236,7 +236,7 @@ export default function Recruitment() {
                       Votre CV (PDF, DOC, DOCX) *
                     </label>
                     <div className="mt-2 flex flex-col items-center justify-center border border-dashed border-hairline bg-white px-6 py-8 text-center transition-colors hover:border-orsap-red">
-                      <div className="text-[28px] text-ink-soft">📄</div>
+                      <div className="font-mono text-xs font-bold text-orsap-red bg-paper px-2.5 py-1 border border-hairline">CV / PDF</div>
                       <div className="mt-3 text-[13.5px] font-semibold text-ink">
                         {form.cvName ? form.cvName : "Sélectionner un fichier"}
                       </div>
