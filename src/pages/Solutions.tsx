@@ -67,8 +67,11 @@ const SOLUTION_CATEGORIES: SolutionCategory[] = [
     img: U("photo-1578575437130-527eed3abbec"),
     badge: "Atelier Marquage",
     subLinks: [
-      { label: "Tenues Été & Respirantes", to: "/solutions/vetements-professionnels" },
-      { label: "Haute Visibilité & Multirisque", to: "/solutions/vetements-professionnels" },
+      { label: "Pantalons & Workwear", to: "/solutions/vetements-professionnels/pantalons" },
+      { label: "Tenues Été & Respirantes", to: "/solutions/vetements-professionnels/ete" },
+      { label: "Parkas & Intempéries", to: "/solutions/vetements-professionnels/intemperies" },
+      { label: "Haute Visibilité", to: "/solutions/vetements-professionnels/haute-visibilite" },
+      { label: "Multirisque ATEX", to: "/solutions/vetements-professionnels/multirisques" },
     ],
   },
   {
@@ -78,8 +81,10 @@ const SOLUTION_CATEGORIES: SolutionCategory[] = [
     img: MANUTENTION,
     badge: "Ergonomie",
     subLinks: [
-      { label: "Transpalettes & Gerbeurs", to: "/solutions/manutention" },
-      { label: "Élingues & Accessoires de Levage", to: "/solutions/manutention" },
+      { label: "Transpalettes Manuels", to: "/solutions/manutention/transpalettes" },
+      { label: "Transpalettes Lithium", to: "/solutions/manutention/transpalettes-electriques" },
+      { label: "Gerbeurs d'Atelier", to: "/solutions/manutention/gerbeurs" },
+      { label: "Élingues & Levage", to: "/solutions/manutention/levage" },
     ],
   },
   {
@@ -88,6 +93,12 @@ const SOLUTION_CATEGORIES: SolutionCategory[] = [
     desc: "Séparation des flux piétons/chariots, sabots de protection pour rayonnages, cales et butoirs de quai de chargement.",
     img: U("photo-1586528116311-ad8dd3c8310d"),
     badge: "Entrepôt Sûr",
+    subLinks: [
+      { label: "Protections Rayonnage", to: "/solutions/logistique/protection-rayonnage" },
+      { label: "Barrières Piétons", to: "/solutions/logistique/barrieres-pietons" },
+      { label: "Sécurité des Quais", to: "/solutions/logistique/quais-chargement" },
+      { label: "Signalisation Sol", to: "/solutions/logistique/signalisation" },
+    ],
   },
   {
     slug: "industrie",
@@ -95,6 +106,11 @@ const SOLUTION_CATEGORIES: SolutionCategory[] = [
     desc: "Consignation LOTO (Lockout/Tagout), bacs et armoires de rétention pour polluants, tapis d'atelier anti-fatigue et signalétique.",
     img: U("photo-1581091226825-a6a2a5aee158"),
     badge: "LOTO & Rétention",
+    subLinks: [
+      { label: "Consignation LOTO", to: "/solutions/industrie/consignation-loto" },
+      { label: "Rétention & Dépollution", to: "/solutions/industrie/retention-depollution" },
+      { label: "Outillage Isolé 1000V", to: "/solutions/industrie/outillage-isole" },
+    ],
   },
   {
     slug: "outillage",
@@ -109,7 +125,7 @@ const SOLUTION_CATEGORIES: SolutionCategory[] = [
     img: ROULEMENTS,
   },
   {
-    slug: "plomberie-fluides",
+    slug: "plomberie",
     title: "Plomberie & Gestion des Fluides",
     desc: "Tuyauteries acier/cuivre/multicouche, vannes industrielles, raccords rapides, réseaux d'air comprimé et solutions de pompage.",
     img: CLIMATISATION,

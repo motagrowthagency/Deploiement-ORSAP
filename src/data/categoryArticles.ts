@@ -53,11 +53,11 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes d'outillage à main et électroportatif :",
     subRanges: [
-      { title: "Perceuses-Visseuses & Perforateurs Sans Fil", desc: "Haute autonomie, moteurs Brushless pour chantier et atelier.", badge: "Sans Fil", to: "/solutions/industrie" },
-      { title: "Meuleuses d'Angle & Disqueuses de Chantier", desc: "Meuleuses 125 mm et 230 mm haute puissance avec carters renforcés.", badge: "Tronçonnage", to: "/solutions/epi/protection-yeux" },
-      { title: "Perforateurs, Marteaux Piqueurs & Burineurs", desc: "Frappe puissante SDS-Plus et SDS-Max pour béton armé et maçonnerie.", badge: "Gros Œuvre", to: "/solutions/epi/protection-auditive" },
-      { title: "Outillage à Main : Clés, Tournevis & Pinces", desc: "Jeux de douilles, clés mixtes en acier chrome-vanadium.", badge: "Précision", to: "/marques/facom" },
-      { title: "Coffrets d'Outils & Servantes d'Atelier", desc: "Servantes mobiles 6 à 8 tiroirs garnies et caisses à outils chantier.", badge: "Atelier", to: "/solutions/industrie" },
+      { title: "Perceuses-Visseuses & Perforateurs Sans Fil", desc: "Haute autonomie, moteurs Brushless pour chantier et atelier.", badge: "Sans Fil", to: "/solutions/outillage" },
+      { title: "Meuleuses d'Angle & Disqueuses de Chantier", desc: "Meuleuses 125 mm et 230 mm haute puissance avec carters renforcés.", badge: "Tronçonnage", to: "/solutions/outillage" },
+      { title: "Perforateurs, Marteaux Piqueurs & Burineurs", desc: "Frappe puissante SDS-Plus et SDS-Max pour béton armé et maçonnerie.", badge: "Gros Œuvre", to: "/solutions/outillage" },
+      { title: "Outillage à Main : Clés, Tournevis & Pinces", desc: "Jeux de douilles, clés mixtes en acier chrome-vanadium.", badge: "Précision", to: "/solutions/outillage" },
+      { title: "Coffrets d'Outils & Servantes d'Atelier", desc: "Servantes mobiles 6 à 8 tiroirs garnies et caisses à outils chantier.", badge: "Atelier", to: "/solutions/outillage" },
       { title: "Forets SDS, Disques Diamantés & Abrasifs", desc: "Consommables de coupe, lames de scie circulaire et scies trépans.", badge: "Accessoires", to: "/solutions/consommables" }
     ]
   },
@@ -75,11 +75,11 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes de roulements et transmission :",
     subRanges: [
-      { title: "Roulements à Billes, Rouleaux & Aiguilles", desc: "Guidage rotatif haute précision pour moteurs et réducteurs industriels.", badge: "Précision", to: "/solutions/industrie" },
-      { title: "Paliers Auto-Aligneurs en Fonte & Appliques", desc: "Paliers semelles UC, UCF, UCFL pour convoyeurs et arbres de transmission.", badge: "Robuste", to: "/solutions/industrie" },
-      { title: "Courroies de Transmission Trapézoïdales", desc: "Courroies crantées, plates et poly-V résistantes à l'huile et à la chaleur.", badge: "Transmission", to: "/solutions/manutention" },
-      { title: "Chaînes de Transmission Mécanique & Pignons", desc: "Chaînes simples, doubles et attaches rapides conformes ISO/BS.", badge: "Grade Acier", to: "/solutions/manutention" },
-      { title: "Accouplements d'Arbres Flexibles & Poulies", desc: "Poulies en fonte usinée, moyeux amovibles Taper Lock et flectors.", badge: "Accouplement", to: "/solutions/industrie" },
+      { title: "Roulements à Billes, Rouleaux & Aiguilles", desc: "Guidage rotatif haute précision pour moteurs et réducteurs industriels.", badge: "Précision", to: "/solutions/roulements-transmission" },
+      { title: "Paliers Auto-Aligneurs en Fonte & Appliques", desc: "Paliers semelles UC, UCF, UCFL pour convoyeurs et arbres de transmission.", badge: "Robuste", to: "/solutions/roulements-transmission" },
+      { title: "Courroies de Transmission Trapézoïdales", desc: "Courroies crantées, plates et poly-V résistantes à l'huile et à la chaleur.", badge: "Transmission", to: "/solutions/roulements-transmission" },
+      { title: "Chaînes de Transmission Mécanique & Pignons", desc: "Chaînes simples, doubles et attaches rapides conformes ISO/BS.", badge: "Grade Acier", to: "/solutions/roulements-transmission" },
+      { title: "Accouplements d'Arbres Flexibles & Poulies", desc: "Poulies en fonte usinée, moyeux amovibles Taper Lock et flectors.", badge: "Accouplement", to: "/solutions/roulements-transmission" },
       { title: "Graisses Industrielles & Lubrification Automatique", desc: "Graisses haute température, savons de lithium et cartouches de graissage.", badge: "Lubrifiants", to: "/solutions/consommables" }
     ]
   },
@@ -97,12 +97,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes d'échafaudages et de nacelles :",
     subRanges: [
-      { title: "Échafaudages Fixes de Chantier en Acier", desc: "Structures façadières et multidirectionnelles certifiées EN 12810.", badge: "BTP", to: "/solutions/travail-en-hauteur" },
-      { title: "Échafaudages Roulants en Aluminium", desc: "Montage express sans outils, roues à frein et stabilisateurs réglables.", badge: "EN 1004", to: "/solutions/travail-en-hauteur" },
-      { title: "Plateformes Individuelles Roulantes (PIRL)", desc: "Garde-corps périphérique et portillon automatique pour interventions rapides.", badge: "PIRL", to: "/solutions/travail-en-hauteur" },
-      { title: "Nacelles Élévatrices de Personnes & Ciseaux", desc: "Élévation motorisée avec points d'ancrage pour harnais antichute.", badge: "Motorisé", to: "/solutions/travail-en-hauteur/harnais" },
-      { title: "Échelles Industrielles & Coulissantes", desc: "Échelles aluminium haute résistance et échelles à crinoline fixes.", badge: "Hauteur", to: "/solutions/travail-en-hauteur/lignes-de-vie" },
-      { title: "Garde-Corps de Sécurité & Filets de Protection", desc: "Garde-corps autoportants et filets pare-gravats pour toitures et dalles.", badge: "Collectif", to: "/solutions/travail-en-hauteur/longes" }
+      { title: "Échafaudages Fixes de Chantier en Acier", desc: "Structures façadières et multidirectionnelles certifiées EN 12810.", badge: "BTP", to: "/solutions/echafaudages-nacelles" },
+      { title: "Échafaudages Roulants en Aluminium", desc: "Montage express sans outils, roues à frein et stabilisateurs réglables.", badge: "EN 1004", to: "/solutions/echafaudages-nacelles" },
+      { title: "Plateformes Individuelles Roulantes (PIRL)", desc: "Garde-corps périphérique et portillon automatique pour interventions rapides.", badge: "PIRL", to: "/solutions/echafaudages-nacelles" },
+      { title: "Nacelles Élévatrices de Personnes & Ciseaux", desc: "Élévation motorisée avec points d'ancrage pour harnais antichute.", badge: "Motorisé", to: "/solutions/echafaudages-nacelles" },
+      { title: "Échelles Industrielles & Coulissantes", desc: "Échelles aluminium haute résistance et échelles à crinoline fixes.", badge: "Hauteur", to: "/solutions/echafaudages-nacelles" },
+      { title: "Garde-Corps de Sécurité & Filets de Protection", desc: "Garde-corps autoportants et filets pare-gravats pour toitures et dalles.", badge: "Collectif", to: "/solutions/travail-en-hauteur" }
     ]
   },
   manutention: {
@@ -119,12 +119,34 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes d'équipements de manutention et de levage :",
     subRanges: [
-      { title: "Transpalettes Manuels Standards & Pèseurs", desc: "Capacité 2T à 3T, pompe monobloc étanche et roues polyuréthane.", badge: "Indispensable", to: "/solutions/manutention" },
-      { title: "Transpalettes Électriques & Gerbeurs Lithium", desc: "Batteries amovibles légères, levée électrique et vitesse contrôlée.", badge: "Lithium", to: "/solutions/logistique" },
+      { title: "Transpalettes Manuels Standards & Pèseurs", desc: "Capacité 2T à 3T, pompe monobloc étanche et roues polyuréthane.", badge: "Indispensable", to: "/solutions/manutention/transpalettes" },
+      { title: "Transpalettes Électriques & Gerbeurs Lithium", desc: "Batteries amovibles légères, levée électrique et vitesse contrôlée.", badge: "Lithium", to: "/solutions/manutention/transpalettes-electriques" },
       { title: "Diables de Manutention & Monte-Escaliers", desc: "Bavette renforcée, roues increvables pour colis et fûts.", badge: "Diables", to: "/solutions/manutention" },
-      { title: "Chariots Plateformes & Servantes d'Atelier", desc: "Plateaux antidérapants et ridelles pour transfert sécurisé de pièces.", badge: "Atelier", to: "/solutions/logistique" },
-      { title: "Tables Élévatrices Hydrauliques Ergonomiques", desc: "Mise à niveau constante du poste de travail pour supprimer les flexions.", badge: "Ergonomie", to: "/solutions/manutention" },
-      { title: "Palans Électriques, Sangles & Élingues", desc: "Élingues textiles CMU 1T à 10T et palans à chaîne Grade 80/100.", badge: "Levage", to: "/solutions/manutention" }
+      { title: "Chariots Plateformes & Servantes d'Atelier", desc: "Plateaux antidérapants et ridelles pour transfert sécurisé de pièces.", badge: "Atelier", to: "/solutions/manutention" },
+      { title: "Tables Élévatrices Hydrauliques Ergonomiques", desc: "Mise à niveau constante du poste de travail pour supprimer les flexions.", badge: "Ergonomie", to: "/solutions/manutention/gerbeurs" },
+      { title: "Palans Électriques, Sangles & Élingues", desc: "Élingues textiles CMU 1T à 10T et palans à chaîne Grade 80/100.", badge: "Levage", to: "/solutions/manutention/levage" }
+    ]
+  },
+  plomberie: {
+    title: "Plomberie & gestion des fluides",
+    subtitle: "Réseaux de tuyauterie, robinetterie industrielle et solutions de gestion des fluides.",
+    intro: "La circulation des fluides (eau, gaz, air comprimé, vapeur ou produits chimiques) constitue le système circulatoire essentiel de tout site industriel ou bâtiment tertiaire. Garantir l'étanchéité et la durabilité de ces installations est capital.",
+    article: "Une fuite de fluide ou une baisse de pression peut entraîner des pertes de rendement importantes ou des incidents de sécurité. ORSAP distribue une large gamme de produits de plomberie et gestion des fluides à destination des professionnels. Notre catalogue comprend des tuyauteries en acier, cuivre, PVC et multicouches, ainsi que des raccords rapides de précision, de la robinetterie industrielle (vannes à boisseau, vannes papillon, clapets anti-retour) et des solutions de pompage et de filtration d'eau. Pour la régulation des flux et le contrôle de pression, nous proposons des manomètres et détendeurs de haute fiabilité. Équipés de nos produits de climatisation et réseaux d'air comprimé, vos sites garantissent un transport de fluides propre et sécurisé.",
+    highlightsTitle: "Pourquoi choisir ORSAP pour vos réseaux de fluides et plomberie ?",
+    highlights: [
+      "Matériaux sélectionnés pour leur résistance à la corrosion, à la pression et aux produits chimiques.",
+      "Composants de plomberie conformes aux normes techniques les plus strictes pour l'eau et le gaz.",
+      "Large choix de diamètres et de types de raccords pour s'adapter à toutes les tuyauteries existantes.",
+      "Gamme complète de pompage de surface et de relevage pour les applications civiles et industrielles."
+    ],
+    subRangesTitle: "Nos gammes de plomberie et de gestion des fluides :",
+    subRanges: [
+      { title: "Tubes & Tuyaux Industriels (Cuivre, PVC, Acier)", desc: "Tuyauteries certifiées pour eau, gaz, hydrocarbures et air comprimé.", badge: "Tuyauterie", to: "/solutions/plomberie" },
+      { title: "Raccords de Tuyauterie & Raccords Rapides", desc: "Coudes, tés, brides acier et raccords express pneumatiques.", badge: "Raccords", to: "/solutions/plomberie" },
+      { title: "Robinetterie Industrielle & Vannes Papillon", desc: "Vannes à boisseau sphérique inox, clapets anti-retour et robinets-vannes.", badge: "Robinetterie", to: "/solutions/plomberie" },
+      { title: "Pompes de Surface & Pompes de Relevage", desc: "Pompes centrifuges pour alimentation d'eau et relevage d'eaux usées.", badge: "Pompage", to: "/solutions/plomberie" },
+      { title: "Appareils de Mesure, Manomètres & Détendeurs", desc: "Contrôle précis de pression, débitmètres et régulateurs de flux.", badge: "Mesure", to: "/solutions/plomberie" },
+      { title: "Climatisation & Réseaux d'Air Comprimé", desc: "Tuyaux spiralés, unités de filtration FRL et diffuseurs thermiques.", badge: "Air & Froid", to: "/solutions/plomberie" }
     ]
   },
   "plomberie-fluides": {
@@ -141,12 +163,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes de plomberie et de gestion des fluides :",
     subRanges: [
-      { title: "Tubes & Tuyaux Industriels (Cuivre, PVC, Acier)", desc: "Tuyauteries certifiées pour eau, gaz, hydrocarbures et air comprimé.", badge: "Tuyauterie", to: "/solutions/industrie" },
-      { title: "Raccords de Tuyauterie & Raccords Rapides", desc: "Coudes, tés, brides acier et raccords express pneumatiques.", badge: "Raccords", to: "/solutions/industrie" },
-      { title: "Robinetterie Industrielle & Vannes Papillon", desc: "Vannes à boisseau sphérique inox, clapets anti-retour et robinets-vannes.", badge: "Robinetterie", to: "/solutions/industrie" },
-      { title: "Pompes de Surface & Pompes de Relevage", desc: "Pompes centrifuges pour alimentation d'eau et relevage d'eaux usées.", badge: "Pompage", to: "/solutions/manutention" },
-      { title: "Appareils de Mesure, Manomètres & Détendeurs", desc: "Contrôle précis de pression, débitmètres et régulateurs de flux.", badge: "Mesure", to: "/solutions/industrie" },
-      { title: "Climatisation & Réseaux d'Air Comprimé", desc: "Tuyaux spiralés, unités de filtration FRL et diffuseurs thermiques.", badge: "Air & Froid", to: "/solutions/industrie" }
+      { title: "Tubes & Tuyaux Industriels (Cuivre, PVC, Acier)", desc: "Tuyauteries certifiées pour eau, gaz, hydrocarbures et air comprimé.", badge: "Tuyauterie", to: "/solutions/plomberie" },
+      { title: "Raccords de Tuyauterie & Raccords Rapides", desc: "Coudes, tés, brides acier et raccords express pneumatiques.", badge: "Raccords", to: "/solutions/plomberie" },
+      { title: "Robinetterie Industrielle & Vannes Papillon", desc: "Vannes à boisseau sphérique inox, clapets anti-retour et robinets-vannes.", badge: "Robinetterie", to: "/solutions/plomberie" },
+      { title: "Pompes de Surface & Pompes de Relevage", desc: "Pompes centrifuges pour alimentation d'eau et relevage d'eaux usées.", badge: "Pompage", to: "/solutions/plomberie" },
+      { title: "Appareils de Mesure, Manomètres & Détendeurs", desc: "Contrôle précis de pression, débitmètres et régulateurs de flux.", badge: "Mesure", to: "/solutions/plomberie" },
+      { title: "Climatisation & Réseaux d'Air Comprimé", desc: "Tuyaux spiralés, unités de filtration FRL et diffuseurs thermiques.", badge: "Air & Froid", to: "/solutions/plomberie" }
     ]
   },
   electricite: {
@@ -163,12 +185,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes d'électricité industrielle et bâtiment :",
     subRanges: [
-      { title: "Disjoncteurs Divisionnaires & Boîtiers Moulés", desc: "Coupure de sécurité magnétothermique et différentielle haute sensibilité.", badge: "Protection", to: "/solutions/industrie" },
-      { title: "Tableaux Électriques & Armoires Étanches IP66", desc: "Coffrets de chantier, armoires polyester et coffrets modulaires étanches.", badge: "Coffrets", to: "/solutions/industrie" },
-      { title: "Câbles Électriques Basse Tension & Goulottes", desc: "Câbles industriels U-1000 R2V, chemins de câbles et goulottes de sol.", badge: "Câblage", to: "/solutions/vetements-professionnels" },
-      { title: "Contacteurs de Puissance & Relais Thermiques", desc: "Commande moteur, bobines 24V/230V/400V et auxiliaires de signalisation.", badge: "Puissance", to: "/solutions/industrie" },
-      { title: "Variateurs de Vitesse & Démarreurs Moteurs", desc: "Optimisation de la consommation énergétique et contrôle dynamique.", badge: "Automatisme", to: "/solutions/industrie" },
-      { title: "Prises Industrielles Étanches & Connecteurs", desc: "Prises CEE 16A à 125A IP44/IP67 et prolongateurs de chantier.", badge: "Prises IP67", to: "/solutions/epi/btp" }
+      { title: "Disjoncteurs Divisionnaires & Boîtiers Moulés", desc: "Coupure de sécurité magnétothermique et différentielle haute sensibilité.", badge: "Protection", to: "/solutions/electricite" },
+      { title: "Tableaux Électriques & Armoires Étanches IP66", desc: "Coffrets de chantier, armoires polyester et coffrets modulaires étanches.", badge: "Coffrets", to: "/solutions/electricite" },
+      { title: "Câbles Électriques Basse Tension & Goulottes", desc: "Câbles industriels U-1000 R2V, chemins de câbles et goulottes de sol.", badge: "Câblage", to: "/solutions/electricite" },
+      { title: "Contacteurs de Puissance & Relais Thermiques", desc: "Commande moteur, bobines 24V/230V/400V et auxiliaires de signalisation.", badge: "Puissance", to: "/solutions/electricite" },
+      { title: "Variateurs de Vitesse & Démarreurs Moteurs", desc: "Optimisation de la consommation énergétique et contrôle dynamique.", badge: "Automatisme", to: "/solutions/electricite" },
+      { title: "Prises Industrielles Étanches & Connecteurs", desc: "Prises CEE 16A à 125A IP44/IP67 et prolongateurs de chantier.", badge: "Prises IP67", to: "/solutions/electricite" }
     ]
   },
   quincaillerie: {
@@ -185,12 +207,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes de quincaillerie et d'agencement :",
     subRanges: [
-      { title: "Visserie Métaux & Boulonnerie Inox A2/A4", desc: "Boulons classe 8.8/10.9, écrous Nylstop, rondelles et vis à bois.", badge: "Visserie", to: "/solutions/industrie" },
-      { title: "Chevilles d'Ancrage Lourd pour Béton", desc: "Goujons d'ancrage, chevilles métalliques à expansion sous fortes charges.", badge: "Ancrage", to: "/solutions/travail-en-hauteur/ancrages" },
-      { title: "Scellement Chimique & Tiges Filetées", desc: "Résines vinylester et époxy sans styrène pour charges lourdes.", badge: "Scellement", to: "/solutions/travail-en-hauteur/ancrages" },
-      { title: "Serrurerie, Cylindres & Cadenas LOTO", desc: "Serrures haute sûreté, cylindres européens et cadenas de sécurité.", badge: "Sécurité", to: "/solutions/industrie" },
-      { title: "Charnières, Glissières & Ferrures de Meuble", desc: "Accessoires d'agencement pour menuiserie et aménagement tertiaire.", badge: "Agencement", to: "/solutions/revetements" },
-      { title: "Supports de Tuyauterie & Colliers de Serrage", desc: "Colliers isophoniques, équerres lourdes et consoles métalliques.", badge: "Fixations", to: "/solutions/plomberie-fluides" }
+      { title: "Visserie Métaux & Boulonnerie Inox A2/A4", desc: "Boulons classe 8.8/10.9, écrous Nylstop, rondelles et vis à bois.", badge: "Visserie", to: "/solutions/quincaillerie" },
+      { title: "Chevilles d'Ancrage Lourd pour Béton", desc: "Goujons d'ancrage, chevilles métalliques à expansion sous fortes charges.", badge: "Ancrage", to: "/solutions/quincaillerie" },
+      { title: "Scellement Chimique & Tiges Filetées", desc: "Résines vinylester et époxy sans styrène pour charges lourdes.", badge: "Scellement", to: "/solutions/quincaillerie" },
+      { title: "Serrurerie, Cylindres & Cadenas LOTO", desc: "Serrures haute sûreté, cylindres européens et cadenas de sécurité.", badge: "Sécurité", to: "/solutions/quincaillerie" },
+      { title: "Charnières, Glissières & Ferrures de Meuble", desc: "Accessoires d'agencement pour menuiserie et aménagement tertiaire.", badge: "Agencement", to: "/solutions/quincaillerie" },
+      { title: "Supports de Tuyauterie & Colliers de Serrage", desc: "Colliers isophoniques, équerres lourdes et consoles métalliques.", badge: "Fixations", to: "/solutions/quincaillerie" }
     ]
   },
   revetements: {
@@ -207,12 +229,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes de revêtements de sol et de mur :",
     subRanges: [
-      { title: "Résines de Sol Époxy & Polyuréthane Autonivelantes", desc: "Sols continus sans joints, haute résistance chimique et mécanique.", badge: "Époxy", to: "/solutions/logistique" },
-      { title: "Mortiers de Ragréage & Enduits de Nivellement", desc: "Préparation des dalles béton avant pose de résine ou revêtement.", badge: "Ragréage", to: "/solutions/epi/btp" },
-      { title: "Peintures de Sol Industrielles & Marquage Sécurité", desc: "Peintures époxy bi-composant pour allées de circulation piétonnes.", badge: "Signalisation", to: "/solutions/logistique" },
-      { title: "Panneaux MDF, Mélaminés & Agencement Mural", desc: "Habillages muraux acoustiques et décoratifs pour espaces de travail.", badge: "Agencement", to: "/solutions/quincaillerie" },
-      { title: "Dalles de Sol Modulaires Antidérapantes", desc: "Dalles PVC clipsables amortissantes pour ateliers et garages.", badge: "Antidérapant", to: "/solutions/industrie" },
-      { title: "Étanchéité des Murs/Sols & Mortiers Hydrofuges", desc: "Primaires d'adhérence, cuvelages et barrières anti-remontées capillaires.", badge: "Étanchéité", to: "/solutions/epi/btp" }
+      { title: "Résines de Sol Époxy & Polyuréthane Autonivelantes", desc: "Sols continus sans joints, haute résistance chimique et mécanique.", badge: "Époxy", to: "/solutions/revetements" },
+      { title: "Mortiers de Ragréage & Enduits de Nivellement", desc: "Préparation des dalles béton avant pose de résine ou revêtement.", badge: "Ragréage", to: "/solutions/revetements" },
+      { title: "Peintures de Sol Industrielles & Marquage Sécurité", desc: "Peintures époxy bi-composant pour allées de circulation piétonnes.", badge: "Signalisation", to: "/solutions/revetements" },
+      { title: "Panneaux MDF, Mélaminés & Agencement Mural", desc: "Habillages muraux acoustiques et décoratifs pour espaces de travail.", badge: "Agencement", to: "/solutions/revetements" },
+      { title: "Dalles de Sol Modulaires Antidérapantes", desc: "Dalles PVC clipsables amortissantes pour ateliers et garages.", badge: "Antidérapant", to: "/solutions/revetements" },
+      { title: "Étanchéité des Murs/Sols & Mortiers Hydrofuges", desc: "Primaires d'adhérence, cuvelages et barrières anti-remontées capillaires.", badge: "Étanchéité", to: "/solutions/revetements" }
     ]
   },
   jardinage: {
@@ -229,12 +251,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes de jardinage et motoculture :",
     subRanges: [
-      { title: "Tondeuses à Gazon Thermiques & Tractées", desc: "Châssis acier, moteurs puissants pour grands parcs d'entreprises.", badge: "Tondeuses", to: "/solutions/vetements-professionnels" },
-      { title: "Débroussailleuses Thermiques à Dos", desc: "Moteurs 2-temps performants, harnais rembourrés anti-vibrations.", badge: "Espaces Verts", to: "/solutions/epi/protection-yeux" },
-      { title: "Tronçonneuses & Élagueuses Professionnelles", desc: "Scies à chaîne thermiques et perches d'élagage télescopiques.", badge: "Élagage", to: "/solutions/epi/gants/anti-coupure" },
-      { title: "Taille-Haies sur Perche & Souffleurs de Feuilles", desc: "Lames double tranchant affûtées au laser et turbines puissantes.", badge: "Entretien", to: "/solutions/epi/protection-auditive" },
-      { title: "Outillage à Main : Sécateurs, Cisailles & Pelles", desc: "Outils de coupe de précision et manches ergonomiques incassables.", badge: "Précision", to: "/solutions/outillage" },
-      { title: "Systèmes d'Irrigation & Arrosage Automatique", desc: "Tuyaux d'arrosage armés, raccords laiton et programmateurs.", badge: "Arrosage", to: "/solutions/plomberie-fluides" }
+      { title: "Tondeuses à Gazon Thermiques & Tractées", desc: "Châssis acier, moteurs puissants pour grands parcs d'entreprises.", badge: "Tondeuses", to: "/solutions/jardinage" },
+      { title: "Débroussailleuses Thermiques à Dos", desc: "Moteurs 2-temps performants, harnais rembourrés anti-vibrations.", badge: "Espaces Verts", to: "/solutions/jardinage" },
+      { title: "Tronçonneuses & Élagueuses Professionnelles", desc: "Scies à chaîne thermiques et perches d'élagage télescopiques.", badge: "Élagage", to: "/solutions/jardinage" },
+      { title: "Taille-Haies sur Perche & Souffleurs de Feuilles", desc: "Lames double tranchant affûtées au laser et turbines puissantes.", badge: "Entretien", to: "/solutions/jardinage" },
+      { title: "Outillage à Main : Sécateurs, Cisailles & Pelles", desc: "Outils de coupe de précision et manches ergonomiques incassables.", badge: "Précision", to: "/solutions/jardinage" },
+      { title: "Systèmes d'Irrigation & Arrosage Automatique", desc: "Tuyaux d'arrosage armés, raccords laiton et programmateurs.", badge: "Arrosage", to: "/solutions/jardinage" }
     ]
   },
   consommables: {
@@ -251,12 +273,12 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes de consommables industriels d'atelier :",
     subRanges: [
-      { title: "Disques à Tronçonner & Ébarber Métaux", desc: "Disques résine renforcés 115, 125 et 230 mm pour découpe d'acier.", badge: "Abrasifs", to: "/solutions/outillage" },
-      { title: "Bandes Abrasives & Disques de Ponçage", desc: "Grains corindon et zirconium pour ponceuses à bande et orbitales.", badge: "Ponçage", to: "/solutions/epi/protection-respiratoire" },
-      { title: "Lubrifiants Techniques & Huiles Hydrauliques", desc: "Huiles de coupe, graisses synthétiques et fluides industriels.", badge: "Lubrifiants", to: "/solutions/roulements-transmission" },
-      { title: "Sprays Dégrippants & Dégraissants Métaux", desc: "Dégrippants pénétrants multifonctions et nettoyants de freins.", badge: "Maintenance", to: "/solutions/industrie" },
-      { title: "Rubans Adhésifs Techniques & Double-Face", desc: "Adhésifs toilés haute résistance, masquage peinture et armés.", badge: "Adhésifs", to: "/solutions/logistique" },
-      { title: "Colles Néoprène, Polyuréthane & Mastics", desc: "Collage structurel puissant et mastics d'étanchéité hybrides.", badge: "Colles", to: "/solutions/quincaillerie" }
+      { title: "Disques à Tronçonner & Ébarber Métaux", desc: "Disques résine renforcés 115, 125 et 230 mm pour découpe d'acier.", badge: "Abrasifs", to: "/solutions/consommables" },
+      { title: "Bandes Abrasives & Disques de Ponçage", desc: "Grains corindon et zirconium pour ponceuses à bande et orbitales.", badge: "Ponçage", to: "/solutions/consommables" },
+      { title: "Lubrifiants Techniques & Huiles Hydrauliques", desc: "Huiles de coupe, graisses synthétiques et fluides industriels.", badge: "Lubrifiants", to: "/solutions/consommables" },
+      { title: "Sprays Dégrippants & Dégraissants Métaux", desc: "Dégrippants pénétrants multifonctions et nettoyants de freins.", badge: "Maintenance", to: "/solutions/consommables" },
+      { title: "Rubans Adhésifs Techniques & Double-Face", desc: "Adhésifs toilés haute résistance, masquage peinture et armés.", badge: "Adhésifs", to: "/solutions/consommables" },
+      { title: "Colles Néoprène, Polyuréthane & Mastics", desc: "Collage structurel puissant et mastics d'étanchéité hybrides.", badge: "Colles", to: "/solutions/consommables" }
     ]
   },
   luminaires: {
@@ -273,12 +295,31 @@ export const CATEGORY_ARTICLES: Record<string, CategoryArticle> = {
     ],
     subRangesTitle: "Nos gammes d'éclairage professionnel et industriel :",
     subRanges: [
-      { title: "Suspensions High-Bay LED Grande Hauteur", desc: "100W à 240W, 150 lm/W pour hangars logistiques et usines.", badge: "High-Bay", to: "/solutions/logistique" },
-      { title: "Réglettes LED Étanches IP65 / IP66", desc: "Boîtier polycarbonate résistant aux chocs IK08 pour ateliers humides.", badge: "IP65 Étanches", to: "/solutions/industrie" },
-      { title: "Projecteurs LED Extérieurs de Chantier", desc: "Éclairage grande portée pour façades, voirie et parkings d'usine.", badge: "Extérieur", to: "/solutions/epi/btp" },
-      { title: "Dalles LED Encastrables 600x600 Bureaux", desc: "UGR < 19 anti-éblouissement pour confort visuel optimal des bureaux.", badge: "Tertiaire", to: "/solutions/revetements" },
-      { title: "Blocs de Secours & Signalisation BAES", desc: "Éclairage autonome d'évacuation de sécurité certifié NF/CE.", badge: "Sécurité", to: "/solutions/electricite" },
-      { title: "Tubes & Sources Lumineuses LED T8", desc: "Remplacement direct des anciens tubes néons fluorescents énergivores.", badge: "Relamping", to: "/solutions/electricite" }
+      { title: "Suspensions High-Bay LED Grande Hauteur", desc: "100W à 240W, 150 lm/W pour hangars logistiques et usines.", badge: "High-Bay", to: "/solutions/luminaires" },
+      { title: "Réglettes LED Étanches IP65 / IP66", desc: "Boîtier polycarbonate résistant aux chocs IK08 pour ateliers humides.", badge: "IP65 Étanches", to: "/solutions/luminaires" },
+      { title: "Projecteurs LED Extérieurs de Chantier", desc: "Éclairage grande portée pour façades, voirie et parkings d'usine.", badge: "Extérieur", to: "/solutions/luminaires" },
+      { title: "Dalles LED Encastrables 600x600 Bureaux", desc: "UGR < 19 anti-éblouissement pour confort visuel optimal des bureaux.", badge: "Tertiaire", to: "/solutions/luminaires" },
+      { title: "Blocs de Secours & Signalisation BAES", desc: "Éclairage autonome d'évacuation de sécurité certifié NF/CE.", badge: "Sécurité", to: "/solutions/luminaires" },
+      { title: "Tubes & Sources Lumineuses LED T8", desc: "Remplacement direct des anciens tubes néons fluorescents énergivores.", badge: "Relamping", to: "/solutions/luminaires" }
+    ]
+  },
+  climatisation: {
+    title: "Climatisation & traitement de l'air",
+    subtitle: "Systèmes de climatisation tertiaire, rideaux d'air et ventilation industrielle.",
+    intro: "Le maintien d'une température ambiante régulée et d'un air sain dans les ateliers, entrepôts et bureaux est essentiel tant pour le bien-être des collaborateurs que pour la préservation des stocks sensibles.",
+    article: "ORSAP équipe les entreprises avec des solutions complètes de génie climatique : climatiseurs réversibles Inverter haute performance, rideaux d'air chaud/froid pour portes d'entrepôt, centrales de traitement d'air et ventilateurs hélicoïdes industriels d'extraction.",
+    highlightsTitle: "Pourquoi choisir ORSAP pour votre génie climatique ?",
+    highlights: [
+      "Efficacité énergétique A+++ réduisant vos factures d'électricité en période estivale.",
+      "Matériel robuste résistant aux atmosphères salines côtières et aux fortes chaleurs.",
+      "Solutions complètes d'extraction d'air vicié et de désenfumage conformes aux normes.",
+      "Garantie constructeur et pièces de rechange disponibles immédiatement."
+    ],
+    subRangesTitle: "Nos gammes de climatisation et ventilation :",
+    subRanges: [
+      { title: "Climatiseurs Split & Cassettes Inverter", desc: "Climatisation silencieuse pour bureaux et salles de réunion.", badge: "Inverter", to: "/solutions/climatisation" },
+      { title: "Rideaux d'Air pour Portes Industrielles", desc: "Barrière thermique invisible évitant les pertes d'énergie aux entrées.", badge: "Économie", to: "/solutions/climatisation" },
+      { title: "Extracteurs d'Air & Ventilateurs d'Atelier", desc: "Renouvellement d'air rapide et extraction de fumées/vapeurs.", badge: "Ventilation", to: "/solutions/climatisation" }
     ]
   }
 };
