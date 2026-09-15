@@ -431,10 +431,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de protection auditive :",
     subRanges: [
-      { title: "Bouchons Jetables en Mousse", desc: "SNR 34 à 37 dB, insertion facile, forme conique s'adaptant à tous les conduits.", badge: "Économique" },
-      { title: "Bouchons Réutilisables avec Cordelette", desc: "Lavables, collerettes multiples, boîtier de rangement individuel.", badge: "Pratique" },
-      { title: "Casques Antibruit Passifs", desc: "SNR 26 à 35 dB, serre-tête réglable rembourré, coquilles profilées.", badge: "Haute Protection" },
-      { title: "Casques Électroniques Actifs", desc: "Amplification des voix et coupure instantanée des bruits impulsionnels violents.", badge: "High-Tech" }
+      { title: "Bouchons Jetables en Mousse", desc: "SNR 34 à 37 dB, insertion facile, forme conique s'adaptant à tous les conduits.", badge: "Économique", to: "/solutions/industrie" },
+      { title: "Bouchons Réutilisables avec Cordelette", desc: "Lavables, collerettes multiples, boîtier de rangement individuel.", badge: "Pratique", to: "/solutions/epi/btp" },
+      { title: "Casques Antibruit Passifs", desc: "SNR 26 à 35 dB, serre-tête réglable rembourré, coquilles profilées.", badge: "Haute Protection", to: "/solutions/epi/casques" },
+      { title: "Casques Électroniques Actifs", desc: "Amplification des voix et coupure instantanée des bruits impulsionnels violents.", badge: "High-Tech", to: "/solutions/industrie" }
     ],
     expertAdvice: "Règle de calcul : Le niveau sonore perçu sous le protecteur doit idéalement se situer entre 70 et 75 dB(A). Si le bruit d'atelier est de 100 dB(A), un protecteur avec un SNR de 28 dB est parfaitement adapté (100 - 28 = 72 dB).",
     faq: [
@@ -482,10 +482,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme d'équipements respiratoires :",
     subRanges: [
-      { title: "Masques Jetables FFP2 & FFP3", desc: "Avec soupape, barrette nasale ajustable et élastiques sans latex.", badge: "Usage Unique" },
-      { title: "Demi-Masques Bi-Filtres Réutilisables", desc: "Excellente répartition du poids, champ de vision dégagé et pièces de rechange.", badge: "Confort" },
-      { title: "Cartouches & Filtres ABEK1P3", desc: "Protection combinée contre les gaz, vapeurs et aérosols solides.", badge: "Norme EN 14387" },
-      { title: "Masques Panoramiques Complets", desc: "Protection simultanée des yeux, du visage et des voies respiratoires.", badge: "Intégral" }
+      { title: "Masques Jetables FFP2 & FFP3", desc: "Avec soupape, barrette nasale ajustable et élastiques sans latex.", badge: "Usage Unique", to: "/solutions/epi/btp" },
+      { title: "Demi-Masques Bi-Filtres Réutilisables", desc: "Excellente répartition du poids, champ de vision dégagé et pièces de rechange.", badge: "Confort", to: "/solutions/industrie" },
+      { title: "Cartouches & Filtres ABEK1P3", desc: "Protection combinée contre les gaz, vapeurs et aérosols solides.", badge: "Norme EN 14387", to: "/solutions/industrie" },
+      { title: "Masques Panoramiques Complets", desc: "Protection simultanée des yeux, du visage et des voies respiratoires.", badge: "Intégral", to: "/solutions/epi/casques" }
     ],
     expertAdvice: "Le saviez-vous ? Pour être efficace, un appareil de protection respiratoire à masque étanche doit être porté sur une peau rasée de près : la présence d'une barbe de 3 jours multiplie par 20 le taux de fuite vers l'intérieur.",
     faq: [
@@ -533,10 +533,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Modèles de protection oculaire :",
     subRanges: [
-      { title: "Lunettes de Sécurité à Branches", desc: "Légères (25g), branches inclinables, protection latérale intégrée.", badge: "Quotidien" },
-      { title: "Sur-Lunettes de Protection", desc: "Large champ de vision, conçues pour être portées par-dessus les lunettes de vue.", badge: "Universel" },
-      { title: "Lunettes-Masques Étanches", desc: "Bandeau élastique large, aération indirecte, protection liquide (3) et poussière (4).", badge: "Chimie/Poussière" },
-      { title: "Écrans Faciaux & Visières", desc: "Protection intégrale du visage contre les projections thermiques et de métal en fusion.", badge: "EN 166 (B/A)" }
+      { title: "Lunettes de Sécurité à Branches", desc: "Légères (25g), branches inclinables, protection latérale intégrée.", badge: "Quotidien", to: "/solutions/epi/btp" },
+      { title: "Sur-Lunettes de Protection", desc: "Large champ de vision, conçues pour être portées par-dessus les lunettes de vue.", badge: "Universel", to: "/solutions/industrie" },
+      { title: "Lunettes-Masques Étanches", desc: "Bandeau élastique large, aération indirecte, protection liquide (3) et poussière (4).", badge: "Chimie/Poussière", to: "/solutions/industrie" },
+      { title: "Écrans Faciaux & Visières", desc: "Protection intégrale du visage contre les projections thermiques et de métal en fusion.", badge: "EN 166 (B/A)", to: "/solutions/epi/casques" }
     ],
     expertAdvice: "90% des traumatismes oculaires auraient pu être évités par le port de lunettes de sécurité conformes. Privilégiez des modèles avec traitement anti-buée certifié N pour éviter que l'opérateur ne doive retirer ses lunettes pour les essuyer.",
     faq: [
@@ -584,10 +584,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Domaines d'intervention industrielle :",
     subRanges: [
-      { title: "Consignation LOTO", desc: "Cadenas de sécurité, moraillons d'extension, bloque-disjoncteurs et étiquettes.", badge: "LOTO" },
-      { title: "Rétention & Dépollution", desc: "Plates-formes de rétention, armoires de sécurité coupe-feu et kits d'intervention.", badge: "Environnement" },
-      { title: "Signalétique & Marquage au Sol", desc: "Peintures époxy, rubans thermocollants et panneaux de danger ISO 7010.", badge: "ISO 7010" },
-      { title: "Maintenance & Outillage Isolé", desc: "Outils à main isolés 1000V conformes IEC 60900 pour armoires électriques.", badge: "1000V" }
+      { title: "Consignation LOTO", desc: "Cadenas de sécurité, moraillons d'extension, bloque-disjoncteurs et étiquettes.", badge: "LOTO", to: "/solutions/industrie" },
+      { title: "Rétention & Dépollution", desc: "Plates-formes de rétention, armoires de sécurité coupe-feu et kits d'intervention.", badge: "Environnement", to: "/solutions/industrie" },
+      { title: "Signalétique & Marquage au Sol", desc: "Peintures époxy, rubans thermocollants et panneaux de danger ISO 7010.", badge: "ISO 7010", to: "/solutions/logistique" },
+      { title: "Maintenance & Outillage Isolé", desc: "Outils à main isolés 1000V conformes IEC 60900 pour armoires électriques.", badge: "1000V", to: "/solutions/epi/casques" }
     ],
     expertAdvice: "La consignation LOTO sauve des vies : 80% des accidents graves en maintenance industrielle sont dus à l'absence de cadenassage de l'énergie résiduelle (pression pneumatique résiduelle, gravité d'une masse en hauteur).",
     faq: [
@@ -633,10 +633,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Solutions de sécurisation pour entrepôts :",
     subRanges: [
-      { title: "Protections de Rayonnage", desc: "Sabots de montants, protections d'allées et butoirs de fond de travée.", badge: "Anti-Choc" },
-      { title: "Barrières Piétons / Engins", desc: "Barrières flexibles à mémoire de forme en polymère technique haute visibilité.", badge: "Séparation" },
-      { title: "Sécurité des Quais de Chargement", desc: "Cales de roues de camion, butoirs de quai en caoutchouc et barrières d'accès.", badge: "Quais" },
-      { title: "Signalisation & Éclairage Sol", desc: "Projecteurs Blue Light, bandes de marquage haute résistance et panneaux de limitation.", badge: "Visibilité" }
+      { title: "Protections de Rayonnage", desc: "Sabots de montants, protections d'allées et butoirs de fond de travée.", badge: "Anti-Choc", to: "/solutions/manutention" },
+      { title: "Barrières Piétons / Engins", desc: "Barrières flexibles à mémoire de forme en polymère technique haute visibilité.", badge: "Séparation", to: "/solutions/logistique" },
+      { title: "Sécurité des Quais de Chargement", desc: "Cales de roues de camion, butoirs de quai en caoutchouc et barrières d'accès.", badge: "Quais", to: "/solutions/manutention" },
+      { title: "Signalisation & Éclairage Sol", desc: "Projecteurs Blue Light, bandes de marquage haute résistance et panneaux de limitation.", badge: "Visibilité", to: "/solutions/vetements-professionnels" }
     ],
     expertAdvice: "Un impact de chariot élévateur à seulement 5 km/h exerce une force suffisante pour tordre un montant de rack métallique et réduire sa capacité de charge de 50%. Protégez systématiquement chaque angle d'allée.",
     faq: [
@@ -796,10 +796,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Types d'ancrages disponibles :",
     subRanges: [
-      { title: "Potelets Toiture Bac Acier & Béton", desc: "Fixation sur bac métallique ou dalle béton avec isolation thermique conservée.", badge: "Type A" },
-      { title: "Trépieds & Potences pour Espaces Confinés", desc: "Pieds télescopiques réglables, poulie intégrée et treuil de récupération d'urgence.", badge: "Type B" },
-      { title: "Pinces pour Poutres Métalliques", desc: "Montage manuel rapide sur aile de poutre acier de 75 à 300 mm de largeur.", badge: "Amovible" },
-      { title: "Ancrages à Corps Mort (Type E)", desc: "Poids modulaires lestés pour toitures terrasses sans percer l'étanchéité.", badge: "Type E" }
+      { title: "Potelets Toiture Bac Acier & Béton", desc: "Fixation sur bac métallique ou dalle béton avec isolation thermique conservée.", badge: "Type A", to: "/solutions/travail-en-hauteur/lignes-de-vie" },
+      { title: "Trépieds & Potences pour Espaces Confinés", desc: "Pieds télescopiques réglables, poulie intégrée et treuil de récupération d'urgence.", badge: "Type B", to: "/solutions/travail-en-hauteur/harnais" },
+      { title: "Pinces pour Poutres Métalliques", desc: "Montage manuel rapide sur aile de poutre acier de 75 à 300 mm de largeur.", badge: "Amovible", to: "/solutions/travail-en-hauteur/longes" },
+      { title: "Ancrages à Corps Mort (Type E)", desc: "Poids modulaires lestés pour toitures terrasses sans percer l'étanchéité.", badge: "Type E", to: "/solutions/travail-en-hauteur/lignes-de-vie" }
     ],
     expertAdvice: "Tout point d'ancrage fixe structurel doit être validé par un essai d'arrachement à l'aide d'un extractomètre hydraulique lors de sa pose initiale, afin de certifier la tenue mécanique du support.",
     faq: [
@@ -846,10 +846,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de harnais de sécurité :",
     subRanges: [
-      { title: "Harnais Standard BTP (2 Points)", desc: "Accrochage dorsal et sternal, idéal pour échafaudages et nacelles.", badge: "Best-Seller" },
-      { title: "Harnais Multirisque avec Ceinture (4 Points)", desc: "Ceinture de maintien au travail intégrée avec 2 anneaux latéraux pour électriciens et pylônes.", badge: "Maintien" },
-      { title: "Harnais Confort Travaux sur Cordes", desc: "Point ventral EN 813, cuissards ultra-larges pour suspension confortable.", badge: "Suspendu" },
-      { title: "Gilet Porte-Harnais Haute Visibilité", desc: "Veste HV classe 2 incorporant le harnais pour un enfilage instantané sans emmêlement.", badge: "Gilet Intégré" }
+      { title: "Harnais Standard BTP (2 Points)", desc: "Accrochage dorsal et sternal, idéal pour échafaudages et nacelles.", badge: "Best-Seller", to: "/solutions/travail-en-hauteur/longes" },
+      { title: "Harnais Multirisque avec Ceinture (4 Points)", desc: "Ceinture de maintien au travail intégrée avec 2 anneaux latéraux pour électriciens et pylônes.", badge: "Maintien", to: "/solutions/travail-en-hauteur/longes" },
+      { title: "Harnais Confort Travaux sur Cordes", desc: "Point ventral EN 813, cuissards ultra-larges pour suspension confortable.", badge: "Suspendu", to: "/solutions/travail-en-hauteur/ancrages" },
+      { title: "Gilet Porte-Harnais Haute Visibilité", desc: "Veste HV classe 2 incorporant le harnais pour un enfilage instantané sans emmêlement.", badge: "Gilet Intégré", to: "/solutions/vetements-professionnels" }
     ],
     expertAdvice: "Ajustez correctement votre harnais : vous devez pouvoir glisser une main à plat entre la sangle de cuisse et votre jambe, mais pas le poing fermé. Un harnais trop lâche peut provoquer de graves blessures inguinales lors de l'arrêt d'une chute.",
     faq: [
@@ -896,10 +896,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Solutions de lignes de vie :",
     subRanges: [
-      { title: "Lignes de Vie Câble Inox Horizontales", desc: "Pour toitures métalliques, terrasses béton et charpentes jusqu'à 3 utilisateurs simultanés.", badge: "Type C" },
-      { title: "Lignes de Vie Rigides sur Rail", desc: "Guidage parfait pour ponts roulants, dômes de citernes et faibles hauteurs libres.", badge: "Type D" },
-      { title: "Lignes de Vie Verticales pour Échelles", desc: "Coulisseau antichute bloquant instantanément toute glissade sur échelle fixe.", badge: "EN 353-1" },
-      { title: "Lignes de Vie Temporaires en Sangle", desc: "Longueur réglable jusqu'à 20m, cliquet tendeur robuste pour chantiers rapides.", badge: "Temporaire" }
+      { title: "Lignes de Vie Câble Inox Horizontales", desc: "Pour toitures métalliques, terrasses béton et charpentes jusqu'à 3 utilisateurs simultanés.", badge: "Type C", to: "/solutions/travail-en-hauteur/ancrages" },
+      { title: "Lignes de Vie Rigides sur Rail", desc: "Guidage parfait pour ponts roulants, dômes de citernes et faibles hauteurs libres.", badge: "Type D", to: "/solutions/travail-en-hauteur/ancrages" },
+      { title: "Lignes de Vie Verticales pour Échelles", desc: "Coulisseau antichute bloquant instantanément toute glissade sur échelle fixe.", badge: "EN 353-1", to: "/solutions/travail-en-hauteur/longes" },
+      { title: "Lignes de Vie Temporaires en Sangle", desc: "Longueur réglable jusqu'à 20m, cliquet tendeur robuste pour chantiers rapides.", badge: "Temporaire", to: "/solutions/travail-en-hauteur/longes" }
     ],
     expertAdvice: "Sur une toiture avec un tirant d'air restreint (moins de 4 mètres sous la toiture), évitez les câbles longs qui présentent une flèche importante en cas de chute. Privilégiez un rail rigide Type D qui garantit un arrêt quasi instantané.",
     faq: [
@@ -946,10 +946,10 @@ export const SOLUTIONS_DATA: Record<string, SolutionItem> = {
     ],
     subRangesTitle: "Gamme de longes et enrouleurs :",
     subRanges: [
-      { title: "Longes Doubles en Y avec Absorbeur", desc: "Longueur 1,5m à 2m, grands connecteurs alu, indispensable pour échafaudage et pylônes.", badge: "Longe en Y" },
-      { title: "Antichutes à Rappel Automatique (2m à 20m)", desc: "Blocage immédiat, utilisation verticale ou horizontale (test arête vive).", badge: "Enrouleur" },
-      { title: "Longes de Maintien au Travail Réglables", desc: "Corde gainée avec bloqueur ergonomique pour ajuster précisément sa distance au support.", badge: "Maintien" },
-      { title: "Mousquetons & Connecteurs de Sécurité", desc: "Mousquetons à vis, à verrouillage automatique 2 et 3 mouvements, aluminium ou acier.", badge: "EN 362" }
+      { title: "Longes Doubles en Y avec Absorbeur", desc: "Longueur 1,5m à 2m, grands connecteurs alu, indispensable pour échafaudage et pylônes.", badge: "Longe en Y", to: "/solutions/travail-en-hauteur/harnais" },
+      { title: "Antichutes à Rappel Automatique (2m à 20m)", desc: "Blocage immédiat, utilisation verticale ou horizontale (test arête vive).", badge: "Enrouleur", to: "/solutions/travail-en-hauteur/ancrages" },
+      { title: "Longes de Maintien au Travail Réglables", desc: "Corde gainée avec bloqueur ergonomique pour ajuster précisément sa distance au support.", badge: "Maintien", to: "/solutions/travail-en-hauteur/harnais" },
+      { title: "Mousquetons & Connecteurs de Sécurité", desc: "Mousquetons à vis, à verrouillage automatique 2 et 3 mouvements, aluminium ou acier.", badge: "EN 362", to: "/solutions/travail-en-hauteur/longes" }
     ],
     expertAdvice: "Attention : N'attachez jamais le brin libre d'une longe en Y sur un anneau métallique non prévu du harnais, car cela neutraliserait le déploiement de l'absorbeur d'énergie en cas de chute. Utilisez les porte-longes fusibles dédiés.",
     faq: [
