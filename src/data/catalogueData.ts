@@ -1,3 +1,4 @@
+// Auto-generated catalogue data
 import { Article, Facets } from "@/utils/catalogueClient";
 
 export type { Article, Facets };
@@ -342429,7 +342430,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 5560,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/a25a9167-bbfd-5b12-9d30-0e915a3c92ac/09673c47-08f7-52ee-9ece-e18113d39bcd.jpg"
   },
   {
     "code": "OR107842",
@@ -342439,7 +342440,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 7375,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e3f151be9112be73d593036f7bd3d819123fcaa365679f4be107f472af042b872c948f1454cfd3640110ce4d57f4328b095e0f9a0f6e608562cbcefa7bd79c4ae"
   },
   {
     "code": "OR107843",
@@ -342449,7 +342450,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 8629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/a25a9167-bbfd-5b12-9d30-0e915a3c92ac/09673c47-08f7-52ee-9ece-e18113d39bcd.jpg"
   },
   {
     "code": "OR113258",
@@ -342540,7 +342541,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 520,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6eb8f7e49f04f8cfee8437920570ca5432594016359567a0f1b9e5ea789b6b6abfc4800e932e6ae9a61ae8e317fa86ca154d3736083fb5faea93af78e36c14e3b0"
   },
   {
     "code": "OR57202",
@@ -342550,7 +342551,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 6499,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e55b701e2d477782d40c937c93924a3c2947d74f50b8f5824d25dde3ccb6c7f8547fc8858541f5d6e109d388ccc1a864c81297f09c6aec30a9e99395a60549715"
   },
   {
     "code": "OR70620",
@@ -342560,7 +342561,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 249,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
   },
   {
     "code": "OR70621",
@@ -342588,7 +342589,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 569,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
   },
   {
     "code": "OR101214",
@@ -342598,7 +342599,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 599,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
   },
   {
     "code": "OR25913",
@@ -351977,7 +351978,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 3.72,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/608c34c8-f551-5e53-9676-081eb5964296/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
   },
   {
     "code": "OR104601",
@@ -351987,7 +351988,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 37.2,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ea5daaf3b66002fc9a7d40869799fda20e8c4a7b18c73f6efc70bde3dc02402cb190d963643d06426d1116ae7b647cf2c89f88f3ba086e129e4aeacb39e76cdc5"
   },
   {
     "code": "OR105205",
@@ -352267,7 +352268,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
   },
   {
     "code": "OR44480",
@@ -352277,7 +352278,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
   },
   {
     "code": "OR44499",
@@ -352575,7 +352576,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/093e9f11-5949-5d3a-8e19-8a4532c4dedd/6143fc3a-3876-57b7-88b6-7cdf15895113.jpg"
   },
   {
     "code": "OR101900",
@@ -352585,7 +352586,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ed1aafd2503eca8c621993886a22d5554124498b901fc0522c45fdeb96a2aa264061373faba842e6dcce9ef9dc3953b61f02121d3985291f9457274f3afd5d3bf"
   },
   {
     "code": "OR101901",
@@ -352595,7 +352596,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8699f999-5998-535c-9bb8-b79512330b48/10f1907b-2567-564d-b1ad-0ade96af1083.jpg"
   },
   {
     "code": "OR101902",
@@ -352605,7 +352606,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
   },
   {
     "code": "OR101903",
@@ -352615,7 +352616,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6edec3987dd2e40d523e6ff274bb59c1f888e56faf15a84e3fa1d0445c0e7a3bf3db76822508d199cb55d7671a5c93b296df5be3791b77de437085feeaa93b462e"
   },
   {
     "code": "OR101904",
@@ -352625,7 +352626,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 10,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
   },
   {
     "code": "OR101905",
@@ -352635,7 +352636,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/e58191ee-db34-55b1-ac41-735eaa1efafe/88db8e19-69db-53bd-bfec-3008f8f2a3b8.jpg"
   },
   {
     "code": "OR101906",
@@ -352645,7 +352646,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ef37c36b96a6a37440e4521872e15b287a857f16168a1ef704b5c16108e5c47f122304567f6a38612e7009c74efbcb7fd1592b405acf5e62af079d128795c3559"
   },
   {
     "code": "OR101907",
@@ -352655,7 +352656,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 10,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/75d20b47-e935-5378-b04e-395e768cfdbc/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
   },
   {
     "code": "OR101908",
@@ -352962,7 +352963,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
   },
   {
     "code": "OR57028",
@@ -352972,7 +352973,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
   },
   {
     "code": "OR57029",
@@ -352982,7 +352983,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
   },
   {
     "code": "OR57030",
