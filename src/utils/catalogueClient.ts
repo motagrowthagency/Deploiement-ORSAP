@@ -26,22 +26,37 @@ let staticFacetsCache: Facets | null = null
 let fetchPromise: Promise<Article[]> | null = null
 
 async function loadStaticCatalogue(): Promise<Article[]> {
-  if (staticCatalogueCache) return staticCatalogueCache
+  if (staticCatalogueCache && staticCatalogueCache.length > 0) return staticCatalogueCache
   if (fetchPromise) return fetchPromise
 
   fetchPromise = (async () => {
+    // 1. Try dynamic ESM import (works 100% in Vite bundler & Figma Make preview)
+    try {
+      const mod = await import("../data/articles.json")
+      const list = (mod.default || mod) as Article[]
+      if (Array.isArray(list) && list.length > 0) {
+        staticCatalogueCache = list
+        return staticCatalogueCache
+      }
+    } catch (err) {
+      console.warn("Dynamic import of articles.json failed, trying fetch fallback:", err)
+    }
+
+    // 2. Try static fetch
     try {
       const res = await fetch("/data/articles.json")
-      if (!res.ok) throw new Error("Could not load /data/articles.json")
-      const list = (await res.json()) as Article[]
-      staticCatalogueCache = Array.isArray(list) ? list : []
-      return staticCatalogueCache
+      if (res.ok) {
+        const list = (await res.json()) as Article[]
+        if (Array.isArray(list) && list.length > 0) {
+          staticCatalogueCache = list
+          return staticCatalogueCache
+        }
+      }
     } catch (err) {
-      console.warn("Could not load static /data/articles.json:", err)
-      return []
-    } finally {
-      fetchPromise = null
+      console.warn("Could not fetch /data/articles.json:", err)
     }
+
+    return []
   })()
 
   return fetchPromise
