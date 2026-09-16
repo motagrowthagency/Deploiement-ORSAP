@@ -16,7 +16,6 @@ dist/
 /public/data/applications.json
 /public/data/users.json
 /public/data/subscribers.json
-/public/data/articles.json
 /public/data/devis_requests.json
 /public/data/devis_items.json
 

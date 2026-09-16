@@ -81,12 +81,18 @@ def import_catalogue(excel_path=None, output_path="data/articles.json"):
         }
 
     articles_list = list(articles_by_code.values())
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    
+    # Save to both data/ and public/data/ for local Node and live PHP environments
+    target_paths = ["data/articles.json", "public/data/articles.json"]
+    if output_path and output_path not in target_paths:
+        target_paths.append(output_path)
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(articles_list, f, ensure_ascii=False)
+    for path in target_paths:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(articles_list, f, ensure_ascii=False)
 
-    print(f"✅ Successfully converted {len(articles_list):,} unique articles into '{output_path}'")
+    print(f"✅ Successfully saved {len(articles_list):,} unique articles to {', '.join(target_paths)}")
     
     # Print summary statistics
     rayons = {}
