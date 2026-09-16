@@ -1,7 +1,7 @@
 /**
- * ORSAP Product Imagery Resolver
- * High-definition, pure white-background (#ffffff) isolated product studio photography
- * matched precisely by SKU, category (Rayon), sub-family (Famille), and keywords.
+ * ORSAP Product Imagery Engine
+ * Hyper-granular, pure white-background (#ffffff) studio photography
+ * matching exact product types, designations, references, and taxonomy.
  */
 
 export interface ProductImageInfo {
@@ -10,93 +10,108 @@ export interface ProductImageInfo {
   label?: string
 }
 
-// Curated high-resolution studio shots isolated on pure white background (#ffffff)
-const WHITE_BG_IMAGES: Record<string, string> = {
-  // === PROTECTION & SECURITE (EPI) ===
-  "chaussures": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=600&q=80",
-  "chaussures_secu": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&h=600&q=80",
-  "bottes": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=600&q=80",
-  "gants": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&h=600&q=80",
-  "casque": "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=600&h=600&q=80",
-  "masque": "https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=600&h=600&q=80",
-  "lunettes": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&h=600&q=80",
-  "harnais": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&h=600&q=80",
-  "vetements": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&h=600&q=80",
-  "gilet_hv": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
+// Curated high-definition studio shots isolated on pure white background (#ffffff)
+const WHITE_BG: Record<string, string> = {
+  // === ADHESIFS & ABRASIFS ===
+  adhesif_rouleau: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
+  toile_emeri: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&h=600&q=80",
+  disque_abrasif: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&h=600&q=80",
+
+  // === EPI & PROTECTION INDIVIDUELLE ===
+  chaussures_hautes: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=600&q=80",
+  chaussures_basses: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&h=600&q=80",
+  bottes_chantier: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=600&q=80",
+  gants_nitrile: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&h=600&q=80",
+  gants_cuir: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&h=600&q=80",
+  casque_chantier: "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=600&h=600&q=80",
+  masque_ffp: "https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=600&h=600&q=80",
+  masque_cartouche: "https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=600&h=600&q=80",
+  lunettes_protection: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&h=600&q=80",
+  harnais_securite: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&h=600&q=80",
+  gilet_fluo: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
+  combinaison_travail: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&h=600&q=80",
+  casque_antibruit: "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=600&h=600&q=80",
 
   // === SIGNALISATION & SECURITE CHANTIER ===
-  "signalisation": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
-  "extincteur": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=600&q=80",
-  "coffre_fort": "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
-  "ralentisseur": "https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&w=600&h=600&q=80",
+  extincteur_poudre: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=600&q=80",
+  cone_signalisation: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
+  panneau_chantier: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
+  coffre_fort: "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
+  ralentisseur: "https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === ECHELLES & ECHAFAUDAGES ===
-  "echelle": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
-  "echafaudage": "https://images.unsplash.com/photo-1541888946425-d0fbb18086f7?auto=format&fit=crop&w=600&h=600&q=80",
-  "escabeau": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  // === ACCES EN HAUTEUR ===
+  echelle_aluminium: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  echafaudage_roulant: "https://images.unsplash.com/photo-1541888946425-d0fbb18086f7?auto=format&fit=crop&w=600&h=600&q=80",
+  escabeau_pro: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === LEVAGE & MANUTENTION ===
-  "transpalette": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=600&q=80",
-  "chariot": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=600&q=80",
-  "roulette": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
-  "sangle": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
-  "chaine": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
-  "palan": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  // === MANUTENTION & LEVAGE ===
+  transpalette_manuel: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=600&q=80",
+  gerbeur: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=600&q=80",
+  diable_manutention: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=600&q=80",
+  roulette_industrielle: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  palan_chaine: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  sangle_arrimage: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
+  elingue_levage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === OUTILLAGE & RANGEMENT ===
-  "electroportatif": "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&h=600&q=80",
-  "perceuse": "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&h=600&q=80",
-  "meuleuse": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&h=600&q=80",
-  "outillage_main": "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=600&h=600&q=80",
-  "tournevis": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=600&q=80",
-  "marteau": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&h=600&q=80",
-  "cle": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&h=600&q=80",
-  "compresseur": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
-  "soudage": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=600&q=80",
-  "rangement": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&h=600&q=80",
-  "metrologie": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&h=600&q=80",
+  // === OUTILLAGE ELECTROPORTATIF ===
+  perceuse_visseuse: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&h=600&q=80",
+  perforateur_burineur: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&h=600&q=80",
+  meuleuse_angle: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&h=600&q=80",
+  scie_circulaire: "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&h=600&q=80",
+  disque_tronconner: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === ELECTRICITE & ECLAIRAGE ===
-  "interrupteur": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
-  "disjoncteur": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
-  "cable": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&h=600&q=80",
-  "eclairage_elec": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&h=600&q=80",
-  "projecteur": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&h=600&q=80",
-  "coffret_elec": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
+  // === OUTILLAGE A MAIN & ATELIER ===
+  cle_mixte: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&h=600&q=80",
+  cle_molette: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&h=600&q=80",
+  coffret_douilles: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&h=600&q=80",
+  tournevis_isole: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=600&q=80",
+  pince_coupante: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=600&h=600&q=80",
+  marteau_coffreur: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&h=600&q=80",
+  metre_ruban: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&h=600&q=80",
+  niveau_bulle: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&h=600&q=80",
+  servante_atelier: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&h=600&q=80",
+  boite_outils: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&h=600&q=80",
+  compresseur_air: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  poste_souder: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === QUINCAILLERIE ===
-  "visserie": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
-  "serrure": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&h=600&q=80",
-  "poignee": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&h=600&q=80",
-  "cheville": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  // === ELECTRICITE & APPAREILLAGE ===
+  interrupteur_mural: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
+  prise_courant: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
+  disjoncteur_modulaire: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
+  tableau_electrique: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=600&q=80",
+  cable_electrique: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&h=600&q=80",
+  enrouleur_chantier: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&h=600&q=80",
+  projecteur_led: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&h=600&q=80",
+  ampoule_led: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === DROGUERIE & PEINTURE ===
-  "peinture": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
-  "rouleau_peinture": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
-  "pinceau": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
-  "droguerie": "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
-  "colle": "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
+  // === QUINCAILLERIE & FIXATION ===
+  vis_bois: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  boulon_ecrou: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  cheville_fixation: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  serrure_cylindre: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&h=600&q=80",
+  cadenas_securite: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&h=600&q=80",
+  poignee_porte: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === SANITAIRE & ETANCHEITE ===
-  "robinetterie": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
-  "plomberie": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
-  "chauffe_eau": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
-  "salle_de_bain": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
+  // === PEINTURE & CHIMIE DE CHANTIER ===
+  pot_peinture: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
+  rouleau_peintre: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
+  pinceau_plat: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&h=600&q=80",
+  cartouche_silicone: "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
+  colle_pu: "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === LUMINAIRE ===
-  "luminaire": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&h=600&q=80",
-  "spot": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=600&h=600&q=80",
-  "applique": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&h=600&q=80",
-  "suspension": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&h=600&q=80",
+  // === PLOMBERIE & SANITAIRE ===
+  mitigeur_lavabo: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
+  mitigeur_cuisine: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
+  colonne_douche: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
+  raccord_plomberie: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
+  chauffe_eau_cumulus: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // === JARDINAGE & PLEIN AIR ===
-  "pompe": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
-  "arrosage": "https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?auto=format&fit=crop&w=600&h=600&q=80",
-  "jardinage": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&h=600&q=80",
-  "piscine": "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
+  // === POMPAGE & JARDINAGE ===
+  pompe_eau: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  tuyau_arrosage: "https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?auto=format&fit=crop&w=600&h=600&q=80",
+  tondeuse_motoculture: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=600&h=600&q=80",
 
-  // Default fallback
-  "default": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
+  default_item: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&h=600&q=80",
 }
 
 /**
@@ -109,188 +124,274 @@ export function getArticleImage(article: {
   famille?: string
   image?: string | null
 }): ProductImageInfo {
-  // 1. Direct custom image URL if defined in article record
+  // 1. Direct custom image URL if defined in article record or local SKU image
   if (article.image && article.image.trim().length > 0) {
     return {
       url: article.image,
       alt: article.designation,
-      label: "Photo officielle",
+      label: "Photo Produit Réelle",
     }
   }
 
   const d = (article.designation || "").toLowerCase()
-  const r = (article.rayon || "").toUpperCase()
   const f = (article.famille || "").toLowerCase()
+  const r = (article.rayon || "").toUpperCase()
 
-  // 2. Keyword & Sub-Family match for white-background photography
-  if (d.includes("chaussure") || d.includes("botte") || f.includes("chaussure") || f.includes("botte")) {
-    return { url: WHITE_BG_IMAGES.chaussures_secu, alt: article.designation, label: "EPI Chaussures" }
+  // === ABRASIFS, ADHÉSIFS & BANDES ===
+  if (d.includes("adhesif") || d.includes("adhésif") || d.includes("scotch") || d.includes("ruban") || d.includes("rouleaux d'adh")) {
+    return { url: WHITE_BG.adhesif_rouleau, alt: article.designation, label: "Adhésif / Ruban Pro" }
+  }
+  if (d.includes("emeri") || d.includes("émeri") || d.includes("abrasif") || d.includes("papier imperme") || d.includes("grain") || d.includes("finition a sec")) {
+    return { url: WHITE_BG.toile_emeri, alt: article.designation, label: "Abrasif & Toile Émeri" }
+  }
+  if (d.includes("auto agrippant") || d.includes("velcro") || d.includes("disque poncage") || d.includes("disque abrasif")) {
+    return { url: WHITE_BG.disque_abrasif, alt: article.designation, label: "Disque Abrasif" }
+  }
+
+  // === PROTECTION & SECURITE (EPI) ===
+  if (d.includes("botte") || f.includes("botte")) {
+    return { url: WHITE_BG.bottes_chantier, alt: article.designation, label: "Bottes de Sécurité" }
+  }
+  if (d.includes("chaussure") || f.includes("chaussure")) {
+    return { url: d.includes("basse") ? WHITE_BG.chaussures_basses : WHITE_BG.chaussures_hautes, alt: article.designation, label: "Chaussures de Sécurité" }
   }
   if (d.includes("gant") || f.includes("gant") || f.includes("mains")) {
-    return { url: WHITE_BG_IMAGES.gants, alt: article.designation, label: "EPI Gants" }
+    return { url: d.includes("cuir") ? WHITE_BG.gants_cuir : WHITE_BG.gants_nitrile, alt: article.designation, label: "Gants de Protection" }
   }
   if (d.includes("casque") || f.includes("casque") || f.includes("tête")) {
-    return { url: WHITE_BG_IMAGES.casque, alt: article.designation, label: "EPI Casque" }
+    if (d.includes("antibruit") || d.includes("bruit") || d.includes("oreill")) {
+      return { url: WHITE_BG.casque_antibruit, alt: article.designation, label: "Protection Auditive" }
+    }
+    return { url: WHITE_BG.casque_chantier, alt: article.designation, label: "Casque de Chantier" }
   }
   if (d.includes("masque") || d.includes("respirat") || f.includes("respirat") || f.includes("masque")) {
-    return { url: WHITE_BG_IMAGES.masque, alt: article.designation, label: "EPI Masque" }
+    return { url: d.includes("cartouche") ? WHITE_BG.masque_cartouche : WHITE_BG.masque_ffp, alt: article.designation, label: "Protection Respiratoire" }
   }
   if (d.includes("lunette") || d.includes("visiere") || f.includes("yeux") || f.includes("visière")) {
-    return { url: WHITE_BG_IMAGES.lunettes, alt: article.designation, label: "EPI Lunettes" }
+    return { url: WHITE_BG.lunettes_protection, alt: article.designation, label: "Lunettes de Protection" }
   }
   if (d.includes("harnais") || d.includes("antichute") || d.includes("longe") || f.includes("antichute") || f.includes("harnais")) {
-    return { url: WHITE_BG_IMAGES.harnais, alt: article.designation, label: "EPI Antichute" }
+    return { url: WHITE_BG.harnais_securite, alt: article.designation, label: "Harnais Antichute" }
   }
-  if (d.includes("gilet") || d.includes("haute visib") || d.includes("combinaison") || f.includes("vêtement") || f.includes("haute visibilité")) {
-    return { url: WHITE_BG_IMAGES.gilet_hv, alt: article.designation, label: "EPI Vêtement" }
+  if (d.includes("gilet") || d.includes("haute visib") || f.includes("haute visibilité")) {
+    return { url: WHITE_BG.gilet_fluo, alt: article.designation, label: "Gilet Haute Visibilité" }
+  }
+  if (d.includes("combinaison") || d.includes("pantalon") || d.includes("veste") || f.includes("vêtement")) {
+    return { url: WHITE_BG.combinaison_travail, alt: article.designation, label: "Vêtement de Travail" }
   }
 
-  // Signalisation & Sécurité Chantier
+  // === SIGNALISATION & SECURITE ===
   if (d.includes("extincteur") || f.includes("incendie") || f.includes("extincteur")) {
-    return { url: WHITE_BG_IMAGES.extincteur, alt: article.designation, label: "Sécurité Incendie" }
+    return { url: WHITE_BG.extincteur_poudre, alt: article.designation, label: "Extincteur Sécurité" }
+  }
+  if (d.includes("cone") || d.includes("cône") || d.includes("balise") || d.includes("rubalise") || f.includes("balisage")) {
+    return { url: WHITE_BG.cone_signalisation, alt: article.designation, label: "Balisage Chantier" }
+  }
+  if (d.includes("panneau") || f.includes("signalisation")) {
+    return { url: WHITE_BG.panneau_chantier, alt: article.designation, label: "Signalétique Chantier" }
   }
   if (d.includes("coffre") || f.includes("coffre")) {
-    return { url: WHITE_BG_IMAGES.coffre_fort, alt: article.designation, label: "Coffre-fort" }
-  }
-  if (d.includes("balisage") || d.includes("cone") || d.includes("panneau") || f.includes("signalisation") || f.includes("balisage")) {
-    return { url: WHITE_BG_IMAGES.signalisation, alt: article.designation, label: "Signalisation" }
+    return { url: WHITE_BG.coffre_fort, alt: article.designation, label: "Coffre-fort Blindé" }
   }
   if (d.includes("ralentisseur") || f.includes("ralentisseur") || f.includes("voirie")) {
-    return { url: WHITE_BG_IMAGES.ralentisseur, alt: article.designation, label: "Voirie" }
+    return { url: WHITE_BG.ralentisseur, alt: article.designation, label: "Équipement Voirie" }
   }
 
-  // Échelles & Échafaudages
+  // === ACCES EN HAUTEUR ===
   if (d.includes("echelle") || f.includes("échelle")) {
-    return { url: WHITE_BG_IMAGES.echelle, alt: article.designation, label: "Échelle" }
+    return { url: WHITE_BG.echelle_aluminium, alt: article.designation, label: "Échelle Aluminium Pro" }
   }
   if (d.includes("echafaud") || f.includes("échafaudage")) {
-    return { url: WHITE_BG_IMAGES.echafaudage, alt: article.designation, label: "Échafaudage" }
+    return { url: WHITE_BG.echafaudage_roulant, alt: article.designation, label: "Échafaudage Roulant" }
   }
   if (d.includes("escabeau") || d.includes("marchepied") || f.includes("escabeau") || f.includes("marchepied")) {
-    return { url: WHITE_BG_IMAGES.escabeau, alt: article.designation, label: "Escabeau" }
+    return { url: WHITE_BG.escabeau_pro, alt: article.designation, label: "Escabeau Professionnel" }
   }
 
-  // Levage & Manutention
-  if (d.includes("transpalette") || d.includes("gerbeur") || d.includes("diable") || f.includes("manutention") || f.includes("chariot")) {
-    return { url: WHITE_BG_IMAGES.transpalette, alt: article.designation, label: "Manutention" }
+  // === LEVAGE & MANUTENTION ===
+  if (d.includes("transpalette") || d.includes("tirpal")) {
+    return { url: WHITE_BG.transpalette_manuel, alt: article.designation, label: "Transpalette Manuel" }
+  }
+  if (d.includes("gerbeur")) {
+    return { url: WHITE_BG.gerbeur, alt: article.designation, label: "Gerbeur Industriel" }
+  }
+  if (d.includes("diable") || d.includes("chariot") || f.includes("chariot") || f.includes("manutention")) {
+    return { url: WHITE_BG.diable_manutention, alt: article.designation, label: "Chariot de Manutention" }
   }
   if (d.includes("roulette") || d.includes("roue") || f.includes("roue") || f.includes("roulette")) {
-    return { url: WHITE_BG_IMAGES.roulette, alt: article.designation, label: "Roues & Roulettes" }
+    return { url: WHITE_BG.roulette_industrielle, alt: article.designation, label: "Roulette Industrielle" }
   }
-  if (d.includes("palan") || d.includes("elingue") || d.includes("treuil") || f.includes("levage") || f.includes("arrimage")) {
-    return { url: WHITE_BG_IMAGES.palan, alt: article.designation, label: "Levage" }
+  if (d.includes("palan") || d.includes("treuil") || f.includes("arrimage")) {
+    return { url: WHITE_BG.palan_chaine, alt: article.designation, label: "Palan de Levage" }
   }
-  if (d.includes("sangle") || d.includes("corde") || f.includes("cordage")) {
-    return { url: WHITE_BG_IMAGES.sangle, alt: article.designation, label: "Arrimage" }
+  if (d.includes("sangle") || d.includes("arrimage")) {
+    return { url: WHITE_BG.sangle_arrimage, alt: article.designation, label: "Sangle d'Arrimage" }
   }
-  if (d.includes("chaine") || d.includes("cable") || f.includes("chaîne")) {
-    return { url: WHITE_BG_IMAGES.chaine, alt: article.designation, label: "Chaînes & Câbles" }
-  }
-
-  // Outillage
-  if (d.includes("perceuse") || d.includes("visseuse") || d.includes("meuleuse") || d.includes("perforateur") || f.includes("electroportatif")) {
-    return { url: WHITE_BG_IMAGES.perceuse, alt: article.designation, label: "Électroportatif" }
-  }
-  if (d.includes("cle ") || d.includes("cliquet") || d.includes("tournevis") || d.includes("pince") || f.includes("outillages a main")) {
-    return { url: WHITE_BG_IMAGES.outillage_main, alt: article.designation, label: "Outillage à main" }
-  }
-  if (d.includes("marteau") || d.includes("masse")) {
-    return { url: WHITE_BG_IMAGES.marteau, alt: article.designation, label: "Outillage à frapper" }
-  }
-  if (d.includes("compresseur") || f.includes("compresseur")) {
-    return { url: WHITE_BG_IMAGES.compresseur, alt: article.designation, label: "Air comprimé" }
-  }
-  if (d.includes("soud") || f.includes("soudage")) {
-    return { url: WHITE_BG_IMAGES.soudage, alt: article.designation, label: "Soudage" }
-  }
-  if (d.includes("boite") || d.includes("caisse") || d.includes("servante") || f.includes("rangement")) {
-    return { url: WHITE_BG_IMAGES.rangement, alt: article.designation, label: "Rangement" }
-  }
-  if (d.includes("metre") || d.includes("niveau") || d.includes("laser") || f.includes("metrologie") || f.includes("mesure")) {
-    return { url: WHITE_BG_IMAGES.metrologie, alt: article.designation, label: "Mesure & Traçage" }
+  if (d.includes("elingue") || d.includes("élingue") || d.includes("chaine") || d.includes("chaîne")) {
+    return { url: WHITE_BG.elingue_levage, alt: article.designation, label: "Élingue de Levage" }
   }
 
-  // Electricité
-  if (d.includes("prise") || d.includes("interrupteur") || f.includes("interrupteur")) {
-    return { url: WHITE_BG_IMAGES.interrupteur, alt: article.designation, label: "Appareillage électrique" }
+  // === OUTILLAGE ELECTROPORTATIF ===
+  if (d.includes("perceuse") || d.includes("visseuse")) {
+    return { url: WHITE_BG.perceuse_visseuse, alt: article.designation, label: "Perceuse Visseuse" }
   }
-  if (d.includes("disjoncteur") || d.includes("differentiel") || d.includes("coffret") || f.includes("coffret")) {
-    return { url: WHITE_BG_IMAGES.disjoncteur, alt: article.designation, label: "Protection électrique" }
+  if (d.includes("perforateur") || d.includes("burineur") || d.includes("marteau piqueur")) {
+    return { url: WHITE_BG.perforateur_burineur, alt: article.designation, label: "Perforateur Burineur" }
   }
-  if (d.includes("cable") || d.includes("fil ") || d.includes("enrouleur") || f.includes("cable") || f.includes("enrouleur")) {
-    return { url: WHITE_BG_IMAGES.cable, alt: article.designation, label: "Câblage" }
+  if (d.includes("meuleuse") || d.includes("disqueuse")) {
+    return { url: WHITE_BG.meuleuse_angle, alt: article.designation, label: "Meuleuse d'Angle" }
   }
-
-  // Quincaillerie
-  if (d.includes("vis") || d.includes("boulon") || d.includes("ecrou") || d.includes("cheville") || f.includes("visserie")) {
-    return { url: WHITE_BG_IMAGES.visserie, alt: article.designation, label: "Visserie & Fixation" }
+  if (d.includes("scie ") || d.includes("scie sauteuse") || d.includes("circulaire")) {
+    return { url: WHITE_BG.scie_circulaire, alt: article.designation, label: "Scie Électrique" }
   }
-  if (d.includes("serrure") || d.includes("verrou") || d.includes("cylindre") || d.includes("cadenas") || f.includes("serrure")) {
-    return { url: WHITE_BG_IMAGES.serrure, alt: article.designation, label: "Serrurerie" }
-  }
-  if (d.includes("poignee") || d.includes("bequille") || f.includes("poingnee")) {
-    return { url: WHITE_BG_IMAGES.poignee, alt: article.designation, label: "Poignée" }
+  if (d.includes("disque") || d.includes("tronconner") || d.includes("diamant") || d.includes("meule")) {
+    return { url: WHITE_BG.disque_tronconner, alt: article.designation, label: "Disque à Tronçonner" }
   }
 
-  // Droguerie & Peinture
-  if (d.includes("peinture") || d.includes("laque") || d.includes("vernis") || f.includes("peinture") || f.includes("vernis")) {
-    return { url: WHITE_BG_IMAGES.peinture, alt: article.designation, label: "Peinture" }
+  // === OUTILLAGE A MAIN ===
+  if (d.includes("cle ") || d.includes("cliquet") || d.includes("douille") || d.includes("fourche")) {
+    return { url: d.includes("molette") ? WHITE_BG.cle_molette : (d.includes("douille") ? WHITE_BG.coffret_douilles : WHITE_BG.cle_mixte), alt: article.designation, label: "Clé Professionnelle" }
   }
-  if (d.includes("rouleau") || d.includes("pinceau") || d.includes("brosse") || f.includes("outillage peinture")) {
-    return { url: WHITE_BG_IMAGES.rouleau_peinture, alt: article.designation, label: "Application" }
+  if (d.includes("tournevis") || d.includes("embout")) {
+    return { url: WHITE_BG.tournevis_isole, alt: article.designation, label: "Tournevis Isolé" }
   }
-  if (d.includes("colle") || d.includes("mastic") || d.includes("silicone") || f.includes("colle")) {
-    return { url: WHITE_BG_IMAGES.colle, alt: article.designation, label: "Étanchéité & Colle" }
+  if (d.includes("pince") || d.includes("tenaille")) {
+    return { url: WHITE_BG.pince_coupante, alt: article.designation, label: "Pince Industrielle" }
+  }
+  if (d.includes("marteau") || d.includes("massette") || d.includes("burin")) {
+    return { url: WHITE_BG.marteau_coffreur, alt: article.designation, label: "Marteau & Frappe" }
+  }
+  if (d.includes("metre") || d.includes("ruban") || d.includes("decametre")) {
+    return { url: WHITE_BG.metre_ruban, alt: article.designation, label: "Mètre Ruban" }
+  }
+  if (d.includes("niveau") || d.includes("laser") || d.includes("regle")) {
+    return { url: WHITE_BG.niveau_bulle, alt: article.designation, label: "Niveau de Précision" }
+  }
+  if (d.includes("servante") || d.includes("armoire atelier")) {
+    return { url: WHITE_BG.servante_atelier, alt: article.designation, label: "Servante d'Atelier" }
+  }
+  if (d.includes("caisse") || d.includes("boite") || d.includes("coffret") || f.includes("rangement")) {
+    return { url: WHITE_BG.boite_outils, alt: article.designation, label: "Boîte à Outils" }
+  }
+  if (d.includes("compresseur") || d.includes("soufflette") || f.includes("compresseur")) {
+    return { url: WHITE_BG.compresseur_air, alt: article.designation, label: "Compresseur d'Air" }
+  }
+  if (d.includes("soud") || d.includes("inverter") || d.includes("electrode") || f.includes("soudage")) {
+    return { url: WHITE_BG.poste_souder, alt: article.designation, label: "Poste à Souder" }
   }
 
-  // Sanitaire & Plomberie
-  if (d.includes("mitigeur") || d.includes("robinet") || d.includes("douche") || f.includes("robinetterie")) {
-    return { url: WHITE_BG_IMAGES.robinetterie, alt: article.designation, label: "Robinetterie" }
+  // === ELECTRICITE & ECLAIRAGE ===
+  if (d.includes("interrupteur") || d.includes("bouton poussoir") || f.includes("interrupteur")) {
+    return { url: WHITE_BG.interrupteur_mural, alt: article.designation, label: "Interrupteur Mural" }
   }
-  if (d.includes("raccord") || d.includes("tube") || d.includes("vanne") || d.includes("cuivre") || f.includes("plomberie")) {
-    return { url: WHITE_BG_IMAGES.plomberie, alt: article.designation, label: "Plomberie" }
+  if (d.includes("prise") || d.includes("socle")) {
+    return { url: WHITE_BG.prise_courant, alt: article.designation, label: "Prise Électrique" }
   }
-  if (d.includes("chauffe-eau") || d.includes("cumulus") || f.includes("chauffe eau")) {
-    return { url: WHITE_BG_IMAGES.chauffe_eau, alt: article.designation, label: "Chauffe-eau" }
+  if (d.includes("disjoncteur") || d.includes("differentiel") || d.includes("fusible") || f.includes("coffret")) {
+    return { url: WHITE_BG.disjoncteur_modulaire, alt: article.designation, label: "Disjoncteur Électrique" }
+  }
+  if (d.includes("coffret") || d.includes("armoire electrique") || d.includes("tableau")) {
+    return { url: WHITE_BG.tableau_electrique, alt: article.designation, label: "Tableau Électrique" }
+  }
+  if (d.includes("enrouleur") || d.includes("rallonge")) {
+    return { url: WHITE_BG.enrouleur_chantier, alt: article.designation, label: "Enrouleur de Chantier" }
+  }
+  if (d.includes("cable") || d.includes("fil ") || d.includes("gaine") || f.includes("cable")) {
+    return { url: WHITE_BG.cable_electrique, alt: article.designation, label: "Câble Électrique" }
+  }
+  if (d.includes("projecteur") || d.includes("spot") || d.includes("hublot") || d.includes("reglette") || f.includes("luminaire")) {
+    return { url: WHITE_BG.projecteur_led, alt: article.designation, label: "Éclairage / Projecteur" }
+  }
+  if (d.includes("ampoule") || d.includes("lampe") || d.includes("tube led")) {
+    return { url: WHITE_BG.ampoule_led, alt: article.designation, label: "Lampe LED" }
   }
 
-  // Luminaire
-  if (r === "LUMINAIRE" || f.includes("luminaire") || f.includes("applique") || f.includes("plafonnier") || f.includes("suspension") || f.includes("spot")) {
-    return { url: WHITE_BG_IMAGES.luminaire, alt: article.designation, label: "Luminaire" }
+  // === QUINCAILLERIE ===
+  if (d.includes("vis ") || d.includes("tirefond") || d.includes("visse")) {
+    return { url: WHITE_BG.vis_bois, alt: article.designation, label: "Visserie Professionnelle" }
+  }
+  if (d.includes("boulon") || d.includes("ecrou") || d.includes("rondelle") || d.includes("tige filetee")) {
+    return { url: WHITE_BG.boulon_ecrou, alt: article.designation, label: "Boulonnerie & Écrous" }
+  }
+  if (d.includes("cheville") || d.includes("tampon") || d.includes("scellement")) {
+    return { url: WHITE_BG.cheville_fixation, alt: article.designation, label: "Cheville de Fixation" }
+  }
+  if (d.includes("cadenas") || d.includes("consignation")) {
+    return { url: WHITE_BG.cadenas_securite, alt: article.designation, label: "Cadenas de Sécurité" }
+  }
+  if (d.includes("serrure") || d.includes("cylindre") || d.includes("verrou") || f.includes("serrure")) {
+    return { url: WHITE_BG.serrure_cylindre, alt: article.designation, label: "Serrure & Cylindre" }
+  }
+  if (d.includes("poignee") || d.includes("bequille") || d.includes("paumelle") || d.includes("charniere")) {
+    return { url: WHITE_BG.poignee_porte, alt: article.designation, label: "Poignée & Ferrure" }
   }
 
-  // Jardinage & Pompes
-  if (d.includes("pompe") || f.includes("pompe")) {
-    return { url: WHITE_BG_IMAGES.pompe, alt: article.designation, label: "Pompage" }
+  // === PEINTURE & CHIMIE ===
+  if (d.includes("peinture") || d.includes("laque") || d.includes("vernis") || d.includes("antirouille") || f.includes("peinture")) {
+    return { url: WHITE_BG.pot_peinture, alt: article.designation, label: "Pot de Peinture" }
+  }
+  if (d.includes("rouleau") || d.includes("manchon") || f.includes("outillage peinture")) {
+    return { url: WHITE_BG.rouleau_peintre, alt: article.designation, label: "Rouleau de Peintre" }
+  }
+  if (d.includes("pinceau") || d.includes("spalter") || d.includes("brosse")) {
+    return { url: WHITE_BG.pinceau_plat, alt: article.designation, label: "Pinceau Professionnel" }
+  }
+  if (d.includes("silicone") || d.includes("mastic") || d.includes("joint")) {
+    return { url: WHITE_BG.cartouche_silicone, alt: article.designation, label: "Cartouche Silicone" }
+  }
+  if (d.includes("colle") || d.includes("resine") || d.includes("mousse expansive") || f.includes("colle")) {
+    return { url: WHITE_BG.colle_pu, alt: article.designation, label: "Colle & Mastic PU" }
+  }
+
+  // === SANITAIRE & PLOMBERIE ===
+  if (d.includes("douche") || d.includes("colonne")) {
+    return { url: WHITE_BG.colonne_douche, alt: article.designation, label: "Colonne de Douche" }
+  }
+  if (d.includes("evier") || d.includes("cuisine")) {
+    return { url: WHITE_BG.mitigeur_cuisine, alt: article.designation, label: "Mitigeur Cuisine" }
+  }
+  if (d.includes("mitigeur") || d.includes("robinet") || d.includes("melangeur") || f.includes("robinetterie")) {
+    return { url: WHITE_BG.mitigeur_lavabo, alt: article.designation, label: "Robinetterie / Mitigeur" }
+  }
+  if (d.includes("chauffe-eau") || d.includes("cumulus") || d.includes("ballon eau")) {
+    return { url: WHITE_BG.chauffe_eau_cumulus, alt: article.designation, label: "Chauffe-eau Électrique" }
+  }
+  if (d.includes("raccord") || d.includes("vanne") || d.includes("siphon") || d.includes("flexible") || f.includes("plomberie")) {
+    return { url: WHITE_BG.raccord_plomberie, alt: article.designation, label: "Raccord de Plomberie" }
+  }
+
+  // === POMPAGE & JARDINAGE ===
+  if (d.includes("pompe") || d.includes("surpresseur") || d.includes("motopompe") || f.includes("pompe")) {
+    return { url: WHITE_BG.pompe_eau, alt: article.designation, label: "Pompe Industrielle" }
   }
   if (d.includes("arrosage") || d.includes("tuyau") || f.includes("arrosage")) {
-    return { url: WHITE_BG_IMAGES.arrosage, alt: article.designation, label: "Arrosage" }
+    return { url: WHITE_BG.tuyau_arrosage, alt: article.designation, label: "Arrosage & Tuyau" }
   }
-  if (r === "JARDINAGE ET PLEIN AIR") {
-    return { url: WHITE_BG_IMAGES.jardinage, alt: article.designation, label: "Jardinage" }
+  if (d.includes("tondeuse") || d.includes("tronconneuse") || d.includes("debroussailleuse") || r === "JARDINAGE ET PLEIN AIR") {
+    return { url: WHITE_BG.tondeuse_motoculture, alt: article.designation, label: "Matériel Espace Vert" }
   }
 
-  // 3. Category Fallback
+  // === CATEGORY FALLBACK ===
   switch (r) {
     case "PROTECTION ET SECURITE (EPI)":
-      return { url: WHITE_BG_IMAGES.chaussures_secu, alt: article.designation, label: "EPI Sécurité" }
+      return { url: WHITE_BG.chaussures_hautes, alt: article.designation, label: "EPI Sécurité" }
     case "SIGNALISATION ET SECURITE CHANTIER":
-      return { url: WHITE_BG_IMAGES.signalisation, alt: article.designation, label: "Sécurité Chantier" }
+      return { url: WHITE_BG.cone_signalisation, alt: article.designation, label: "Sécurité Chantier" }
     case "ECHELLES ET ECHAFAUDAGES":
-      return { url: WHITE_BG_IMAGES.echelle, alt: article.designation, label: "Accès en hauteur" }
+      return { url: WHITE_BG.echelle_aluminium, alt: article.designation, label: "Accès en Hauteur" }
     case "LEVAGE ET MANUTENTION":
-      return { url: WHITE_BG_IMAGES.transpalette, alt: article.designation, label: "Levage & Manutention" }
+      return { url: WHITE_BG.transpalette_manuel, alt: article.designation, label: "Levage & Manutention" }
     case "OUTILLAGE ET RANGEMENT":
-      return { url: WHITE_BG_IMAGES.outillage_main, alt: article.designation, label: "Outillage" }
+      return { url: WHITE_BG.perceuse_visseuse, alt: article.designation, label: "Outillage Pro" }
     case "ELECTRICITE ET ECLAIRAGE":
-      return { url: WHITE_BG_IMAGES.interrupteur, alt: article.designation, label: "Électricité" }
+      return { url: WHITE_BG.interrupteur_mural, alt: article.designation, label: "Électricité" }
     case "QUINCAILLERIE":
-      return { url: WHITE_BG_IMAGES.visserie, alt: article.designation, label: "Quincaillerie" }
+      return { url: WHITE_BG.vis_bois, alt: article.designation, label: "Quincaillerie Pro" }
     case "DROGUERIE ET PEINTURE":
-      return { url: WHITE_BG_IMAGES.peinture, alt: article.designation, label: "Peinture" }
+      return { url: WHITE_BG.pot_peinture, alt: article.designation, label: "Droguerie & Peinture" }
     case "SANITAIRE ET ETANCHEITE":
-      return { url: WHITE_BG_IMAGES.robinetterie, alt: article.designation, label: "Sanitaire" }
+      return { url: WHITE_BG.mitigeur_lavabo, alt: article.designation, label: "Sanitaire & Plomberie" }
     default:
-      return { url: WHITE_BG_IMAGES.default, alt: article.designation, label: "Produit ORSAP" }
+      return { url: WHITE_BG.default_item, alt: article.designation, label: "Article Catalogue ORSAP" }
   }
 }
