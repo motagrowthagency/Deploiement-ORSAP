@@ -879,9 +879,6 @@ export default function CatalogueDevisBuilder({
                       {img.label}
                     </span>
                   )}
-                  <span className="absolute top-3 left-3 rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs">
-                    ✓ Fond Blanc Isolé
-                  </span>
                 </div>
 
                 {/* Product Information & Quick Buy */}
