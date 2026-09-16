@@ -756,8 +756,8 @@ app.delete("/api/devis/:id", requireAdmin, async (req, res) => {
 
 // ── Article Catalogue API Routes (Espace Client search & devis builder) ──
 
-// Search/browse the article catalogue — requires a logged-in client account
-app.get("/api/articles", requireClientAuth, async (req, res) => {
+// Search/browse the article catalogue
+app.get("/api/articles", async (req, res) => {
   const { q, rayon, famille, page, pageSize } = req.query
   try {
     const result = await searchArticles({ q, rayon, famille, page, pageSize })
@@ -769,7 +769,7 @@ app.get("/api/articles", requireClientAuth, async (req, res) => {
 })
 
 // Category / sub-category filters for the search UI
-app.get("/api/articles/facets", requireClientAuth, async (_req, res) => {
+app.get("/api/articles/facets", async (_req, res) => {
   try {
     const facets = await getArticleFacets()
     return res.json(facets)

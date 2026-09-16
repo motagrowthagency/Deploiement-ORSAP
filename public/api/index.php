@@ -67,12 +67,27 @@ function generateJwtPHP(array $u) {
     return $b64Header . "." . $b64Payload . "." . $b64Sig;
 }
 
+function getBearerTokenPHP() {
+    $auth = '';
+    if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+        $auth = $_SERVER['HTTP_AUTHORIZATION'];
+    } elseif (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $auth = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    } elseif (function_exists('apache_request_headers')) {
+        $headers = apache_request_headers();
+        $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
+    } elseif (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
+    }
+    if (empty($auth) || stripos($auth, 'Bearer ') !== 0) return null;
+    return trim(substr($auth, 7));
+}
+
 function getAuthUserPHP() {
     global $JWT_SECRET;
-    $headers = getallheaders();
-    $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
-    if (empty($auth) || strpos($auth, 'Bearer ') !== 0) return null;
-    $token = trim(substr($auth, 7));
+    $token = getBearerTokenPHP();
+    if (empty($token)) return null;
     $parts = explode('.', $token);
     if (count($parts) !== 3) return null;
     list($h64, $p64, $s64) = $parts;
@@ -1297,13 +1312,9 @@ if ($uri === '/api/admin/config/github') {
 
 // ── Article Catalogue API (Espace Client search & devis builder) ────
 
-// Search/browse the article catalogue -- requires a logged-in client account
+// Search/browse the article catalogue
 if ($uri === '/api/articles' || $uri === '/api/articles/') {
     if ($method === 'GET') {
-        $user = getAuthUserPHP();
-        if (!$user) {
-            sendJson(['error' => 'Connexion requise pour accéder au catalogue.'], 401);
-        }
         $result = searchArticlesPHP(
             $_GET['q'] ?? '',
             $_GET['rayon'] ?? '',
@@ -1318,10 +1329,6 @@ if ($uri === '/api/articles' || $uri === '/api/articles/') {
 // Category / sub-category filters for the search UI
 if ($uri === '/api/articles/facets' || $uri === '/api/articles/facets/') {
     if ($method === 'GET') {
-        $user = getAuthUserPHP();
-        if (!$user) {
-            sendJson(['error' => 'Connexion requise pour accéder au catalogue.'], 401);
-        }
         sendJson(getArticleFacetsPHP());
     }
 }
