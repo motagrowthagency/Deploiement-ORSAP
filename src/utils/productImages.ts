@@ -45,9 +45,13 @@ const WHITE_BG: Record<string, string> = {
   ralentisseur: "https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&w=600&h=600&q=80",
 
   // === ACCES EN HAUTEUR ===
-  echelle_aluminium: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
-  echafaudage_roulant: "https://images.unsplash.com/photo-1541888946425-d0fbb18086f7?auto=format&fit=crop&w=600&h=600&q=80",
-  escabeau_pro: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  echelle_aluminium: "/images/categories/ladder_coulissante.jpg",
+  echafaudage_roulant: "/images/categories/echafaudage_roulant.jpg",
+  escabeau_pro: "/images/categories/escabeau_pro.jpg",
+  telescopique: "/images/categories/ladder_telescopique.jpg",
+  transformable_3p: "/images/categories/ladder_transformable.jpg",
+  pliante_articulee: "/images/categories/ladder_articulee.jpg",
+  marchepied: "/images/categories/marchepied_folding.jpg",
 
   // === MANUTENTION & LEVAGE ===
   transpalette_manuel: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&h=600&q=80",
@@ -188,14 +192,26 @@ function resolveStudioFallback(designation: string, rayon = "", famille = ""): {
   }
 
   // === ACCES EN HAUTEUR ===
-  if (d.includes("echelle") || f.includes("échelle")) {
-    return { url: WHITE_BG.echelle_aluminium, label: "Échelle Aluminium Pro" }
+  if (d.includes("echafaud") || d.includes("échafaudage") || d.includes("plate-forme") || d.includes("plateforme")) {
+    return { url: WHITE_BG.echafaudage_roulant, label: "Échafaudage Roulant Pro" }
   }
-  if (d.includes("echafaud") || f.includes("échafaudage")) {
-    return { url: WHITE_BG.echafaudage_roulant, label: "Échafaudage Roulant" }
-  }
-  if (d.includes("escabeau") || d.includes("marchepied") || f.includes("escabeau") || f.includes("marchepied")) {
+  if (d.includes("escabeau")) {
     return { url: WHITE_BG.escabeau_pro, label: "Escabeau Professionnel" }
+  }
+  if (d.includes("marchepied") || d.includes("marche-pied") || d.includes("tabouret")) {
+    return { url: WHITE_BG.marchepied, label: "Marchepied Pliable" }
+  }
+  if (d.includes("telescop") || d.includes("télescop")) {
+    return { url: WHITE_BG.telescopique, label: "Échelle Télescopique" }
+  }
+  if (d.includes("pliante") || d.includes("articul") || d.includes("3x4") || d.includes("4x4")) {
+    return { url: WHITE_BG.pliante_articulee, label: "Échelle Pliante Articulée" }
+  }
+  if (d.includes("3p") || d.includes("3 plans") || d.includes("2p") || d.includes("2 plans") || d.includes("transformable") || d.includes("double")) {
+    return { url: WHITE_BG.transformable_3p, label: "Échelle Transformable Pro" }
+  }
+  if (d.includes("echelle") || f.includes("échelle")) {
+    return { url: WHITE_BG.echelle_aluminium, label: "Échelle Aluminium Droite" }
   }
 
   // === LEVAGE & MANUTENTION ===

@@ -11,34 +11,34 @@ const publicArticlesPath = path.join(__dirname, '../public/data/articles.json');
 
 const articles = JSON.parse(fs.readFileSync(articlesPath, 'utf8'));
 
-// High quality studio photography isolated on clean white background
+// High quality studio photography isolated on clean white background (Local high-res assets)
 const ECHELLE_PHOTOS = {
   // Échelle coulissante à corde 2/3 plans
-  coulissante_corde: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  coulissante_corde: "/images/categories/ladder_coulissante.jpg",
   
   // Échelle transformable 3 plans (3x7, 3x9, 3x10, 3x12, 3x14 marches)
-  transformable_3p: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  transformable_3p: "/images/categories/ladder_transformable.jpg",
 
   // Échelle transformable 2 plans (2x7, 2x9, 2x10, 2x12 marches)
-  transformable_2p: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  transformable_2p: "/images/categories/ladder_transformable.jpg",
 
   // Échelle simple droite en aluminium
-  simple_droite: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  simple_droite: "/images/categories/ladder_coulissante.jpg",
 
   // Échelle télescopique compacte (2.60m, 3.80m, 4.40m)
-  telescopique: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  telescopique: "/images/categories/ladder_telescopique.jpg",
 
   // Échelle pliante articulée multifonction (3x4, 4x4, échafaudage/escabeau)
-  pliante_articulee: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  pliante_articulee: "/images/categories/ladder_articulee.jpg",
 
   // Échafaudage roulant aluminium de chantier avec plancher & garde-corps
-  echafaudage_roulant: "https://images.unsplash.com/photo-1541888946425-d0fbb18086f7?auto=format&fit=crop&w=600&h=600&q=80",
+  echafaudage_roulant: "/images/categories/echafaudage_roulant.jpg",
 
   // Escabeau professionnel aluminium avec tablette porte-outils (3 à 8 marches)
-  escabeau_alu: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80",
+  escabeau_alu: "/images/categories/escabeau_pro.jpg",
 
   // Marchepied pliable aluminium
-  marchepied: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&h=600&q=80"
+  marchepied: "/images/categories/marchepied_folding.jpg"
 };
 
 let countEchelles = 0;
@@ -108,7 +108,4 @@ for (const art of articles) {
 fs.writeFileSync(articlesPath, JSON.stringify(articles, null, 2), 'utf8');
 fs.writeFileSync(publicArticlesPath, JSON.stringify(articles, null, 2), 'utf8');
 
-console.log(`✅ ${countEchelles} articles dans 'ECHELLES ET ECHAFAUDAGES' assignés avec leurs photos spécifiques.`);
-if (reclassifiedCount > 0) {
-  console.log(`🧹 ${reclassifiedCount} articles tuteurs reclassés vers Jardinage.`);
-}
+console.log(`✅ ${countEchelles} articles dans 'ECHELLES ET ECHAFAUDAGES' assignés avec leurs photos réelles.`);
