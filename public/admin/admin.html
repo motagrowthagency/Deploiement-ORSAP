@@ -149,8 +149,13 @@
     <div class="nav-tabs">
       <a href="/admin?tab=devis" class="tab-btn {{TAB_DEVIS_ACTIVE}}">
         <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-        Demandes de devis
+        Devis Express
         <span class="tab-badge">{{SUBMISSIONS_COUNT}}</span>
+      </a>
+      <a href="/admin?tab=devis-catalogue" class="tab-btn {{TAB_CATALOGUE_DEVIS_ACTIVE}}">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+        Devis Catalogue (Chiffrés)
+        <span class="tab-badge">{{CATALOGUE_DEVIS_COUNT}}</span>
       </a>
       <a href="/admin?tab=recrutement" class="tab-btn {{TAB_RECRUTEMENT_ACTIVE}}">
         <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
@@ -311,6 +316,44 @@
           bulkBtn.disabled = false;
           bulkBtn.innerHTML = origHtml;
         }
+      }
+    }
+
+    // Toggle catalogue devis items details row
+    function toggleDevisDetails(id) {
+      const detailsRow = document.getElementById("details-" + id);
+      const btn = document.getElementById("toggle-btn-" + id);
+      if (!detailsRow) return;
+      if (detailsRow.style.display === "none" || !detailsRow.style.display) {
+        detailsRow.style.display = "table-row";
+        if (btn) btn.innerHTML = "▲ Masquer le détail";
+      } else {
+        detailsRow.style.display = "none";
+        if (btn) btn.innerHTML = "▼ Voir les articles";
+      }
+    }
+
+    // Delete catalogue devis
+    async function deleteCatalogueDevis(id) {
+      if (!confirm("Supprimer définitivement cette demande de devis catalogue ?")) return;
+      const btn = event?.currentTarget;
+      const originalHtml = btn ? btn.innerHTML : "";
+      if (btn) { btn.disabled = true; btn.innerHTML = "⏳..."; }
+      try {
+        const res = await fetch("/api/admin/devis-catalogue/" + id, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("catdevis-" + id);
+          const detailsRow = document.getElementById("details-" + id);
+          if (row) row.remove();
+          if (detailsRow) detailsRow.remove();
+          location.reload();
+          return;
+        }
+        alert("Erreur lors de la suppression (code " + res.status + ").");
+      } catch (err) {
+        alert("Erreur de connexion : " + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
     }
 

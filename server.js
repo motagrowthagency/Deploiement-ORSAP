@@ -1335,10 +1335,91 @@ app.get("/admin", async (req, res) => {
 
   const tab = req.query.tab || "devis"
   const submissions = await loadSubmissions()
+  const catalogueDevis = await loadAllDevisRequests()
   const blogs = await loadBlogs()
   const apps = await loadApplications()
   const subscribers = await loadSubscribers()
   const users = await loadUsers()
+
+  // Generate rows for catalogue devis
+  const catalogueDevisRows = catalogueDevis
+    .map((cd) => {
+      const items = cd.items || []
+      const totalHt = items.reduce((sum, it) => sum + (it.priceHt || 0) * (it.quantity || 1), 0)
+      const totalUnits = items.reduce((sum, it) => sum + (it.quantity || 1), 0)
+      const dateFormatted = cd.createdAt ? new Date(cd.createdAt).toLocaleString("fr-FR") : "—"
+
+      const itemsDetailHtml = items.map((it, idx) => `
+        <tr style="background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; font-size: 12.5px;">
+          <td style="padding: 8px 12px; font-family: monospace; font-weight: bold; color: #1e293b;">
+            ${it.isCustom ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>' : esc(it.articleCode || it.code || '—')}
+          </td>
+          <td style="padding: 8px 12px; font-weight: 600; color: #334155;">${esc(it.designation)}</td>
+          <td style="padding: 8px 12px; text-align: center; font-weight: bold;">${it.quantity}</td>
+          <td style="padding: 8px 12px; text-align: right; color: #64748b;">${it.priceHt ? (Number(it.priceHt)).toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + ' MAD' : 'Sur devis'}</td>
+          <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #d3121a;">${it.priceHt ? (Number(it.priceHt) * it.quantity).toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + ' MAD' : 'Sur devis'}</td>
+        </tr>
+      `).join("")
+
+      return `
+      <tr id="catdevis-${cd.id}">
+        <td class="chk-cell"><input type="checkbox" class="row-chk chk-catalogue-devis" value="${cd.id}" onchange="onRowCheck('catalogue-devis')"></td>
+        <td class="date-badge">${dateFormatted}</td>
+        <td><span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:800; font-family:monospace;">${esc(cd.id.toUpperCase())}</span></td>
+        <td style="font-weight: 700;">${esc(cd.name)}</td>
+        <td>${esc(cd.company || "—")}</td>
+        <td><a href="mailto:${esc(cd.email)}" style="color: #d3121a; font-weight: 700; text-decoration: none;">${esc(cd.email)}</a></td>
+        <td><a href="tel:${esc(cd.phone)}">${esc(cd.phone)}</a></td>
+        <td>
+          <span class="badge" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+            ${items.length} réf. (${totalUnits} unités)
+          </span>
+        </td>
+        <td style="font-weight: 800; color: #d3121a;">
+          ${totalHt > 0 ? totalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "Sur devis"}
+        </td>
+        <td>
+          <div class="actions-cell">
+            <button type="button" id="toggle-btn-${cd.id}" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:11px;" onclick="toggleDevisDetails('${cd.id}')">
+              ▼ Voir les articles (${items.length})
+            </button>
+            <button type="button" class="del-btn" style="padding: 5px 10px; font-size: 11px;" onclick="deleteCatalogueDevis('${cd.id}')">
+              ✕
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr id="details-${cd.id}" style="display: none; background: #f8fafc;">
+        <td colspan="10" style="padding: 16px 24px; border-bottom: 2px solid #e2e8f0;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div style="font-weight: 800; font-size: 14px; color: #1e293b;">
+                Détail chiffré des articles demandés (${items.length} références) — Client: ${esc(cd.name)} (${esc(cd.company || "Particulier")})
+              </div>
+              <div style="font-size: 13px; font-weight: 800; color: #d3121a;">
+                Total estimatif : ${totalHt > 0 ? totalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "Sur devis"}
+              </div>
+            </div>
+
+            ${cd.note ? `<div style="margin-bottom: 12px; padding: 10px 14px; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 12.5px; color: #92400e; border-radius: 4px;"><strong>Précisions / Note client :</strong> ${esc(cd.note)}</div>` : ''}
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+              <thead>
+                <tr style="background: #1e293b; color: #ffffff; font-size: 11px; text-transform: uppercase;">
+                  <th style="padding: 8px 12px; color: #fff;">Code</th>
+                  <th style="padding: 8px 12px; color: #fff;">Désignation Produit</th>
+                  <th style="padding: 8px 12px; color: #fff; text-align: center;">Quantité</th>
+                  <th style="padding: 8px 12px; color: #fff; text-align: right;">P.U HT</th>
+                  <th style="padding: 8px 12px; color: #fff; text-align: right;">Total HT</th>
+                </tr>
+              </thead>
+              <tbody>${itemsDetailHtml}</tbody>
+            </table>
+          </div>
+        </td>
+      </tr>`
+    })
+    .join("")
 
   // Generate rows for users
   const usersRows = users
@@ -1529,6 +1610,40 @@ app.get("/admin", async (req, res) => {
               </tr>
             </thead>
             <tbody>${devisRows}</tbody>
+          </table></div>`
+          }
+        </div>
+      </div>`
+  } else if (tab === "devis-catalogue") {
+    tabContent = `
+      <div class="wrap">
+        <div class="table-container">
+          <div class="table-header-title">
+            <span>Demandes de Devis Catalogue Chiffrées (${catalogueDevis.length})</span>
+            <button id="bulk-btn-catalogue-devis" class="bulk-del-btn" style="display: none;" onclick="handleBulkDelete('catalogue-devis', '/api/admin/devis-catalogue', 'devis catalogue')">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              Supprimer (<span id="selected-count-catalogue-devis">0</span>)
+            </button>
+          </div>
+          ${
+            catalogueDevis.length === 0
+              ? '<div class="empty">Aucune demande de devis catalogue pour le moment.</div>'
+              : `<div class="table-responsive"><table>
+            <thead>
+              <tr>
+                <th class="chk-cell"><input type="checkbox" id="selectAll-catalogue-devis" class="row-chk" onchange="toggleSelectAll('catalogue-devis', this.checked)" title="Tout sélectionner"></th>
+                <th>Date</th>
+                <th>Réf. Devis</th>
+                <th>Nom Client</th>
+                <th>Entreprise</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Articles</th>
+                <th>Total Chiffré</th>
+                <th class="actions-col" style="width: 170px;">Détails</th>
+              </tr>
+            </thead>
+            <tbody>${catalogueDevisRows}</tbody>
           </table></div>`
           }
         </div>
@@ -1758,11 +1873,13 @@ app.get("/admin", async (req, res) => {
   try {
     let html = readFileSync(ADMIN_TEMPLATE_PATH, "utf-8")
     html = html.replace("{{SUBMISSIONS_COUNT}}", submissions.length)
+    html = html.replace("{{CATALOGUE_DEVIS_COUNT}}", catalogueDevis.length)
     html = html.replace("{{BLOGS_COUNT}}", blogs.length)
     html = html.replace("{{APPLICATIONS_COUNT}}", apps.length)
     html = html.replace("{{SUBSCRIBERS_COUNT}}", subscribers.length)
     html = html.replace("{{USERS_COUNT}}", users.length)
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
+    html = html.replace("{{TAB_CATALOGUE_DEVIS_ACTIVE}}", tab === "devis-catalogue" ? "active" : "")
     html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
     html = html.replace("{{TAB_BLOG_ACTIVE}}", tab === "blog" ? "active" : "")
     html = html.replace("{{TAB_SUBSCRIBERS_ACTIVE}}", tab === "subscribers" ? "active" : "")
