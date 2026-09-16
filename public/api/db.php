@@ -887,6 +887,30 @@ function deleteArticlePHP($code) {
     return $deleted || $jsonDeleted;
 }
 
+function sortRayonsPHPByPriority(&$rayons) {
+    $priority = [
+        "PROTECTION ET SECURITE (EPI)",
+        "SIGNALISATION ET SECURITE CHANTIER",
+        "ECHELLES ET ECHAFAUDAGES",
+        "LEVAGE ET MANUTENTION",
+        "OUTILLAGE ET RANGEMENT",
+        "QUINCAILLERIE",
+        "ELECTRICITE ET ECLAIRAGE",
+        "DROGUERIE ET PEINTURE",
+        "SANITAIRE ET ETANCHEITE",
+        "LUMINAIRE",
+        "JARDINAGE ET PLEIN AIR",
+    ];
+    usort($rayons, function($a, $b) use ($priority) {
+        $idxA = array_search($a['name'], $priority);
+        $idxB = array_search($b['name'], $priority);
+        if ($idxA !== false && $idxB !== false) return $idxA - $idxB;
+        if ($idxA !== false) return -1;
+        if ($idxB !== false) return 1;
+        return $b['count'] <=> $a['count'];
+    });
+}
+
 function getArticleFacetsPHP() {
     $pdo = getDbConnection();
     if ($pdo) {
@@ -901,7 +925,7 @@ function getArticleFacetsPHP() {
             }
             $rayons = [];
             foreach ($rayonMap as $name => $count) $rayons[] = ['name' => $name, 'count' => $count];
-            usort($rayons, function($a, $b) { return $b['count'] <=> $a['count']; });
+            sortRayonsPHPByPriority($rayons);
             usort($familles, function($a, $b) { return $b['count'] <=> $a['count']; });
             return ['rayons' => $rayons, 'familles' => $familles];
         } catch (Exception $e) {
@@ -921,7 +945,7 @@ function getArticleFacetsPHP() {
     }
     $rayons = [];
     foreach ($rayonMap as $name => $count) $rayons[] = ['name' => $name, 'count' => $count];
-    usort($rayons, function($a, $b) { return $b['count'] <=> $a['count']; });
+    sortRayonsPHPByPriority($rayons);
     $familles = [];
     foreach ($familleMap as $key => $count) {
         $parts = explode('|', $key, 2);

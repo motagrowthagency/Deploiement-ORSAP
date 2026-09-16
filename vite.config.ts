@@ -472,9 +472,30 @@ function figmaApiDevPlugin(): Plugin {
       }
     }
 
+    const priorityOrder = [
+      "PROTECTION ET SECURITE (EPI)",
+      "SIGNALISATION ET SECURITE CHANTIER",
+      "ECHELLES ET ECHAFAUDAGES",
+      "LEVAGE ET MANUTENTION",
+      "OUTILLAGE ET RANGEMENT",
+      "QUINCAILLERIE",
+      "ELECTRICITE ET ECLAIRAGE",
+      "DROGUERIE ET PEINTURE",
+      "SANITAIRE ET ETANCHEITE",
+      "LUMINAIRE",
+      "JARDINAGE ET PLEIN AIR",
+    ]
+
     const rayons = Array.from(rayonMap.entries())
       .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count)
+      .sort((a, b) => {
+        const idxA = priorityOrder.indexOf(a.name)
+        const idxB = priorityOrder.indexOf(b.name)
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB
+        if (idxA !== -1) return -1
+        if (idxB !== -1) return 1
+        return b.count - a.count
+      })
 
     const familles = Array.from(familleMap.values()).sort((a, b) => b.count - a.count)
 

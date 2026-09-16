@@ -1282,6 +1282,31 @@ export async function deleteArticle(code) {
   return filtered.length < existing.length
 }
 
+const FACETS_PRIORITY_ORDER = [
+  "PROTECTION ET SECURITE (EPI)",
+  "SIGNALISATION ET SECURITE CHANTIER",
+  "ECHELLES ET ECHAFAUDAGES",
+  "LEVAGE ET MANUTENTION",
+  "OUTILLAGE ET RANGEMENT",
+  "QUINCAILLERIE",
+  "ELECTRICITE ET ECLAIRAGE",
+  "DROGUERIE ET PEINTURE",
+  "SANITAIRE ET ETANCHEITE",
+  "LUMINAIRE",
+  "JARDINAGE ET PLEIN AIR",
+]
+
+function sortRayonsByPriority(rayonsList) {
+  return rayonsList.sort((a, b) => {
+    const idxA = FACETS_PRIORITY_ORDER.indexOf(a.name)
+    const idxB = FACETS_PRIORITY_ORDER.indexOf(b.name)
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB
+    if (idxA !== -1) return -1
+    if (idxB !== -1) return 1
+    return b.count - a.count
+  })
+}
+
 export async function getArticleFacets() {
   if (pool) {
     try {
@@ -1294,10 +1319,11 @@ export async function getArticleFacets() {
         rayonMap.set(r.rayon, (rayonMap.get(r.rayon) || 0) + r.cnt)
         familles.push({ name: r.famille, rayon: r.rayon, count: r.cnt })
       }
+      const sortedRayons = sortRayonsByPriority(
+        Array.from(rayonMap.entries()).map(([name, count]) => ({ name, count }))
+      )
       return {
-        rayons: Array.from(rayonMap.entries())
-          .map(([name, count]) => ({ name, count }))
-          .sort((a, b) => b.count - a.count),
+        rayons: sortedRayons,
         familles: familles.sort((a, b) => b.count - a.count),
       }
     } catch (err) {
@@ -1317,10 +1343,11 @@ export async function getArticleFacets() {
       familleMap.set(key, (familleMap.get(key) || 0) + 1)
     }
   }
+  const sortedRayons = sortRayonsByPriority(
+    Array.from(rayonMap.entries()).map(([name, count]) => ({ name, count }))
+  )
   return {
-    rayons: Array.from(rayonMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count),
+    rayons: sortedRayons,
     familles: Array.from(familleMap.entries())
       .map(([key, count]) => {
         const [rayon, name] = key.split("|||")
