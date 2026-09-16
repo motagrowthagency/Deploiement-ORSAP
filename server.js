@@ -251,6 +251,7 @@ async function requireClientAuth(req, res, next) {
     return res.status(401).json({ error: "Session expirée ou non autorisée. Veuillez vous connecter." })
   }
   req.user = user
+  req.clientUser = user
   next()
 }
 
@@ -861,8 +862,9 @@ app.post("/api/devis-catalogue", requireClientAuth, submissionLimiter, async (re
 
 // The logged-in client's own itemized devis history
 app.get("/api/devis-catalogue/mine", requireClientAuth, async (req, res) => {
-  const requests = await loadDevisRequestsForUser(req.clientUser.id)
-  return res.json(requests)
+  const user = req.user || req.clientUser
+  const requests = await loadDevisRequestsForUser(user.id)
+  return res.json({ devis: requests })
 })
 
 // Admin: list every itemized devis request
