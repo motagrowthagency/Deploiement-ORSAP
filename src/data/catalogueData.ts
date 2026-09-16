@@ -1,4 +1,3 @@
-// Auto-generated catalogue data
 import { Article, Facets } from "@/utils/catalogueClient";
 
 export type { Article, Facets };
@@ -304897,7 +304896,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 25,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e7dacfcbe661c67160e815aefd2289d20dc3931fa42bd68fc200dea8d20224121541f397a78de01cfca28737045078f0d86ac8c930d6c787db02de904776686dd"
   },
   {
     "code": "OR96345",
