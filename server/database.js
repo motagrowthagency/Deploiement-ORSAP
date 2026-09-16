@@ -1309,9 +1309,13 @@ export async function getArticleFacets() {
   const rayonMap = new Map()
   const familleMap = new Map()
   for (const a of all) {
-    rayonMap.set(a.rayon, (rayonMap.get(a.rayon) || 0) + 1)
-    const key = `${a.rayon} ${a.famille}`
-    familleMap.set(key, (familleMap.get(key) || 0) + 1)
+    if (a.rayon) {
+      rayonMap.set(a.rayon, (rayonMap.get(a.rayon) || 0) + 1)
+    }
+    if (a.rayon && a.famille) {
+      const key = `${a.rayon}|||${a.famille}`
+      familleMap.set(key, (familleMap.get(key) || 0) + 1)
+    }
   }
   return {
     rayons: Array.from(rayonMap.entries())
@@ -1319,7 +1323,7 @@ export async function getArticleFacets() {
       .sort((a, b) => b.count - a.count),
     familles: Array.from(familleMap.entries())
       .map(([key, count]) => {
-        const [rayon, name] = key.split(" ")
+        const [rayon, name] = key.split("|||")
         return { name, rayon, count }
       })
       .sort((a, b) => b.count - a.count),
