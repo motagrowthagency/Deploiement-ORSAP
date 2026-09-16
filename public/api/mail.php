@@ -431,3 +431,148 @@ HTML;
     return ['success' => true];
 }
 
+function sendCatalogueDevisEmailsPHP(array $data) {
+    $config = require __DIR__ . '/config.php';
+    $toTeam = $config['notification_email'] ?? 'orsap@orsap.ma';
+    $from = $config['from_email'] ?? 'no-reply@orsap.ma';
+
+    $devisId = htmlspecialchars($data['devisId'] ?? '', ENT_QUOTES, 'UTF-8');
+    $user = $data['user'] ?? [];
+    $name = htmlspecialchars($user['name'] ?? 'Client', ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($user['email'] ?? '', ENT_QUOTES, 'UTF-8');
+    $phone = htmlspecialchars($user['phone'] ?? '', ENT_QUOTES, 'UTF-8');
+    $company = htmlspecialchars($user['company'] ?? '', ENT_QUOTES, 'UTF-8');
+    $note = nl2br(htmlspecialchars($data['note'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $items = $data['items'] ?? [];
+
+    $totalHt = 0.0;
+    $totalTtc = 0.0;
+    $rowsHtml = '';
+    foreach ($items as $idx => $it) {
+        $pht = (float)($it['priceHt'] ?? 0);
+        $pttc = (float)($it['priceTtc'] ?? 0);
+        $qty = max(1, (int)($it['quantity'] ?? 1));
+        $lineHt = $pht * $qty;
+        $totalHt += $lineHt;
+        $totalTtc += $pttc * $qty;
+
+        $bg = ($idx % 2 === 0) ? '#ffffff' : '#f8fafc';
+        $code = !empty($it['isCustom'])
+            ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>'
+            : htmlspecialchars($it['articleCode'] ?? '', ENT_QUOTES, 'UTF-8');
+        $desig = htmlspecialchars($it['designation'] ?? '', ENT_QUOTES, 'UTF-8');
+        $unitDisplay = $pht > 0 ? number_format($pht, 2, ',', ' ') . ' MAD' : 'Sur devis';
+        $lineDisplay = $pht > 0 ? number_format($lineHt, 2, ',', ' ') . ' MAD' : 'Sur devis';
+
+        $rowsHtml .= "
+        <tr style=\"border-bottom: 1px solid #e2e8f0; background: {$bg};\">
+          <td style=\"padding: 10px; font-family: monospace; font-size: 12px; font-weight: bold;\">{$code}</td>
+          <td style=\"padding: 10px; font-size: 13px; color: #334155;\">{$desig}</td>
+          <td style=\"padding: 10px; text-align: center; font-weight: bold; font-size: 13px;\">{$qty}</td>
+          <td style=\"padding: 10px; text-align: right; font-size: 13px; font-weight: 600;\">{$unitDisplay}</td>
+          <td style=\"padding: 10px; text-align: right; font-size: 13px; font-weight: bold; color: #d3121a;\">{$lineDisplay}</td>
+        </tr>";
+    }
+
+    $tvaAmount = $totalTtc - $totalHt;
+    $totalHtFormatted = number_format($totalHt, 2, ',', ' ') . ' MAD';
+    $tvaFormatted = number_format($tvaAmount, 2, ',', ' ') . ' MAD';
+    $totalTtcFormatted = number_format($totalTtc, 2, ',', ' ') . ' MAD';
+
+    $noteBlock = !empty($note) ? "<div style=\"background: #f8fafc; border-left: 4px solid #d3121a; padding: 12px 16px; margin: 20px 0; font-size: 13px; color: #475569;\"><strong>Vos précisions :</strong><br>{$note}</div>" : "";
+
+    $html = <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f2f0ec; margin: 0; padding: 0; color: #14171a; }
+    .container { max-width: 680px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #d3121a; }
+    .header { background: #14171a; padding: 25px 30px; text-align: center; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; }
+    .content { padding: 30px; line-height: 1.6; }
+    .ref-badge { display: inline-block; background: #fee2e2; color: #991b1b; padding: 6px 14px; border-radius: 9999px; font-weight: 800; font-size: 13px; margin: 10px 0 20px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+    th { background: #14171a; color: #ffffff; padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; }
+    .totals { margin-top: 20px; border-top: 2px solid #14171a; padding-top: 15px; }
+    .total-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+    .total-main { font-size: 16px; font-weight: 900; color: #d3121a; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px; }
+    .footer { background: #fafbfc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center; font-size: 12px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ORSAP</h1>
+      <p style="color: #d3121a; font-size: 13px; font-weight: bold; margin: 5px 0 0; text-transform: uppercase;">Demande de Devis Produits</p>
+    </div>
+    <div class="content">
+      <div style="font-size: 18px; font-weight: bold; color: #14171a;">Bonjour {$name},</div>
+      <p>Votre demande de devis a bien été enregistrée sous la référence ci-dessous :</p>
+      
+      <div>Référence : <span class="ref-badge">{$devisId}</span></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Désignation</th>
+            <th style="text-align: center;">Qté</th>
+            <th style="text-align: right;">P.U HT</th>
+            <th style="text-align: right;">Total HT</th>
+          </tr>
+        </thead>
+        <tbody>
+          {$rowsHtml}
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <div class="total-row"><span>Total HT estimé :</span><strong>{$totalHtFormatted}</strong></div>
+        <div class="total-row"><span>TVA (20%) :</span><strong>{$tvaFormatted}</strong></div>
+        <div class="total-row total-main"><span>TOTAL ESTIMÉ TTC :</span><span>{$totalTtcFormatted}</span></div>
+      </div>
+
+      {$noteBlock}
+
+      <p style="margin-top: 25px; font-size: 13px; color: #475569;">
+        Un conseiller commercial ORSAP vous contactera rapidement pour vous accompagner dans votre commande.
+      </p>
+    </div>
+    <div class="footer">
+      <p>ORSAP — Fournitures Industrielles, Quincaillerie &amp; Équipements Pro</p>
+      <p>Casablanca, Maroc · <a href="tel:+212644203030" style="color: #d3121a;">+212 6 44 20 30 30</a> · <a href="mailto:orsap@orsap.ma" style="color: #d3121a;">orsap@orsap.ma</a></p>
+    </div>
+  </div>
+</body>
+</html>
+HTML;
+
+    // Send to client
+    if (!empty($email)) {
+        $headersClient = [
+            'MIME-Version: 1.0',
+            'Content-type: text/html; charset=UTF-8',
+            'From: ORSAP Maroc <' . $from . '>',
+            'Reply-To: ' . $toTeam,
+            'X-Mailer: PHP/' . phpversion()
+        ];
+        $subjClient = "=?UTF-8?B?" . base64_encode("Confirmation de votre demande de devis [{$devisId}] — ORSAP") . "?=";
+        @mail($email, $subjClient, $html, implode("\r\n", $headersClient));
+    }
+
+    // Send to team
+    $headersTeam = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        'From: ORSAP Notifications <' . $from . '>',
+        'Reply-To: ' . ($email ?: $from),
+        'X-Mailer: PHP/' . phpversion()
+    ];
+    $subjTeam = "=?UTF-8?B?" . base64_encode("🔔 Devis catalogue [{$devisId}] de {$name}") . "?=";
+    @mail($toTeam, $subjTeam, $html, implode("\r\n", $headersTeam));
+
+    return ['success' => true];
+}
+

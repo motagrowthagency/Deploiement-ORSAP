@@ -10,8 +10,12 @@ dist/
 /data/applications.json
 /data/users.json
 /data/subscribers.json
+/data/devis_requests.json
+/data/devis_items.json
 /public/data/submissions.json
 /public/data/applications.json
+/public/data/devis_requests.json
+/public/data/devis_items.json
 
 # Local Configuration
 .env

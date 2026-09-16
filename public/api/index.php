@@ -67,12 +67,27 @@ function generateJwtPHP(array $u) {
     return $b64Header . "." . $b64Payload . "." . $b64Sig;
 }
 
+function getBearerTokenPHP() {
+    $auth = '';
+    if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+        $auth = $_SERVER['HTTP_AUTHORIZATION'];
+    } elseif (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $auth = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    } elseif (function_exists('apache_request_headers')) {
+        $headers = apache_request_headers();
+        $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
+    } elseif (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
+    }
+    if (empty($auth) || stripos($auth, 'Bearer ') !== 0) return null;
+    return trim(substr($auth, 7));
+}
+
 function getAuthUserPHP() {
     global $JWT_SECRET;
-    $headers = getallheaders();
-    $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? '');
-    if (empty($auth) || strpos($auth, 'Bearer ') !== 0) return null;
-    $token = trim(substr($auth, 7));
+    $token = getBearerTokenPHP();
+    if (empty($token)) return null;
     $parts = explode('.', $token);
     if (count($parts) !== 3) return null;
     list($h64, $p64, $s64) = $parts;
@@ -1292,6 +1307,205 @@ if ($uri === '/api/admin/config/github') {
             'message' => 'Token GitHub enregistré avec succès.',
             'sync' => $syncResult
         ]);
+    }
+}
+
+// ── Article Catalogue API (Espace Client search & devis builder) ────
+
+// Search/browse the article catalogue
+if ($uri === '/api/articles' || $uri === '/api/articles/') {
+    if ($method === 'GET') {
+        $result = searchArticlesPHP(
+            $_GET['q'] ?? '',
+            $_GET['rayon'] ?? '',
+            $_GET['famille'] ?? '',
+            $_GET['page'] ?? 1,
+            $_GET['pageSize'] ?? 24
+        );
+        sendJson($result);
+    }
+}
+
+// Category / sub-category filters for the search UI
+if ($uri === '/api/articles/facets' || $uri === '/api/articles/facets/') {
+    if ($method === 'GET') {
+        sendJson(getArticleFacetsPHP());
+    }
+}
+
+// ── Itemized Devis (built from the article catalogue) ───────────────
+
+// Create an itemized devis request from the client's cart
+if ($uri === '/api/devis-catalogue' || $uri === '/api/devis-catalogue/') {
+    if ($method === 'POST') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Connexion requise pour envoyer une demande de devis.'], 401);
+        }
+
+        $body = getJsonBody();
+        $items = $body['items'] ?? [];
+        $note = $body['note'] ?? null;
+
+        if (!is_array($items) || empty($items)) {
+            sendJson(['error' => 'Votre panier de devis est vide.'], 400);
+        }
+        if (count($items) > 200) {
+            sendJson(['error' => 'Trop d\'articles dans cette demande (200 maximum).'], 400);
+        }
+
+        $resolvedItems = [];
+        foreach ($items as $raw) {
+            $isCustom = !empty($raw['isCustom']);
+            $quantity = max(1, min(100000, intval($raw['quantity'] ?? 1)));
+
+            if ($isCustom) {
+                $designation = mb_substr(trim((string)($raw['designation'] ?? '')), 0, 500);
+                if (empty($designation)) continue;
+                $resolvedItems[] = [
+                    'id' => bin2hex(random_bytes(8)),
+                    'articleCode' => 'CUSTOM',
+                    'designation' => $designation,
+                    'quantity' => $quantity,
+                    'priceHt' => 0.0,
+                    'priceTtc' => 0.0,
+                    'isCustom' => true,
+                ];
+                continue;
+            }
+
+            $code = trim((string)($raw['code'] ?? ''));
+            if (empty($code)) continue;
+            $article = findArticleByCodePHP($code);
+            if (!$article) continue;
+
+            $resolvedItems[] = [
+                'id' => bin2hex(random_bytes(8)),
+                'articleCode' => $article['code'],
+                'designation' => $article['designation'],
+                'quantity' => $quantity,
+                'priceHt' => (float)($article['priceHt'] ?? 0),
+                'priceTtc' => (float)($article['priceTtc'] ?? 0),
+                'isCustom' => false,
+            ];
+        }
+
+        if (empty($resolvedItems)) {
+            sendJson(['error' => 'Aucun article valide trouvé dans votre panier.'], 400);
+        }
+
+        $devisId = 'DEV-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 8));
+        $entry = [
+            'id' => $devisId,
+            'createdAt' => date('Y-m-d H:i:s'),
+            'userId' => $user['id'],
+            'name' => $user['name'] ?? '',
+            'company' => $user['company'] ?? null,
+            'email' => $user['email'] ?? '',
+            'phone' => $user['phone'] ?? '',
+            'note' => $note ? mb_substr((string)$note, 0, 2000) : null,
+            'status' => 'pending',
+        ];
+
+        createDevisRequestPHP($entry, $resolvedItems);
+
+        @sendCatalogueDevisEmailsPHP([
+            'devisId' => $entry['id'],
+            'user' => [
+                'name' => $user['name'],
+                'company' => $user['company'] ?? null,
+                'email' => $user['email'],
+                'phone' => $user['phone'],
+            ],
+            'items' => $resolvedItems,
+            'note' => $entry['note'],
+        ]);
+
+        sendJson(['success' => true, 'id' => $entry['id'], 'items' => $resolvedItems], 201);
+    }
+}
+
+// Client's past devis requests
+if ($uri === '/api/devis-catalogue/mine' || $uri === '/api/devis-catalogue/mine/') {
+    if ($method === 'GET') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['error' => 'Connexion requise.'], 401);
+        }
+        $list = loadDevisRequestsForUserPHP($user['id']);
+        sendJson($list);
+    }
+}
+
+// Admin: list all devis requests
+if ($uri === '/api/admin/devis-catalogue' || $uri === '/api/admin/devis-catalogue/') {
+    requireAdminPHP();
+    if ($method === 'GET') {
+        sendJson(loadAllDevisRequestsPHP());
+    }
+}
+
+// Admin: delete devis request
+if (preg_match('#^/api/admin/devis-catalogue/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
+    if ($method === 'DELETE') {
+        $id = $matches[1];
+        deleteDevisRequestPHP($id);
+        sendJson(['success' => true]);
+    }
+}
+
+// Admin: catalogue import
+if ($uri === '/api/admin/import/articles' || $uri === '/api/admin/import/articles/') {
+    requireAdminPHP();
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $rows = $body;
+        if (!is_array($rows)) {
+            if (isset($rows['articles']) && is_array($rows['articles'])) {
+                $rows = $rows['articles'];
+            } else {
+                sendJson(['error' => 'Format JSON non reconnu. Une liste d\'articles est attendue.'], 400);
+            }
+        }
+        if (empty($rows)) {
+            sendJson(['error' => 'Aucun article trouvé dans le fichier importé.'], 400);
+        }
+        $result = importArticlesPHP($rows);
+        sendJson(array_merge(['success' => true], $result));
+    }
+}
+
+// Admin: search / browse catalogue
+if ($uri === '/api/admin/articles' || $uri === '/api/admin/articles/') {
+    requireAdminPHP();
+    if ($method === 'GET') {
+        $result = searchArticlesPHP(
+            $_GET['q'] ?? '',
+            $_GET['rayon'] ?? '',
+            $_GET['famille'] ?? '',
+            $_GET['page'] ?? 1,
+            $_GET['pageSize'] ?? 24
+        );
+        sendJson($result);
+    }
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        if (empty($body['code']) || empty($body['designation'])) {
+            sendJson(['error' => 'Code et désignation obligatoires.'], 400);
+        }
+        $res = importArticlesPHP([$body]);
+        sendJson(array_merge(['success' => true], $res));
+    }
+}
+
+// Admin: delete single article
+if (preg_match('#^/api/admin/articles/([^/]+)$#', $uri, $matches)) {
+    requireAdminPHP();
+    if ($method === 'DELETE') {
+        $code = urldecode($matches[1]);
+        deleteArticlePHP($code);
+        sendJson(['success' => true]);
     }
 }
 

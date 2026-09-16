@@ -12,6 +12,11 @@
   RewriteRule ^(data|public/data|server)/ - [F,L]
   RewriteRule \.(json|sql|env|log|md|yml|yaml|sh|git|gitignore|lock)$ - [F,L]
 
+  # ── Pass Authorization header to PHP (FastCGI / PHP-FPM) ──
+  SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
   # 1. Route API requests to PHP router
   RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
 

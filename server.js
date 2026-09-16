@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url"
 import { randomBytes } from "node:crypto"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { sendVerificationEmail, sendPasswordResetEmail } from "./server/email.js"
+import { sendVerificationEmail, sendPasswordResetEmail, sendCatalogueDevisEmails } from "./server/email.js"
 import {
   initDatabase,
   loadSubmissions,
@@ -35,6 +35,16 @@ import {
   updateUser,
   deleteUser,
   isUsingMySQL,
+  searchArticles,
+  findArticleByCode,
+  getArticleFacets,
+  importArticles,
+  countArticles,
+  deleteArticle,
+  createDevisRequest,
+  loadDevisRequestsForUser,
+  loadAllDevisRequests,
+  deleteDevisRequest,
 } from "./server/database.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -233,6 +243,15 @@ async function getAuthUser(req) {
     }
   } catch {}
   return null
+}
+
+async function requireClientAuth(req, res, next) {
+  const user = await getAuthUser(req)
+  if (!user) {
+    return res.status(401).json({ error: "Session expirée ou non autorisée. Veuillez vous connecter." })
+  }
+  req.user = user
+  next()
 }
 
 // ── Auth API Routes (Espace Client) ─────────────────────────────────
@@ -731,6 +750,187 @@ app.delete("/api/devis/:id", requireAdmin, async (req, res) => {
   const success = await deleteSubmission(req.params.id)
   if (!success) {
     return res.status(404).json({ error: "Not found" })
+  }
+  return res.json({ success: true })
+})
+
+// ── Article Catalogue API Routes (Espace Client search & devis builder) ──
+
+// Search/browse the article catalogue (open/authenticated)
+app.get("/api/articles", async (req, res) => {
+  const { q, rayon, famille, page, pageSize } = req.query
+  try {
+    const result = await searchArticles({ q, rayon, famille, page, pageSize })
+    return res.json(result)
+  } catch (err) {
+    console.error("❌ Erreur /api/articles:", err.message)
+    return res.status(500).json({ error: "Erreur lors de la recherche d'articles." })
+  }
+})
+
+// Category / sub-category filters for the search UI
+app.get("/api/articles/facets", async (_req, res) => {
+  try {
+    const facets = await getArticleFacets()
+    return res.json(facets)
+  } catch (err) {
+    console.error("❌ Erreur /api/articles/facets:", err.message)
+    return res.status(500).json({ error: "Erreur lors du chargement des catégories." })
+  }
+})
+
+// ── Itemized Devis (built from the article catalogue) ───────────────
+
+// Create an itemized devis request from the client's cart
+app.post("/api/devis-catalogue", requireClientAuth, submissionLimiter, async (req, res) => {
+  const user = req.clientUser
+  const { items, note } = req.body
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: "Votre panier de devis est vide." })
+  }
+  if (items.length > 200) {
+    return res.status(400).json({ error: "Trop d'articles dans cette demande (200 maximum)." })
+  }
+
+  const resolvedItems = []
+  for (const raw of items) {
+    const isCustom = Boolean(raw?.isCustom)
+    const quantity = Math.max(1, Math.min(100000, parseInt(raw?.quantity, 10) || 1))
+
+    if (isCustom) {
+      const designation = String(raw?.designation || "").trim().slice(0, 500)
+      if (!designation) continue
+      resolvedItems.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        articleCode: "CUSTOM",
+        designation,
+        quantity,
+        priceHt: 0,
+        priceTtc: 0,
+        isCustom: true,
+      })
+      continue
+    }
+
+    const code = String(raw?.code || "").trim()
+    if (!code) continue
+    const article = await findArticleByCode(code)
+    if (!article) continue
+
+    resolvedItems.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      articleCode: article.code,
+      designation: article.designation,
+      quantity,
+      priceHt: article.priceHt || 0,
+      priceTtc: article.priceTtc || 0,
+      isCustom: false,
+    })
+  }
+
+  if (resolvedItems.length === 0) {
+    return res.status(400).json({ error: "Aucun article valide trouvé dans votre panier." })
+  }
+
+  const entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    createdAt: new Date().toISOString(),
+    userId: user.id,
+    name: user.name,
+    company: user.company || null,
+    email: user.email,
+    phone: user.phone,
+    note: note ? String(note).slice(0, 2000) : null,
+    status: "pending",
+  }
+
+  await createDevisRequest(entry, resolvedItems)
+
+  console.log(`✅  New catalogue devis from ${user.name} (${resolvedItems.length} articles)`)
+
+  sendCatalogueDevisEmails({
+    devisId: entry.id,
+    user: { name: user.name, company: user.company, email: user.email, phone: user.phone },
+    items: resolvedItems,
+    note: entry.note,
+  }).catch((err) => console.error("❌ Erreur envoi email devis catalogue:", err.message))
+
+  return res.status(201).json({ success: true, id: entry.id, items: resolvedItems })
+})
+
+// The logged-in client's own itemized devis history
+app.get("/api/devis-catalogue/mine", requireClientAuth, async (req, res) => {
+  const requests = await loadDevisRequestsForUser(req.clientUser.id)
+  return res.json(requests)
+})
+
+// Admin: list every itemized devis request
+app.get("/api/admin/devis-catalogue", requireAdmin, async (_req, res) => {
+  const requests = await loadAllDevisRequests()
+  return res.json(requests)
+})
+
+// Admin: delete an itemized devis request
+app.delete("/api/admin/devis-catalogue/:id", requireAdmin, async (req, res) => {
+  const success = await deleteDevisRequest(req.params.id)
+  if (!success) {
+    return res.status(404).json({ error: "Demande introuvable." })
+  }
+  return res.json({ success: true })
+})
+
+// Admin: bulk import/refresh the article catalogue
+app.post("/api/admin/import/articles", requireAdmin, async (req, res) => {
+  let rows = req.body
+  if (!Array.isArray(rows)) {
+    if (Array.isArray(rows?.articles)) rows = rows.articles
+    else return res.status(400).json({ error: "Format JSON non reconnu. Une liste d'articles est attendue." })
+  }
+  if (rows.length === 0) {
+    return res.status(400).json({ error: "Aucun article trouvé dans le fichier importé." })
+  }
+  try {
+    const result = await importArticles(rows)
+    return res.json({ success: true, ...result })
+  } catch (err) {
+    console.error("❌ Erreur /api/admin/import/articles:", err.message)
+    return res.status(500).json({ error: "Erreur lors de l'import des articles." })
+  }
+})
+
+// Admin: search/browse the catalogue
+app.get("/api/admin/articles", requireAdmin, async (req, res) => {
+  const { q, rayon, famille, page, pageSize } = req.query
+  try {
+    const result = await searchArticles({ q, rayon, famille, page, pageSize })
+    return res.json(result)
+  } catch (err) {
+    console.error("❌ Erreur /api/admin/articles:", err.message)
+    return res.status(500).json({ error: "Erreur lors de la recherche d'articles." })
+  }
+})
+
+// Admin: create or update a single article
+app.post("/api/admin/articles", requireAdmin, async (req, res) => {
+  const { code, designation, tva, priceHt, priceTtc, rayon, famille } = req.body
+  if (!code || !designation) {
+    return res.status(400).json({ error: "Code et désignation sont obligatoires." })
+  }
+  try {
+    const result = await importArticles([{ code, designation, tva, priceHt, priceTtc, rayon, famille }])
+    return res.json({ success: true, ...result })
+  } catch (err) {
+    console.error("❌ Erreur /api/admin/articles POST:", err.message)
+    return res.status(500).json({ error: "Erreur lors de l'enregistrement de l'article." })
+  }
+})
+
+// Admin: remove an article from the catalogue
+app.delete("/api/admin/articles/:code", requireAdmin, async (req, res) => {
+  const success = await deleteArticle(req.params.code)
+  if (!success) {
+    return res.status(404).json({ error: "Article introuvable." })
   }
   return res.json({ success: true })
 })

@@ -2,6 +2,7 @@ import { useState, useEffect, useId } from "react"
 import { useSearchParams, Link, useNavigate } from "react-router"
 import { useAuth, AuthUser } from "@/context/AuthContext"
 import SEO from "@/components/SEO"
+import CatalogueDevisBuilder from "@/components/CatalogueDevisBuilder"
 
 interface Submission {
   id: string
@@ -14,6 +15,30 @@ interface Submission {
   solutions?: string[]
   sectors?: string[]
   message?: string | null
+}
+
+interface CatalogueDevisItem {
+  code: string
+  designation: string
+  rayon?: string
+  famille?: string
+  priceHt: number
+  priceTtc: number
+  quantity: number
+  lineTotalHt: number
+  isCustom?: boolean
+}
+
+interface CatalogueDevis {
+  id: string
+  reference: string
+  createdAt: string
+  status: string
+  totalHt: number
+  totalTva: number
+  totalTtc: number
+  notes?: string
+  items: CatalogueDevisItem[]
 }
 
 export default function EspaceClient() {
@@ -65,8 +90,13 @@ export default function EspaceClient() {
   const [resetLoading, setResetLoading] = useState(false)
 
   // Client dashboard state
-  const [activeTab, setActiveTab] = useState<"devis" | "profile" | "docs">("devis")
+  const tabParam = searchParams.get("tab")
+  const [activeTab, setActiveTab] = useState<"catalogue" | "devis" | "profile" | "docs">(
+    tabParam === "devis" || tabParam === "profile" || tabParam === "docs" ? tabParam : "catalogue"
+  )
   const [userSubmissions, setUserSubmissions] = useState<Submission[]>([])
+  const [catalogueDevis, setCatalogueDevis] = useState<CatalogueDevis[]>([])
+  const [expandedDevisId, setExpandedDevisId] = useState<string | null>(null)
   const [loadingDashboard, setLoadingDashboard] = useState(false)
   const [profileSuccess, setProfileSuccess] = useState<string | null>(null)
   const [profileError, setProfileError] = useState<string | null>(null)
@@ -138,12 +168,23 @@ export default function EspaceClient() {
     if (!token) return
     setLoadingDashboard(true)
     try {
-      const res = await fetch("/api/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (res.ok) {
-        const data = await res.json()
-        setUserSubmissions(data.submissions || [])
+      const [resMe, resDevis] = await Promise.all([
+        fetch("/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch("/api/devis-catalogue/mine", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ])
+
+      if (resMe.ok) {
+        const dataMe = await resMe.json()
+        setUserSubmissions(dataMe.submissions || [])
+      }
+
+      if (resDevis.ok) {
+        const dataDevis = await resDevis.json()
+        setCatalogueDevis(dataDevis.devis || [])
       }
     } catch (e) {
       console.error("Failed to load client data:", e)
@@ -434,62 +475,113 @@ export default function EspaceClient() {
             <div className="mt-8 flex flex-wrap gap-2 border-t border-white/10 pt-6">
               <button
                 type="button"
-                onClick={() => setActiveTab("devis")}
-                className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition ${
-                  activeTab === "devis"
-                    ? "bg-orsap-red text-white"
+                onClick={() => setActiveTab("catalogue")}
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "catalogue"
+                    ? "bg-orsap-red text-white shadow-md shadow-orsap-red/30"
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                Mes Demandes de Devis ({userSubmissions.length})
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Catalogue &amp; Chiffrage Express
+                <span className="rounded-full bg-white/20 px-2 py-0.5 font-mono text-[10px] text-white">
+                  48 949 réf.
+                </span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("devis")}
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "devis"
+                    ? "bg-orsap-red text-white shadow-md shadow-orsap-red/30"
+                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Mes Demandes de Devis ({catalogueDevis.length + userSubmissions.length})
+              </button>
+
               <button
                 type="button"
                 onClick={() => setActiveTab("profile")}
-                className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition ${
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "profile"
-                    ? "bg-orsap-red text-white"
+                    ? "bg-orsap-red text-white shadow-md shadow-orsap-red/30"
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
                 Mon Profil &amp; Coordonnées
               </button>
+
               <button
                 type="button"
                 onClick={() => setActiveTab("docs")}
-                className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition ${
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "docs"
-                    ? "bg-orsap-red text-white"
+                    ? "bg-orsap-red text-white shadow-md shadow-orsap-red/30"
                     : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
                 Catalogues &amp; Fiches Techniques
               </button>
             </div>
           </div>
 
+          {/* TAB 0: CATALOGUE & CHIFFRAGE EXPRESS */}
+          {activeTab === "catalogue" && (
+            <div className="mt-8">
+              <CatalogueDevisBuilder
+                token={token || ""}
+                onSubmitted={() => {
+                  loadClientData()
+                }}
+                onSessionExpired={() => {
+                  logout()
+                }}
+              />
+            </div>
+          )}
+
           {/* TAB 1: DEVIS */}
           {activeTab === "devis" && (
-            <div className="mt-8">
-              <div className="flex items-center justify-between">
+            <div className="mt-8 space-y-10">
+              {/* Top Action Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-display text-lg font-bold text-ink">Historique de vos demandes de devis</h2>
-                  <p className="text-xs text-ink-soft">Consultez le statut et les solutions demandées</p>
+                  <h2 className="font-display text-xl font-bold text-ink">Historique de vos devis et demandes</h2>
+                  <p className="text-xs text-ink-soft">
+                    Retrouvez l'ensemble de vos chiffrages catalogue avec références de certification et devis sur-mesure.
+                  </p>
                 </div>
-                <Link
-                  to="/devis"
-                  className="text-xs font-bold text-orsap-red hover:underline"
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("catalogue")}
+                  className="inline-flex items-center gap-2 rounded-lg bg-orsap-red px-4 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orsap-red/25 transition hover:bg-orsap-red-deep"
                 >
-                  Faire une nouvelle demande →
-                </Link>
+                  <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  Nouveau Chiffrage Catalogue
+                </button>
               </div>
 
               {loadingDashboard ? (
-                <div className="mt-6 rounded-xl border border-hairline bg-card p-12 text-center text-sm text-ink-soft">
+                <div className="rounded-xl border border-hairline bg-card p-12 text-center text-sm text-ink-soft">
                   Chargement de vos demandes...
                 </div>
-              ) : userSubmissions.length === 0 ? (
-                <div className="mt-6 rounded-xl border border-dashed border-hairline bg-card p-12 text-center">
+              ) : catalogueDevis.length === 0 && userSubmissions.length === 0 ? (
+                <div className="rounded-xl border border-dashed border-hairline bg-card p-12 text-center">
                   <div className="mx-auto size-12 rounded-full bg-orsap-red/10 text-orsap-red grid place-items-center mb-3">
                     <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -497,90 +589,288 @@ export default function EspaceClient() {
                   </div>
                   <h3 className="font-display text-base font-bold text-ink">Aucune demande de devis enregistrée</h3>
                   <p className="mt-1 text-xs text-ink-soft max-w-sm mx-auto">
-                    Vous n'avez pas encore envoyé de demande de devis avec cette adresse email ({user.email}).
+                    Vous n'avez pas encore créé de demande de devis avec cette adresse email ({user.email}).
                   </p>
-                  <Link
-                    to="/devis"
-                    className="mt-4 inline-block rounded-lg bg-orsap-red px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white hover:bg-orsap-red-deep"
-                  >
-                    Demander mon premier devis
-                  </Link>
+                  <div className="mt-4 flex flex-wrap justify-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("catalogue")}
+                      className="rounded-lg bg-orsap-red px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white hover:bg-orsap-red-deep"
+                    >
+                      Explorer le Catalogue (48k articles)
+                    </button>
+                    <Link
+                      to="/devis"
+                      className="rounded-lg border border-hairline bg-paper px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-ink hover:bg-card"
+                    >
+                      Demande Sur-Mesure
+                    </Link>
+                  </div>
                 </div>
               ) : (
-                <div className="mt-6 grid grid-cols-1 gap-4">
-                  {userSubmissions.map((sub) => (
-                    <div
-                      key={sub.id}
-                      className="rounded-xl border border-hairline bg-card p-6 shadow-sm transition hover:shadow-md"
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
-                        <div className="flex items-center gap-3">
-                          <span className="font-mono text-xs font-semibold text-ink-soft">
-                            {new Date(sub.createdAt).toLocaleDateString("fr-FR", {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </span>
-                          <span className="rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase text-emerald-700 border border-emerald-200">
-                            ✓ Transmis à nos équipes
-                          </span>
+                <div className="space-y-8">
+                  {/* Itemized Catalogue Devis */}
+                  {catalogueDevis.length > 0 && (
+                    <div>
+                      <div className="mb-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="size-2 rounded-full bg-orsap-red" />
+                          <h3 className="font-display text-sm font-bold uppercase tracking-wider text-ink">
+                            Devis Catalogue Chiffrés ({catalogueDevis.length})
+                          </h3>
                         </div>
-                        <span className="font-mono text-xs text-ink-soft/70">Réf: {sub.id.toUpperCase()}</span>
+                        <span className="text-[11px] text-ink-soft">Chiffrages officiels certifiés par référence</span>
                       </div>
 
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wider text-ink-soft">
-                            Solutions sélectionnées
-                          </div>
-                          <div className="mt-2 flex flex-wrap gap-1.5">
-                            {sub.solutions && sub.solutions.length > 0 ? (
-                              sub.solutions.map((sol) => (
-                                <span
-                                  key={sol}
-                                  className="rounded bg-paper px-2.5 py-1 text-xs font-semibold text-ink"
-                                >
-                                  {sol}
-                                </span>
-                              ))
-                            ) : (
-                              <span className="text-xs text-ink-soft">Aucune solution spécifique listée</span>
-                            )}
-                          </div>
-                        </div>
+                      <div className="space-y-4">
+                        {catalogueDevis.map((dev) => {
+                          const isExpanded = expandedDevisId === dev.id
+                          return (
+                            <div
+                              key={dev.id}
+                              className="overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition hover:border-orsap-red/30 hover:shadow-md"
+                            >
+                              <div className="border-b border-hairline bg-paper/50 p-5">
+                                <div className="flex flex-wrap items-center justify-between gap-3">
+                                  <div className="flex flex-wrap items-center gap-3">
+                                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-ink px-3 py-1 font-mono text-xs font-bold text-white shadow-sm">
+                                      <svg className="size-3.5 text-orsap-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                      </svg>
+                                      {dev.reference}
+                                    </span>
+                                    <span className="font-mono text-xs text-ink-soft">
+                                      {new Date(dev.createdAt).toLocaleDateString("fr-FR", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                      })}
+                                    </span>
+                                    <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold uppercase text-emerald-700 border border-emerald-200">
+                                      ✓ Reçu &amp; Traité par ORSAP
+                                    </span>
+                                  </div>
 
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wider text-ink-soft">
-                            Secteurs d'activité
-                          </div>
-                          <div className="mt-2 flex flex-wrap gap-1.5">
-                            {sub.sectors && sub.sectors.length > 0 ? (
-                              sub.sectors.map((sec) => (
-                                <span
-                                  key={sec}
-                                  className="rounded bg-ink/5 px-2.5 py-1 text-xs font-semibold text-ink"
-                                >
-                                  {sec}
-                                </span>
-                              ))
-                            ) : (
-                              <span className="text-xs text-ink-soft">—</span>
-                            )}
-                          </div>
-                        </div>
+                                  <div className="flex items-center gap-4">
+                                    <div className="text-right">
+                                      <div className="text-[10px] font-bold uppercase tracking-wider text-ink-soft">Total Estimé</div>
+                                      <div className="font-mono text-sm font-extrabold text-orsap-red">
+                                        {dev.totalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD <span className="text-[10px] font-normal text-ink-soft">HT</span>
+                                      </div>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => setExpandedDevisId(isExpanded ? null : dev.id)}
+                                      className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-card px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-paper hover:border-ink-soft"
+                                    >
+                                      <span>{isExpanded ? "Masquer détails" : "Voir articles"}</span>
+                                      <span className="rounded bg-orsap-red/10 px-1.5 py-0.5 font-mono text-[10px] text-orsap-red font-bold">
+                                        {dev.items?.length || 0}
+                                      </span>
+                                      <svg
+                                        className={`size-3.5 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                      >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Accordion Content */}
+                              {isExpanded && (
+                                <div className="p-6 bg-card space-y-6">
+                                  {/* Table of items */}
+                                  <div className="overflow-x-auto rounded-xl border border-hairline">
+                                    <table className="w-full text-left text-xs">
+                                      <thead className="border-b border-hairline bg-paper text-[10px] font-bold uppercase tracking-wider text-ink-soft">
+                                        <tr>
+                                          <th className="px-4 py-3">Code Réf.</th>
+                                          <th className="px-4 py-3">Désignation</th>
+                                          <th className="px-4 py-3 text-right">Prix Unit. HT</th>
+                                          <th className="px-4 py-3 text-center">Qté</th>
+                                          <th className="px-4 py-3 text-right">Total HT</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody className="divide-y divide-hairline">
+                                        {dev.items?.map((item, idx) => (
+                                          <tr key={`${dev.id}-item-${idx}`} className="hover:bg-paper/40">
+                                            <td className="px-4 py-3 font-mono font-bold text-ink">
+                                              {item.isCustom ? (
+                                                <span className="rounded bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                                                  SUR-MESURE
+                                                </span>
+                                              ) : (
+                                                <span className="rounded bg-paper px-2 py-0.5 text-xs text-ink">
+                                                  {item.code}
+                                                </span>
+                                              )}
+                                            </td>
+                                            <td className="px-4 py-3">
+                                              <div className="font-semibold text-ink">{item.designation}</div>
+                                              {(item.rayon || item.famille) && (
+                                                <div className="text-[10px] text-ink-soft">
+                                                  {item.rayon} {item.famille ? `› ${item.famille}` : ""}
+                                                </div>
+                                              )}
+                                            </td>
+                                            <td className="px-4 py-3 text-right font-mono text-ink-soft">
+                                              {item.priceHt > 0
+                                                ? `${item.priceHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
+                                                : "Sur devis"}
+                                            </td>
+                                            <td className="px-4 py-3 text-center font-mono font-bold text-ink">
+                                              × {item.quantity}
+                                            </td>
+                                            <td className="px-4 py-3 text-right font-mono font-bold text-ink">
+                                              {item.lineTotalHt > 0
+                                                ? `${item.lineTotalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
+                                                : "Sur devis"}
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                  {/* Totals & Notes */}
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start pt-2">
+                                    <div>
+                                      {dev.notes && (
+                                        <div className="rounded-xl border border-hairline bg-paper p-4 text-xs text-ink-soft">
+                                          <div className="font-bold text-ink uppercase text-[10px] tracking-wider mb-1">
+                                            Notes / Remarques client :
+                                          </div>
+                                          {dev.notes}
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    <div className="rounded-xl border border-hairline bg-paper p-4 space-y-2 text-xs">
+                                      <div className="flex justify-between text-ink-soft">
+                                        <span>Total Net HT</span>
+                                        <span className="font-mono font-bold text-ink">
+                                          {dev.totalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+                                        </span>
+                                      </div>
+                                      <div className="flex justify-between text-ink-soft">
+                                        <span>TVA (20%)</span>
+                                        <span className="font-mono font-bold text-ink">
+                                          {dev.totalTva.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+                                        </span>
+                                      </div>
+                                      <div className="border-t border-hairline pt-2 flex justify-between font-display text-sm font-black text-ink">
+                                        <span>Total TTC Estimé</span>
+                                        <span className="font-mono text-orsap-red">
+                                          {dev.totalTtc.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })}
                       </div>
-
-                      {sub.message && (
-                        <div className="mt-4 rounded-lg bg-paper p-3 text-xs text-ink-soft">
-                          <span className="font-bold text-ink">Message : </span>
-                          {sub.message}
-                        </div>
-                      )}
                     </div>
-                  ))}
+                  )}
+
+                  {/* General / Contact Devis Submissions */}
+                  {userSubmissions.length > 0 && (
+                    <div>
+                      <div className="mb-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="size-2 rounded-full bg-ink/40" />
+                          <h3 className="font-display text-sm font-bold uppercase tracking-wider text-ink">
+                            Demandes de Devis Générales ({userSubmissions.length})
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 gap-4">
+                        {userSubmissions.map((sub) => (
+                          <div
+                            key={sub.id}
+                            className="rounded-xl border border-hairline bg-card p-6 shadow-sm transition hover:shadow-md"
+                          >
+                            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
+                              <div className="flex items-center gap-3">
+                                <span className="font-mono text-xs font-semibold text-ink-soft">
+                                  {new Date(sub.createdAt).toLocaleDateString("fr-FR", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </span>
+                                <span className="rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase text-emerald-700 border border-emerald-200">
+                                  ✓ Transmis à nos équipes
+                                </span>
+                              </div>
+                              <span className="font-mono text-xs text-ink-soft/70">Réf: {sub.id.toUpperCase()}</span>
+                            </div>
+
+                            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <div className="text-[11px] font-bold uppercase tracking-wider text-ink-soft">
+                                  Solutions sélectionnées
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-1.5">
+                                  {sub.solutions && sub.solutions.length > 0 ? (
+                                    sub.solutions.map((sol) => (
+                                      <span
+                                        key={sol}
+                                        className="rounded bg-paper px-2.5 py-1 text-xs font-semibold text-ink"
+                                      >
+                                        {sol}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    <span className="text-xs text-ink-soft">Aucune solution spécifique listée</span>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="text-[11px] font-bold uppercase tracking-wider text-ink-soft">
+                                  Secteurs d'activité
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-1.5">
+                                  {sub.sectors && sub.sectors.length > 0 ? (
+                                    sub.sectors.map((sec) => (
+                                      <span
+                                        key={sec}
+                                        className="rounded bg-ink/5 px-2.5 py-1 text-xs font-semibold text-ink"
+                                      >
+                                        {sec}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    <span className="text-xs text-ink-soft">—</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            {sub.message && (
+                              <div className="mt-4 rounded-lg bg-paper p-3 text-xs text-ink-soft">
+                                <span className="font-bold text-ink">Message : </span>
+                                {sub.message}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

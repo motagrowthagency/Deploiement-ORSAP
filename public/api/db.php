@@ -134,6 +134,48 @@ function initTables(PDO $pdo) {
             `reset_token` VARCHAR(255) DEFAULT NULL,
             `reset_expires_at` DATETIME DEFAULT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+
+        // 6. Articles table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `articles` (
+            `code` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `designation` VARCHAR(500) NOT NULL,
+            `tva` DECIMAL(5,2) NOT NULL DEFAULT 20.00,
+            `price_ht` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            `price_ttc` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            `rayon` VARCHAR(255) NOT NULL DEFAULT '',
+            `famille` VARCHAR(255) NOT NULL DEFAULT '',
+            KEY `idx_articles_rayon` (`rayon`),
+            KEY `idx_articles_famille` (`famille`),
+            KEY `idx_articles_designation` (`designation`(191))
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+
+        // 7. Devis requests table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `devis_requests` (
+            `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `created_at` DATETIME NOT NULL,
+            `user_id` VARCHAR(64) NOT NULL,
+            `name` VARCHAR(255) NOT NULL,
+            `company` VARCHAR(255) DEFAULT NULL,
+            `email` VARCHAR(255) NOT NULL,
+            `phone` VARCHAR(64) NOT NULL,
+            `note` TEXT DEFAULT NULL,
+            `status` VARCHAR(32) NOT NULL DEFAULT 'pending',
+            KEY `idx_devis_user` (`user_id`),
+            KEY `idx_devis_created` (`created_at`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+
+        // 8. Devis items table
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `devis_items` (
+            `id` VARCHAR(64) NOT NULL PRIMARY KEY,
+            `devis_id` VARCHAR(64) NOT NULL,
+            `article_code` VARCHAR(64) NOT NULL,
+            `designation` VARCHAR(500) NOT NULL,
+            `quantity` INT NOT NULL DEFAULT 1,
+            `price_ht` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            `price_ttc` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            `is_custom` TINYINT(1) NOT NULL DEFAULT 0,
+            KEY `idx_items_devis` (`devis_id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
     } catch (Exception $e) {
         error_log('Erreur initTables: ' . $e->getMessage());
     }
@@ -624,6 +666,441 @@ function deleteUserEntry($id) {
             $stmt->execute([':id' => $id]);
         } catch (Exception $e) {}
     }
+    return true;
+}
+
+// ── Article Catalogue (Espace Client search & devis builder) ────────
+
+function importArticlesPHP(array $rows) {
+    $clean = [];
+    foreach ($rows as $r) {
+        if (!is_array($r) || empty($r['code']) || empty($r['designation'])) continue;
+        $tva = isset($r['tva']) && is_numeric($r['tva']) ? (float)$r['tva'] : 20.0;
+        $priceTtc = isset($r['priceTtc']) && is_numeric($r['priceTtc']) ? (float)$r['priceTtc'] : 0.0;
+        $priceHt = isset($r['priceHt']) && is_numeric($r['priceHt']) ? (float)$r['priceHt'] : ($priceTtc > 0 ? round($priceTtc / (1 + $tva / 100), 2) : 0.0);
+        $clean[] = [
+            'code' => trim((string)$r['code']),
+            'designation' => trim((string)$r['designation']),
+            'tva' => $tva,
+            'priceHt' => $priceHt,
+            'priceTtc' => $priceTtc,
+            'rayon' => trim((string)($r['rayon'] ?? '')),
+            'famille' => trim((string)($r['famille'] ?? '')),
+        ];
+    }
+
+    $pdo = getDbConnection();
+    if ($pdo && !empty($clean)) {
+        try {
+            $chunkSize = 500;
+            for ($i = 0; $i < count($clean); $i += $chunkSize) {
+                $chunk = array_slice($clean, $i, $chunkSize);
+                $placeholders = [];
+                $params = [];
+                foreach ($chunk as $a) {
+                    $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
+                    $params[] = $a['code'];
+                    $params[] = $a['designation'];
+                    $params[] = $a['tva'];
+                    $params[] = $a['priceHt'];
+                    $params[] = $a['priceTtc'];
+                    $params[] = $a['rayon'];
+                    $params[] = $a['famille'];
+                }
+                $sql = "INSERT INTO `articles` (`code`, `designation`, `tva`, `price_ht`, `price_ttc`, `rayon`, `famille`)
+                        VALUES " . implode(", ", $placeholders) . "
+                        ON DUPLICATE KEY UPDATE
+                          `designation` = VALUES(`designation`),
+                          `tva` = VALUES(`tva`),
+                          `price_ht` = VALUES(`price_ht`),
+                          `price_ttc` = VALUES(`price_ttc`),
+                          `rayon` = VALUES(`rayon`),
+                          `famille` = VALUES(`famille`)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($params);
+            }
+        } catch (Exception $e) {
+            error_log('Erreur importArticlesPHP MySQL: ' . $e->getMessage());
+        }
+    }
+
+    $existing = readJsonFile('articles.json');
+    $byCode = [];
+    foreach ($existing as $a) {
+        if (!empty($a['code'])) $byCode[$a['code']] = $a;
+    }
+    foreach ($clean as $a) {
+        $byCode[$a['code']] = $a;
+    }
+    $merged = array_values($byCode);
+    writeJsonFile('articles.json', $merged);
+
+    return ['imported' => count($clean), 'total' => count($merged)];
+}
+
+function searchArticlesPHP($q = '', $rayon = '', $famille = '', $page = 1, $pageSize = 24) {
+    $page = max(1, (int)$page);
+    $pageSize = min(60, max(1, (int)$pageSize));
+    $offset = ($page - 1) * $pageSize;
+
+    $terms = array_slice(array_filter(preg_split('/\s+/', trim($q))), 0, 8);
+
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $where = [];
+            $params = [];
+            foreach ($terms as $t) {
+                $where[] = "(`designation` LIKE ? OR `code` LIKE ?)";
+                $params[] = "%$t%";
+                $params[] = "%$t%";
+            }
+            if (!empty($rayon)) {
+                $where[] = "`rayon` = ?";
+                $params[] = $rayon;
+            }
+            if (!empty($famille)) {
+                $where[] = "`famille` = ?";
+                $params[] = $famille;
+            }
+            $whereSql = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
+
+            $countStmt = $pdo->prepare("SELECT COUNT(*) AS cnt FROM `articles` $whereSql");
+            $countStmt->execute($params);
+            $total = (int)$countStmt->fetch()['cnt'];
+
+            $dataStmt = $pdo->prepare("SELECT `code`, `designation`, `tva`, `price_ht`, `price_ttc`, `rayon`, `famille`
+                                       FROM `articles` $whereSql
+                                       ORDER BY `designation` ASC
+                                       LIMIT ? OFFSET ?");
+            $execParams = array_merge($params, [$pageSize, $offset]);
+            $dataStmt->execute($execParams);
+            $rows = $dataStmt->fetchAll();
+
+            return [
+                'items' => array_map(function($r) {
+                    return [
+                        'code' => $r['code'],
+                        'designation' => $r['designation'],
+                        'tva' => (float)$r['tva'],
+                        'priceHt' => (float)$r['price_ht'],
+                        'priceTtc' => (float)$r['price_ttc'],
+                        'rayon' => $r['rayon'],
+                        'famille' => $r['famille'],
+                    ];
+                }, $rows),
+                'total' => $total,
+                'page' => $page,
+                'pageSize' => $pageSize,
+            ];
+        } catch (Exception $e) {
+            error_log('Erreur searchArticlesPHP MySQL: ' . $e->getMessage());
+        }
+    }
+
+    $all = readJsonFile('articles.json');
+    $lowerTerms = array_map('mb_strtolower', $terms);
+    $filtered = $all;
+    if (!empty($lowerTerms)) {
+        $filtered = array_values(array_filter($filtered, function($a) use ($lowerTerms) {
+            $hay = mb_strtolower(($a['code'] ?? '') . ' ' . ($a['designation'] ?? ''));
+            foreach ($lowerTerms as $t) {
+                if (mb_strpos($hay, $t) === false) return false;
+            }
+            return true;
+        }));
+    }
+    if (!empty($rayon)) {
+        $filtered = array_values(array_filter($filtered, function($a) use ($rayon) { return ($a['rayon'] ?? '') === $rayon; }));
+    }
+    if (!empty($famille)) {
+        $filtered = array_values(array_filter($filtered, function($a) use ($famille) { return ($a['famille'] ?? '') === $famille; }));
+    }
+    return [
+        'items' => array_slice($filtered, $offset, $pageSize),
+        'total' => count($filtered),
+        'page' => $page,
+        'pageSize' => $pageSize,
+    ];
+}
+
+function findArticleByCodePHP($code) {
+    if (empty($code)) return null;
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM `articles` WHERE `code` = :code LIMIT 1");
+            $stmt->execute([':code' => $code]);
+            $r = $stmt->fetch();
+            if ($r) {
+                return [
+                    'code' => $r['code'],
+                    'designation' => $r['designation'],
+                    'tva' => (float)$r['tva'],
+                    'priceHt' => (float)$r['price_ht'],
+                    'priceTtc' => (float)$r['price_ttc'],
+                    'rayon' => $r['rayon'],
+                    'famille' => $r['famille'],
+                ];
+            }
+            return null;
+        } catch (Exception $e) {
+            error_log('Erreur findArticleByCodePHP MySQL: ' . $e->getMessage());
+        }
+    }
+    $all = readJsonFile('articles.json');
+    foreach ($all as $a) {
+        if (($a['code'] ?? '') === $code) return $a;
+    }
+    return null;
+}
+
+function countArticlesPHP() {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT COUNT(*) AS cnt FROM `articles`");
+            return (int)$stmt->fetch()['cnt'];
+        } catch (Exception $e) {
+            error_log('Erreur countArticlesPHP MySQL: ' . $e->getMessage());
+        }
+    }
+    return count(readJsonFile('articles.json'));
+}
+
+function deleteArticlePHP($code) {
+    $pdo = getDbConnection();
+    $deleted = false;
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM `articles` WHERE `code` = :code");
+            $stmt->execute([':code' => $code]);
+            $deleted = $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            error_log('Erreur deleteArticlePHP MySQL: ' . $e->getMessage());
+        }
+    }
+    $existing = readJsonFile('articles.json');
+    $filtered = array_values(array_filter($existing, function($a) use ($code) { return ($a['code'] ?? '') !== $code; }));
+    $jsonDeleted = count($filtered) < count($existing);
+    writeJsonFile('articles.json', $filtered);
+    return $deleted || $jsonDeleted;
+}
+
+function getArticleFacetsPHP() {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT `rayon`, `famille`, COUNT(*) AS cnt FROM `articles` GROUP BY `rayon`, `famille`");
+            $rows = $stmt->fetchAll();
+            $rayonMap = [];
+            $familles = [];
+            foreach ($rows as $r) {
+                $rayonMap[$r['rayon']] = ($rayonMap[$r['rayon']] ?? 0) + (int)$r['cnt'];
+                $familles[] = ['name' => $r['famille'], 'rayon' => $r['rayon'], 'count' => (int)$r['cnt']];
+            }
+            $rayons = [];
+            foreach ($rayonMap as $name => $count) $rayons[] = ['name' => $name, 'count' => $count];
+            usort($rayons, function($a, $b) { return $b['count'] <=> $a['count']; });
+            usort($familles, function($a, $b) { return $b['count'] <=> $a['count']; });
+            return ['rayons' => $rayons, 'familles' => $familles];
+        } catch (Exception $e) {
+            error_log('Erreur getArticleFacetsPHP MySQL: ' . $e->getMessage());
+        }
+    }
+
+    $all = readJsonFile('articles.json');
+    $rayonMap = [];
+    $familleMap = [];
+    foreach ($all as $a) {
+        $r = $a['rayon'] ?? '';
+        $f = $a['famille'] ?? '';
+        $rayonMap[$r] = ($rayonMap[$r] ?? 0) + 1;
+        $key = $r . '|' . $f;
+        $familleMap[$key] = ($familleMap[$key] ?? 0) + 1;
+    }
+    $rayons = [];
+    foreach ($rayonMap as $name => $count) $rayons[] = ['name' => $name, 'count' => $count];
+    usort($rayons, function($a, $b) { return $b['count'] <=> $a['count']; });
+    $familles = [];
+    foreach ($familleMap as $key => $count) {
+        $parts = explode('|', $key, 2);
+        $familles[] = ['name' => $parts[1] ?? '', 'rayon' => $parts[0] ?? '', 'count' => $count];
+    }
+    usort($familles, function($a, $b) { return $b['count'] <=> $a['count']; });
+    return ['rayons' => $rayons, 'familles' => $familles];
+}
+
+// ── Devis Requests (Client & Admin) ─────────────────────────────────
+
+function createDevisRequestPHP($entry, $items) {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO `devis_requests` (`id`, `created_at`, `user_id`, `name`, `company`, `email`, `phone`, `note`, `status`)
+                                   VALUES (:id, :created_at, :user_id, :name, :company, :email, :phone, :note, :status)");
+            $stmt->execute([
+                ':id' => $entry['id'],
+                ':created_at' => $entry['createdAt'] ?? date('Y-m-d H:i:s'),
+                ':user_id' => $entry['userId'],
+                ':name' => $entry['name'],
+                ':company' => $entry['company'] ?? null,
+                ':email' => $entry['email'],
+                ':phone' => $entry['phone'],
+                ':note' => $entry['note'] ?? null,
+                ':status' => $entry['status'] ?? 'pending',
+            ]);
+
+            $itemStmt = $pdo->prepare("INSERT INTO `devis_items` (`id`, `devis_id`, `article_code`, `designation`, `quantity`, `price_ht`, `price_ttc`, `is_custom`)
+                                       VALUES (:id, :devis_id, :article_code, :designation, :quantity, :price_ht, :price_ttc, :is_custom)");
+            foreach ($items as $it) {
+                $itemStmt->execute([
+                    ':id' => $it['id'],
+                    ':devis_id' => $entry['id'],
+                    ':article_code' => $it['articleCode'],
+                    ':designation' => $it['designation'],
+                    ':quantity' => (int)$it['quantity'],
+                    ':price_ht' => (float)($it['priceHt'] ?? 0),
+                    ':price_ttc' => (float)($it['priceTtc'] ?? 0),
+                    ':is_custom' => !empty($it['isCustom']) ? 1 : 0,
+                ]);
+            }
+        } catch (Exception $e) {
+            error_log('Erreur createDevisRequestPHP MySQL: ' . $e->getMessage());
+        }
+    }
+
+    $reqs = readJsonFile('devis_requests.json');
+    array_unshift($reqs, $entry);
+    writeJsonFile('devis_requests.json', $reqs);
+
+    $allItems = readJsonFile('devis_items.json');
+    foreach ($items as $it) {
+        $it['devisId'] = $entry['id'];
+        $allItems[] = $it;
+    }
+    writeJsonFile('devis_items.json', $allItems);
+}
+
+function attachDevisItemsPHP(array $requests) {
+    if (empty($requests)) return $requests;
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $ids = array_column($requests, 'id');
+            $in = str_repeat('?,', count($ids) - 1) . '?';
+            $stmt = $pdo->prepare("SELECT * FROM `devis_items` WHERE `devis_id` IN ($in)");
+            $stmt->execute($ids);
+            $rows = $stmt->fetchAll();
+            $byDevis = [];
+            foreach ($rows as $r) {
+                $byDevis[$r['devis_id']][] = [
+                    'id' => $r['id'],
+                    'articleCode' => $r['article_code'],
+                    'designation' => $r['designation'],
+                    'quantity' => (int)$r['quantity'],
+                    'priceHt' => (float)$r['price_ht'],
+                    'priceTtc' => (float)$r['price_ttc'],
+                    'isCustom' => !empty($r['is_custom']),
+                ];
+            }
+            return array_map(function($req) use ($byDevis) {
+                $req['items'] = $byDevis[$req['id']] ?? [];
+                return $req;
+            }, $requests);
+        } catch (Exception $e) {
+            error_log('Erreur attachDevisItemsPHP MySQL: ' . $e->getMessage());
+        }
+    }
+
+    $allItems = readJsonFile('devis_items.json');
+    $byDevis = [];
+    foreach ($allItems as $it) {
+        $byDevis[$it['devisId']][] = $it;
+    }
+    return array_map(function($req) use ($byDevis) {
+        $req['items'] = $byDevis[$req['id']] ?? [];
+        return $req;
+    }, $requests);
+}
+
+function loadDevisRequestsForUserPHP($userId) {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM `devis_requests` WHERE `user_id` = :user_id ORDER BY `created_at` DESC");
+            $stmt->execute([':user_id' => $userId]);
+            $rows = $stmt->fetchAll();
+            $mapped = array_map(function($r) {
+                return [
+                    'id' => $r['id'],
+                    'createdAt' => $r['created_at'],
+                    'userId' => $r['user_id'],
+                    'name' => $r['name'],
+                    'company' => $r['company'],
+                    'email' => $r['email'],
+                    'phone' => $r['phone'],
+                    'note' => $r['note'],
+                    'status' => $r['status'],
+                ];
+            }, $rows);
+            return attachDevisItemsPHP($mapped);
+        } catch (Exception $e) {
+            error_log('Erreur loadDevisRequestsForUserPHP MySQL: ' . $e->getMessage());
+        }
+    }
+    $reqs = readJsonFile('devis_requests.json');
+    $userReqs = array_values(array_filter($reqs, function($r) use ($userId) { return ($r['userId'] ?? '') === $userId; }));
+    return attachDevisItemsPHP($userReqs);
+}
+
+function loadAllDevisRequestsPHP() {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT * FROM `devis_requests` ORDER BY `created_at` DESC");
+            $rows = $stmt->fetchAll();
+            $mapped = array_map(function($r) {
+                return [
+                    'id' => $r['id'],
+                    'createdAt' => $r['created_at'],
+                    'userId' => $r['user_id'],
+                    'name' => $r['name'],
+                    'company' => $r['company'],
+                    'email' => $r['email'],
+                    'phone' => $r['phone'],
+                    'note' => $r['note'],
+                    'status' => $r['status'],
+                ];
+            }, $rows);
+            return attachDevisItemsPHP($mapped);
+        } catch (Exception $e) {
+            error_log('Erreur loadAllDevisRequestsPHP MySQL: ' . $e->getMessage());
+        }
+    }
+    $reqs = readJsonFile('devis_requests.json');
+    return attachDevisItemsPHP($reqs);
+}
+
+function deleteDevisRequestPHP($id) {
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("DELETE FROM `devis_requests` WHERE `id` = :id");
+            $stmt->execute([':id' => $id]);
+            $stmt2 = $pdo->prepare("DELETE FROM `devis_items` WHERE `devis_id` = :id");
+            $stmt2->execute([':id' => $id]);
+        } catch (Exception $e) {
+            error_log('Erreur deleteDevisRequestPHP MySQL: ' . $e->getMessage());
+        }
+    }
+    $reqs = readJsonFile('devis_requests.json');
+    $filtered = array_values(array_filter($reqs, function($r) use ($id) { return ($r['id'] ?? '') !== $id; }));
+    writeJsonFile('devis_requests.json', $filtered);
+
+    $items = readJsonFile('devis_items.json');
+    $filteredItems = array_values(array_filter($items, function($it) use ($id) { return ($it['devisId'] ?? '') !== $id; }));
+    writeJsonFile('devis_items.json', $filteredItems);
     return true;
 }
 

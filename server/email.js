@@ -185,3 +185,132 @@ export async function sendPasswordResetEmail({ to, name, token }) {
   }
   return { success: true, mocked: true }
 }
+
+/**
+ * Send itemized quote recap to client & notification to ORSAP team
+ */
+export async function sendCatalogueDevisEmails({ devisId, user, items, note }) {
+  const totalHt = items.reduce((sum, it) => sum + (it.priceHt || 0) * (it.quantity || 1), 0)
+  const totalTtc = items.reduce((sum, it) => sum + (it.priceTtc || 0) * (it.quantity || 1), 0)
+  const tvaAmount = totalTtc - totalHt
+
+  const itemRowsHtml = items
+    .map(
+      (it, idx) => `
+    <tr style="border-bottom: 1px solid #e2e8f0; background: ${idx % 2 === 0 ? "#ffffff" : "#f8fafc"};">
+      <td style="padding: 10px; font-family: monospace; font-size: 12px; font-weight: bold; color: #14171a;">
+        ${it.isCustom ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>' : it.articleCode}
+      </td>
+      <td style="padding: 10px; font-size: 13px; color: #334155;">${it.designation}</td>
+      <td style="padding: 10px; text-align: center; font-weight: bold; font-size: 13px;">${it.quantity}</td>
+      <td style="padding: 10px; text-align: right; font-size: 13px; font-weight: 600;">
+        ${it.priceHt ? it.priceHt.toFixed(2) + " MAD" : "Sur devis"}
+      </td>
+      <td style="padding: 10px; text-align: right; font-size: 13px; font-weight: bold; color: #d3121a;">
+        ${it.priceHt ? (it.priceHt * it.quantity).toFixed(2) + " MAD" : "Sur devis"}
+      </td>
+    </tr>`
+    )
+    .join("")
+
+  const clientHtml = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f2f0ec; margin: 0; padding: 0; color: #14171a; }
+    .container { max-width: 680px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #d3121a; }
+    .header { background: #14171a; padding: 25px 30px; text-align: center; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.05em; }
+    .header p { color: #d3121a; font-size: 13px; font-weight: 700; margin: 5px 0 0 0; text-transform: uppercase; letter-spacing: 0.1em; }
+    .content { padding: 30px; line-height: 1.6; }
+    .ref-badge { display: inline-block; background: #fee2e2; color: #991b1b; padding: 6px 14px; border-radius: 9999px; font-weight: 800; font-size: 13px; letter-spacing: 0.05em; margin: 10px 0 20px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+    th { background: #14171a; color: #ffffff; padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .totals { margin-top: 20px; border-top: 2px solid #14171a; padding-top: 15px; }
+    .total-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+    .total-main { font-size: 16px; font-weight: 900; color: #d3121a; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px; }
+    .note-box { background: #f8fafc; border-left: 4px solid #d3121a; padding: 12px 16px; margin: 20px 0; font-size: 13px; color: #475569; }
+    .footer { background: #fafbfc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center; font-size: 12px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ORSAP</h1>
+      <p>Confirmation de Demande de Devis</p>
+    </div>
+    <div class="content">
+      <div style="font-size: 18px; font-weight: bold; color: #14171a;">Bonjour ${user.name},</div>
+      <p>Votre demande de devis a bien été enregistrée et transmise à notre service commercial.</p>
+      
+      <div>Référence de votre demande : <span class="ref-badge">${devisId.toUpperCase()}</span></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Désignation</th>
+            <th style="text-align: center;">Qté</th>
+            <th style="text-align: right;">P.U HT</th>
+            <th style="text-align: right;">Total HT</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemRowsHtml}
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <div class="total-row"><span>Total HT estimé :</span><strong>${totalHt.toFixed(2)} MAD</strong></div>
+        <div class="total-row"><span>TVA (20%) :</span><strong>${tvaAmount.toFixed(2)} MAD</strong></div>
+        <div class="total-row total-main"><span>TOTAL ESTIMÉ TTC :</span><span>${totalTtc.toFixed(2)} MAD</span></div>
+      </div>
+
+      ${note ? `<div class="note-box"><strong>Vos précisions :</strong><br>${note}</div>` : ""}
+
+      <p style="margin-top: 25px; font-size: 13px; color: #475569;">
+        Un conseiller technique ORSAP analyse votre demande et vous contactera dans les plus brefs délais avec une offre commerciale définitive.
+      </p>
+    </div>
+    <div class="footer">
+      <p>ORSAP — Fournitures Industrielles, Quincaillerie &amp; Équipements Pro</p>
+      <p>Casablanca, Maroc · <a href="tel:+212644203030">+212 6 44 20 30 30</a> · <a href="mailto:orsap@orsap.ma">orsap@orsap.ma</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `
+
+  console.log(`\n📬 ═════════════════════════════════════════════════════`)
+  console.log(`📋  NOUVELLE DEMANDE DE DEVIS ENREGISTRÉE : ${devisId.toUpperCase()}`)
+  console.log(`👤  Client : ${user.name} (${user.email} · ${user.phone})`)
+  console.log(`📦  Articles : ${items.length} lignes | Total HT : ${totalHt.toFixed(2)} MAD`)
+  console.log(`═════════════════════════════════════════════════════\n`)
+
+  if (transporter) {
+    try {
+      // 1. Email to client
+      await transporter.sendMail({
+        from: SMTP_FROM,
+        to: user.email,
+        subject: `Confirmation de votre demande de devis [${devisId.toUpperCase()}] — ORSAP`,
+        html: clientHtml,
+      })
+      // 2. Email to ORSAP team
+      await transporter.sendMail({
+        from: SMTP_FROM,
+        to: "orsap@orsap.ma",
+        replyTo: user.email,
+        subject: `🔔 Nouvelle demande de devis [${devisId.toUpperCase()}] de ${user.name}${user.company ? ` (${user.company})` : ""}`,
+        html: clientHtml,
+      })
+      return { success: true }
+    } catch (err) {
+      console.error(`❌ Échec d'envoi email devis:`, err.message)
+      return { success: false, error: err.message }
+    }
+  }
+  return { success: true, mocked: true }
+}
