@@ -9,6 +9,7 @@
     "build": "npm run bundle-blogs && node scripts/generate-sitemap.js && vite build",
     "start": "node server.js",
     "import-catalogue": "python3 scripts/import-catalogue.py",
+    "import-images": "node scripts/import-product-images-csv.cjs",
     "preview": "vite preview",
     "format": "oxfmt"
   },

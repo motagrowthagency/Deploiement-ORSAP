@@ -468,10 +468,15 @@ export default function CatalogueDevisBuilder({
                       title="Cliquer pour afficher la photo en grand dans la fenêtre"
                     >
                       <img
-                        src={imgInfo.url}
+                        src={imgInfo.primaryUrl}
                         alt={imgInfo.alt}
                         className="w-full h-full object-contain transition duration-200 group-hover/img:scale-105"
                         loading="lazy"
+                        onError={(e) => {
+                          if (e.currentTarget.src !== imgInfo.fallbackUrl) {
+                            e.currentTarget.src = imgInfo.fallbackUrl
+                          }
+                        }}
                       />
                       <div className="absolute inset-0 bg-ink/0 group-hover/img:bg-ink/10 transition flex items-center justify-center">
                         <span className="opacity-0 group-hover/img:opacity-100 transition duration-150 rounded-full bg-white/95 px-1.5 py-0.5 text-[9px] font-bold text-ink shadow-sm flex items-center gap-1">
@@ -860,9 +865,14 @@ export default function CatalogueDevisBuilder({
                 {/* Large Studio White-Background Picture Window */}
                 <div className="relative aspect-square w-full rounded-2xl border border-slate-200 bg-white p-6 flex items-center justify-center shadow-inner group">
                   <img
-                    src={img.url}
+                    src={img.primaryUrl}
                     alt={img.alt}
                     className="w-full h-full object-contain transition duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      if (e.currentTarget.src !== img.fallbackUrl) {
+                        e.currentTarget.src = img.fallbackUrl
+                      }
+                    }}
                   />
                   {img.label && (
                     <span className="absolute bottom-3 left-3 rounded-md bg-slate-900/80 px-2 py-1 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-xs">
