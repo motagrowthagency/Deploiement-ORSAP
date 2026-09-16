@@ -1875,6 +1875,7 @@ app.get("/admin", async (req, res) => {
   // Read template HTML and replace variables
   try {
     let html = readFileSync(ADMIN_TEMPLATE_PATH, "utf-8")
+    html = html.replace("{{LOGO_SRC}}", "/admin/logo.jpg")
     html = html.replace("{{SUBMISSIONS_COUNT}}", submissions.length)
     html = html.replace("{{CATALOGUE_DEVIS_COUNT}}", catalogueDevis.length)
     html = html.replace("{{BLOGS_COUNT}}", blogs.length)

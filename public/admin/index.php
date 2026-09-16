@@ -727,6 +727,27 @@ $html = str_replace('{{TAB_CATALOGUE_DEVIS_ACTIVE}}', $tab === 'devis-catalogue'
 $html = str_replace('{{TAB_RECRUTEMENT_ACTIVE}}', $tab === 'recrutement' ? 'active' : '', $html);
 $html = str_replace('{{TAB_BLOG_ACTIVE}}', $tab === 'blog' ? 'active' : '', $html);
 $html = str_replace('{{TAB_SUBSCRIBERS_ACTIVE}}', $tab === 'subscribers' ? 'active' : '', $html);
+function getOrsapLogoSrc() {
+    $logoPaths = [
+        __DIR__ . '/logo.jpg',
+        __DIR__ . '/../logo.jpg',
+        __DIR__ . '/../../src/imports/logo.jpg',
+        __DIR__ . '/../src/imports/logo.jpg',
+    ];
+    foreach ($logoPaths as $lp) {
+        if (file_exists($lp)) {
+            $data = @file_get_contents($lp);
+            if ($data) {
+                return 'data:image/jpeg;base64,' . base64_encode($data);
+            }
+        }
+    }
+    return '/logo.jpg';
+}
+
+$logoSrc = getOrsapLogoSrc();
+
+$html = str_replace('{{LOGO_SRC}}', $logoSrc, $html);
 $html = str_replace('{{TAB_USERS_ACTIVE}}', $tab === 'users' ? 'active' : '', $html);
 $html = str_replace('{{TAB_CONTENT}}', $tabContent, $html);
 
@@ -736,6 +757,7 @@ exit;
 
 function renderLoginPage($errorMsg = '') {
     $errorHtml = $errorMsg ? '<div class="error">' . esc($errorMsg) . '</div>' : '';
+    $logoSrc = getOrsapLogoSrc();
     ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -748,7 +770,7 @@ function renderLoginPage($errorMsg = '') {
     body { font-family: 'Inter', system-ui, sans-serif; background: #14171a; color: #fff; display: grid; place-items: center; min-height: 100vh; padding: 20px; }
     .card { background: #1f2327; border: 1px solid rgba(255,255,255,0.08); padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-radius: 8px; }
     .logo-container { display: flex; justify-content: center; margin-bottom: 24px; }
-    .logo-img { height: 60px; width: 60px; border-radius: 12px; object-fit: contain; background: #fff; padding: 4px; }
+    .logo-img { height: 60px; width: 60px; border-radius: 12px; object-fit: contain; background: #fff; padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
     h2 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); margin-bottom: 20px; text-align: center; }
     .form-group { margin-bottom: 20px; }
     .form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; color: rgba(255,255,255,0.7); }
@@ -762,7 +784,7 @@ function renderLoginPage($errorMsg = '') {
 <body>
   <div class="card">
     <div class="logo-container">
-      <img src="/admin/logo.jpg" alt="ORSAP Logo" class="logo-img" />
+      <img src="<?= $logoSrc ?>" alt="ORSAP Logo" class="logo-img" onerror="this.onerror=null; this.src='/logo.jpg';" />
     </div>
     <h2>Accès Réservé</h2>
     <?= $errorHtml ?>

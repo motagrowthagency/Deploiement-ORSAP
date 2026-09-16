@@ -17,22 +17,23 @@
   RewriteCond %{HTTP:Authorization} .
   RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-  # 1. Route API requests to PHP router
+  # 1. If requested static file physically exists (assets, images, fonts, logos, etc.), serve directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 2. Route API requests to PHP router
   RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
 
-  # 2. Route Admin requests to PHP controller
+  # 3. Route Admin requests to PHP controller (only if not an existing file)
+  RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^admin(/.*)?$ admin/index.php [QSA,L]
 
-  # 3. Direct static serving for robots.txt and sitemap.xml
+  # 4. Direct static serving for robots.txt and sitemap.xml
   RewriteRule ^robots\.txt$ robots.txt [L]
   RewriteRule ^sitemap\.xml$ sitemap.xml [L]
 
-  # 4. Explicitly force all React application routes to index.html
+  # 5. Explicitly force all React application routes to index.html
   RewriteRule ^(solutions|produits|services|marques|temoignages|devis|blog|recrutement|a-propos|contact|espace-client|intranet)(/.*)?$ index.html [L]
-
-  # 5. If requested static file physically exists (assets, images, fonts, etc.), serve directly
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^ - [L]
 
   # 6. Fallback everything else to index.html for React SPA
   RewriteRule ^ index.html [L]
