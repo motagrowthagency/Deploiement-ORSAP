@@ -1,17 +1,6 @@
-export interface Article {
-  code: string
-  designation: string
-  tva: number
-  priceHt: number
-  priceTtc: number
-  rayon: string
-  famille: string
-}
+import { ALL_ARTICLES, DEFAULT_FACETS, Article, Facets } from "@/data/catalogueData"
 
-export interface Facets {
-  rayons: { name: string; count: number }[]
-  familles: { name: string; rayon: string; count: number }[]
-}
+export type { Article, Facets }
 
 export interface SearchResult {
   items: Article[]
@@ -20,23 +9,16 @@ export interface SearchResult {
   pageSize: number
 }
 
-export async function fetchArticleFacets(token?: string): Promise<Facets> {
-  try {
-    const res = await fetch("/api/articles/facets", {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    })
-    const cType = res.headers.get("content-type") || ""
-    if (res.ok && cType.includes("application/json")) {
-      const data = await res.json()
-      if (data && Array.isArray(data.rayons)) {
-        return data
-      }
-    }
-  } catch (err) {
-    console.error("fetchArticleFacets error:", err)
-  }
+function normalizeText(str: string): string {
+  return (str || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+}
 
-  return { rayons: [], familles: [] }
+export async function fetchArticleFacets(_token?: string): Promise<Facets> {
+  return DEFAULT_FACETS
 }
 
 export async function searchArticles({
@@ -45,42 +27,42 @@ export async function searchArticles({
   famille = "",
   page = 1,
   pageSize = 24,
-  token,
+  _token,
 }: {
   query?: string
   rayon?: string
   famille?: string
   page?: number
   pageSize?: number
+  _token?: string
   token?: string
 }): Promise<SearchResult> {
-  const params = new URLSearchParams({
-    q: query,
-    rayon,
-    famille,
-    page: String(page),
-    pageSize: String(pageSize),
-  })
+  const qClean = normalizeText(query)
+  const tokens = qClean ? qClean.split(/\s+/).filter(Boolean) : []
+  const rClean = normalizeText(rayon)
+  const fClean = normalizeText(famille)
 
-  try {
-    const res = await fetch(`/api/articles?${params.toString()}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    })
-    const cType = res.headers.get("content-type") || ""
-    if (res.ok && cType.includes("application/json")) {
-      const data = await res.json()
-      if (data && Array.isArray(data.items)) {
-        return data
+  const filtered = ALL_ARTICLES.filter((a) => {
+    if (rClean && normalizeText(a.rayon) !== rClean) return false
+    if (fClean && normalizeText(a.famille) !== fClean) return false
+    if (tokens.length > 0) {
+      const target = normalizeText(`${a.code} ${a.designation} ${a.rayon} ${a.famille}`)
+      for (const t of tokens) {
+        if (!target.includes(t)) return false
       }
     }
-  } catch (err) {
-    console.error("searchArticles error:", err)
-  }
+    return true
+  })
+
+  const total = filtered.length
+  const pageNum = Math.max(1, page)
+  const offset = (pageNum - 1) * pageSize
+  const items = filtered.slice(offset, offset + pageSize)
 
   return {
-    items: [],
-    total: 0,
-    page: 1,
+    items,
+    total,
+    page: pageNum,
     pageSize,
   }
 }

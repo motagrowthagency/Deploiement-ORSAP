@@ -5,6 +5,7 @@ import {
   fetchArticleFacets,
   searchArticles,
 } from "@/utils/catalogueClient"
+import { ALL_ARTICLES, DEFAULT_FACETS } from "@/data/catalogueData"
 
 export interface CartLine {
   id: string
@@ -36,9 +37,9 @@ export default function CatalogueDevisBuilder({
   const [famille, setFamille] = useState("")
   const [page, setPage] = useState(1)
 
-  const [facets, setFacets] = useState<Facets>({ rayons: [], familles: [] })
-  const [results, setResults] = useState<Article[]>([])
-  const [total, setTotal] = useState(0)
+  const [facets, setFacets] = useState<Facets>(DEFAULT_FACETS)
+  const [results, setResults] = useState<Article[]>(() => ALL_ARTICLES.slice(0, PAGE_SIZE))
+  const [total, setTotal] = useState(ALL_ARTICLES.length)
   const [loading, setLoading] = useState(false)
   const [searchError, setSearchError] = useState<string | null>(null)
 
