@@ -817,15 +817,14 @@ app.post("/api/devis-catalogue", requireClientAuth, submissionLimiter, async (re
     const code = String(raw?.code || "").trim()
     if (!code) continue
     const article = await findArticleByCode(code)
-    if (!article) continue
 
     resolvedItems.push({
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      articleCode: article.code,
-      designation: article.designation,
+      articleCode: code,
+      designation: article?.designation || String(raw?.designation || `Article ${code}`).trim(),
       quantity,
-      priceHt: article.priceHt || 0,
-      priceTtc: article.priceTtc || 0,
+      priceHt: article?.priceHt ?? (parseFloat(raw?.priceHt) || 0),
+      priceTtc: article?.priceTtc ?? (parseFloat(raw?.priceTtc) || 0),
       isCustom: false,
     })
   }

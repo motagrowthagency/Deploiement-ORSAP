@@ -207,6 +207,8 @@ export default function CatalogueDevisBuilder({
           items: cartLines.map((l) => ({
             code: l.isCustom ? "CUSTOM" : l.code,
             designation: l.designation,
+            priceHt: l.priceHt || 0,
+            priceTtc: l.priceTtc || 0,
             quantity: l.quantity,
             isCustom: Boolean(l.isCustom),
           })),

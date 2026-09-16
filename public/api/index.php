@@ -1377,15 +1377,18 @@ if ($uri === '/api/devis-catalogue' || $uri === '/api/devis-catalogue/') {
             $code = trim((string)($raw['code'] ?? ''));
             if (empty($code)) continue;
             $article = findArticleByCodePHP($code);
-            if (!$article) continue;
+
+            $designation = $article ? $article['designation'] : trim((string)($raw['designation'] ?? 'Article ' . $code));
+            $priceHt = $article ? (float)($article['priceHt'] ?? 0) : (float)($raw['priceHt'] ?? 0);
+            $priceTtc = $article ? (float)($article['priceTtc'] ?? 0) : (float)($raw['priceTtc'] ?? 0);
 
             $resolvedItems[] = [
                 'id' => bin2hex(random_bytes(8)),
-                'articleCode' => $article['code'],
-                'designation' => $article['designation'],
+                'articleCode' => $code,
+                'designation' => $designation,
                 'quantity' => $quantity,
-                'priceHt' => (float)($article['priceHt'] ?? 0),
-                'priceTtc' => (float)($article['priceTtc'] ?? 0),
+                'priceHt' => $priceHt,
+                'priceTtc' => $priceTtc,
                 'isCustom' => false,
             ];
         }
