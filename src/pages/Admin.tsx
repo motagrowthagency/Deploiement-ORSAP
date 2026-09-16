@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useId } from "react"
 import { Link, useNavigate } from "react-router"
 import SEO from "@/components/SEO"
+import logoImg from "@/imports/logo.jpg"
 
 interface DevisCatalogueItem {
   code: string
@@ -412,10 +413,10 @@ export default function Admin() {
 
         <div className="w-full max-w-md bg-slate-900/90 border border-slate-800 backdrop-blur-xl rounded-2xl shadow-2xl p-8 relative z-10">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mb-4 shadow-inner">
-              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
+            <div className="flex justify-center mb-4">
+              <div className="p-3 bg-white rounded-2xl shadow-xl border border-slate-700/80 flex items-center justify-center">
+                <img src={logoImg} alt="ORSAP Logo" className="h-12 w-auto object-contain" />
+              </div>
             </div>
             <h1 className="text-2xl font-black tracking-tight text-white">ORSAP Administration</h1>
             <p className="text-sm text-slate-400 mt-1">Espace sécurisé de gestion et chiffrage devis</p>
@@ -526,9 +527,9 @@ export default function Admin() {
       {/* Top Bar Header */}
       <header className="bg-slate-900/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center font-black text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all">
-              O
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="p-1.5 bg-white rounded-xl shadow-md border border-slate-700/80 flex items-center justify-center transition-transform group-hover:scale-105">
+              <img src={logoImg} alt="ORSAP Logo" className="h-7 w-auto object-contain" />
             </div>
             <div>
               <span className="font-black tracking-tight text-white text-lg">ORSAP</span>
