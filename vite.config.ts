@@ -482,6 +482,30 @@ function figmaApiDevPlugin(): Plugin {
     return facetsCache
   }
 
+  function readJsonFile(relPath: string, fallback: any = []) {
+    const filePath = path.resolve(__dirname, relPath)
+    if (fs.existsSync(filePath)) {
+      try {
+        return JSON.parse(fs.readFileSync(filePath, "utf-8"))
+      } catch {
+        return fallback
+      }
+    }
+    return fallback
+  }
+
+  function writeJsonFile(relPath: string, data: any) {
+    const filePath = path.resolve(__dirname, relPath)
+    try {
+      const dir = path.dirname(filePath)
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8")
+      return true
+    } catch {
+      return false
+    }
+  }
+
   return {
     name: "figma-api-dev-middleware",
     apply: "serve",
@@ -489,7 +513,9 @@ function figmaApiDevPlugin(): Plugin {
       server.middlewares.use(async (req, res, next) => {
         const parsedUrl = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`)
         const pathname = parsedUrl.pathname
+        const method = req.method || "GET"
 
+        // /api/articles/facets
         if (pathname === "/api/articles/facets") {
           const facets = getFacets()
           res.setHeader("Content-Type", "application/json; charset=utf-8")
@@ -497,6 +523,7 @@ function figmaApiDevPlugin(): Plugin {
           return
         }
 
+        // /api/articles
         if (pathname === "/api/articles") {
           const q = parsedUrl.searchParams.get("q") || ""
           const rayon = parsedUrl.searchParams.get("rayon") || ""
@@ -528,6 +555,89 @@ function figmaApiDevPlugin(): Plugin {
 
           res.setHeader("Content-Type", "application/json; charset=utf-8")
           res.end(JSON.stringify({ items, total, page, pageSize }))
+          return
+        }
+
+        // /api/admin/devis-catalogue
+        if (pathname === "/api/admin/devis-catalogue") {
+          const requests = readJsonFile("./data/devis_requests.json", [])
+          const items = readJsonFile("./data/devis_items.json", [])
+          
+          const enriched = requests.map((req: any) => {
+            const reqItems = items.filter((it: any) => it.requestId === req.id)
+            return {
+              ...req,
+              items: reqItems.length > 0 ? reqItems : (req.items || []),
+            }
+          })
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(enriched))
+          return
+        }
+
+        // DELETE /api/admin/devis-catalogue/:id
+        if (pathname.startsWith("/api/admin/devis-catalogue/") && method === "DELETE") {
+          const id = pathname.replace("/api/admin/devis-catalogue/", "")
+          let requests = readJsonFile("./data/devis_requests.json", [])
+          let items = readJsonFile("./data/devis_items.json", [])
+          requests = requests.filter((r: any) => r.id !== id)
+          items = items.filter((it: any) => it.requestId !== id)
+          writeJsonFile("./data/devis_requests.json", requests)
+          writeJsonFile("./data/devis_items.json", items)
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true }))
+          return
+        }
+
+        // /api/submissions
+        if (pathname === "/api/submissions") {
+          const subs = readJsonFile("./data/submissions.json", [])
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(subs))
+          return
+        }
+
+        // DELETE /api/submissions/:id
+        if (pathname.startsWith("/api/submissions/") && method === "DELETE") {
+          const id = pathname.replace("/api/submissions/", "")
+          let subs = readJsonFile("./data/submissions.json", [])
+          subs = subs.filter((s: any) => s.id !== id)
+          writeJsonFile("./data/submissions.json", subs)
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true }))
+          return
+        }
+
+        // /api/admin/applications
+        if (pathname === "/api/admin/applications") {
+          const apps = readJsonFile("./data/applications.json", [])
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(apps))
+          return
+        }
+
+        // /api/admin/users
+        if (pathname === "/api/admin/users") {
+          const users = readJsonFile("./data/users.json", [])
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(users))
+          return
+        }
+
+        // /api/admin/subscribers
+        if (pathname === "/api/admin/subscribers") {
+          const subs = readJsonFile("./data/subscribers.json", [])
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(subs))
+          return
+        }
+
+        // /api/blogs
+        if (pathname === "/api/blogs") {
+          const blogs = readJsonFile("./data/blogs.json", [])
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(blogs))
           return
         }
 

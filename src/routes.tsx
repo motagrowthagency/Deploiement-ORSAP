@@ -18,6 +18,7 @@ import BlogDetail from "@/pages/BlogDetail"
 import Contact from "@/pages/Contact"
 import Recruitment from "@/pages/Recruitment"
 import EspaceClient from "@/pages/EspaceClient"
+import Admin from "@/pages/Admin"
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
       { path: "contact", Component: Contact },
       { path: "espace-client", Component: EspaceClient },
       { path: "espace-client/verify", Component: EspaceClient },
+      { path: "admin", Component: Admin },
       {
         path: "intranet",
         element: (
