@@ -57,6 +57,7 @@ export default function CatalogueDevisBuilder({
   const [customNotes, setCustomNotes] = useState("")
 
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
+  const [displayMode, setDisplayMode] = useState<"pdf" | "search">("pdf")
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Load category facets on mount
@@ -326,17 +327,163 @@ export default function CatalogueDevisBuilder({
         </div>
       </div>
 
-      {/* ── Main Layout: Products Grid + Sticky Devis Drawer ───────── */}
-      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
-        {/* LEFT COLUMN: Search, Filters & Product Cards */}
-        <div>
-          {/* Search bar */}
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="relative flex-1">
-              <svg
-                className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-steel"
-                fill="none"
-                viewBox="0 0 24 24"
+      {/* ── View Mode Switcher ─────────────────────────────────────── */}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setDisplayMode("pdf")}
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-display text-xs font-bold transition shadow-sm ${
+              displayMode === "pdf"
+                ? "bg-orsap-red text-white shadow-orsap-red/20"
+                : "bg-white text-ink border border-hairline hover:bg-slate-50"
+            }`}
+          >
+            <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+            📄 Catalogue Officiel PDF
+          </button>
+          <button
+            type="button"
+            onClick={() => setDisplayMode("search")}
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-display text-xs font-bold transition shadow-sm ${
+              displayMode === "search"
+                ? "bg-orsap-red text-white shadow-orsap-red/20"
+                : "bg-white text-ink border border-hairline hover:bg-slate-50"
+            }`}
+          >
+            <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" />
+            </svg>
+            🔍 Chiffrage &amp; Base Articles ({total.toLocaleString("fr-FR")} réf.)
+          </button>
+        </div>
+
+        <div className="text-xs text-ink-soft">
+          {displayMode === "pdf" ? (
+            <span>Feuilletez le catalogue officiel ou téléchargez-le pour consultation hors-ligne</span>
+          ) : (
+            <span>Ajoutez vos articles au panier pour générer une estimation chiffrée</span>
+          )}
+        </div>
+      </div>
+
+      {/* ── MODE 1: PDF VIEWER (DEFAULT) ─────────────────────────────── */}
+      {displayMode === "pdf" && (
+        <div className="mt-6 space-y-6">
+          {/* Top Bar inside PDF mode */}
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-hairline bg-card p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-xl bg-orsap-red/10 text-orsap-red flex items-center justify-center font-bold">
+                PDF
+              </div>
+              <div>
+                <h3 className="font-display text-sm font-bold text-ink">
+                  Catalogue Général ORSAP Services 2026
+                </h3>
+                <p className="text-xs text-ink-soft">
+                  Équipements professionnels, protection, outillage, quincaillerie, sanitaire &amp; électricité • 8.6 Mo
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href="/ORSAP-Services-Catalogue.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-white px-3.5 py-2 font-display text-xs font-bold text-ink hover:bg-slate-50 shadow-sm transition"
+              >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+                Ouvrir en Plein écran
+              </a>
+              <a
+                href="/ORSAP-Services-Catalogue.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="ORSAP-Services-Catalogue.pdf"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-orsap-red px-4 py-2 font-display text-xs font-bold text-white shadow-sm hover:bg-orsap-red-deep transition"
+              >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.5V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                Télécharger le PDF (8.6 Mo)
+              </a>
+            </div>
+          </div>
+
+          {/* Interactive PDF Document Viewer */}
+          <div className="relative w-full overflow-hidden rounded-2xl border border-hairline bg-slate-900 shadow-xl">
+            <object
+              data="/ORSAP-Services-Catalogue.pdf#view=FitH&toolbar=1"
+              type="application/pdf"
+              className="h-[800px] sm:h-[900px] lg:h-[1050px] w-full"
+            >
+              <iframe
+                src="/ORSAP-Services-Catalogue.pdf#view=FitH&toolbar=1"
+                title="Catalogue Officiel ORSAP Services"
+                className="h-[800px] sm:h-[900px] lg:h-[1050px] w-full border-0"
+              >
+                <div className="p-8 text-center text-white">
+                  <p className="text-base font-bold">Votre navigateur ne prend pas en charge l&apos;affichage direct du PDF.</p>
+                  <a
+                    href="/ORSAP-Services-Catalogue.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 rounded-xl bg-orsap-red px-6 py-3 font-display text-xs font-bold text-white"
+                  >
+                    Télécharger le catalogue PDF
+                  </a>
+                </div>
+              </iframe>
+            </object>
+          </div>
+
+          {/* Action Banner */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-hairline bg-white p-6 shadow-sm">
+            <div>
+              <h4 className="font-display text-base font-bold text-ink">
+                Vous souhaitez un chiffrage ou commander des références du catalogue ?
+              </h4>
+              <p className="mt-1 text-xs text-ink-soft">
+                Recherchez instantanément par code article ou demandez un devis personnalisé à nos chargés d'affaires.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setDisplayMode("search")}
+                className="inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-2.5 font-display text-xs font-bold text-white hover:bg-black transition shadow-sm"
+              >
+                Chiffrer des articles en ligne
+              </button>
+              <button
+                type="button"
+                onClick={() => setCustomModalOpen(true)}
+                className="inline-flex items-center gap-2 rounded-xl border border-orsap-red bg-orsap-red/5 px-5 py-2.5 font-display text-xs font-bold text-orsap-red hover:bg-orsap-red hover:text-white transition"
+              >
+                Demander un devis spécifique
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── MODE 2: INTERACTIVE PRODUCTS & DEVIS CART ──────────────── */}
+      {displayMode === "search" && (
+        <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
+          {/* LEFT COLUMN: Search, Filters & Product Cards */}
+          <div>
+            {/* Search bar */}
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="relative flex-1">
+                <svg
+                  className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-steel"
+                  fill="none"
+                  viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
               >
@@ -711,6 +858,7 @@ export default function CatalogueDevisBuilder({
           </div>
         </div>
       </div>
+    )}
 
       {/* ── Custom Article Modal ────────────────────────────────────── */}
       {customModalOpen && (
