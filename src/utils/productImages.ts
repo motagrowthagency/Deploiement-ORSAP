@@ -42,6 +42,7 @@ const WHITE_BG: Record<string, string> = {
   cone_signalisation: "/images/categories/cone_chantier.jpg",
   panneau_chantier: "/images/categories/panneau_signalisation.jpg",
   coffre_fort: "/images/categories/coffre_fort_securite.jpg",
+  armoire_cles: "/images/categories/armoire_cles.jpg",
   ralentisseur: "/images/categories/ralentisseur_voirie.jpg",
 
   // === ACCES EN HAUTEUR ===
@@ -175,20 +176,23 @@ function resolveStudioFallback(designation: string, rayon = "", famille = ""): {
   }
 
   // === SIGNALISATION & SECURITE ===
-  if (d.includes("extincteur") || f.includes("incendie") || f.includes("extincteur")) {
+  if (d.includes("extincteur") || d.includes("extinct")) {
     return { url: WHITE_BG.extincteur_poudre, label: "Extincteur Sécurité" }
   }
-  if (d.includes("cone") || d.includes("cône") || d.includes("balise") || d.includes("rubalise") || f.includes("balisage")) {
-    return { url: WHITE_BG.cone_signalisation, label: "Balisage Chantier" }
+  if (d.includes("armoire a cle") || d.includes("boite a cle") || d.includes("boite 20cle") || d.includes("boite 48") || d.includes("boite 96")) {
+    return { url: WHITE_BG.armoire_cles, label: "Armoire à Clés Sécurisée" }
   }
-  if (d.includes("panneau") || f.includes("signalisation")) {
-    return { url: WHITE_BG.panneau_chantier, label: "Signalétique Chantier" }
+  if (d.includes("coffre") || d.includes("caisse a monnaie") || d.includes("caissette") || d.includes("caisse a monaie") || d.includes("select access") || d.includes("arme a feu")) {
+    return { url: WHITE_BG.coffre_fort, label: "Coffre-fort & Sécurité" }
   }
-  if (d.includes("coffre") || f.includes("coffre")) {
-    return { url: WHITE_BG.coffre_fort, label: "Coffre-fort Blindé" }
-  }
-  if (d.includes("ralentisseur") || f.includes("ralentisseur") || f.includes("voirie")) {
+  if (d.includes("ralentisseur") || d.includes("dos d'ane") || d.includes("dos d'anes") || d.includes("pont de croisement") || d.includes("passe-cable") || f.includes("voirie")) {
     return { url: WHITE_BG.ralentisseur, label: "Équipement Voirie" }
+  }
+  if (d.includes("cone") || d.includes("cône") || d.includes("grillage") || d.includes("rubalise") || d.includes("ruban") || d.includes("chaine de signalisation") || f.includes("balisage")) {
+    return { url: WHITE_BG.cone_signalisation, label: "Balisage & Signalisation" }
+  }
+  if (d.includes("panneau") || d.includes("macaron") || d.includes("sol glissant") || f.includes("signalisation")) {
+    return { url: WHITE_BG.panneau_chantier, label: "Signalétique & Panneau" }
   }
 
   // === ACCES EN HAUTEUR ===
