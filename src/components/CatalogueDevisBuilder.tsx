@@ -106,7 +106,7 @@ export default function CatalogueDevisBuilder({
   }, [query, rayon, famille, page, token])
 
   const availableFamilles = useMemo(() => {
-    if (!rayon) return facets.familles
+    if (!rayon) return []
     return facets.familles.filter((f) => f.rayon === rayon)
   }, [facets.familles, rayon])
 
