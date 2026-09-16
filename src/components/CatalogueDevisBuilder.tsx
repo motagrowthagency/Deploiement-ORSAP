@@ -6,6 +6,7 @@ import {
   searchArticles,
 } from "@/utils/catalogueClient"
 import { ALL_ARTICLES, DEFAULT_FACETS } from "@/data/catalogueData"
+import { getArticleImage } from "@/utils/productImages"
 
 export interface CartLine {
   id: string
@@ -55,6 +56,9 @@ export default function CatalogueDevisBuilder({
   const [customName, setCustomName] = useState("")
   const [customQty, setCustomQty] = useState(1)
   const [customNotes, setCustomNotes] = useState("")
+
+  // Product Photo Preview modal window
+  const [previewArticle, setPreviewArticle] = useState<Article | null>(null)
 
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -447,37 +451,80 @@ export default function CatalogueDevisBuilder({
           <div className="mt-4 space-y-3">
             {results.map((article) => {
               const inCartQty = cart[article.code]?.quantity || 0
+              const imgInfo = getArticleImage(article)
               return (
                 <div
                   key={article.code}
-                  className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border bg-white p-4 transition-all hover:shadow-md ${
-                    inCartQty > 0 ? "border-orsap-red/40 ring-1 ring-orsap-red/20 bg-red-50/10" : "border-hairline"
+                  className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border bg-white p-3.5 sm:p-4 transition-all hover:shadow-md ${
+                    inCartQty > 0 ? "border-orsap-red/40 ring-1 ring-orsap-red/20 bg-red-50/10" : "border-hairline hover:border-slate-300"
                   }`}
                 >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="font-mono text-xs font-black text-ink bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                        {article.code}
-                      </span>
-                      <span className="text-[11px] font-semibold text-ink-soft uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded">
-                        {article.rayon} &gt; {article.famille}
-                      </span>
-                    </div>
-                    <h4 className="font-display text-sm font-bold text-ink leading-snug break-words">
-                      {article.designation}
-                    </h4>
-                    <div className="mt-2 flex items-baseline gap-3">
-                      <span className="font-display text-base font-black text-orsap-red">
-                        {formatMAD(article.priceHt)} <span className="text-xs font-semibold text-ink-soft">HT</span>
-                      </span>
-                      <span className="text-xs text-slate-400 font-medium">
-                        ({formatMAD(article.priceTtc)} TTC)
-                      </span>
+                  <div className="flex items-start sm:items-center gap-3.5 flex-1 min-w-0">
+                    {/* Small Window / Thumbnail with pure white background */}
+                    <button
+                      type="button"
+                      onClick={() => setPreviewArticle(article)}
+                      className="relative size-20 sm:size-24 shrink-0 rounded-xl border border-slate-200 bg-white p-1.5 flex items-center justify-center cursor-pointer group/img overflow-hidden shadow-xs hover:border-orsap-red/50 hover:shadow-sm transition text-left focus:outline-none focus:ring-2 focus:ring-orsap-red/30"
+                      title="Cliquer pour afficher la photo en grand dans la fenêtre"
+                    >
+                      <img
+                        src={imgInfo.url}
+                        alt={imgInfo.alt}
+                        className="w-full h-full object-contain transition duration-200 group-hover/img:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-ink/0 group-hover/img:bg-ink/10 transition flex items-center justify-center">
+                        <span className="opacity-0 group-hover/img:opacity-100 transition duration-150 rounded-full bg-white/95 px-1.5 py-0.5 text-[9px] font-bold text-ink shadow-sm flex items-center gap-1">
+                          <svg className="size-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                          </svg>
+                          Zoom
+                        </span>
+                      </div>
+                    </button>
+
+                    {/* Product Details */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="font-mono text-xs font-black text-ink bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                          {article.code}
+                        </span>
+                        <span className="text-[11px] font-semibold text-ink-soft uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded truncate max-w-[200px] sm:max-w-none">
+                          {article.rayon} &gt; {article.famille}
+                        </span>
+                      </div>
+                      <h4
+                        onClick={() => setPreviewArticle(article)}
+                        className="font-display text-sm font-bold text-ink leading-snug break-words hover:text-orsap-red cursor-pointer transition"
+                      >
+                        {article.designation}
+                      </h4>
+                      <div className="mt-1.5 flex items-baseline gap-3">
+                        <span className="font-display text-base font-black text-orsap-red">
+                          {formatMAD(article.priceHt)} <span className="text-xs font-semibold text-ink-soft">HT</span>
+                        </span>
+                        <span className="text-xs text-slate-400 font-medium">
+                          ({formatMAD(article.priceTtc)} TTC)
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Actions / Quantity control */}
-                  <div className="flex items-center gap-2 self-end sm:self-center">
+                  <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewArticle(article)}
+                      className="hidden sm:inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 hover:text-ink transition"
+                      title="Afficher la fiche & photo"
+                    >
+                      <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Détails
+                    </button>
+
                     {inCartQty > 0 ? (
                       <div className="flex items-center rounded-xl border border-orsap-red bg-white shadow-sm overflow-hidden">
                         <button
@@ -785,6 +832,110 @@ export default function CatalogueDevisBuilder({
           </div>
         </div>
       )}
+
+      {/* ── Product Photo & Specs Preview Modal Window ────────────────── */}
+      {previewArticle && (() => {
+        const img = getArticleImage(previewArticle)
+        const inCartQty = cart[previewArticle.code]?.quantity || 0
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm animate-in fade-in"
+            onClick={() => setPreviewArticle(null)}
+          >
+            <div
+              className="relative w-full max-w-2xl rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setPreviewArticle(null)}
+                className="absolute top-4 right-4 z-10 size-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-ink flex items-center justify-center font-bold text-base transition"
+                title="Fermer la fenêtre"
+              >
+                ✕
+              </button>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                {/* Large Studio White-Background Picture Window */}
+                <div className="relative aspect-square w-full rounded-2xl border border-slate-200 bg-white p-6 flex items-center justify-center shadow-inner group">
+                  <img
+                    src={img.url}
+                    alt={img.alt}
+                    className="w-full h-full object-contain transition duration-300 group-hover:scale-105"
+                  />
+                  {img.label && (
+                    <span className="absolute bottom-3 left-3 rounded-md bg-slate-900/80 px-2 py-1 text-[10px] font-bold text-white uppercase tracking-wider backdrop-blur-xs">
+                      {img.label}
+                    </span>
+                  )}
+                  <span className="absolute top-3 left-3 rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                    ✓ Fond Blanc Isolé
+                  </span>
+                </div>
+
+                {/* Product Information & Quick Buy */}
+                <div className="flex flex-col justify-between h-full space-y-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <span className="font-mono text-xs font-black text-ink bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                        {previewArticle.code}
+                      </span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded">
+                        {previewArticle.rayon}
+                      </span>
+                    </div>
+                    <h3 className="font-display text-lg font-black text-ink leading-tight">
+                      {previewArticle.designation}
+                    </h3>
+                    <p className="mt-1.5 text-xs font-medium text-slate-500">
+                      Sous-famille : <strong className="text-slate-800">{previewArticle.famille}</strong>
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4">
+                    <div className="text-xs text-slate-500 font-semibold mb-1">Tarif professionnel :</div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-display text-2xl font-black text-orsap-red">
+                        {formatMAD(previewArticle.priceHt)}
+                      </span>
+                      <span className="text-xs font-bold text-slate-600">HT</span>
+                      <span className="text-xs text-slate-400">
+                        ({formatMAD(previewArticle.priceTtc)} TTC)
+                      </span>
+                    </div>
+                    <div className="mt-2 text-[11px] text-emerald-700 font-medium flex items-center gap-1.5">
+                      <svg className="size-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Disponibilité garantie & approvisionnement ORSAP
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="space-y-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        addToCart(previewArticle, 1)
+                      }}
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-orsap-red px-5 py-3.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-orsap-red-dark transition"
+                    >
+                      <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                      </svg>
+                      {inCartQty > 0 ? `Ajouter encore (+1) • (${inCartQty} au devis)` : "Ajouter au devis"}
+                    </button>
+                    <p className="text-[10px] text-center text-slate-400">
+                      Ajoutez cet article pour obtenir un chiffrage officiel instantané.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
