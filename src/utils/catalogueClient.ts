@@ -1,0 +1,166 @@
+export interface Article {
+  code: string
+  designation: string
+  tva: number
+  priceHt: number
+  priceTtc: number
+  rayon: string
+  famille: string
+}
+
+export interface Facets {
+  rayons: { name: string; count: number }[]
+  familles: { name: string; rayon: string; count: number }[]
+}
+
+export interface SearchResult {
+  items: Article[]
+  total: number
+  page: number
+  pageSize: number
+}
+
+// In-memory cache for static catalogue if backend is unreachable or in preview
+let staticCatalogueCache: Article[] | null = null
+let staticFacetsCache: Facets | null = null
+let fetchPromise: Promise<Article[]> | null = null
+
+async function loadStaticCatalogue(): Promise<Article[]> {
+  if (staticCatalogueCache) return staticCatalogueCache
+  if (fetchPromise) return fetchPromise
+
+  fetchPromise = (async () => {
+    try {
+      const res = await fetch("/data/articles.json")
+      if (!res.ok) throw new Error("Could not load /data/articles.json")
+      const list = (await res.json()) as Article[]
+      staticCatalogueCache = Array.isArray(list) ? list : []
+      return staticCatalogueCache
+    } catch (err) {
+      console.warn("Could not load static /data/articles.json:", err)
+      return []
+    } finally {
+      fetchPromise = null
+    }
+  })()
+
+  return fetchPromise
+}
+
+function computeFacetsFromList(articles: Article[]): Facets {
+  const rayonMap = new Map<string, number>()
+  const familleMap = new Map<string, { name: string; rayon: string; count: number }>()
+
+  for (const a of articles) {
+    if (a.rayon) {
+      rayonMap.set(a.rayon, (rayonMap.get(a.rayon) || 0) + 1)
+    }
+    if (a.famille) {
+      const key = `${a.rayon}:::${a.famille}`
+      const existing = familleMap.get(key)
+      if (existing) {
+        existing.count++
+      } else {
+        familleMap.set(key, { name: a.famille, rayon: a.rayon || "", count: 1 })
+      }
+    }
+  }
+
+  const rayons = Array.from(rayonMap.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+
+  const familles = Array.from(familleMap.values()).sort((a, b) => b.count - a.count)
+
+  return { rayons, familles }
+}
+
+export async function fetchArticleFacets(token?: string): Promise<Facets> {
+  try {
+    const res = await fetch("/api/articles/facets", {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+    const cType = res.headers.get("content-type") || ""
+    if (res.ok && cType.includes("application/json")) {
+      const data = await res.json()
+      if (data && Array.isArray(data.rayons) && data.rayons.length > 0) {
+        return data
+      }
+    }
+  } catch {
+    // API not responding or returned non-JSON
+  }
+
+  // Fallback to static catalogue
+  if (staticFacetsCache) return staticFacetsCache
+  const articles = await loadStaticCatalogue()
+  staticFacetsCache = computeFacetsFromList(articles)
+  return staticFacetsCache
+}
+
+export async function searchArticles({
+  query = "",
+  rayon = "",
+  famille = "",
+  page = 1,
+  pageSize = 24,
+  token,
+}: {
+  query?: string
+  rayon?: string
+  famille?: string
+  page?: number
+  pageSize?: number
+  token?: string
+}): Promise<SearchResult> {
+  const params = new URLSearchParams({
+    q: query,
+    rayon,
+    famille,
+    page: String(page),
+    pageSize: String(pageSize),
+  })
+
+  try {
+    const res = await fetch(`/api/articles?${params.toString()}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+    const cType = res.headers.get("content-type") || ""
+    if (res.ok && cType.includes("application/json")) {
+      const data = await res.json()
+      if (data && Array.isArray(data.items)) {
+        return data
+      }
+    }
+  } catch {
+    // API failed, fallback below
+  }
+
+  // Fallback: search in-memory client-side
+  const articles = await loadStaticCatalogue()
+  const qClean = query.trim().toLowerCase()
+  const tokens = qClean ? qClean.split(/\s+/).filter(Boolean) : []
+
+  const filtered = articles.filter((a) => {
+    if (rayon && a.rayon !== rayon) return false
+    if (famille && a.famille !== famille) return false
+    if (tokens.length > 0) {
+      const target = `${a.code} ${a.designation}`.toLowerCase()
+      for (const t of tokens) {
+        if (!target.includes(t)) return false
+      }
+    }
+    return true
+  })
+
+  const total = filtered.length
+  const offset = Math.max(0, (page - 1) * pageSize)
+  const items = filtered.slice(offset, offset + pageSize)
+
+  return {
+    items,
+    total,
+    page,
+    pageSize,
+  }
+}

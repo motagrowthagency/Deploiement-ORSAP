@@ -37,8 +37,16 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       watch: { ignored: ["**/.figma/**", "**/submissions.json"] },
       proxy: {
-        "/api": "http://localhost:3001",
-        "/admin": "http://localhost:3001",
+        "/api": {
+          target: "http://127.0.0.1:3001",
+          changeOrigin: true,
+          secure: false,
+        },
+        "/admin": {
+          target: "http://127.0.0.1:3001",
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
     preview: {

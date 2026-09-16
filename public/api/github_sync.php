@@ -37,7 +37,7 @@ function saveGitHubToken($token) {
     return true;
 }
 
-function syncBlogsToGitHub(array $blogs = null) {
+function syncBlogsToGitHub(?array $blogs = null) {
     $token = getGitHubToken();
     $config = require __DIR__ . '/config.php';
     $repo = $config['github_repo'] ?? 'motagrowthagency/Deploiement-ORSAP';

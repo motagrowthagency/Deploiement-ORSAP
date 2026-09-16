@@ -1,19 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-
-export interface Article {
-  code: string
-  designation: string
-  tva: number
-  priceHt: number
-  priceTtc: number
-  rayon: string
-  famille: string
-}
-
-export interface Facets {
-  rayons: { name: string; count: number }[]
-  familles: { name: string; rayon: string; count: number }[]
-}
+import {
+  Article,
+  Facets,
+  fetchArticleFacets,
+  searchArticles,
+} from "@/utils/catalogueClient"
 
 export interface CartLine {
   id: string
@@ -69,12 +60,9 @@ export default function CatalogueDevisBuilder({
 
   // Load category facets on mount
   useEffect(() => {
-    fetch("/api/articles/facets", {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    })
-      .then((r) => (r.ok ? r.json() : null))
+    fetchArticleFacets(token)
       .then((data) => {
-        if (data && Array.isArray(data.rayons)) {
+        if (data && Array.isArray(data.rayons) && data.rayons.length > 0) {
           setFacets(data)
         }
       })
@@ -89,33 +77,28 @@ export default function CatalogueDevisBuilder({
   // Debounced search
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => {
+    debounceRef.current = setTimeout(async () => {
       setLoading(true)
       setSearchError(null)
-      const params = new URLSearchParams({
-        q: query,
-        rayon,
-        famille,
-        page: String(page),
-        pageSize: String(PAGE_SIZE),
-      })
 
-      fetch(`/api/articles?${params.toString()}`, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      })
-        .then((r) => {
-          if (!r.ok) throw new Error("Erreur de chargement du catalogue.")
-          return r.json()
+      try {
+        const data = await searchArticles({
+          query,
+          rayon,
+          famille,
+          page,
+          pageSize: PAGE_SIZE,
+          token,
         })
-        .then((data) => {
-          setResults(data.items || [])
-          setTotal(data.total || 0)
-        })
-        .catch((err) => {
-          setSearchError("Impossible de charger les articles. Veuillez réessayer.")
-        })
-        .finally(() => setLoading(false))
-    }, 250)
+        setResults(data.items || [])
+        setTotal(data.total || 0)
+      } catch (err) {
+        console.error("Erreur de recherche catalogue:", err)
+        setSearchError("Impossible de charger les articles. Veuillez réessayer.")
+      } finally {
+        setLoading(false)
+      }
+    }, 200)
 
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current)
