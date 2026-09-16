@@ -303402,7 +303402,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 216,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f587a8b-c474-5cdf-a463-3117b7a339a2/3d414715-705d-5584-9046-bd80869340f4.jpg"
   },
   {
     "code": "OR101289",
