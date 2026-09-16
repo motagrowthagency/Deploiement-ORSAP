@@ -1,5 +1,7 @@
 // Auto-generated catalogue data
-import { Article, FacetsResponse } from '../types/catalogue';
+import { Article, Facets } from "@/utils/catalogueClient";
+
+export type { Article, Facets };
 
 export const ALL_ARTICLES: Article[] = [
   {
@@ -440939,135 +440941,618 @@ export const ALL_ARTICLES: Article[] = [
   }
 ];
 export const CATALOGUE_ARTICLES: Article[] = ALL_ARTICLES;
-export const DEFAULT_FACETS: FacetsResponse = {
+export const DEFAULT_FACETS: Facets = {
   "rayons": [
-    "DROGUERIE ET PEINTURE",
-    "ECHELLES ET ECHAFAUDAGES",
-    "ELECTRICITE ET ECLAIRAGE",
-    "JARDINAGE ET PLEIN AIR",
-    "LEVAGE ET MANUTENTION",
-    "LUMINAIRE",
-    "OUTILLAGE ET RANGEMENT",
-    "PROTECTION ET SECURITE (EPI)",
-    "QUINCAILLERIE",
-    "SANITAIRE ET ETANCHEITE",
-    "SIGNALISATION ET SECURITE CHANTIER"
+    {
+      "name": "QUINCAILLERIE",
+      "count": 8464
+    },
+    {
+      "name": "DROGUERIE ET PEINTURE",
+      "count": 8329
+    },
+    {
+      "name": "ELECTRICITE ET ECLAIRAGE",
+      "count": 7877
+    },
+    {
+      "name": "OUTILLAGE ET RANGEMENT",
+      "count": 6348
+    },
+    {
+      "name": "LUMINAIRE",
+      "count": 5820
+    },
+    {
+      "name": "SANITAIRE ET ETANCHEITE",
+      "count": 5423
+    },
+    {
+      "name": "JARDINAGE ET PLEIN AIR",
+      "count": 4990
+    },
+    {
+      "name": "PROTECTION ET SECURITE (EPI)",
+      "count": 930
+    },
+    {
+      "name": "LEVAGE ET MANUTENTION",
+      "count": 376
+    },
+    {
+      "name": "ECHELLES ET ECHAFAUDAGES",
+      "count": 218
+    },
+    {
+      "name": "SIGNALISATION ET SECURITE CHANTIER",
+      "count": 174
+    }
   ],
   "familles": [
-    "ABATS JOUR & LAMPE DE BUREAU",
-    "ACCESSOIRES",
-    "ACCESSOIRES AUTOS",
-    "ACCESSOIRES DE PLACARD",
-    "ACCESSOIRES ELECTROPORTATIF",
-    "ACCESSSOIRES ELECTRIQUES",
-    "ANIMALERIE",
-    "APPAREILLAGES DE MESURE",
-    "APPAREILS DE MESURE",
-    "APPLIQUES",
-    "ARROSAGE",
-    "ARTICLES MENAGER",
-    "AUDIO-VIDEO",
-    "BARBECUES",
-    "BASSE LUMINACE",
-    "BATTERIE ET PILE",
-    "BOIS",
-    "CABLE ELECTRIQUE",
-    "CANALISATION",
-    "CHAUFFAGE ET VENTILLATION",
-    "CHAUFFE EAU",
-    "CLIMATISEUR",
-    "COFFRETS",
-    "COLLE & PDT ETANCHEITE",
-    "COMPRESSEURS & ACCESSOIRES",
-    "CONNECTIQUE",
-    "Chaussures & Bottes de sécurité",
-    "Chaînes & Câbles de levage",
-    "Coffres-forts & Sécurité physique",
-    "Cordages & Amarrage",
-    "DECORATION JARDIN",
-    "DISTRIBUTEURS",
-    "DROGUERIE",
-    "ECLAIRAGE",
-    "ECLAIRAGE DU JARDIN",
-    "ELECTROPORTATIF",
-    "ENCASTRE DE SOL",
-    "ENGRAIS ET SEMENCES",
-    "ENROULEURS ET RALLONGES",
-    "EQ & ACCESSOIRE SDB & EQ.CUISINE",
-    "EQUIPEMENT D ECLAIRAGE",
-    "Equipements de Protection",
-    "Escabeaux & Marchepieds",
-    "GESTION ET SECURITE BATIMENT",
-    "GRANIT",
-    "GROS SANITAIRE",
-    "GROUPE ELECTROGENE",
-    "Harnais & Protection antichute",
-    "INTERRUPTEUR ET PRISES",
-    "LAMPES",
-    "LUSTRES",
-    "Levage & Arrimage (Élingues/Palans)",
-    "MA ONNERIE",
-    "MACHINE A TEINTER",
-    "MATERIEL DE COMMANDE",
-    "MATERIEL DE COUPE",
-    "MATERIEL DE TRAITEMENT",
-    "MENUISERIE",
-    "METROLOGIE",
-    "MEUBLES ET ACCESSOIRES DE RANGEMENTS",
-    "MEUBLES EXTERIEUR",
-    "MOTEUR",
-    "Manutention & Chariots",
-    "NETTOYAGE",
-    "OUTILLAGE DE JARDINAGE",
-    "OUTILLAGE PEINTURE",
-    "OUTILLAGE PLOMBERIE",
-    "OUTILLAGES A MAIN",
-    "PAPIER PEINT",
-    "PAUMELLES",
-    "PEINTURE",
-    "PETITES QUINCAILLERIE",
-    "PLAFONNIERS",
-    "PLANTES",
-    "PLEIN AIR ET LOISIR",
-    "PLOMBERIE",
-    "POINGNEES & BEQUILLES",
-    "POMPES",
-    "POTS",
-    "PRECABLAGE IPS",
-    "PRODUITS DE PISCINE",
-    "PROTECTION",
-    "Protection de la tête & Casques",
-    "Protection de voirie & Ralentisseurs",
-    "Protection des mains & Gants",
-    "Protection des yeux & Visières",
-    "Protection respiratoire & Masques",
-    "RANGEMENT",
-    "REPULSIFS ET INESCTICIDES",
-    "REVETEMENT DE SOL",
-    "RIDEAU",
-    "ROBINETTERIE",
-    "Roues & Roulettes industrielles",
-    "SERRURES & VERROUX",
-    "SOLVANT",
-    "SOUDAGES",
-    "SPOTS APPARENT",
-    "SPOTS ENCASTRES",
-    "STORES",
-    "SUSPENSIONS",
-    "Signalisation de chantier & Balisage",
-    "Sécurité Incendie & Extincteurs",
-    "TRANSFORMATION D ENERGIE",
-    "TRAVAIL DU METAL",
-    "TRINGLES",
-    "VERNIS",
-    "VISSERIES & BOULONNERIES",
-    "VITRE",
-    "VOLETS ROULANTS",
-    "Vêtements de travail & Haute visibilité",
-    "Échafaudages & Plates-formes",
-    "Échelles professionnelles",
-    "Éclairage jardin & Balisage"
-  ],
-  "sousFamilles": [],
-  "marques": []
+    {
+      "name": "INTERRUPTEUR ET PRISES",
+      "count": 3375,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "ARTICLES MENAGER",
+      "count": 2799,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "PEINTURE",
+      "count": 2787,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "DROGUERIE",
+      "count": 2729,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "PAPIER PEINT",
+      "count": 2400,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "EQ & ACCESSOIRE SDB & EQ.CUISINE",
+      "count": 1762,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "OUTILLAGES A MAIN",
+      "count": 1492,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "APPLIQUES",
+      "count": 1389,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "PLOMBERIE",
+      "count": 1365,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "ACCESSOIRES ELECTROPORTATIF",
+      "count": 1352,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "POTS",
+      "count": 1313,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "VISSERIES & BOULONNERIES",
+      "count": 1170,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "ECLAIRAGE",
+      "count": 1075,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "PLAFONNIERS",
+      "count": 1062,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "REVETEMENT DE SOL",
+      "count": 1038,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "ACCESSOIRES AUTOS",
+      "count": 982,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "SERRURES & VERROUX",
+      "count": 981,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "ROBINETTERIE",
+      "count": 909,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "SUSPENSIONS",
+      "count": 870,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "ECLAIRAGE DU JARDIN",
+      "count": 693,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "POINGNEES & BEQUILLES",
+      "count": 607,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "CABLE ELECTRIQUE",
+      "count": 537,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "ELECTROPORTATIF",
+      "count": 534,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "GROS SANITAIRE",
+      "count": 510,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "PLEIN AIR ET LOISIR",
+      "count": 505,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "PROTECTION",
+      "count": 502,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "PLANTES",
+      "count": 493,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "MEUBLES ET ACCESSOIRES DE RANGEMENTS",
+      "count": 489,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "COLLE & PDT ETANCHEITE",
+      "count": 472,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "POMPES",
+      "count": 465,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "SPOTS ENCASTRES",
+      "count": 411,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "PAUMELLES",
+      "count": 404,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "OUTILLAGE DE JARDINAGE",
+      "count": 393,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "LUSTRES",
+      "count": 383,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "SPOTS APPARENT",
+      "count": 373,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "PETITES QUINCAILLERIE",
+      "count": 366,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "PRODUITS DE PISCINE",
+      "count": 352,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "ARROSAGE",
+      "count": 345,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "ABATS JOUR & LAMPE DE BUREAU",
+      "count": 332,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "DECORATION JARDIN",
+      "count": 330,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "LAMPES",
+      "count": 329,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "GESTION ET SECURITE BATIMENT",
+      "count": 312,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "RANGEMENT",
+      "count": 305,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "MA ONNERIE",
+      "count": 301,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "CONNECTIQUE",
+      "count": 298,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "MEUBLES EXTERIEUR",
+      "count": 284,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "NETTOYAGE",
+      "count": 282,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "CHAUFFE EAU",
+      "count": 271,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "CANALISATION",
+      "count": 240,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "COMPRESSEURS & ACCESSOIRES",
+      "count": 240,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "MENUISERIE",
+      "count": 239,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "SOUDAGES",
+      "count": 228,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "Chaussures & Bottes de sécurité",
+      "count": 225,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "BOIS",
+      "count": 219,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "VERNIS",
+      "count": 196,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "AUDIO-VIDEO",
+      "count": 177,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "STORES",
+      "count": 173,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "ANIMALERIE",
+      "count": 160,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "Manutention & Chariots",
+      "count": 152,
+      "rayon": "LEVAGE ET MANUTENTION"
+    },
+    {
+      "name": "OUTILLAGE PEINTURE",
+      "count": 151,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "Échelles professionnelles",
+      "count": 150,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
+    },
+    {
+      "name": "Equipements de Protection",
+      "count": 150,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "CHAUFFAGE ET VENTILLATION",
+      "count": 143,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "REPULSIFS ET INESCTICIDES",
+      "count": 143,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "ENCASTRE DE SOL",
+      "count": 141,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "ENROULEURS ET RALLONGES",
+      "count": 134,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "BATTERIE ET PILE",
+      "count": 133,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "ACCESSOIRES DE PLACARD",
+      "count": 131,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "Protection des mains & Gants",
+      "count": 129,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "COFFRETS",
+      "count": 124,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "EQUIPEMENT D ECLAIRAGE",
+      "count": 124,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "CLIMATISEUR",
+      "count": 124,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "APPAREILLAGES DE MESURE",
+      "count": 121,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "Éclairage jardin & Balisage",
+      "count": 120,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "Roues & Roulettes industrielles",
+      "count": 118,
+      "rayon": "LEVAGE ET MANUTENTION"
+    },
+    {
+      "name": "TRAVAIL DU METAL",
+      "count": 118,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "MATERIEL DE COMMANDE",
+      "count": 113,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "OUTILLAGE PLOMBERIE",
+      "count": 106,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "Harnais & Protection antichute",
+      "count": 99,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "Vêtements de travail & Haute visibilité",
+      "count": 98,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "Protection respiratoire & Masques",
+      "count": 92,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "Coffres-forts & Sécurité physique",
+      "count": 91,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
+    },
+    {
+      "name": "ENGRAIS ET SEMENCES",
+      "count": 89,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "TRANSFORMATION D ENERGIE",
+      "count": 84,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "METROLOGIE",
+      "count": 80,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "Protection des yeux & Visières",
+      "count": 76,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "MATERIEL DE COUPE",
+      "count": 75,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "GROUPE ELECTROGENE",
+      "count": 72,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "Signalisation de chantier & Balisage",
+      "count": 64,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
+    },
+    {
+      "name": "Protection de la tête & Casques",
+      "count": 61,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "TRINGLES",
+      "count": 59,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "SOLVANT",
+      "count": 52,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "PRECABLAGE IPS",
+      "count": 51,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "Échafaudages & Plates-formes",
+      "count": 51,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
+    },
+    {
+      "name": "BASSE LUMINACE",
+      "count": 46,
+      "rayon": "LUMINAIRE"
+    },
+    {
+      "name": "Chaînes & Câbles de levage",
+      "count": 46,
+      "rayon": "LEVAGE ET MANUTENTION"
+    },
+    {
+      "name": "BARBECUES",
+      "count": 42,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "Levage & Arrimage (Élingues/Palans)",
+      "count": 33,
+      "rayon": "LEVAGE ET MANUTENTION"
+    },
+    {
+      "name": "Cordages & Amarrage",
+      "count": 27,
+      "rayon": "LEVAGE ET MANUTENTION"
+    },
+    {
+      "name": "Escabeaux & Marchepieds",
+      "count": 17,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
+    },
+    {
+      "name": "MACHINE A TEINTER",
+      "count": 14,
+      "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "Sécurité Incendie & Extincteurs",
+      "count": 14,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
+    },
+    {
+      "name": "VOLETS ROULANTS",
+      "count": 10,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "DISTRIBUTEURS",
+      "count": 10,
+      "rayon": "SANITAIRE ET ETANCHEITE"
+    },
+    {
+      "name": "GRANIT",
+      "count": 8,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "APPAREILS DE MESURE",
+      "count": 7,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "MOTEUR",
+      "count": 7,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "ACCESSSOIRES ELECTRIQUES",
+      "count": 5,
+      "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "Protection de voirie & Ralentisseurs",
+      "count": 5,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
+    },
+    {
+      "name": "RIDEAU",
+      "count": 5,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "VITRE",
+      "count": 5,
+      "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "ACCESSOIRES",
+      "count": 3,
+      "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "MATERIEL DE TRAITEMENT",
+      "count": 1,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    }
+  ]
 };

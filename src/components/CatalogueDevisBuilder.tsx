@@ -397,9 +397,9 @@ export default function CatalogueDevisBuilder({
                   : "border border-hairline bg-white text-ink-soft hover:bg-slate-100 hover:text-ink"
               }`}
             >
-              Tous ({facets.rayons.reduce((s, r) => s + r.count, 0).toLocaleString("fr-FR")})
+              Tous ({((facets?.rayons || []).reduce((s, r) => s + (r?.count || 0), 0)).toLocaleString("fr-FR")})
             </button>
-            {facets.rayons.map((r) => (
+            {(facets?.rayons || []).map((r) => (
               <button
                 key={r.name}
                 type="button"
@@ -413,7 +413,7 @@ export default function CatalogueDevisBuilder({
                     : "border border-hairline bg-white text-ink-soft hover:bg-slate-100 hover:text-ink"
                 }`}
               >
-                {r.name} <span className="opacity-70 font-normal">({r.count.toLocaleString("fr-FR")})</span>
+                {r.name} <span className="opacity-70 font-normal">({(r?.count ?? 0).toLocaleString("fr-FR")})</span>
               </button>
             ))}
           </div>

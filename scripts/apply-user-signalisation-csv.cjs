@@ -158,25 +158,35 @@ articles.forEach(art => {
 fs.writeFileSync(articlesPath, JSON.stringify(articles, null, 2), 'utf8');
 fs.writeFileSync(publicArticlesPath, JSON.stringify(articles, null, 2), 'utf8');
 
-// Compute facets
-const rayons = [...new Set(articles.map(a => a.rayon).filter(Boolean))].sort();
-const familles = [...new Set(articles.map(a => a.famille).filter(Boolean))].sort();
-const sousFamilles = [...new Set(articles.map(a => a.sous_famille).filter(Boolean))].sort();
-const marques = [...new Set(articles.map(a => a.marque).filter(Boolean))].sort();
+// Compute facet counts accurately from articles
+const rayonCountMap = {};
+const familleCountMap = {};
+
+articles.forEach(a => {
+  const r = a.rayon || 'AUTRE';
+  rayonCountMap[r] = (rayonCountMap[r] || 0) + 1;
+  
+  const f = a.famille || 'DIVERS';
+  const key = `${r}___${f}`;
+  if (!familleCountMap[key]) {
+    familleCountMap[key] = { name: f, count: 0, rayon: r };
+  }
+  familleCountMap[key].count++;
+});
 
 const defaultFacets = {
-  rayons,
-  familles,
-  sousFamilles,
-  marques
+  rayons: Object.entries(rayonCountMap).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count),
+  familles: Object.values(familleCountMap).sort((a, b) => b.count - a.count)
 };
 
 const tsContent = `// Auto-generated catalogue data
-import { Article, FacetsResponse } from '../types/catalogue';
+import { Article, Facets } from "@/utils/catalogueClient";
+
+export type { Article, Facets };
 
 export const ALL_ARTICLES: Article[] = ${JSON.stringify(articles, null, 2)};
 export const CATALOGUE_ARTICLES: Article[] = ALL_ARTICLES;
-export const DEFAULT_FACETS: FacetsResponse = ${JSON.stringify(defaultFacets, null, 2)};
+export const DEFAULT_FACETS: Facets = ${JSON.stringify(defaultFacets, null, 2)};
 `;
 fs.writeFileSync(catalogueDataPath, tsContent, 'utf8');
 
