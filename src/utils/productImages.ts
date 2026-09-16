@@ -38,11 +38,11 @@ const WHITE_BG: Record<string, string> = {
   casque_antibruit: "https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=600&h=600&q=80",
 
   // === SIGNALISATION & SECURITE CHANTIER ===
-  extincteur_poudre: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=600&q=80",
-  cone_signalisation: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
-  panneau_chantier: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&h=600&q=80",
-  coffre_fort: "https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=600&h=600&q=80",
-  ralentisseur: "https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&w=600&h=600&q=80",
+  extincteur_poudre: "/images/categories/extincteur_incendie.jpg",
+  cone_signalisation: "/images/categories/cone_chantier.jpg",
+  panneau_chantier: "/images/categories/panneau_signalisation.jpg",
+  coffre_fort: "/images/categories/coffre_fort_securite.jpg",
+  ralentisseur: "/images/categories/ralentisseur_voirie.jpg",
 
   // === ACCES EN HAUTEUR ===
   echelle_aluminium: "/images/categories/ladder_coulissante.jpg",
