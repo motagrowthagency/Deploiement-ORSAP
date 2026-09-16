@@ -80,9 +80,26 @@ if (!$isAuth) {
 }
 
 // ── Admin Dashboard ─────────────────────────────────────────────────
-$tab = $_GET['tab'] ?? 'devis';
+$tab = $_GET['tab'] ?? 'devis-catalogue';
 
-require_once __DIR__ . '/../api/db.php';
+function loadJsonData($filename) {
+    $paths = [
+        __DIR__ . '/../data/' . $filename,
+        __DIR__ . '/../../data/' . $filename,
+        __DIR__ . '/data/' . $filename,
+        __DIR__ . '/../public/data/' . $filename
+    ];
+    foreach ($paths as $p) {
+        if (file_exists($p)) {
+            $data = json_decode(file_get_contents($p), true);
+            if (is_array($data)) return $data;
+        }
+    }
+    if (function_exists('readJsonFile')) {
+        return readJsonFile($filename);
+    }
+    return [];
+}
 
 $submissions = [];
 $catalogueDevis = loadAllDevisRequestsPHP();
@@ -127,10 +144,27 @@ if ($pdo) {
     $subscribers = loadJsonData('subscribers.json');
 }
 
+// Fallback if empty array from MySQL
+if (empty($submissions)) {
+    $submissions = loadJsonData('submissions.json');
+}
+if (empty($catalogueDevis)) {
+    $requests = loadJsonData('devis_requests.json');
+    $items = loadJsonData('devis_items.json');
+    $catalogueDevis = array_map(function($req) use ($items) {
+        $reqId = $req['id'] ?? '';
+        $reqItems = array_values(array_filter($items, function($it) use ($reqId) {
+            return ($it['devisId'] ?? $it['requestId'] ?? '') === $reqId;
+        }));
+        $req['items'] = !empty($reqItems) ? $reqItems : ($req['items'] ?? []);
+        return $req;
+    }, $requests);
+}
+
 // 0. Generate catalogue devis rows
 $catalogueDevisRows = '';
 foreach ($catalogueDevis as $cd) {
-    $cdId = $cd['id'] ?? '';
+    $cdId = esc($cd['id'] ?? '');
     $cdDate = $cd['createdAt'] ?? ($cd['created_at'] ?? '');
     $cdDateFormatted = $cdDate ? date('d/m/Y H:i', strtotime($cdDate)) : '—';
     $items = $cd['items'] ?? [];
@@ -153,62 +187,64 @@ foreach ($catalogueDevis as $cd) {
         $qty = (int)($it['quantity'] ?? 1);
         $pUnit = (float)($it['priceHt'] ?? $it['price_ht'] ?? 0);
         $pTotal = $pUnit * $qty;
+        $bg = $idx % 2 === 0 ? '#ffffff' : '#f8fafc';
+        $pUnitStr = $pUnit > 0 ? number_format($pUnit, 2, ',', ' ') . ' MAD' : 'Sur devis';
+        $pTotalStr = $pTotal > 0 ? number_format($pTotal, 2, ',', ' ') . ' MAD' : 'Sur devis';
 
-        $itemsDetailHtml .= sprintf('
-        <tr style="background: %s; font-size: 12.5px;">
-          <td style="padding: 8px 12px; font-family: monospace; font-weight: bold; color: #1e293b;">%s</td>
-          <td style="padding: 8px 12px; font-weight: 600; color: #334155;">%s</td>
-          <td style="padding: 8px 12px; text-align: center; font-weight: bold;">%d</td>
-          <td style="padding: 8px 12px; text-align: right; color: #64748b;">%s</td>
-          <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #d3121a;">%s</td>
-        </tr>',
-            $idx % 2 === 0 ? '#ffffff' : '#f8fafc',
-            $code,
-            $designation,
-            $qty,
-            $pUnit > 0 ? number_format($pUnit, 2, ',', ' ') . ' MAD' : 'Sur devis',
-            $pTotal > 0 ? number_format($pTotal, 2, ',', ' ') . ' MAD' : 'Sur devis'
-        );
+        $itemsDetailHtml .= '
+        <tr style="background: ' . $bg . '; font-size: 12.5px;">
+          <td style="padding: 8px 12px; font-family: monospace; font-weight: bold; color: #1e293b;">' . $code . '</td>
+          <td style="padding: 8px 12px; font-weight: 600; color: #334155;">' . $designation . '</td>
+          <td style="padding: 8px 12px; text-align: center; font-weight: bold;">' . $qty . '</td>
+          <td style="padding: 8px 12px; text-align: right; color: #64748b;">' . $pUnitStr . '</td>
+          <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #d3121a;">' . $pTotalStr . '</td>
+        </tr>';
     }
 
     $email = $cd['email'] ?? '';
     $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color: #d3121a; font-weight: 700; text-decoration: none;">' . esc($email) . '</a>' : '—';
     $phone = $cd['phone'] ?? '';
-    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
+    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
     $note = $cd['note'] ?? '';
+    $totalHtStr = $totalHt > 0 ? number_format($totalHt, 2, ',', ' ') . ' MAD HT' : 'Sur devis';
+    $clientName = esc($cd['name'] ?? '—');
+    $clientCompany = esc($cd['company'] ?? 'Particulier');
+    $itemsCount = count($items);
 
-    $catalogueDevisRows .= sprintf('
-    <tr id="catdevis-%s">
-      <td class="chk-cell"><input type="checkbox" class="row-chk chk-catalogue-devis" value="%s" onchange="onRowCheck(\'catalogue-devis\')"></td>
-      <td class="date-badge">%s</td>
-      <td><span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:800; font-family:monospace;">%s</span></td>
-      <td style="font-weight: 700;">%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td><span class="badge" style="background:#f1f5f9; color:#1e293b; font-weight:700;">%d réf. (%d unités)</span></td>
-      <td style="font-weight: 800; color: #d3121a;">%s</td>
+    $noteHtml = !empty($note) ? '<div style="margin-bottom: 12px; padding: 10px 14px; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 12.5px; color: #92400e; border-radius: 4px;"><strong>Précisions / Note client :</strong> ' . esc($note) . '</div>' : '';
+
+    $catalogueDevisRows .= '
+    <tr id="catdevis-' . $cdId . '">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-catalogue-devis" value="' . $cdId . '" onchange="onRowCheck(\'catalogue-devis\')"></td>
+      <td class="date-badge">' . $cdDateFormatted . '</td>
+      <td><span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:800; font-family:monospace;">' . strtoupper($cdId) . '</span></td>
+      <td style="font-weight: 700;">' . $clientName . '</td>
+      <td>' . $clientCompany . '</td>
+      <td>' . $emailHtml . '</td>
+      <td>' . $phoneHtml . '</td>
+      <td><span class="badge" style="background:#f1f5f9; color:#1e293b; font-weight:700;">' . $itemsCount . ' réf. (' . $totalUnits . ' unités)</span></td>
+      <td style="font-weight: 800; color: #d3121a;">' . $totalHtStr . '</td>
       <td>
         <div class="actions-cell">
-          <button type="button" id="toggle-btn-%s" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:11px;" onclick="toggleDevisDetails(\'%s\')">
-            ▼ Voir les articles (%d)
+          <button type="button" id="toggle-btn-' . $cdId . '" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:11px;" onclick="toggleDevisDetails(\'' . $cdId . '\')">
+            ▼ Voir les articles (' . $itemsCount . ')
           </button>
-          <button type="button" class="del-btn" style="padding: 5px 10px; font-size: 11px;" onclick="deleteCatalogueDevis(\'%s\')">✕</button>
+          <button type="button" class="del-btn" style="padding: 5px 10px; font-size: 11px;" onclick="deleteCatalogueDevis(\'' . $cdId . '\')">✕</button>
         </div>
       </td>
     </tr>
-    <tr id="details-%s" style="display: none; background: #f8fafc;">
+    <tr id="details-' . $cdId . '" style="display: none; background: #f8fafc;">
       <td colspan="10" style="padding: 16px 24px; border-bottom: 2px solid #e2e8f0;">
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
             <div style="font-weight: 800; font-size: 14px; color: #1e293b;">
-              Détail chiffré des articles demandés (%d références) — Client: %s (%s)
+              Détail chiffré des articles demandés (' . $itemsCount . ' références) — Client: ' . $clientName . ' (' . $clientCompany . ')
             </div>
             <div style="font-size: 13px; font-weight: 800; color: #d3121a;">
-              Total estimatif : %s
+              Total estimatif : ' . $totalHtStr . '
             </div>
           </div>
-          %s
+          ' . $noteHtml . '
           <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
             <thead>
               <tr style="background: #1e293b; color: #ffffff; font-size: 11px; text-transform: uppercase;">
@@ -219,54 +255,17 @@ foreach ($catalogueDevis as $cd) {
                 <th style="padding: 8px 12px; color: #fff; text-align: right;">Total HT</th>
               </tr>
             </thead>
-            <tbody>%s</tbody>
+            <tbody>' . $itemsDetailHtml . '</tbody>
           </table>
         </div>
       </td>
-    </tr>',
-        esc($cdId),
-        esc($cdId),
-        $cdDateFormatted,
-        esc(strtoupper($cdId)),
-        esc($cd['name'] ?? '—'),
-        esc($cd['company'] ?? '—'),
-        $emailHtml,
-        $phoneHtml,
-        count($items),
-        $totalUnits,
-        $totalHt > 0 ? number_format($totalHt, 2, ',', ' ') . ' MAD HT' : 'Sur devis',
-        esc($cdId),
-        esc($cdId),
-        count($items),
-        esc($cdId),
-        esc($cdId),
-        count($items),
-        esc($cd['name'] ?? '—'),
-        esc($cd['company'] ?? 'Particulier'),
-        $totalHt > 0 ? number_format($totalHt, 2, ',', ' ') . ' MAD HT' : 'Sur devis',
-        !empty($note) ? '<div style="margin-bottom: 12px; padding: 10px 14px; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 12.5px; color: #92400e; border-radius: 4px;"><strong>Précisions / Note client :</strong> ' . esc($note) . '</div>' : '',
-        $itemsDetailHtml
-    );
-}
-
-function loadJsonData($filename) {
-    $paths = [
-        __DIR__ . '/../data/' . $filename,
-        __DIR__ . '/../../data/' . $filename
-    ];
-    foreach ($paths as $p) {
-        if (file_exists($p)) {
-            $data = json_decode(file_get_contents($p), true);
-            if (is_array($data)) return $data;
-        }
-    }
-    return [];
+    </tr>';
 }
 
 // 1. Generate devis rows
 $devisRows = '';
 foreach ($submissions as $s) {
-    $id = $s['id'] ?? '';
+    $id = esc($s['id'] ?? '');
     $dateVal = $s['created_at'] ?? ($s['createdAt'] ?? '');
     $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
     $clientType = $s['client_type'] ?? ($s['clientType'] ?? 'professional');
@@ -289,185 +288,136 @@ foreach ($submissions as $s) {
     $email = $s['email'] ?? '';
     $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
     $phone = $s['phone'] ?? '';
-    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
+    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+    $clientBadgeClass = $isPro ? 'pro' : 'perso';
+    $clientBadgeLabel = $isPro ? 'Pro' : 'Particulier';
+    $clientName = esc($s['name'] ?? '—');
+    $clientCompany = esc($s['company'] ?? '—');
+    $clientMsg = esc($s['message'] ?? '—');
 
-    $devisRows .= sprintf('
-    <tr id="row-%s">
-      <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="%s" onchange="onRowCheck(\'devis\')"></td>
-      <td>%s</td>
-      <td><span class="badge %s">%s</span></td>
-      <td style="font-weight:700;">%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td class="msg">%s</td>
-    </tr>',
-        esc($id),
-        esc($id),
-        $dateFormatted,
-        $isPro ? 'pro' : 'perso',
-        $isPro ? 'Pro' : 'Particulier',
-        esc($s['name'] ?? '—'),
-        esc($s['company'] ?? '—'),
-        $emailHtml,
-        $phoneHtml,
-        $solHtml,
-        $secHtml,
-        esc($s['message'] ?? '—')
-    );
+    $devisRows .= '
+    <tr id="row-' . $id . '">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="' . $id . '" onchange="onRowCheck(\'devis\')"></td>
+      <td>' . $dateFormatted . '</td>
+      <td><span class="badge ' . $clientBadgeClass . '">' . $clientBadgeLabel . '</span></td>
+      <td style="font-weight:700;">' . $clientName . '</td>
+      <td>' . $clientCompany . '</td>
+      <td>' . $emailHtml . '</td>
+      <td>' . $phoneHtml . '</td>
+      <td>' . $solHtml . '</td>
+      <td>' . $secHtml . '</td>
+      <td class="msg">' . $clientMsg . '</td>
+    </tr>';
 }
 
 // 2. Generate blog rows
 $blogRows = '';
 foreach ($blogs as $b) {
-    $id = $b['id'] ?? '';
+    $id = esc($b['id'] ?? '');
     $dateVal = $b['date'] ?? '';
     $dateFormatted = $dateVal ? date('d/m/Y', strtotime($dateVal)) : '—';
-    $blogRows .= sprintf('
-    <tr id="blog-%s">
-      <td class="chk-cell"><input type="checkbox" class="row-chk chk-blog" value="%s" onchange="onRowCheck(\'blog\')"></td>
-      <td style="width: 170px; white-space: nowrap;">
+    $title = esc($b['title'] ?? '');
+    $summary = esc($b['summary'] ?? '');
+    
+    $blogRows .= '
+    <tr id="blog-' . $id . '">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-blog" value="' . $id . '" onchange="onRowCheck(\'blog\')"></td>
+      <td>
         <div class="actions-cell">
-          <a href="/blog/%s" target="_blank" class="view-link">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-            Voir
-          </a>
-          <button class="edit-btn" onclick="editBlog(\'%s\')">
-            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-            Modifier
-          </button>
+          <button type="button" class="edit-btn" onclick="editBlog(\'' . $id . '\')">Modifier</button>
+          <button type="button" class="del-btn" onclick="deleteBlog(\'' . $id . '\')">✕</button>
         </div>
       </td>
-      <td class="date-badge">%s</td>
-      <td style="font-weight: 700; color: #1e293b;">%s</td>
-      <td class="msg">%s</td>
-    </tr>',
-        esc($id),
-        esc($id),
-        esc($id),
-        esc($id),
-        $dateFormatted,
-        esc($b['title'] ?? 'Sans titre'),
-        esc($b['summary'] ?? '—')
-    );
+      <td class="date-badge">' . $dateFormatted . '</td>
+      <td style="font-weight: 700;">' . $title . '</td>
+      <td class="msg">' . $summary . '</td>
+    </tr>';
 }
 
-// 3. Generate apps rows
+// 3. Generate applications rows
 $appsRows = '';
 foreach ($apps as $a) {
-    $id = $a['id'] ?? '';
+    $id = esc($a['id'] ?? '');
     $dateVal = $a['created_at'] ?? ($a['createdAt'] ?? '');
     $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
     $email = $a['email'] ?? '';
     $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
     $phone = $a['phone'] ?? '';
-    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
+    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+    
+    $cvHtml = '—';
+    if (!empty($a['cv'])) {
+        $cvHtml = '<a href="/api/recrutement/' . $id . '/cv" target="_blank" class="view-link">Télécharger CV</a>';
+    } elseif (!empty($a['resumePath']) || !empty($a['resumeFileName'])) {
+        $cvHtml = '<a href="/api/admin/download-resume/' . $id . '" target="_blank" class="view-link">Télécharger CV</a>';
+    }
 
-    $appsRows .= sprintf('
-    <tr id="app-%s">
-      <td class="chk-cell"><input type="checkbox" class="row-chk chk-recrutement" value="%s" onchange="onRowCheck(\'recrutement\')"></td>
-      <td class="date-badge">%s</td>
-      <td style="font-weight: 700;">%s</td>
-      <td><span class="badge pro">%s</span></td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>
-        <a href="/api/recrutement/%s/cv" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b;">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          Télécharger CV
-        </a>
-      </td>
-      <td class="msg">%s</td>
-    </tr>',
-        esc($id),
-        esc($id),
-        $dateFormatted,
-        esc($a['name'] ?? '—'),
-        esc($a['position'] ?? '—'),
-        $emailHtml,
-        $phoneHtml,
-        esc($id),
-        esc($a['message'] ?? '—')
-    );
+    $appsRows .= '
+    <tr id="app-' . $id . '">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-recrutement" value="' . $id . '" onchange="onRowCheck(\'recrutement\')"></td>
+      <td>' . $dateFormatted . '</td>
+      <td style="font-weight: 700;">' . esc($a['name'] ?? '—') . '</td>
+      <td><span class="badge pro">' . esc($a['position'] ?? '—') . '</span></td>
+      <td>' . $emailHtml . '</td>
+      <td>' . $phoneHtml . '</td>
+      <td>' . $cvHtml . '</td>
+      <td class="msg">' . esc($a['message'] ?? '—') . '</td>
+    </tr>';
 }
 
 // 4. Generate subscribers rows
 $subscribersRows = '';
-foreach ($subscribers as $sub) {
-    $id = $sub['id'] ?? '';
-    $dateVal = $sub['created_at'] ?? ($sub['createdAt'] ?? '');
+$subIdx = 0;
+foreach ($subscribers as $s) {
+    $subIdx++;
+    $email = $s['email'] ?? '';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
+    $dateVal = $s['created_at'] ?? ($s['createdAt'] ?? '');
     $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
-    $clientType = $sub['client_type'] ?? ($sub['clientType'] ?? 'professional');
-    $isPro = $clientType === 'professional';
-    $email = $sub['email'] ?? '';
-    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color: #d3121a; font-weight: 700; text-decoration: none;">' . esc($email) . '</a>' : '—';
-    $phone = $sub['phone'] ?? '';
-    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+    $typeBadge = ($s['type'] ?? 'newsletter') === 'client'
+        ? '<span class="badge pro">Client Contact</span>'
+        : '<span class="badge perso">Newsletter</span>';
 
-    $subscribersRows .= sprintf('
-    <tr id="sub-%s">
-      <td class="chk-cell"><input type="checkbox" class="row-chk chk-subscribers" value="%s" onchange="onRowCheck(\'subscribers\')"></td>
-      <td>%s</td>
-      <td><span class="badge %s">%s</span></td>
-      <td>%s</td>
-      <td style="font-weight: 700;">%s</td>
-      <td>%s</td>
-      <td>%s</td>
-    </tr>',
-        esc($id),
-        esc($id),
-        $dateFormatted,
-        $isPro ? 'pro' : 'perso',
-        $isPro ? 'Pro' : 'Particulier',
-        $emailHtml,
-        esc($sub['name'] ?? '—'),
-        esc($sub['company'] ?? '—'),
-        $phoneHtml
-    );
+    $subscribersRows .= '
+    <tr id="sub-' . $subIdx . '">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-subscribers" value="' . esc($email) . '" onchange="onRowCheck(\'subscribers\')"></td>
+      <td>' . $dateFormatted . '</td>
+      <td>' . $typeBadge . '</td>
+      <td style="font-weight: 700;">' . $emailHtml . '</td>
+      <td>' . esc($s['name'] ?? '—') . '</td>
+      <td>' . esc($s['company'] ?? '—') . '</td>
+      <td>' . esc($s['phone'] ?? '—') . '</td>
+    </tr>';
 }
 
 // 5. Generate users rows
 $usersRows = '';
 foreach ($users as $u) {
-    $id = $u['id'] ?? '';
+    $id = esc($u['id'] ?? '');
     $dateVal = $u['created_at'] ?? ($u['createdAt'] ?? '');
     $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
-    $clientType = $u['client_type'] ?? ($u['clientType'] ?? 'professional');
-    $isPro = $clientType === 'professional';
-    $isVerified = !empty($u['isVerified']) || !empty($u['is_verified']);
+    $type = ($u['type'] ?? 'professional') === 'professional' ? 'Entreprise' : 'Particulier';
+    $typeBadge = '<span class="badge ' . (($u['type'] ?? '') === 'professional' ? 'pro' : 'perso') . '">' . $type . '</span>';
     $email = $u['email'] ?? '';
-    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color: #d3121a; font-weight: 700; text-decoration: none;">' . esc($email) . '</a>' : '—';
+    $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '">' . esc($email) . '</a>' : '—';
     $phone = $u['phone'] ?? '';
-    $phoneHtml = '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>';
-
+    $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+    $isVerified = !empty($u['is_verified']) || !empty($u['isVerified']);
     $statusHtml = $isVerified
-        ? '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">✓ Vérifié</span>'
-        : '<span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">⏳ En attente</span> <button class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; cursor:pointer; margin-left:6px; padding:3px 8px; font-size:11px;" onclick="verifyUser(\'' . esc($id) . '\')">Valider</button>';
+        ? '<span class="badge pro" style="background:#dcfce7; color:#15803d;">✓ Vérifié</span>'
+        : '<span class="badge perso" style="background:#fef3c7; color:#b45309;">En attente</span>';
 
-    $usersRows .= sprintf('
-    <tr id="user-%s">
-      <td class="chk-cell"><input type="checkbox" class="row-chk chk-users" value="%s" onchange="onRowCheck(\'users\')"></td>
-      <td class="date-badge">%s</td>
-      <td><span class="badge %s">%s</span></td>
-      <td style="font-weight: 700;">%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-      <td>%s</td>
-    </tr>',
-        esc($id),
-        esc($id),
-        $dateFormatted,
-        $isPro ? 'pro' : 'perso',
-        $isPro ? 'Pro' : 'Particulier',
-        esc($u['name'] ?? '—'),
-        esc($u['company'] ?? '—'),
-        $emailHtml,
-        $phoneHtml,
-        $statusHtml
-    );
+    $usersRows .= '
+    <tr id="user-' . $id . '">
+      <td class="chk-cell"><input type="checkbox" class="row-chk chk-users" value="' . $id . '" onchange="onRowCheck(\'users\')"></td>
+      <td>' . $dateFormatted . '</td>
+      <td>' . $typeBadge . '</td>
+      <td style="font-weight: 700;">' . esc($u['name'] ?? '—') . '</td>
+      <td>' . esc($u['company'] ?? '—') . '</td>
+      <td>' . $emailHtml . '</td>
+      <td>' . $phoneHtml . '</td>
+      <td>' . $statusHtml . '</td>
+    </tr>';
 }
 
 // 6. Construct tab content
@@ -500,6 +450,7 @@ if ($tab === 'devis') {
               <th>Message</th>
             </tr>
           </thead>
+          <tbody>' . $devisRows . '</tbody>
         </table></div>') .
       '</div>
     </div>';
