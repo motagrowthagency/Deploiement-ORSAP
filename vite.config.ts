@@ -2,6 +2,7 @@ import { defineConfig, type HtmlTagDescriptor, type Plugin } from "vite"
 import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import path from "node:path"
+import fs from "node:fs"
 
 import siteConfiguration from "./.figma/make/site.json"
 
@@ -25,6 +26,7 @@ export default defineConfig(({ mode }) => {
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: "/src/**/*.stories.{ts,tsx,js,jsx}" }),
+      figmaApiDevPlugin(),
     ],
     resolve: {
       alias: {
@@ -418,6 +420,118 @@ function figmaMakeKitPlugin(options: {
         } catch (err) {
           next(err as Error)
         }
+      })
+    },
+  }
+}
+
+/**
+ * Handles /api/articles and /api/articles/facets directly in Vite dev server
+ * so catalogue search works seamlessly in Figma Make preview without needing an external proxy.
+ */
+function figmaApiDevPlugin(): Plugin {
+  let articlesCache: any[] | null = null
+  let facetsCache: any = null
+
+  function getArticles() {
+    if (articlesCache && articlesCache.length > 0) return articlesCache
+    const filePath = path.resolve(__dirname, "./data/articles.json")
+    if (fs.existsSync(filePath)) {
+      try {
+        articlesCache = JSON.parse(fs.readFileSync(filePath, "utf-8"))
+      } catch {
+        articlesCache = []
+      }
+    } else {
+      articlesCache = []
+    }
+    return articlesCache || []
+  }
+
+  function getFacets() {
+    if (facetsCache) return facetsCache
+    const list = getArticles()
+    const rayonMap = new Map<string, number>()
+    const familleMap = new Map<string, { name: string; rayon: string; count: number }>()
+
+    for (const a of list) {
+      if (a.rayon) {
+        const r = a.rayon.trim()
+        rayonMap.set(r, (rayonMap.get(r) || 0) + 1)
+      }
+      if (a.rayon && a.famille) {
+        const r = a.rayon.trim()
+        const f = a.famille.trim()
+        const key = `${r}|||${f}`
+        const existing = familleMap.get(key)
+        if (existing) {
+          existing.count++
+        } else {
+          familleMap.set(key, { name: f, rayon: r, count: 1 })
+        }
+      }
+    }
+
+    const rayons = Array.from(rayonMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+
+    const familles = Array.from(familleMap.values()).sort((a, b) => b.count - a.count)
+
+    facetsCache = { rayons, familles }
+    return facetsCache
+  }
+
+  return {
+    name: "figma-api-dev-middleware",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        const parsedUrl = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`)
+        const pathname = parsedUrl.pathname
+
+        if (pathname === "/api/articles/facets") {
+          const facets = getFacets()
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(facets))
+          return
+        }
+
+        if (pathname === "/api/articles") {
+          const q = parsedUrl.searchParams.get("q") || ""
+          const rayon = parsedUrl.searchParams.get("rayon") || ""
+          const famille = parsedUrl.searchParams.get("famille") || ""
+          const page = Math.max(1, parseInt(parsedUrl.searchParams.get("page") || "1", 10))
+          const pageSize = Math.min(100, Math.max(1, parseInt(parsedUrl.searchParams.get("pageSize") || "24", 10)))
+
+          const list = getArticles()
+          const qClean = q.trim().toLowerCase()
+          const tokens = qClean ? qClean.split(/\s+/).filter(Boolean) : []
+          const rClean = rayon.trim().toLowerCase()
+          const fClean = famille.trim().toLowerCase()
+
+          const filtered = list.filter((a: any) => {
+            if (rClean && (a.rayon || "").trim().toLowerCase() !== rClean) return false
+            if (fClean && (a.famille || "").trim().toLowerCase() !== fClean) return false
+            if (tokens.length > 0) {
+              const target = `${a.code || ""} ${a.designation || ""} ${a.rayon || ""} ${a.famille || ""}`.toLowerCase()
+              for (const t of tokens) {
+                if (!target.includes(t)) return false
+              }
+            }
+            return true
+          })
+
+          const total = filtered.length
+          const offset = (page - 1) * pageSize
+          const items = filtered.slice(offset, offset + pageSize)
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ items, total, page, pageSize }))
+          return
+        }
+
+        next()
       })
     },
   }
