@@ -64,7 +64,7 @@ if ($method === 'POST' && isset($_POST['password'])) {
             'expires' => time() + (86400 * 7),
             'path' => '/',
             'httponly' => true,
-            'samesite' => 'Strict',
+            'samesite' => 'Lax',
             'secure' => $secure
         ]);
         $_SESSION['orsap_admin_auth'] = true;

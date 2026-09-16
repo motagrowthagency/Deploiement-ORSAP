@@ -1297,8 +1297,8 @@ function renderLoginPage(res, errorMsg = "") {
   return res.end(html)
 }
 
-app.post("/admin/login", authLimiter, (req, res) => {
-  const { password } = req.body
+function handleAdminLogin(req, res) {
+  const { password } = req.body || {}
   const expectedPassword = process.env.ADMIN_PASSWORD || ADMIN_PASSWORD
   if (password && password === expectedPassword) {
     const adminToken = jwt.sign(
@@ -1309,7 +1309,7 @@ app.post("/admin/login", authLimiter, (req, res) => {
     const isProd = process.env.NODE_ENV === "production"
     res.setHeader(
       "Set-Cookie",
-      `orsap_admin_token=${adminToken}; Path=/; Max-Age=604800; HttpOnly; SameSite=Strict${
+      `orsap_admin_token=${adminToken}; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax${
         isProd ? "; Secure" : ""
       }`
     )
@@ -1317,12 +1317,15 @@ app.post("/admin/login", authLimiter, (req, res) => {
   } else {
     return renderLoginPage(res, "Mot de passe incorrect.")
   }
-})
+}
+
+app.post("/admin/login", authLimiter, handleAdminLogin)
+app.post("/admin", authLimiter, handleAdminLogin)
 
 app.get("/admin/logout", (_req, res) => {
   res.setHeader(
     "Set-Cookie",
-    "orsap_admin_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict"
+    "orsap_admin_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax"
   )
   return res.redirect("/admin")
 })
