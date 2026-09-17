@@ -302,11 +302,28 @@ export default function Recruitment() {
                     />
                   </div>
 
+                  {/* Consent checkbox */}
+                  <div className="flex items-start gap-3 rounded-lg border border-hairline bg-paper p-3.5">
+                    <input
+                      id="recrutement-consent"
+                      type="checkbox"
+                      required
+                      className="mt-1 size-4 shrink-0 rounded accent-orsap-red focus-visible:ring-2 focus-visible:ring-orsap-red cursor-pointer"
+                    />
+                    <label htmlFor="recrutement-consent" className="text-xs leading-relaxed text-ink-soft select-none cursor-pointer">
+                      J&apos;autorise ORSAP SARL à traiter mes données personnelles et mon CV dans le cadre du processus de recrutement et de constitution d&apos;un vivier de talents, conformément à la{" "}
+                      <Link to="/politique-de-confidentialite" target="_blank" className="font-semibold text-orsap-red underline hover:text-orsap-red-deep">
+                        Politique de Confidentialité
+                      </Link>{" "}
+                      (Loi 09-08 / CNDP).
+                    </label>
+                  </div>
+
                   {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={sending}
-                    className="w-full bg-orsap-red py-4 text-center font-display text-[14px] font-bold uppercase tracking-[0.06em] text-white transition-colors hover:bg-orsap-red-deep disabled:bg-orsap-red/50"
+                    className="w-full bg-orsap-red py-4 text-center font-display text-[14px] font-bold uppercase tracking-[0.06em] text-white transition-colors hover:bg-orsap-red-deep disabled:bg-orsap-red/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orsap-red focus-visible:ring-offset-2"
                   >
                     {sending ? "Envoi en cours..." : "Soumettre ma candidature"}
                   </button>

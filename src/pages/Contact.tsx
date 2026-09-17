@@ -373,10 +373,27 @@ export default function Contact() {
                   />
                 </div>
 
+                {/* Consent checkbox */}
+                <div className="flex items-start gap-3 rounded-lg border border-hairline bg-paper p-3.5">
+                  <input
+                    id="contact-consent"
+                    type="checkbox"
+                    required
+                    className="mt-1 size-4 shrink-0 rounded accent-orsap-red focus-visible:ring-2 focus-visible:ring-orsap-red cursor-pointer"
+                  />
+                  <label htmlFor="contact-consent" className="text-xs leading-relaxed text-ink-soft select-none cursor-pointer">
+                    J&apos;accepte que les informations saisies soient traitées par ORSAP SARL afin de répondre à ma demande d&apos;information ou de conseil, conformément à la{" "}
+                    <Link to="/politique-de-confidentialite" target="_blank" className="font-semibold text-orsap-red underline hover:text-orsap-red-deep">
+                      Politique de Confidentialité
+                    </Link>{" "}
+                    (Loi 09-08 / CNDP).
+                  </label>
+                </div>
+
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-orsap-red py-4 text-center font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep disabled:opacity-60"
+                  className="w-full bg-orsap-red py-4 text-center font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orsap-red focus-visible:ring-offset-2"
                 >
                   {loading ? "Envoi en cours..." : "Transmettre ma demande"}
                 </button>

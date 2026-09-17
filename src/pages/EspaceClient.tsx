@@ -1516,14 +1516,31 @@ export default function EspaceClient() {
                   </div>
                 </div>
 
-                <p className="text-[11px] text-ink-soft leading-relaxed">
-                  En créant un compte, vous recevrez un email pour authentifier votre adresse.
-                </p>
+                {/* Consent checkbox */}
+                <div className="flex items-start gap-2.5 rounded-xl border border-hairline bg-paper/60 p-3">
+                  <input
+                    id="reg-consent"
+                    type="checkbox"
+                    required
+                    className="mt-0.5 size-4 shrink-0 rounded accent-orsap-red focus-visible:ring-2 focus-visible:ring-orsap-red cursor-pointer"
+                  />
+                  <label htmlFor="reg-consent" className="text-[11.5px] leading-relaxed text-ink-soft select-none cursor-pointer">
+                    J&apos;ai lu et j&apos;accepte les{" "}
+                    <Link to="/conditions-generales" target="_blank" className="font-semibold text-orsap-red underline hover:text-orsap-red-deep">
+                      Conditions Générales
+                    </Link>{" "}
+                    et la{" "}
+                    <Link to="/politique-de-confidentialite" target="_blank" className="font-semibold text-orsap-red underline hover:text-orsap-red-deep">
+                      Politique de Confidentialité
+                    </Link>{" "}
+                    (Loi 09-08 / CNDP).
+                  </label>
+                </div>
 
                 <button
                   type="submit"
                   disabled={regLoading}
-                  className="w-full rounded-xl bg-orsap-red py-3.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orsap-red/25 transition hover:bg-orsap-red-deep disabled:opacity-50"
+                  className="w-full rounded-xl bg-orsap-red py-3.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orsap-red/25 transition hover:bg-orsap-red-deep disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orsap-red focus-visible:ring-offset-2"
                 >
                   {regLoading ? "Création du compte..." : "Créer mon compte ORSAP"}
                 </button>

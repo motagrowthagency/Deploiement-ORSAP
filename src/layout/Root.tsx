@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from "react-rou
 import orsapIcon from "@/imports/logo.jpg"
 import { NAV } from "@/layout/nav"
 import ClientListPopup from "@/components/ClientListPopup"
+import CookieConsentBanner from "@/components/CookieConsentBanner"
 import { useAuth } from "@/context/AuthContext"
 import { initAttribution } from "@/utils/attribution"
 import {
@@ -190,27 +191,33 @@ export default function Root() {
 
       {/* Footer */}
       <footer className="border-t border-hairline bg-ink text-paper">
-        <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-10 px-6 py-14 md:grid-cols-4">
-          <div className="md:col-span-2">
+        <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-10 px-6 py-14 md:grid-cols-2 lg:grid-cols-5">
+          <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5">
               <img
                 src={orsapIcon}
-                alt="ORSAP"
+                alt="Logo ORSAP"
                 className="size-8 rounded-[6px] object-contain"
               />
               <span className="font-display text-[18px] font-black tracking-[-0.03em] text-white">
-                ORSAP
+                ORSAP SARL
               </span>
             </div>
             <p className="mt-4 max-w-sm text-[14px] leading-[1.6] text-white/60">
-              Import, distribution et services aux industries. Plus de 15 000
-              références et 300 marques au service des industriels, artisans et
-              particuliers au Maroc.
+              Importation, distribution technique et services aux industries. Plus de 15 000
+              références et 300 marques au service des industriels, professionnels du BTP et artisans au Maroc.
             </p>
+            <div className="mt-4 text-xs text-white/40 space-y-1">
+              <p>Casablanca, Royaume du Maroc</p>
+              <p className="text-[11px] leading-relaxed">
+                Traitement des données conforme à la loi marocaine n° 09-08 (CNDP).
+              </p>
+            </div>
           </div>
+
           <div>
             <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
-              Navigation
+              Solutions & Services
             </div>
             <ul className="mt-4 space-y-2">
               {NAV.map((item) => (
@@ -225,9 +232,49 @@ export default function Root() {
               ))}
             </ul>
           </div>
+
           <div>
             <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
-              Contact
+              Informations Légales
+            </div>
+            <ul className="mt-4 space-y-2 text-[14px] text-white/70">
+              <li>
+                <Link to="/conditions-generales" className="hover:text-white transition-colors">
+                  Mentions Légales & CGV
+                </Link>
+              </li>
+              <li>
+                <Link to="/politique-de-confidentialite" className="hover:text-white transition-colors">
+                  Politique de Confidentialité
+                </Link>
+              </li>
+              <li>
+                <Link to="/politique-des-cookies" className="hover:text-white transition-colors">
+                  Gestion des Cookies
+                </Link>
+              </li>
+              <li>
+                <Link to="/politique-de-retour" className="hover:text-white transition-colors">
+                  Retours & Garanties
+                </Link>
+              </li>
+              <li className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent("open-cookie-banner"))
+                  }}
+                  className="text-xs text-orsap-red hover:underline transition"
+                >
+                  ⚙️ Gérer mes préférences cookies
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
+              Contact Direct
             </div>
             <ul className="mt-4 space-y-2 text-[14px] text-white/70">
               <li>Casablanca, Maroc</li>
@@ -235,7 +282,7 @@ export default function Root() {
                 <a
                   href="tel:+212644203030"
                   onClick={() => trackPhoneClick("+212644203030", "footer")}
-                  className="hover:text-white"
+                  className="hover:text-white transition-colors"
                 >
                   +212 6 44 20 30 30
                 </a>
@@ -246,7 +293,7 @@ export default function Root() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackWhatsAppClick("footer")}
-                  className="hover:text-white"
+                  className="hover:text-white transition-colors"
                 >
                   WhatsApp : +212 6 44 20 30 30
                 </a>
@@ -255,16 +302,16 @@ export default function Root() {
                 <a
                   href="mailto:orsap@orsap.ma"
                   onClick={() => trackEmailClick("orsap@orsap.ma", "footer")}
-                  className="hover:text-white"
+                  className="hover:text-white transition-colors"
                 >
                   orsap@orsap.ma
                 </a>
               </li>
-              <li>
+              <li className="pt-2">
                 <Link
                   to="/devis"
                   onClick={() => trackCtaClick("Demander un devis", "/devis", "footer")}
-                  className="text-white hover:text-orsap-red"
+                  className="inline-flex items-center gap-1 font-bold text-orsap-red hover:text-white transition-colors"
                 >
                   Demander un devis →
                 </Link>
@@ -272,14 +319,21 @@ export default function Root() {
             </ul>
           </div>
         </div>
+
         <div className="border-t border-white/10">
-          <div className="mx-auto max-w-[1240px] px-6 py-5 text-[12px] text-white/40">
-            © {new Date().getFullYear()} ORSAP. Tous droits réservés.
+          <div className="mx-auto flex max-w-[1240px] flex-col gap-2 px-6 py-5 text-[12px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              © {new Date().getFullYear()} ORSAP SARL. Tous droits réservés.
+            </div>
+            <div className="text-[11px] text-white/30">
+              Les marques, logos et visuels cités sont la propriété exclusive de leurs détenteurs respectifs.
+            </div>
           </div>
         </div>
       </footer>
 
       <ClientListPopup />
+      <CookieConsentBanner />
       <ScrollRestoration />
     </div>
   )

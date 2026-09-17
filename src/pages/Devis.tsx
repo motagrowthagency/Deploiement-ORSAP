@@ -376,6 +376,23 @@ export default function Devis() {
                 />
               </div>
 
+              {/* Consent checkbox */}
+              <div className="flex items-start gap-3 rounded-lg border border-hairline bg-card/60 p-3.5">
+                <input
+                  id="devis-consent"
+                  type="checkbox"
+                  required
+                  className="mt-1 size-4 shrink-0 rounded accent-orsap-red focus-visible:ring-2 focus-visible:ring-orsap-red cursor-pointer"
+                />
+                <label htmlFor="devis-consent" className="text-xs leading-relaxed text-ink-soft select-none cursor-pointer">
+                  J&apos;accepte que les données saisies soient traitées par ORSAP SARL dans le cadre de ma demande de devis et de la relation commerciale, conformément à la{" "}
+                  <Link to="/politique-de-confidentialite" target="_blank" className="font-semibold text-orsap-red underline hover:text-orsap-red-deep">
+                    Politique de Confidentialité
+                  </Link>{" "}
+                  (Loi 09-08 / CNDP).
+                </label>
+              </div>
+
               {/* Error message */}
               {error && (
                 <div className="border border-orsap-red/30 bg-orsap-red/5 px-4 py-3 text-[14px] text-orsap-red">
@@ -387,9 +404,9 @@ export default function Devis() {
               <button
                 type="submit"
                 disabled={sending}
-                className="w-full bg-orsap-red px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep disabled:opacity-60 sm:w-auto"
+                className="w-full bg-orsap-red px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep disabled:opacity-60 sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orsap-red focus-visible:ring-offset-2"
               >
-                {sending ? "Envoi en cours…" : "Envoyer ma demande"}
+                {sending ? "Envoi en cours…" : "Envoyer ma demande de devis"}
               </button>
             </form>
 

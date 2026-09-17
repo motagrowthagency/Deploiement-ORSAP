@@ -15,10 +15,33 @@ function ensureDataLayer() {
 }
 
 /**
- * Pushes event to Google Tag Manager and GA4.
+ * Checks if the user has allowed analytics cookies.
+ */
+function isAnalyticsAllowed(): boolean {
+  if (typeof window === "undefined") return false
+  const stored = localStorage.getItem("orsap_cookie_consent")
+  if (!stored) return true // default until user explicitly refuses or accepts
+  try {
+    const parsed = JSON.parse(stored)
+    return parsed.analytics !== false
+  } catch {
+    return true
+  }
+}
+
+/**
+ * Pushes event to Google Tag Manager and GA4 if consent granted.
  */
 export function trackEvent(eventName: string, params: Record<string, any> = {}) {
   if (typeof window === "undefined") return
+
+  // Respect user cookie preferences
+  if (!isAnalyticsAllowed()) {
+    if (import.meta.env.DEV) {
+      console.log(`[Analytics Blocked by Cookie Preferences] ${eventName}`)
+    }
+    return
+  }
 
   ensureDataLayer()
 

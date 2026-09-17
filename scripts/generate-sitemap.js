@@ -23,6 +23,10 @@ const staticRoutes = [
   { url: "/blog/prevention/tms", priority: "0.8", changefreq: "weekly" },
   { url: "/recrutement", priority: "0.6", changefreq: "monthly" },
   { url: "/espace-client", priority: "0.5", changefreq: "monthly" },
+  { url: "/politique-de-confidentialite", priority: "0.4", changefreq: "yearly" },
+  { url: "/conditions-generales", priority: "0.4", changefreq: "yearly" },
+  { url: "/politique-des-cookies", priority: "0.3", changefreq: "yearly" },
+  { url: "/politique-de-retour", priority: "0.4", changefreq: "yearly" },
 ]
 
 // Solutions slugs

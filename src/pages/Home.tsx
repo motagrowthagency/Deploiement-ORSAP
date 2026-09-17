@@ -108,6 +108,7 @@ export default function Home() {
                   className="absolute inset-0 h-full w-full"
                   src="https://www.youtube.com/embed/tXgG_JxqlSg"
                   title="Découvrez ORSAP en vidéo"
+                  loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 />

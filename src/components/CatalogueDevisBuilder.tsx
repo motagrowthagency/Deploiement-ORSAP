@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
+import { Link } from "react-router"
 import {
   Article,
   Facets,
@@ -736,17 +737,29 @@ export default function CatalogueDevisBuilder({
                   />
                 </div>
 
-                {submitError && (
-                  <div className="rounded-lg bg-red-50 p-2.5 text-xs font-semibold text-red-700">
-                    {submitError}
-                  </div>
-                )}
+                {/* Consent checkbox */}
+                <div className="mt-3 flex items-start gap-2.5 rounded-xl border border-hairline bg-slate-50 p-2.5">
+                  <input
+                    id="catalogue-devis-consent"
+                    type="checkbox"
+                    defaultChecked
+                    required
+                    className="mt-0.5 size-3.5 shrink-0 rounded accent-orsap-red focus-visible:ring-2 focus-visible:ring-orsap-red cursor-pointer"
+                  />
+                  <label htmlFor="catalogue-devis-consent" className="text-[11px] leading-relaxed text-slate-500 select-none cursor-pointer">
+                    J&apos;accepte le traitement de mes données pour l&apos;émission de ce devis (
+                    <Link to="/politique-de-confidentialite" target="_blank" className="font-semibold text-orsap-red underline hover:text-orsap-red-dark">
+                      Politique CNDP
+                    </Link>
+                    ).
+                  </label>
+                </div>
 
                 <button
                   type="button"
                   disabled={submitting || cartLines.length === 0}
                   onClick={handleSubmitDevis}
-                  className="mt-3 w-full rounded-xl bg-orsap-red py-3.5 font-display text-xs font-black uppercase tracking-wider text-white transition hover:bg-orsap-red-dark disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
+                  className="mt-3 w-full rounded-xl bg-orsap-red py-3.5 font-display text-xs font-black uppercase tracking-wider text-white transition hover:bg-orsap-red-dark disabled:opacity-50 shadow-md flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orsap-red focus-visible:ring-offset-2"
                 >
                   {submitting ? (
                     <>

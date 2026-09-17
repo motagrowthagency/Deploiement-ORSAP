@@ -19,6 +19,10 @@ import Contact from "@/pages/Contact"
 import Recruitment from "@/pages/Recruitment"
 import EspaceClient from "@/pages/EspaceClient"
 import Admin from "@/pages/Admin"
+import PrivacyPolicy from "@/pages/PrivacyPolicy"
+import TermsAndConditions from "@/pages/TermsAndConditions"
+import CookiePolicy from "@/pages/CookiePolicy"
+import RefundPolicy from "@/pages/RefundPolicy"
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +62,14 @@ export const router = createBrowserRouter([
       { path: "espace-client", Component: EspaceClient },
       { path: "espace-client/verify", Component: EspaceClient },
       { path: "admin", Component: Admin },
+
+      // Legal & Compliance Routes
+      { path: "politique-de-confidentialite", Component: PrivacyPolicy },
+      { path: "conditions-generales", Component: TermsAndConditions },
+      { path: "mentions-legales", element: <Navigate to="/conditions-generales" replace /> },
+      { path: "politique-des-cookies", Component: CookiePolicy },
+      { path: "politique-de-retour", Component: RefundPolicy },
+
       {
         path: "intranet",
         element: (
