@@ -25,5 +25,5 @@ public/api/config.local.php
 
 # OS metadata
 .DS_Store
-Thumbs.db
-
+# Local documents
+/ORSAP Services - Catalogue.pdf

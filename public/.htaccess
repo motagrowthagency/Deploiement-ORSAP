@@ -47,6 +47,12 @@
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+
+  # PDFs: enforce inline display only (no download attachment prompt) and prevent search engine caching
+  <FilesMatch "\.pdf$">
+    Header set Content-Disposition "inline"
+    Header set X-Robots-Tag "noindex, noarchive, nosnippet"
+  </FilesMatch>
 </IfModule>
 
 # ── Browser Caching & Performance ──────────────────────────────────

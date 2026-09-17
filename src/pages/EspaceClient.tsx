@@ -968,13 +968,13 @@ export default function EspaceClient() {
                 <div>
                   <h2 className="font-display text-2xl font-black text-ink">Catalogues &amp; Fiches Techniques Réservées</h2>
                   <p className="mt-1 text-xs text-ink-soft">
-                    Feuilletez le catalogue officiel ORSAP Services 2026 directement en ligne ou téléchargez-le en haute définition (8.6 Mo).
+                    Feuilletez le catalogue officiel ORSAP Services en consultation sécurisée directement en ligne.
                   </p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
                   <a
-                    href="/ORSAP-Services-Catalogue.pdf"
+                    href="/ORSAP-Services-Catalogue.pdf#toolbar=0"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-white px-4 py-2.5 font-display text-xs font-bold text-ink hover:bg-slate-50 shadow-sm transition"
@@ -983,18 +983,6 @@ export default function EspaceClient() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                     </svg>
                     Ouvrir en plein écran
-                  </a>
-                  <a
-                    href="/ORSAP-Services-Catalogue.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download="ORSAP-Services-Catalogue.pdf"
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-orsap-red px-4 py-2.5 font-display text-xs font-bold text-white shadow-sm hover:bg-orsap-red-deep transition"
-                  >
-                    <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.5V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                    </svg>
-                    Télécharger le PDF (8.6 Mo)
                   </a>
                 </div>
               </div>
@@ -1005,35 +993,27 @@ export default function EspaceClient() {
                   <div className="flex items-center gap-2">
                     <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="font-display text-xs font-bold uppercase tracking-wider text-ink">
-                      Lecteur PDF Officiel ORSAP Services (Interactif)
+                      Lecteur Catalogue ORSAP Services (Consultation en ligne)
                     </span>
                   </div>
                   <span className="text-[11px] text-ink-soft">
-                    Utilisez la barre d'outils du lecteur pour zoomer, rechercher du texte ou imprimer
+                    Feuilletez les pages du catalogue directement à l'écran
                   </span>
                 </div>
 
                 <div className="relative w-full overflow-hidden rounded-2xl border border-hairline bg-slate-900 shadow-2xl">
                   <object
-                    data="/ORSAP-Services-Catalogue.pdf#view=FitH&toolbar=1"
+                    data="/ORSAP-Services-Catalogue.pdf#view=FitH&toolbar=0&navpanes=0"
                     type="application/pdf"
                     className="h-[800px] sm:h-[900px] lg:h-[1100px] w-full"
                   >
                     <iframe
-                      src="/ORSAP-Services-Catalogue.pdf#view=FitH&toolbar=1"
+                      src="/ORSAP-Services-Catalogue.pdf#view=FitH&toolbar=0&navpanes=0"
                       title="Catalogue Officiel ORSAP Services"
                       className="h-[800px] sm:h-[900px] lg:h-[1100px] w-full border-0"
                     >
                       <div className="p-8 text-center text-white">
-                        <p className="text-base font-bold">Votre navigateur ne prend pas en charge l&apos;affichage direct du PDF.</p>
-                        <a
-                          href="/ORSAP-Services-Catalogue.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-4 inline-flex items-center gap-2 rounded-xl bg-orsap-red px-6 py-3 font-display text-xs font-bold text-white"
-                        >
-                          Télécharger le catalogue PDF
-                        </a>
+                        <p className="text-base font-bold">Votre navigateur ne prend pas en charge l&apos;affichage direct du lecteur.</p>
                       </div>
                     </iframe>
                   </object>
