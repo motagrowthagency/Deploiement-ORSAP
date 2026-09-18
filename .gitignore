@@ -23,7 +23,8 @@ dist/
 config.local.php
 public/api/config.local.php
 
-# OS metadata
+# OS & Environment metadata
 .DS_Store
-# Local documents
+__pycache__/
+*.pyc
 /ORSAP Services - Catalogue.pdf

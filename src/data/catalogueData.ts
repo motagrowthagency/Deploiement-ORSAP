@@ -5413,8 +5413,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 187.5,
     "priceTtc": 225,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4bf5683b-2459-5aa8-9e90-5e12a03b46bd/bacf5548-500f-5587-bfd8-add0645b4ed4.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR56057",
@@ -149533,7 +149532,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 29.17,
     "priceTtc": 35,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "ARROSAGE"
   },
   {
     "code": "OR15008",
@@ -151693,7 +151692,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7.5,
     "priceTtc": 9,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010754",
@@ -151702,7 +151701,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9.58,
     "priceTtc": 11.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010756",
@@ -151711,7 +151710,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 15.83,
     "priceTtc": 19,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010757",
@@ -151720,7 +151719,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 18.75,
     "priceTtc": 22.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010758",
@@ -151729,7 +151728,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 27.5,
     "priceTtc": 33,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010759",
@@ -151738,7 +151737,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32.5,
     "priceTtc": 39,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010760",
@@ -151747,7 +151746,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 40.83,
     "priceTtc": 49,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010761",
@@ -151756,7 +151755,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49.17,
     "priceTtc": 59,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010762",
@@ -151765,7 +151764,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 65.83,
     "priceTtc": 79,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR010763",
@@ -151774,7 +151773,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR21556",
@@ -151810,7 +151809,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5.42,
     "priceTtc": 6.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR27852",
@@ -151819,7 +151818,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8.33,
     "priceTtc": 10,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR27853",
@@ -151828,7 +151827,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 13.75,
     "priceTtc": 16.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR27854",
@@ -151837,7 +151836,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17.5,
     "priceTtc": 21,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR27874",
@@ -151927,7 +151926,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7.08,
     "priceTtc": 8.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "DECORATION JARDIN"
   },
   {
     "code": "OR49030",
@@ -151935,8 +151934,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 58.33,
     "priceTtc": 70,
-    "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "rayon": "ECHELLES ET ECHAFAUDAGES",
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR53301",
@@ -152367,8 +152366,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 45.83,
     "priceTtc": 55,
-    "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "rayon": "ECHELLES ET ECHAFAUDAGES",
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR26766",
@@ -154735,8 +154734,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1408.33,
     "priceTtc": 1690,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR10758",
@@ -154745,8 +154743,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2983.33,
     "priceTtc": 3580,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109637",
@@ -154755,8 +154752,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1765.83,
     "priceTtc": 2119,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109638",
@@ -154765,8 +154761,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2082.5,
     "priceTtc": 2499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109639",
@@ -154775,8 +154770,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2916.67,
     "priceTtc": 3500,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109640",
@@ -154785,8 +154779,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3499.17,
     "priceTtc": 4199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109641",
@@ -154795,8 +154788,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 432.5,
     "priceTtc": 519,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109642",
@@ -154805,8 +154797,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 490.83,
     "priceTtc": 589,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109643",
@@ -154815,8 +154806,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 640.83,
     "priceTtc": 769,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109644",
@@ -154825,8 +154815,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 765.83,
     "priceTtc": 919,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109645",
@@ -154835,8 +154824,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 799.17,
     "priceTtc": 959,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109646",
@@ -154845,8 +154833,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 991.67,
     "priceTtc": 1190,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109647",
@@ -154855,8 +154842,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109648",
@@ -154865,8 +154851,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1432.5,
     "priceTtc": 1719,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109649",
@@ -154875,8 +154860,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1215.83,
     "priceTtc": 1459,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109650",
@@ -154885,8 +154869,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1499.17,
     "priceTtc": 1799,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109651",
@@ -154895,8 +154878,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1790.83,
     "priceTtc": 2149,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109652",
@@ -154905,8 +154887,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2382.5,
     "priceTtc": 2859,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR109653",
@@ -154915,8 +154896,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2832.5,
     "priceTtc": 3399,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR112140",
@@ -154925,8 +154905,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR112141",
@@ -154935,8 +154914,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR112142",
@@ -154945,8 +154923,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1912.5,
     "priceTtc": 2295,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119669",
@@ -154955,8 +154932,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1765.83,
     "priceTtc": 2119,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119670",
@@ -154965,8 +154941,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2082.5,
     "priceTtc": 2499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119671",
@@ -154975,8 +154950,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3250,
     "priceTtc": 3900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119672",
@@ -154985,8 +154959,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 432.5,
     "priceTtc": 519,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119673",
@@ -154995,8 +154968,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 490.83,
     "priceTtc": 589,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119674",
@@ -155005,8 +154977,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 640.83,
     "priceTtc": 769,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119675",
@@ -155015,8 +154986,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 799.17,
     "priceTtc": 959,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119676",
@@ -155025,8 +154995,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 991.67,
     "priceTtc": 1190,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119677",
@@ -155035,8 +155004,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119678",
@@ -155045,8 +155013,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1432.5,
     "priceTtc": 1719,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119679",
@@ -155055,8 +155022,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1215.83,
     "priceTtc": 1459,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119680",
@@ -155065,8 +155031,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1499.17,
     "priceTtc": 1799,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119681",
@@ -155075,8 +155040,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1790.83,
     "priceTtc": 2149,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119682",
@@ -155085,8 +155049,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2382.5,
     "priceTtc": 2859,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119683",
@@ -155095,8 +155058,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2832.5,
     "priceTtc": 3399,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR15959",
@@ -155105,8 +155067,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1812",
@@ -155115,8 +155076,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 474.17,
     "priceTtc": 569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1813",
@@ -155125,8 +155085,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 615.83,
     "priceTtc": 739,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1814",
@@ -155135,8 +155094,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 724.17,
     "priceTtc": 869,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1823",
@@ -155145,8 +155103,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2158.33,
     "priceTtc": 2590,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1840",
@@ -155155,8 +155112,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR26955",
@@ -155165,8 +155121,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 965.83,
     "priceTtc": 1159,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR26956",
@@ -155175,8 +155130,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1157.5,
     "priceTtc": 1389,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR35350",
@@ -155185,8 +155139,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1632.5,
     "priceTtc": 1959,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46012",
@@ -155195,8 +155148,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 300,
     "priceTtc": 360,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46013",
@@ -155205,8 +155157,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 390.83,
     "priceTtc": 469,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46014",
@@ -155215,8 +155166,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 500,
     "priceTtc": 600,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46015",
@@ -155225,8 +155175,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 582.5,
     "priceTtc": 699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46016",
@@ -155235,8 +155184,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 574.17,
     "priceTtc": 689,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46017",
@@ -155245,8 +155193,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 637.5,
     "priceTtc": 765,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46018",
@@ -155255,8 +155202,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 720.83,
     "priceTtc": 865,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46019",
@@ -155265,8 +155211,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 790.83,
     "priceTtc": 949,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46020",
@@ -155275,8 +155220,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1000,
     "priceTtc": 1200,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46021",
@@ -155285,8 +155229,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1132.5,
     "priceTtc": 1359,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46022",
@@ -155295,8 +155238,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 845.83,
     "priceTtc": 1015,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46023",
@@ -155305,8 +155247,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 916.67,
     "priceTtc": 1100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46024",
@@ -155315,8 +155256,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46025",
@@ -155325,8 +155265,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1245.83,
     "priceTtc": 1495,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46684",
@@ -155335,8 +155274,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10833.33,
     "priceTtc": 13000,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR7722",
@@ -155345,8 +155283,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4199.17,
     "priceTtc": 5039,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR107854",
@@ -155355,8 +155292,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1366.67,
     "priceTtc": 1640,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR15960",
@@ -155365,8 +155301,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1165.83,
     "priceTtc": 1399,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1811",
@@ -155375,8 +155310,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 365.83,
     "priceTtc": 439,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1815",
@@ -155385,8 +155319,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1316.67,
     "priceTtc": 1580,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1816",
@@ -155395,8 +155328,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1824",
@@ -155405,8 +155337,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2583.33,
     "priceTtc": 3100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1825",
@@ -155415,8 +155346,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2866.67,
     "priceTtc": 3440,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1826",
@@ -155425,8 +155355,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4916.67,
     "priceTtc": 5900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1838",
@@ -155435,8 +155364,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2440.83,
     "priceTtc": 2929,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1839",
@@ -155445,8 +155373,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3240.83,
     "priceTtc": 3889,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1841",
@@ -155455,8 +155382,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1549.17,
     "priceTtc": 1859,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1842",
@@ -155465,8 +155391,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1874.17,
     "priceTtc": 2249,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1843",
@@ -155475,8 +155400,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1941.67,
     "priceTtc": 2330,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46101",
@@ -155485,8 +155409,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3525,
     "priceTtc": 4230,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR57107",
@@ -155513,8 +155436,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2958.33,
     "priceTtc": 3550,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR90086",
@@ -155523,8 +155445,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2140.83,
     "priceTtc": 2569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR101839",
@@ -155533,8 +155454,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8700,
     "priceTtc": 10440,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1819",
@@ -155543,8 +155463,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2683.33,
     "priceTtc": 3220,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1822",
@@ -155553,8 +155472,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4750,
     "priceTtc": 5700,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR21452",
@@ -155563,8 +155481,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2957.5,
     "priceTtc": 3549,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR22125",
@@ -155573,8 +155490,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7274.17,
     "priceTtc": 8729,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR2669",
@@ -155583,8 +155499,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17800,
     "priceTtc": 21360,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1817",
@@ -155593,8 +155508,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1818",
@@ -155603,8 +155517,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2390.83,
     "priceTtc": 2869,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1820",
@@ -155613,8 +155526,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4891.67,
     "priceTtc": 5870,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1821",
@@ -155623,8 +155535,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5058.33,
     "priceTtc": 6070,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1827",
@@ -155633,8 +155544,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 745.83,
     "priceTtc": 895,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1828",
@@ -155643,8 +155553,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 890.83,
     "priceTtc": 1069,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1829",
@@ -155653,8 +155562,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 974.17,
     "priceTtc": 1169,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_articulee.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1830",
@@ -155663,8 +155571,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1199.17,
     "priceTtc": 1439,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1831",
@@ -155673,8 +155580,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1457.5,
     "priceTtc": 1749,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1832",
@@ -155683,8 +155589,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1283.33,
     "priceTtc": 1540,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1833",
@@ -155693,8 +155598,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1441.67,
     "priceTtc": 1730,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1834",
@@ -155703,8 +155607,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1654.17,
     "priceTtc": 1985,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1835",
@@ -155713,8 +155616,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1836",
@@ -155723,8 +155625,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2607.5,
     "priceTtc": 3129,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR1837",
@@ -155733,8 +155634,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3057.5,
     "priceTtc": 3669,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR3818",
@@ -155743,8 +155643,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 16625,
     "priceTtc": 19950,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR38268",
@@ -155753,8 +155652,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5657.5,
     "priceTtc": 6789,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46100",
@@ -155763,8 +155661,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5916.67,
     "priceTtc": 7100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46700",
@@ -155773,8 +155670,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10400,
     "priceTtc": 12480,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46701",
@@ -155783,8 +155679,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12333.33,
     "priceTtc": 14800,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_transformable.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR57109",
@@ -155793,8 +155688,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6908.33,
     "priceTtc": 8290,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR57200",
@@ -155803,8 +155697,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12041.67,
     "priceTtc": 14450,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR103511",
@@ -155813,8 +155706,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5532.5,
     "priceTtc": 6639,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109654",
@@ -155823,8 +155715,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 899.17,
     "priceTtc": 1079,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109655",
@@ -155833,8 +155724,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1065.83,
     "priceTtc": 1279,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109656",
@@ -155843,8 +155733,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109657",
@@ -155853,8 +155742,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109658",
@@ -155863,8 +155751,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1624.17,
     "priceTtc": 1949,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109659",
@@ -155873,8 +155760,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1974.17,
     "priceTtc": 2369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR121924",
@@ -155883,8 +155769,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 999.17,
     "priceTtc": 1199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR121925",
@@ -155893,8 +155778,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR121926",
@@ -155903,8 +155787,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1233.33,
     "priceTtc": 1480,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR121927",
@@ -155913,8 +155796,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR121928",
@@ -155923,8 +155805,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR26400",
@@ -155933,8 +155814,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 766.67,
     "priceTtc": 920,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/escabeau_pro.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR103958",
@@ -155943,8 +155823,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 474.17,
     "priceTtc": 569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR105652",
@@ -155953,8 +155832,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR105653",
@@ -155963,8 +155841,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2124.17,
     "priceTtc": 2549,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR105654",
@@ -155973,8 +155850,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2349.17,
     "priceTtc": 2819,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR47373",
@@ -155983,8 +155859,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 999.17,
     "priceTtc": 1199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR47374",
@@ -155993,8 +155868,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR47375",
@@ -156003,8 +155877,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1233.33,
     "priceTtc": 1480,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR47376",
@@ -156013,8 +155886,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR47377",
@@ -156023,8 +155895,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds",
-    "image": "/images/categories/marchepied_folding.jpg"
+    "famille": "Escabeaux & Marchepieds"
   },
   {
     "code": "OR109636",
@@ -156033,8 +155904,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4083.33,
     "priceTtc": 4900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR114437",
@@ -156043,8 +155913,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 43023.33,
     "priceTtc": 51628,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR26804",
@@ -156053,8 +155922,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 13269.17,
     "priceTtc": 15923,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR38158",
@@ -156063,8 +155931,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3966.67,
     "priceTtc": 4760,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR41245",
@@ -156073,8 +155940,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3966.67,
     "priceTtc": 4760,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR41246",
@@ -156083,8 +155949,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1766.67,
     "priceTtc": 2120,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR41247",
@@ -156093,8 +155958,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4650,
     "priceTtc": 5580,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR43537",
@@ -156103,8 +155967,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32716.67,
     "priceTtc": 39260,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46702",
@@ -156113,8 +155976,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12880,
     "priceTtc": 15456,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR59617",
@@ -156123,8 +155985,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1146.67,
     "priceTtc": 1376,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR90404",
@@ -156133,8 +155994,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4641.67,
     "priceTtc": 5570,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR95312",
@@ -156143,8 +156003,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 33525,
     "priceTtc": 40230,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR95361",
@@ -156153,8 +156012,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 566.67,
     "priceTtc": 680,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR95362",
@@ -156163,8 +156021,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 566.67,
     "priceTtc": 680,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR95363",
@@ -156173,8 +156030,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1265.83,
     "priceTtc": 1519,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR95364",
@@ -156183,8 +156039,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1140.83,
     "priceTtc": 1369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR99349",
@@ -156193,8 +156048,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 20416.67,
     "priceTtc": 24500,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR102842",
@@ -156203,8 +156057,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 50860,
     "priceTtc": 61032,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR46026",
@@ -156213,8 +156066,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 825,
     "priceTtc": 990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR58744",
@@ -156223,8 +156075,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4197.5,
     "priceTtc": 5037,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR58848",
@@ -156233,8 +156084,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5572.5,
     "priceTtc": 6687,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR90822",
@@ -156243,8 +156093,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 39750,
     "priceTtc": 47700,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR94144",
@@ -156253,8 +156102,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 47416.67,
     "priceTtc": 56900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR94621",
@@ -156263,8 +156111,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4158.33,
     "priceTtc": 4990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97875",
@@ -156273,8 +156120,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 22825,
     "priceTtc": 27390,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97876",
@@ -156283,8 +156129,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 23866.67,
     "priceTtc": 28640,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97877",
@@ -156293,8 +156138,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 29641.67,
     "priceTtc": 35570,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97878",
@@ -156303,8 +156147,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32416.67,
     "priceTtc": 38900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97879",
@@ -156313,8 +156156,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5916.67,
     "priceTtc": 7100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97880",
@@ -156323,8 +156165,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8491.67,
     "priceTtc": 10190,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97881",
@@ -156333,8 +156174,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 21116.67,
     "priceTtc": 25340,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97882",
@@ -156343,8 +156183,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 29300,
     "priceTtc": 35160,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR97883",
@@ -156353,8 +156192,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32458.33,
     "priceTtc": 38950,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113026",
@@ -156363,8 +156201,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4916.67,
     "priceTtc": 5900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113027",
@@ -156373,8 +156210,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2196.67,
     "priceTtc": 2636,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113028",
@@ -156383,8 +156219,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5766.67,
     "priceTtc": 6920,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113029",
@@ -156393,8 +156228,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4916.67,
     "priceTtc": 5900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113030",
@@ -156403,8 +156237,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7113.33,
     "priceTtc": 8536,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113031",
@@ -156413,8 +156246,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5458.33,
     "priceTtc": 6550,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113032",
@@ -156423,8 +156255,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6958.33,
     "priceTtc": 8350,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR113033",
@@ -156433,8 +156264,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9980.83,
     "priceTtc": 11977,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR1851",
@@ -156443,8 +156273,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR19613",
@@ -156453,8 +156282,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 24625,
     "priceTtc": 29550,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR20585",
@@ -156463,8 +156291,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17796.67,
     "priceTtc": 21356,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR32812",
@@ -156473,8 +156300,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 22713.33,
     "priceTtc": 27256,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR33037",
@@ -156483,8 +156309,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 69083.33,
     "priceTtc": 82900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR33717",
@@ -156493,8 +156318,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2000,
     "priceTtc": 2400,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR40542",
@@ -156503,8 +156327,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17883.33,
     "priceTtc": 21460,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échafaudages & Plates-formes"
   },
   {
     "code": "OR39905",
@@ -156513,8 +156336,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 187.5,
     "priceTtc": 225,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR80678",
@@ -156577,8 +156399,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 245.83,
     "priceTtc": 295,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR40184",
@@ -156587,8 +156408,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 433.33,
     "priceTtc": 520,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR100911",
@@ -156597,8 +156417,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 11249.17,
     "priceTtc": 13499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR101011",
@@ -156607,8 +156426,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 15140.83,
     "priceTtc": 18169,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR113741",
@@ -156617,8 +156435,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 158291.67,
     "priceTtc": 189950,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119710",
@@ -156627,8 +156444,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5832.5,
     "priceTtc": 6999,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119711",
@@ -156637,8 +156453,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6140.83,
     "priceTtc": 7369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119712",
@@ -156647,8 +156462,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6332.5,
     "priceTtc": 7599,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR119713",
@@ -156657,8 +156471,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7375,
     "priceTtc": 8850,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR32501",
@@ -156667,8 +156480,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 45000,
     "priceTtc": 54000,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR34215",
@@ -156677,8 +156489,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 45000,
     "priceTtc": 54000,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR37904",
@@ -156687,8 +156498,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49158.33,
     "priceTtc": 58990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR38675",
@@ -156697,8 +156507,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 83250,
     "priceTtc": 99900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR38974",
@@ -156707,8 +156516,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 54500,
     "priceTtc": 65400,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_telescopique.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR54341",
@@ -156717,8 +156525,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 69083.33,
     "priceTtc": 82900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR93565",
@@ -156727,8 +156534,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6991.67,
     "priceTtc": 8390,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR94313",
@@ -156737,8 +156543,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7825,
     "priceTtc": 9390,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR96349",
@@ -156747,8 +156552,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5541.67,
     "priceTtc": 6650,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR96350",
@@ -156757,8 +156561,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6140.83,
     "priceTtc": 7369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR96351",
@@ -156767,8 +156570,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7399.17,
     "priceTtc": 8879,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR98374",
@@ -156777,8 +156579,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 14165.83,
     "priceTtc": 16999,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR113964",
@@ -156787,8 +156588,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9108.33,
     "priceTtc": 10930,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes",
-    "image": "/images/categories/echafaudage_roulant.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR117438",
@@ -161378,7 +161178,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8.33,
     "priceTtc": 10,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "OUTILLAGE DE JARDINAGE"
   },
   {
     "code": "OR25084",
@@ -189998,7 +189798,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 57.5,
     "priceTtc": 69,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLANTES"
+    "famille": "PRODUITS DE PISCINE"
   },
   {
     "code": "OR45892",
@@ -192320,8 +192120,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1954.17,
     "priceTtc": 2345,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR118548",
@@ -192330,8 +192129,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2332.5,
     "priceTtc": 2799,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR93868",
@@ -192340,8 +192138,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1674.17,
     "priceTtc": 2009,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR94379",
@@ -192350,8 +192147,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2054.17,
     "priceTtc": 2465,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR94744",
@@ -192360,8 +192156,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2262.5,
     "priceTtc": 2715,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR94745",
@@ -192397,8 +192192,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 274.17,
     "priceTtc": 329,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33320",
@@ -192407,8 +192201,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33321",
@@ -192417,8 +192210,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33322",
@@ -192427,8 +192219,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1374.17,
     "priceTtc": 1649,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33323",
@@ -192437,8 +192228,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33324",
@@ -192447,8 +192237,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33325",
@@ -192457,8 +192246,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1374.17,
     "priceTtc": 1649,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33326",
@@ -192467,8 +192255,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33327",
@@ -192477,8 +192264,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR33328",
@@ -192487,8 +192273,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1374.17,
     "priceTtc": 1649,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR38808",
@@ -192497,8 +192282,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1579.17,
     "priceTtc": 1895,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR39567",
@@ -192507,8 +192291,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1575,
     "priceTtc": 1890,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR90883",
@@ -192517,8 +192300,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 474.17,
     "priceTtc": 569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR98901",
@@ -192527,8 +192309,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1575,
     "priceTtc": 1890,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles",
-    "image": "/images/categories/ladder_coulissante.jpg"
+    "famille": "Échelles professionnelles"
   },
   {
     "code": "OR105480",
@@ -213083,8 +212864,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 162.5,
     "priceTtc": 195,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47641",
@@ -213551,8 +213332,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 324.17,
     "priceTtc": 389,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58921",
@@ -213776,8 +213557,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 240.83,
     "priceTtc": 289,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR54107",
@@ -216764,8 +216545,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40241",
@@ -216773,8 +216554,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40242",
@@ -216782,8 +216563,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40243",
@@ -216791,8 +216572,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40247",
@@ -216800,8 +216581,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40250",
@@ -216809,8 +216590,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40252",
@@ -216818,8 +216599,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 132.5,
     "priceTtc": 159,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40258",
@@ -216827,8 +216608,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40262",
@@ -216836,8 +216617,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40264",
@@ -216845,8 +216626,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR40265",
@@ -216854,8 +216635,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47534",
@@ -216863,9 +216644,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 70,
     "priceTtc": 84,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47535",
@@ -216873,8 +216653,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47536",
@@ -216882,8 +216662,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47537",
@@ -216891,8 +216671,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 64.58,
     "priceTtc": 77.5,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR55861",
@@ -216901,8 +216681,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 65,
     "priceTtc": 78,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59342",
@@ -216910,8 +216689,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 70.83,
     "priceTtc": 85,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59343",
@@ -216919,8 +216698,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 62.5,
     "priceTtc": 75,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59344",
@@ -216928,8 +216707,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59345",
@@ -216937,8 +216716,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59902",
@@ -216946,8 +216725,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 62.5,
     "priceTtc": 75,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59903",
@@ -216955,8 +216734,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 107.5,
     "priceTtc": 129,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59904",
@@ -216964,8 +216743,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 62.5,
     "priceTtc": 75,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR59905",
@@ -216973,8 +216752,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 107.5,
     "priceTtc": 129,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100860",
@@ -216991,8 +216770,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100870",
@@ -217000,8 +216779,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100871",
@@ -217009,8 +216788,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100872",
@@ -217018,8 +216797,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100873",
@@ -217027,8 +216806,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100874",
@@ -217036,8 +216815,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100898",
@@ -217045,8 +216824,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 581.67,
     "priceTtc": 698,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR100899",
@@ -217054,8 +216833,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR101077",
@@ -217063,8 +216842,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR101078",
@@ -217072,8 +216851,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR103339",
@@ -217081,8 +216860,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR103340",
@@ -217090,8 +216869,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR118791",
@@ -217099,8 +216878,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR120540",
@@ -217108,8 +216887,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR120541",
@@ -217117,8 +216896,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR120542",
@@ -217126,8 +216905,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR120543",
@@ -217135,8 +216914,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR121236",
@@ -217144,8 +216923,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 21.67,
     "priceTtc": 26,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR70975",
@@ -217153,8 +216932,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 163.33,
     "priceTtc": 196,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR70976",
@@ -217162,8 +216941,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 163.33,
     "priceTtc": 196,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR70977",
@@ -217171,8 +216950,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR90802",
@@ -217180,8 +216959,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR90803",
@@ -217189,8 +216968,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 3.25,
     "priceTtc": 3.9,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR90804",
@@ -217198,8 +216977,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 3.25,
     "priceTtc": 3.9,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR90807",
@@ -217207,8 +216986,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR90808",
@@ -217216,8 +216995,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 32.5,
     "priceTtc": 39,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR91411",
@@ -217225,8 +217004,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 7.5,
     "priceTtc": 9,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR92166",
@@ -217234,8 +217013,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165.83,
     "priceTtc": 199,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR93003",
@@ -217243,8 +217022,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR93656",
@@ -217252,8 +217031,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 156.67,
     "priceTtc": 188,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR93657",
@@ -217261,8 +217040,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 163.33,
     "priceTtc": 196,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR93682",
@@ -217270,8 +217049,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR93684",
@@ -217279,8 +217058,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR93686",
@@ -217297,8 +217076,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 33.25,
     "priceTtc": 39.9,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR94817",
@@ -217306,8 +217085,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 113.33,
     "priceTtc": 136,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR95214",
@@ -217315,8 +217094,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 249.17,
     "priceTtc": 299,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR95215",
@@ -217324,8 +217103,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 249.17,
     "priceTtc": 299,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR97631",
@@ -217342,8 +217121,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR98430",
@@ -217351,8 +217130,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR99616",
@@ -217370,8 +217149,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 46.67,
     "priceTtc": 56,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR35264",
@@ -217380,8 +217158,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49.17,
     "priceTtc": 59,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR35265",
@@ -217390,8 +217167,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 50,
     "priceTtc": 60,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR35267",
@@ -217400,8 +217176,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 51.67,
     "priceTtc": 62,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR35270",
@@ -217410,8 +217185,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 51.67,
     "priceTtc": 62,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47904",
@@ -217419,8 +217193,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47907",
@@ -217428,8 +217202,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 90.83,
     "priceTtc": 109,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47908",
@@ -217437,8 +217211,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47909",
@@ -217446,8 +217220,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47910",
@@ -217455,8 +217229,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47911",
@@ -217464,8 +217238,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47912",
@@ -217473,8 +217247,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 91.67,
     "priceTtc": 110,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47913",
@@ -217482,8 +217256,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 91.67,
     "priceTtc": 110,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47914",
@@ -217491,8 +217265,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47915",
@@ -217500,8 +217274,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47916",
@@ -217509,8 +217283,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47917",
@@ -217518,8 +217292,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47918",
@@ -217527,8 +217301,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47919",
@@ -217536,8 +217310,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47920",
@@ -217545,8 +217319,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47921",
@@ -217554,8 +217328,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47922",
@@ -217563,8 +217337,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47923",
@@ -217572,8 +217346,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 91.67,
     "priceTtc": 110,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47924",
@@ -217581,8 +217355,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 112.5,
     "priceTtc": 135,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47925",
@@ -217590,8 +217364,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47926",
@@ -217599,8 +217373,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47927",
@@ -217608,8 +217382,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR98411",
@@ -217617,8 +217391,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR101475",
@@ -217680,8 +217454,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR102255",
@@ -217690,8 +217464,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165,
     "priceTtc": 198,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR102283",
@@ -217699,8 +217472,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR102284",
@@ -217708,8 +217481,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR102285",
@@ -217717,8 +217490,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR102286",
@@ -217726,8 +217499,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR112927",
@@ -217735,8 +217508,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115,
     "priceTtc": 138,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR112928",
@@ -217744,8 +217517,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115,
     "priceTtc": 138,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR114116",
@@ -217753,8 +217526,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR102812",
@@ -217762,8 +217535,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR103063",
@@ -217771,8 +217544,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR103064",
@@ -217780,8 +217553,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR103065",
@@ -217861,8 +217634,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR104091",
@@ -217906,8 +217679,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR106023",
@@ -217915,8 +217688,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR106024",
@@ -217924,8 +217697,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR106417",
@@ -217942,8 +217715,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 54.17,
     "priceTtc": 65,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107204",
@@ -217951,8 +217724,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107205",
@@ -217960,8 +217733,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107206",
@@ -217969,8 +217742,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107207",
@@ -217978,8 +217751,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107281",
@@ -217987,8 +217760,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107282",
@@ -217996,8 +217769,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR108272",
@@ -218005,8 +217778,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR108273",
@@ -218014,8 +217787,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR108274",
@@ -218023,8 +217796,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR108275",
@@ -218032,8 +217805,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR108669",
@@ -218041,8 +217814,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109205",
@@ -218050,8 +217823,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109206",
@@ -218059,8 +217832,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 107.5,
     "priceTtc": 129,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109207",
@@ -218068,8 +217841,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109208",
@@ -218077,8 +217850,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109209",
@@ -218086,8 +217859,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 90.83,
     "priceTtc": 109,
-    "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage"
+    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109591",
@@ -247535,8 +247308,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 20.83,
     "priceTtc": 25,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR105174",
@@ -247545,8 +247317,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 24.17,
     "priceTtc": 29,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR105175",
@@ -249293,8 +249064,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1958.33,
     "priceTtc": 2350,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ed6c4c24ce855aa66194e85c9c19543ba7c8f0b2a1d3f472b6f769acfe46bc1061eb56f42b2ac239e2665f2bb272d3d703ef8ed23b451e67ca9ec51f0e94f6ea8"
+    "famille": "Protection de voirie & Ralentisseurs"
   },
   {
     "code": "OR97392",
@@ -249312,8 +249082,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 16.25,
     "priceTtc": 19.5,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR47433",
@@ -250969,8 +250738,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 82.5,
     "priceTtc": 99,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR98582",
@@ -252437,8 +252205,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 40.83,
     "priceTtc": 49,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR52580",
@@ -252447,8 +252214,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 190.83,
     "priceTtc": 229,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR52581",
@@ -252457,8 +252223,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 24.17,
     "priceTtc": 29,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR55731",
@@ -252477,8 +252242,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 607.5,
     "priceTtc": 729,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c8b213dd-0ade-55d5-b27c-4c2415c40125/c0567a87-0255-5937-a1b8-9d98f62efb99.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR57568",
@@ -252487,8 +252251,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 499.17,
     "priceTtc": 599,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR98388",
@@ -252507,8 +252270,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 524.17,
     "priceTtc": 629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR45511",
@@ -252517,8 +252279,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 195.83,
     "priceTtc": 235,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR7310",
@@ -252527,8 +252288,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32.5,
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR7311",
@@ -252537,8 +252297,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 37.5,
     "priceTtc": 45,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "famille": "Sécurité Incendie & Extincteurs"
   },
   {
     "code": "OR7334",
@@ -299994,9 +299753,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 162.5,
     "priceTtc": 195,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR99773",
@@ -300031,9 +299789,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/fae45752-57b8-58b6-abf2-4f676d1039f9/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR109240",
@@ -300077,9 +299834,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 66.67,
     "priceTtc": 80,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR80451",
@@ -300087,8 +299843,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 370.83,
     "priceTtc": 445,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e8c6db52e52222f63a994899202bee5e4a68a250bc0dbb593c5c4da5f492b6ee844c2c747a6991fd5f519529b4f7a0659872b246a4e495"
   },
   {
@@ -300097,9 +299853,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 275.83,
     "priceTtc": 331,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
-    "image": "/images/categories/ralentisseur_voirie.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR104574",
@@ -302024,9 +301779,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 215.83,
     "priceTtc": 259,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR33033",
@@ -302070,9 +301824,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 190.83,
     "priceTtc": 229,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107328",
@@ -302080,9 +301833,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 265.83,
     "priceTtc": 319,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR19176",
@@ -302135,9 +301887,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 108.33,
     "priceTtc": 130,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR33504",
@@ -302145,8 +301896,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 54.17,
     "priceTtc": 65,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -302155,9 +301906,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 104.17,
     "priceTtc": 125,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR92477",
@@ -302183,9 +301933,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/fae45752-57b8-58b6-abf2-4f676d1039f9/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR120950",
@@ -302202,9 +301951,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 146.67,
     "priceTtc": 176,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR18125",
@@ -302212,9 +301960,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 56.67,
     "priceTtc": 68,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR59313",
@@ -302231,9 +301978,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107322",
@@ -302241,9 +301987,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107323",
@@ -302251,9 +301996,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 75,
     "priceTtc": 90,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107324",
@@ -302261,9 +302005,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR2038",
@@ -302271,9 +302014,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR34981",
@@ -302281,8 +302023,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 32.5,
     "priceTtc": 39,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -302291,8 +302033,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 216.67,
     "priceTtc": 260,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -303390,8 +303132,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 246.67,
     "priceTtc": 296,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f587a8b-c474-5cdf-a463-3117b7a339a2/3d414715-705d-5584-9046-bd80869340f4.jpg"
   },
   {
@@ -303400,8 +303142,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 180,
     "priceTtc": 216,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f587a8b-c474-5cdf-a463-3117b7a339a2/3d414715-705d-5584-9046-bd80869340f4.jpg"
   },
   {
@@ -304751,8 +304493,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 29.17,
     "priceTtc": 35,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304761,8 +304503,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 35,
     "priceTtc": 42,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304771,8 +304513,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 58.33,
     "priceTtc": 70,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304781,8 +304523,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 23.33,
     "priceTtc": 28,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304791,8 +304533,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 24.17,
     "priceTtc": 29,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304801,8 +304543,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 29.17,
     "priceTtc": 35,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304811,8 +304553,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 21.67,
     "priceTtc": 26,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304821,8 +304563,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 32.5,
     "priceTtc": 39,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304885,8 +304627,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 20.83,
     "priceTtc": 25,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304895,9 +304637,9 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 20.83,
     "priceTtc": 25,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e7dacfcbe661c67160e815aefd2289d20dc3931fa42bd68fc200dea8d20224121541f397a78de01cfca28737045078f0d86ac8c930d6c787db02de904776686dd"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
     "code": "OR96345",
@@ -341473,8 +341215,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 82.5,
     "priceTtc": 99,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR21009",
@@ -341483,8 +341224,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 136.67,
     "priceTtc": 164,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR21010",
@@ -341493,8 +341233,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 208.33,
     "priceTtc": 250,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR41187",
@@ -341503,8 +341242,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 75,
     "priceTtc": 90,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58935",
@@ -341513,8 +341251,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58936",
@@ -341523,8 +341260,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 154.17,
     "priceTtc": 185,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58937",
@@ -341533,8 +341269,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 182.5,
     "priceTtc": 219,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107143",
@@ -341543,8 +341278,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165.83,
     "priceTtc": 199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107144",
@@ -341553,8 +341287,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 241.67,
     "priceTtc": 290,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107145",
@@ -341563,7 +341296,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 315.83,
     "priceTtc": 379,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
+    "famille": "Signalisation de chantier & Balisage",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c8f15b10-3186-5659-8849-0c4af8e13340/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
   },
   {
@@ -341573,8 +341306,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 132.5,
     "priceTtc": 159,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR116970",
@@ -341583,8 +341315,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 316.67,
     "priceTtc": 380,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR116971",
@@ -341593,8 +341324,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 449.17,
     "priceTtc": 539,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR532",
@@ -341603,8 +341333,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 240.83,
     "priceTtc": 289,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR533",
@@ -341613,8 +341342,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 299.17,
     "priceTtc": 359,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/armoire_cles.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR20225",
@@ -341623,8 +341351,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 79.17,
     "priceTtc": 95,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR20226",
@@ -341633,8 +341360,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 99.17,
     "priceTtc": 119,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR20227",
@@ -341643,8 +341369,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 124.17,
     "priceTtc": 149,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR21305",
@@ -341653,8 +341378,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 66.67,
     "priceTtc": 80,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58938",
@@ -341663,8 +341387,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 99.17,
     "priceTtc": 119,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58939",
@@ -341673,8 +341396,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR58940",
@@ -341683,8 +341405,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165.83,
     "priceTtc": 199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107140",
@@ -341693,8 +341414,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 115.83,
     "priceTtc": 139,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107141",
@@ -341703,8 +341423,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 132.5,
     "priceTtc": 159,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107142",
@@ -341713,8 +341432,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 174.17,
     "priceTtc": 209,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR500",
@@ -341723,8 +341441,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 115.83,
     "priceTtc": 139,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR501",
@@ -341733,8 +341450,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR530",
@@ -341743,8 +341459,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165.83,
     "priceTtc": 199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR109473",
@@ -341753,8 +341468,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 249.17,
     "priceTtc": 299,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107857",
@@ -341763,8 +341477,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107858",
@@ -341773,8 +341486,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 115.83,
     "priceTtc": 139,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR107859",
@@ -341783,8 +341495,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 157.5,
     "priceTtc": 189,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR118538",
@@ -341793,8 +341504,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4125,
     "priceTtc": 4950,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR120364",
@@ -341803,8 +341513,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2165.83,
     "priceTtc": 2599,
     "rayon": "PROTECTION ET SECURITE (EPI)",
-    "famille": "Vêtements de travail & Haute visibilité",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Vêtements de travail & Haute visibilité"
   },
   {
     "code": "OR35961",
@@ -341813,8 +341522,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4991.67,
     "priceTtc": 5990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR35962",
@@ -341823,8 +341531,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5825,
     "priceTtc": 6990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR35963",
@@ -341833,8 +341540,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9583.33,
     "priceTtc": 11500,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR35964",
@@ -341843,8 +341549,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12491.67,
     "priceTtc": 14990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR42274",
@@ -341863,8 +341568,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1329.17,
     "priceTtc": 1595,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR46875",
@@ -341882,8 +341586,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1657.5,
     "priceTtc": 1989,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR53170",
@@ -341892,8 +341595,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 957.5,
     "priceTtc": 1149,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR99921",
@@ -341902,8 +341604,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3000,
     "priceTtc": 3600,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR99922",
@@ -341912,8 +341613,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR99923",
@@ -341922,8 +341622,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3833.33,
     "priceTtc": 4600,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR99924",
@@ -341932,8 +341631,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3958.33,
     "priceTtc": 4750,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR27441",
@@ -341942,8 +341640,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 491.67,
     "priceTtc": 590,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR31308",
@@ -341997,8 +341694,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8332.5,
     "priceTtc": 9999,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR31334",
@@ -342007,8 +341703,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10582.5,
     "priceTtc": 12699,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR31335",
@@ -342017,8 +341712,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12847.5,
     "priceTtc": 15417,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR3479",
@@ -342054,8 +341748,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5665.83,
     "priceTtc": 6799,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR99260",
@@ -342073,8 +341766,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7324.17,
     "priceTtc": 8789,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR39903",
@@ -342093,8 +341785,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5829.17,
     "priceTtc": 6995,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR113981",
@@ -342103,8 +341794,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6245.83,
     "priceTtc": 7495,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR120363",
@@ -342113,8 +341803,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4408.33,
     "priceTtc": 5290,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR121123",
@@ -342123,8 +341812,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 749.17,
     "priceTtc": 899,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR35958",
@@ -342133,8 +341821,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 482.5,
     "priceTtc": 579,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR35959",
@@ -342143,8 +341830,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR35960",
@@ -342153,8 +341839,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1000,
     "priceTtc": 1200,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR38475",
@@ -342163,8 +341848,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1162.5,
     "priceTtc": 1395,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR38476",
@@ -342173,8 +341857,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1274.17,
     "priceTtc": 1529,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR38477",
@@ -342183,8 +341866,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 749.17,
     "priceTtc": 899,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR50196",
@@ -342193,8 +341875,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 457.5,
     "priceTtc": 549,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR50197",
@@ -342203,8 +341884,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5412.5,
     "priceTtc": 6495,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR50198",
@@ -342213,8 +341893,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5825,
     "priceTtc": 6990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR55709",
@@ -342223,8 +341902,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 958.33,
     "priceTtc": 1150,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR58934",
@@ -342233,8 +341911,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2749.17,
     "priceTtc": 3299,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR60397",
@@ -342243,8 +341920,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3658.33,
     "priceTtc": 4390,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR90464",
@@ -342253,8 +341929,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 215.83,
     "priceTtc": 259,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR93855",
@@ -342263,8 +341938,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2915.83,
     "priceTtc": 3499,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR93862",
@@ -342273,8 +341947,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6625,
     "priceTtc": 7950,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR93865",
@@ -342283,8 +341956,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3329.17,
     "priceTtc": 3995,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR94383",
@@ -342293,8 +341965,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2665.83,
     "priceTtc": 3199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR94496",
@@ -342303,8 +341974,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 999.17,
     "priceTtc": 1199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR94497",
@@ -342313,8 +341983,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR94498",
@@ -342323,8 +341992,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR94499",
@@ -342333,8 +342001,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 832.5,
     "priceTtc": 999,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR107146",
@@ -342343,8 +342010,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 574.17,
     "priceTtc": 689,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR107147",
@@ -342389,8 +342055,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1115.83,
     "priceTtc": 1339,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR107838",
@@ -342399,8 +342064,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1365.83,
     "priceTtc": 1639,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR107839",
@@ -342409,8 +342073,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1482.5,
     "priceTtc": 1779,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR107840",
@@ -342419,8 +342082,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1607.5,
     "priceTtc": 1929,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR107841",
@@ -352992,8 +352654,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10,
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR57035",
@@ -354622,8 +354283,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 15.83,
     "priceTtc": 19,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Signalisation de chantier & Balisage"
   },
   {
     "code": "OR104133",
@@ -359177,8 +358837,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 60,
     "priceTtc": 72,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Coffres-forts & Sécurité physique"
   },
   {
     "code": "OR94413",
@@ -425499,8 +425158,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3.17,
     "priceTtc": 3.8,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
-    "image": "/images/categories/ralentisseur_voirie.jpg"
+    "famille": "Protection de voirie & Ralentisseurs"
   },
   {
     "code": "OR105916",
@@ -425509,8 +425167,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4.58,
     "priceTtc": 5.5,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
-    "image": "/images/categories/ralentisseur_voirie.jpg"
+    "famille": "Protection de voirie & Ralentisseurs"
   },
   {
     "code": "OR105917",
@@ -425519,8 +425176,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9.17,
     "priceTtc": 11,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
-    "image": "/images/categories/ralentisseur_voirie.jpg"
+    "famille": "Protection de voirie & Ralentisseurs"
   },
   {
     "code": "OR105931",
@@ -440961,7 +440617,7 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "LUMINAIRE",
-      "count": 5820
+      "count": 5700
     },
     {
       "name": "SANITAIRE ET ETANCHEITE",
@@ -440969,23 +440625,23 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "JARDINAGE ET PLEIN AIR",
-      "count": 4990
+      "count": 4988
     },
     {
       "name": "PROTECTION ET SECURITE (EPI)",
-      "count": 930
+      "count": 963
     },
     {
       "name": "LEVAGE ET MANUTENTION",
       "count": 376
     },
     {
-      "name": "ECHELLES ET ECHAFAUDAGES",
-      "count": 218
+      "name": "SIGNALISATION ET SECURITE CHANTIER",
+      "count": 261
     },
     {
-      "name": "SIGNALISATION ET SECURITE CHANTIER",
-      "count": 174
+      "name": "ECHELLES ET ECHAFAUDAGES",
+      "count": 220
     }
   ],
   "familles": [
@@ -441120,14 +440776,14 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "ELECTRICITE ET ECLAIRAGE"
     },
     {
-      "name": "PLANTES",
-      "count": 493,
-      "rayon": "JARDINAGE ET PLEIN AIR"
-    },
-    {
       "name": "MEUBLES ET ACCESSOIRES DE RANGEMENTS",
       "count": 489,
       "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "PLANTES",
+      "count": 473,
+      "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
       "name": "COLLE & PDT ETANCHEITE",
@@ -441151,7 +440807,7 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "OUTILLAGE DE JARDINAGE",
-      "count": 393,
+      "count": 394,
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
@@ -441171,11 +440827,16 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "PRODUITS DE PISCINE",
-      "count": 352,
+      "count": 353,
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
       "name": "ARROSAGE",
+      "count": 346,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "DECORATION JARDIN",
       "count": 345,
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
@@ -441183,11 +440844,6 @@ export const DEFAULT_FACETS: Facets = {
       "name": "ABATS JOUR & LAMPE DE BUREAU",
       "count": 332,
       "rayon": "LUMINAIRE"
-    },
-    {
-      "name": "DECORATION JARDIN",
-      "count": 330,
-      "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
       "name": "LAMPES",
@@ -441265,6 +440921,16 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "DROGUERIE ET PEINTURE"
     },
     {
+      "name": "Signalisation de chantier & Balisage",
+      "count": 184,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
+    },
+    {
+      "name": "Equipements de Protection",
+      "count": 183,
+      "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
       "name": "AUDIO-VIDEO",
       "count": 177,
       "rayon": "ELECTRICITE ET ECLAIRAGE"
@@ -441273,6 +440939,11 @@ export const DEFAULT_FACETS: Facets = {
       "name": "STORES",
       "count": 173,
       "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "Échelles professionnelles",
+      "count": 167,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
     },
     {
       "name": "ANIMALERIE",
@@ -441288,16 +440959,6 @@ export const DEFAULT_FACETS: Facets = {
       "name": "OUTILLAGE PEINTURE",
       "count": 151,
       "rayon": "DROGUERIE ET PEINTURE"
-    },
-    {
-      "name": "Échelles professionnelles",
-      "count": 150,
-      "rayon": "ECHELLES ET ECHAFAUDAGES"
-    },
-    {
-      "name": "Equipements de Protection",
-      "count": 150,
-      "rayon": "PROTECTION ET SECURITE (EPI)"
     },
     {
       "name": "CHAUFFAGE ET VENTILLATION",
@@ -441355,11 +441016,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "ELECTRICITE ET ECLAIRAGE"
     },
     {
-      "name": "Éclairage jardin & Balisage",
-      "count": 120,
-      "rayon": "LUMINAIRE"
-    },
-    {
       "name": "Roues & Roulettes industrielles",
       "count": 118,
       "rayon": "LEVAGE ET MANUTENTION"
@@ -441395,11 +441051,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "PROTECTION ET SECURITE (EPI)"
     },
     {
-      "name": "Coffres-forts & Sécurité physique",
-      "count": 91,
-      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
-    },
-    {
       "name": "ENGRAIS ET SEMENCES",
       "count": 89,
       "rayon": "JARDINAGE ET PLEIN AIR"
@@ -441430,14 +441081,14 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "OUTILLAGE ET RANGEMENT"
     },
     {
-      "name": "Signalisation de chantier & Balisage",
-      "count": 64,
-      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
-    },
-    {
       "name": "Protection de la tête & Casques",
       "count": 61,
       "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "Coffres-forts & Sécurité physique",
+      "count": 59,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
     },
     {
       "name": "TRINGLES",
@@ -441455,11 +441106,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "ELECTRICITE ET ECLAIRAGE"
     },
     {
-      "name": "Échafaudages & Plates-formes",
-      "count": 51,
-      "rayon": "ECHELLES ET ECHAFAUDAGES"
-    },
-    {
       "name": "BASSE LUMINACE",
       "count": 46,
       "rayon": "LUMINAIRE"
@@ -441473,6 +441119,11 @@ export const DEFAULT_FACETS: Facets = {
       "name": "BARBECUES",
       "count": 42,
       "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "Échafaudages & Plates-formes",
+      "count": 36,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
     },
     {
       "name": "Levage & Arrimage (Élingues/Palans)",
@@ -441530,11 +441181,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "ELECTRICITE ET ECLAIRAGE"
     },
     {
-      "name": "Protection de voirie & Ralentisseurs",
-      "count": 5,
-      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
-    },
-    {
       "name": "RIDEAU",
       "count": 5,
       "rayon": "QUINCAILLERIE"
@@ -441543,6 +441189,11 @@ export const DEFAULT_FACETS: Facets = {
       "name": "VITRE",
       "count": 5,
       "rayon": "QUINCAILLERIE"
+    },
+    {
+      "name": "Protection de voirie & Ralentisseurs",
+      "count": 4,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
     },
     {
       "name": "ACCESSOIRES",

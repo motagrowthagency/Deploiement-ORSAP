@@ -222,6 +222,25 @@ export default function Solutions() {
         <p className="mt-6 text-[17px] leading-[1.6] text-ink-soft">
           EPI certifiés, travail en hauteur, logistique sécurisée, manutention, vêtements de travail personnalisés et fournitures industrielles : découvrez nos gammes adaptées aux exigences des professionnels au Maroc.
         </p>
+
+        {/* Live E-Commerce Catalogue Quick Access */}
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <Link
+            to="/catalogue"
+            className="inline-flex items-center gap-2 rounded-xl bg-orsap-red px-6 py-3.5 font-display text-sm font-bold uppercase tracking-wider text-white shadow-md hover:bg-orsap-red-deep transition transform hover:-translate-y-0.5"
+          >
+            <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            Explorer les 7 600+ Articles &amp; Devis Direct →
+          </Link>
+          <Link
+            to="/devis"
+            className="inline-flex items-center gap-2 rounded-xl border border-hairline bg-white px-6 py-3.5 font-display text-sm font-bold uppercase tracking-wider text-ink shadow-sm hover:bg-slate-50 transition"
+          >
+            Demander un devis rapide
+          </Link>
+        </div>
       </div>
 
       {/* Fast Shortcuts for Key Pillars */}

@@ -89,8 +89,9 @@ function normalizeRayonAndFamille(a) {
 
 const rayonCounts = new Map();
 const familleCounts = new Map();
+const rawArticles = articles.filter(a => a.rayon !== "CONSEILS" && a.famille !== "POST");
 
-const updatedArticles = articles.map(a => {
+const updatedArticles = rawArticles.map(a => {
   const norm = normalizeRayonAndFamille(a);
   const r = norm.rayon;
   const f = norm.famille;
@@ -160,7 +161,6 @@ if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
 fs.writeFileSync(publicDataPath, JSON.stringify(updatedArticles), "utf-8");
 console.log(`✅ Saved to ${publicDataPath}`);
 
-// 3. Write src/data/catalogueData.ts
 const tsContent = `export interface Article {
   code: string
   designation: string
@@ -169,6 +169,8 @@ const tsContent = `export interface Article {
   priceTtc: number
   rayon: string
   famille: string
+  image?: string | null
+  imageUrl?: string | null
 }
 
 export const DEFAULT_FACETS = ${JSON.stringify(facets)};

@@ -2185,7 +2185,7 @@
     "priceTtc": 60,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c1a89965-379a-5e98-8548-a5909aa9dfd4/7f31a3c9-4b73-501f-9356-23b21e091604.jpg"
+    "image": "/images/categories/cone_chantier.jpg"
   },
   {
     "code": "OR120260",
@@ -5210,7 +5210,7 @@
     "priceTtc": 79,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e917b18a970100590d3303cc0e93897643b2ac32bc193331c342d463746f8ede3228733faec55e30939ba6038bc70b1335ba9958b56c6e08286180c84c2a70dec"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR46904",
@@ -5409,7 +5409,7 @@
     "priceTtc": 225,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4bf5683b-2459-5aa8-9e90-5e12a03b46bd/bacf5548-500f-5587-bfd8-add0645b4ed4.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR56057",
@@ -5779,7 +5779,7 @@
     "priceTtc": 79,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e917b18a970100590d3303cc0e93897643b2ac32bc193331c342d463746f8ede3228733faec55e30939ba6038bc70b1335ba9958b56c6e08286180c84c2a70dec"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR117216",
@@ -85367,7 +85367,7 @@
     "priceTtc": 785,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f64fab2-5402-5ef5-9f42-defae649a8fc/8c3a3e07-c0c2-5082-b55c-3feb1de096dc.jpg"
+    "image": "/images/categories/cone_chantier.jpg"
   },
   {
     "code": "OR33651",
@@ -216859,8 +216859,7 @@
     "priceHt": 70,
     "priceTtc": 84,
     "rayon": "LUMINAIRE",
-    "famille": "Éclairage jardin & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47535",
@@ -217366,7 +217365,7 @@
     "priceTtc": 56,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35264",
@@ -217376,7 +217375,7 @@
     "priceTtc": 59,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35265",
@@ -217386,7 +217385,7 @@
     "priceTtc": 60,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35267",
@@ -217396,7 +217395,7 @@
     "priceTtc": 62,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35270",
@@ -217406,7 +217405,7 @@
     "priceTtc": 62,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR47904",
@@ -217686,7 +217685,7 @@
     "priceTtc": 198,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR102283",
@@ -247531,7 +247530,7 @@
     "priceTtc": 25,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR105174",
@@ -247541,7 +247540,7 @@
     "priceTtc": 29,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR105175",
@@ -247551,7 +247550,7 @@
     "priceTtc": 465,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/b4b796e6-8c36-52df-91b4-c11c91e80583/5d1fb866-bea0-5de5-ac1d-53dcaffcdca5.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR106775",
@@ -249289,7 +249288,7 @@
     "priceTtc": 2350,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ed6c4c24ce855aa66194e85c9c19543ba7c8f0b2a1d3f472b6f769acfe46bc1061eb56f42b2ac239e2665f2bb272d3d703ef8ed23b451e67ca9ec51f0e94f6ea8"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR97392",
@@ -249308,7 +249307,7 @@
     "priceTtc": 19.5,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR47433",
@@ -250965,7 +250964,7 @@
     "priceTtc": 99,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR98582",
@@ -252433,7 +252432,7 @@
     "priceTtc": 49,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR52580",
@@ -252443,7 +252442,7 @@
     "priceTtc": 229,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR52581",
@@ -252453,7 +252452,7 @@
     "priceTtc": 29,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR55731",
@@ -252463,7 +252462,7 @@
     "priceTtc": 629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR55732",
@@ -252473,7 +252472,7 @@
     "priceTtc": 729,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c8b213dd-0ade-55d5-b27c-4c2415c40125/c0567a87-0255-5937-a1b8-9d98f62efb99.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR57568",
@@ -252483,7 +252482,7 @@
     "priceTtc": 599,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR98388",
@@ -252493,7 +252492,7 @@
     "priceTtc": 1399,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR100145",
@@ -252503,7 +252502,7 @@
     "priceTtc": 629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR45511",
@@ -252513,7 +252512,7 @@
     "priceTtc": 235,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR7310",
@@ -252523,7 +252522,7 @@
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR7311",
@@ -252533,7 +252532,7 @@
     "priceTtc": 45,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "/images/categories/extincteur_studio.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR7334",
@@ -299989,9 +299988,8 @@
     "tva": 20,
     "priceHt": 162.5,
     "priceTtc": 195,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR99773",
@@ -300026,9 +300024,8 @@
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/fae45752-57b8-58b6-abf2-4f676d1039f9/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR109240",
@@ -300072,9 +300069,8 @@
     "tva": 20,
     "priceHt": 66.67,
     "priceTtc": 80,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR80451",
@@ -300082,8 +300078,8 @@
     "tva": 20,
     "priceHt": 370.83,
     "priceTtc": 445,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e8c6db52e52222f63a994899202bee5e4a68a250bc0dbb593c5c4da5f492b6ee844c2c747a6991fd5f519529b4f7a0659872b246a4e495"
   },
   {
@@ -300092,9 +300088,8 @@
     "tva": 20,
     "priceHt": 275.83,
     "priceTtc": 331,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs",
-    "image": "/images/categories/ralentisseur_voirie.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR104574",
@@ -302019,9 +302014,8 @@
     "tva": 20,
     "priceHt": 215.83,
     "priceTtc": 259,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR33033",
@@ -302065,9 +302059,8 @@
     "tva": 20,
     "priceHt": 190.83,
     "priceTtc": 229,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107328",
@@ -302075,9 +302068,8 @@
     "tva": 20,
     "priceHt": 265.83,
     "priceTtc": 319,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR19176",
@@ -302130,9 +302122,8 @@
     "tva": 20,
     "priceHt": 108.33,
     "priceTtc": 130,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR33504",
@@ -302140,8 +302131,8 @@
     "tva": 20,
     "priceHt": 54.17,
     "priceTtc": 65,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -302150,9 +302141,8 @@
     "tva": 20,
     "priceHt": 104.17,
     "priceTtc": 125,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR92477",
@@ -302178,9 +302168,8 @@
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/fae45752-57b8-58b6-abf2-4f676d1039f9/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR120950",
@@ -302197,9 +302186,8 @@
     "tva": 20,
     "priceHt": 146.67,
     "priceTtc": 176,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR18125",
@@ -302207,9 +302195,8 @@
     "tva": 20,
     "priceHt": 56.67,
     "priceTtc": 68,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR59313",
@@ -302226,9 +302213,8 @@
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107322",
@@ -302236,9 +302222,8 @@
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107323",
@@ -302246,9 +302231,8 @@
     "tva": 20,
     "priceHt": 75,
     "priceTtc": 90,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR107324",
@@ -302256,9 +302240,8 @@
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR2038",
@@ -302266,9 +302249,8 @@
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection"
   },
   {
     "code": "OR34981",
@@ -302276,8 +302258,8 @@
     "tva": 20,
     "priceHt": 32.5,
     "priceTtc": 39,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -302286,8 +302268,8 @@
     "tva": 20,
     "priceHt": 216.67,
     "priceTtc": 260,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/432e95fb-2691-5441-8112-47356128d0a8/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -303385,8 +303367,8 @@
     "tva": 20,
     "priceHt": 246.67,
     "priceTtc": 296,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f587a8b-c474-5cdf-a463-3117b7a339a2/3d414715-705d-5584-9046-bd80869340f4.jpg"
   },
   {
@@ -303395,8 +303377,8 @@
     "tva": 20,
     "priceHt": 180,
     "priceTtc": 216,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f587a8b-c474-5cdf-a463-3117b7a339a2/3d414715-705d-5584-9046-bd80869340f4.jpg"
   },
   {
@@ -304746,8 +304728,8 @@
     "tva": 20,
     "priceHt": 29.17,
     "priceTtc": 35,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304756,8 +304738,8 @@
     "tva": 20,
     "priceHt": 35,
     "priceTtc": 42,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304766,8 +304748,8 @@
     "tva": 20,
     "priceHt": 58.33,
     "priceTtc": 70,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304776,8 +304758,8 @@
     "tva": 20,
     "priceHt": 23.33,
     "priceTtc": 28,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304786,8 +304768,8 @@
     "tva": 20,
     "priceHt": 24.17,
     "priceTtc": 29,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304796,8 +304778,8 @@
     "tva": 20,
     "priceHt": 29.17,
     "priceTtc": 35,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304806,8 +304788,8 @@
     "tva": 20,
     "priceHt": 21.67,
     "priceTtc": 26,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304816,8 +304798,8 @@
     "tva": 20,
     "priceHt": 32.5,
     "priceTtc": 39,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304880,8 +304862,8 @@
     "tva": 20,
     "priceHt": 20.83,
     "priceTtc": 25,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
     "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
@@ -304890,9 +304872,9 @@
     "tva": 20,
     "priceHt": 20.83,
     "priceTtc": 25,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e7dacfcbe661c67160e815aefd2289d20dc3931fa42bd68fc200dea8d20224121541f397a78de01cfca28737045078f0d86ac8c930d6c787db02de904776686dd"
+    "rayon": "PROTECTION ET SECURITE (EPI)",
+    "famille": "Equipements de Protection",
+    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/7040f866-23b2-5baf-9c53-de567067bc1e/bf963c3b-de93-5d8e-9ead-ba99b79dfe4b.jpg"
   },
   {
     "code": "OR96345",
@@ -341559,7 +341541,7 @@
     "priceTtc": 379,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c8f15b10-3186-5659-8849-0c4af8e13340/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR116969",
@@ -341798,8 +341780,7 @@
     "priceHt": 2165.83,
     "priceTtc": 2599,
     "rayon": "PROTECTION ET SECURITE (EPI)",
-    "famille": "Vêtements de travail & Haute visibilité",
-    "image": "/images/categories/coffre_fort_securite.jpg"
+    "famille": "Vêtements de travail & Haute visibilité"
   },
   {
     "code": "OR35961",
@@ -341849,7 +341830,7 @@
     "priceTtc": 999,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/71650049-3d8d-5e2a-b955-686a3645bec0/85f3b98f-e456-5087-921e-d0501c5dbf35.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR42275",
@@ -342079,7 +342060,7 @@
     "priceTtc": 6699,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e8d85ebcb1b3a4211bffa73fcd3cd250052ad3ffbaa50350e23db751c4b8213f0dfdd9f804c102346a1946e0122ee8fe46e73e1312e164b"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR113980",
@@ -342425,7 +342406,7 @@
     "priceTtc": 5560,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/a25a9167-bbfd-5b12-9d30-0e915a3c92ac/09673c47-08f7-52ee-9ece-e18113d39bcd.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107842",
@@ -342435,7 +342416,7 @@
     "priceTtc": 7375,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e3f151be9112be73d593036f7bd3d819123fcaa365679f4be107f472af042b872c948f1454cfd3640110ce4d57f4328b095e0f9a0f6e608562cbcefa7bd79c4ae"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107843",
@@ -342445,7 +342426,7 @@
     "priceTtc": 8629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/a25a9167-bbfd-5b12-9d30-0e915a3c92ac/09673c47-08f7-52ee-9ece-e18113d39bcd.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR113258",
@@ -342536,7 +342517,7 @@
     "priceTtc": 520,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6eb8f7e49f04f8cfee8437920570ca5432594016359567a0f1b9e5ea789b6b6abfc4800e932e6ae9a61ae8e317fa86ca154d3736083fb5faea93af78e36c14e3b0"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR57202",
@@ -342546,7 +342527,7 @@
     "priceTtc": 6499,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e55b701e2d477782d40c937c93924a3c2947d74f50b8f5824d25dde3ccb6c7f8547fc8858541f5d6e109d388ccc1a864c81297f09c6aec30a9e99395a60549715"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR70620",
@@ -342556,7 +342537,7 @@
     "priceTtc": 249,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR70621",
@@ -342584,7 +342565,7 @@
     "priceTtc": 569,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR101214",
@@ -342594,7 +342575,7 @@
     "priceTtc": 599,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR25913",
@@ -351973,7 +351954,7 @@
     "priceTtc": 3.72,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/608c34c8-f551-5e53-9676-081eb5964296/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR104601",
@@ -351983,7 +351964,7 @@
     "priceTtc": 37.2,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ea5daaf3b66002fc9a7d40869799fda20e8c4a7b18c73f6efc70bde3dc02402cb190d963643d06426d1116ae7b647cf2c89f88f3ba086e129e4aeacb39e76cdc5"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR105205",
@@ -352263,7 +352244,7 @@
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR44480",
@@ -352273,7 +352254,7 @@
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR44499",
@@ -352571,7 +352552,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/093e9f11-5949-5d3a-8e19-8a4532c4dedd/6143fc3a-3876-57b7-88b6-7cdf15895113.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101900",
@@ -352581,7 +352562,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ed1aafd2503eca8c621993886a22d5554124498b901fc0522c45fdeb96a2aa264061373faba842e6dcce9ef9dc3953b61f02121d3985291f9457274f3afd5d3bf"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101901",
@@ -352591,7 +352572,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8699f999-5998-535c-9bb8-b79512330b48/10f1907b-2567-564d-b1ad-0ade96af1083.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101902",
@@ -352601,7 +352582,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101903",
@@ -352611,7 +352592,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6edec3987dd2e40d523e6ff274bb59c1f888e56faf15a84e3fa1d0445c0e7a3bf3db76822508d199cb55d7671a5c93b296df5be3791b77de437085feeaa93b462e"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101904",
@@ -352621,7 +352602,7 @@
     "priceTtc": 10,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101905",
@@ -352631,7 +352612,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/e58191ee-db34-55b1-ac41-735eaa1efafe/88db8e19-69db-53bd-bfec-3008f8f2a3b8.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101906",
@@ -352641,7 +352622,7 @@
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ef37c36b96a6a37440e4521872e15b287a857f16168a1ef704b5c16108e5c47f122304567f6a38612e7009c74efbcb7fd1592b405acf5e62af079d128795c3559"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101907",
@@ -352651,7 +352632,7 @@
     "priceTtc": 10,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/75d20b47-e935-5378-b04e-395e768cfdbc/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101908",
@@ -352958,7 +352939,7 @@
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57028",
@@ -352968,7 +352949,7 @@
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57029",
@@ -352978,7 +352959,7 @@
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57030",
@@ -352988,7 +352969,7 @@
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/panneau_chevalet.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57035",
@@ -354618,7 +354599,7 @@
     "priceTtc": 19,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "/images/categories/cone_signalisation.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR104133",
