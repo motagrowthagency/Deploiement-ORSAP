@@ -2,7 +2,6 @@ import { useState, useEffect, useId } from "react"
 import { useSearchParams, Link, useNavigate } from "react-router"
 import { useAuth, AuthUser } from "@/context/AuthContext"
 import SEO from "@/components/SEO"
-import CatalogueDevisBuilder from "@/components/CatalogueDevisBuilder"
 
 interface Submission {
   id: string
@@ -91,8 +90,8 @@ export default function EspaceClient() {
 
   // Client dashboard state
   const tabParam = searchParams.get("tab")
-  const [activeTab, setActiveTab] = useState<"catalogue" | "devis" | "profile" | "docs">(
-    tabParam === "devis" || tabParam === "profile" || tabParam === "docs" ? tabParam : "catalogue"
+  const [activeTab, setActiveTab] = useState<"devis" | "profile" | "docs">(
+    tabParam === "profile" || tabParam === "docs" ? tabParam : "devis"
   )
   const [userSubmissions, setUserSubmissions] = useState<Submission[]>([])
   const [catalogueDevis, setCatalogueDevis] = useState<CatalogueDevis[]>([])
@@ -475,24 +474,6 @@ export default function EspaceClient() {
             <div className="mt-8 flex flex-wrap gap-2 border-t border-white/10 pt-6">
               <button
                 type="button"
-                onClick={() => setActiveTab("catalogue")}
-                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
-                  activeTab === "catalogue"
-                    ? "bg-orsap-red text-white shadow-md shadow-orsap-red/30"
-                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                Catalogue &amp; Chiffrage Express
-                <span className="rounded-full bg-white/20 px-2 py-0.5 font-mono text-[10px] text-white">
-                  48 949 réf.
-                </span>
-              </button>
-
-              <button
-                type="button"
                 onClick={() => setActiveTab("devis")}
                 className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "devis"
@@ -538,21 +519,6 @@ export default function EspaceClient() {
             </div>
           </div>
 
-          {/* TAB 0: CATALOGUE & CHIFFRAGE EXPRESS */}
-          {activeTab === "catalogue" && (
-            <div className="mt-8">
-              <CatalogueDevisBuilder
-                token={token || ""}
-                onSubmitted={() => {
-                  loadClientData()
-                }}
-                onSessionExpired={() => {
-                  logout()
-                }}
-              />
-            </div>
-          )}
-
           {/* TAB 1: DEVIS */}
           {activeTab === "devis" && (
             <div className="mt-8 space-y-10">
@@ -561,19 +527,18 @@ export default function EspaceClient() {
                 <div>
                   <h2 className="font-display text-xl font-bold text-ink">Historique de vos devis et demandes</h2>
                   <p className="text-xs text-ink-soft">
-                    Retrouvez l'ensemble de vos chiffrages catalogue avec références de certification et devis sur-mesure.
+                    Retrouvez l&apos;ensemble de vos demandes de devis et cotations sur-mesure.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("catalogue")}
+                <Link
+                  to="/devis"
                   className="inline-flex items-center gap-2 rounded-lg bg-orsap-red px-4 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orsap-red/25 transition hover:bg-orsap-red-deep"
                 >
                   <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                   </svg>
-                  Nouveau Chiffrage Catalogue
-                </button>
+                  Nouvelle Demande de Devis
+                </Link>
               </div>
 
               {loadingDashboard ? (
@@ -589,21 +554,14 @@ export default function EspaceClient() {
                   </div>
                   <h3 className="font-display text-base font-bold text-ink">Aucune demande de devis enregistrée</h3>
                   <p className="mt-1 text-xs text-ink-soft max-w-sm mx-auto">
-                    Vous n'avez pas encore créé de demande de devis avec cette adresse email ({user.email}).
+                    Vous n&apos;avez pas encore créé de demande de devis avec cette adresse email ({user.email}).
                   </p>
                   <div className="mt-4 flex flex-wrap justify-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab("catalogue")}
-                      className="rounded-lg bg-orsap-red px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white hover:bg-orsap-red-deep"
-                    >
-                      Explorer le Catalogue (48k articles)
-                    </button>
                     <Link
                       to="/devis"
-                      className="rounded-lg border border-hairline bg-paper px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-ink hover:bg-card"
+                      className="rounded-lg bg-orsap-red px-5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white hover:bg-orsap-red-deep"
                     >
-                      Demande Sur-Mesure
+                      Demander un Devis Sur-Mesure
                     </Link>
                   </div>
                 </div>

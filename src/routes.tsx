@@ -16,7 +16,6 @@ import ComingSoon from "@/pages/ComingSoon"
 import Blog from "@/pages/Blog"
 import BlogDetail from "@/pages/BlogDetail"
 import Contact from "@/pages/Contact"
-import Products from "@/pages/Products"
 import Recruitment from "@/pages/Recruitment"
 import EspaceClient from "@/pages/EspaceClient"
 import Admin from "@/pages/Admin"
@@ -33,9 +32,9 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "a-propos", Component: About },
       
-      // Catalogue E-Commerce Architecture
-      { path: "catalogue", Component: Products },
-      { path: "produits", Component: Products },
+      // Redirects for legacy catalogue/produits routes to B2B solutions
+      { path: "catalogue", element: <Navigate to="/solutions" replace /> },
+      { path: "produits", element: <Navigate to="/solutions" replace /> },
       { path: "produits/:category", Component: SolutionDetail },
       { path: "produits/:category/:sub", Component: SolutionDetail },
       

@@ -32,4 +32,5 @@ __pycache__/
 /ORSAP Services - Catalogue.pdf
 /public/ORSAP Services - Catalogue.pdf
 *orsap_catalogue_complet.csv
+*.zip
 

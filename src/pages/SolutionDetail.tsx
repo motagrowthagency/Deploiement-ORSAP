@@ -190,31 +190,21 @@ export default function SolutionDetail() {
   // Render Full-Feature Solution Page (from SOLUTIONS_DATA)
   const item: SolutionItem = solution!
 
-  const productSchema: Record<string, any> = {
+  const serviceSchema: Record<string, any> = {
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": "Service",
     "name": item.title,
     "description": item.description || item.intro,
     "category": item.category,
-    "brand": {
-      "@type": "Brand",
-      "name": "ORSAP"
+    "provider": {
+      "@type": "Organization",
+      "name": "ORSAP SARL",
+      "url": "https://orsap.ma"
     },
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "MAD",
-      "price": "0.00",
-      "priceValidUntil": "2027-12-31",
-      "availability": "https://schema.org/InStock",
-      "url": `https://orsap.ma${item.route}`,
-      "seller": {
-        "@type": "Organization",
-        "name": "ORSAP"
-      }
-    }
+    "areaServed": "Morocco"
   }
 
-  const customSchemas: Array<Record<string, any>> = [productSchema]
+  const customSchemas: Array<Record<string, any>> = [serviceSchema]
 
   if (item.faq && item.faq.length > 0) {
     customSchemas.push({
