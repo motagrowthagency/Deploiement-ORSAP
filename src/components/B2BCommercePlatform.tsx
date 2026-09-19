@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react"
 
 export interface Article {
-  id: string
+  id?: string
   code: string
   designation: string
   tva: number
@@ -9,6 +9,9 @@ export interface Article {
   priceTtc: number
   rayon: string
   famille: string
+  imageUrl?: string
+  image?: string
+  brand?: string
 }
 
 export interface Facets {
@@ -23,6 +26,9 @@ export interface CartLine {
   priceHt: number
   priceTtc: number
   quantity: number
+  imageUrl?: string
+  image?: string
+  brand?: string
   isCustom?: boolean
   notes?: string
 }
@@ -155,6 +161,8 @@ export default function B2BCommercePlatform({
           designation: article.designation,
           priceHt: article.priceHt || 0,
           priceTtc: article.priceTtc || 0,
+          imageUrl: article.imageUrl || article.image,
+          brand: article.brand,
           quantity: newQty,
         },
       }
@@ -479,14 +487,36 @@ export default function B2BCommercePlatform({
                 className="group flex flex-col justify-between rounded-xl border border-hairline bg-card p-4 transition-all hover:border-orsap-red hover:shadow-md"
               >
                 <div>
+                  {/* Product Image preview if available */}
+                  {(art.imageUrl || art.image) ? (
+                    <div className="relative mb-3 h-44 w-full overflow-hidden rounded-xl bg-white border border-hairline/60 flex items-center justify-center p-2 group-hover:border-orsap-red/40 transition">
+                      <img
+                        src={art.imageUrl || art.image}
+                        alt={art.designation}
+                        className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          const p = (e.currentTarget.parentElement as HTMLElement)
+                          if (p) p.style.display = "none"
+                        }}
+                      />
+                    </div>
+                  ) : null}
+
                   {/* SKU & Category Tags */}
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="font-mono text-[11px] font-bold text-orsap-red bg-paper px-2 py-0.5 rounded border border-hairline">
                       {art.code}
                     </span>
-                    <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
-                      Dispo Stock
-                    </span>
+                    {art.brand ? (
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                        {art.brand}
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                        Dispo Stock
+                      </span>
+                    )}
                   </div>
 
                   {art.rayon && (
@@ -689,11 +719,26 @@ export default function B2BCommercePlatform({
                     key={item.code}
                     className="flex items-start justify-between gap-3 rounded-xl border border-hairline bg-card p-3.5"
                   >
+                    {(item.imageUrl || item.image) ? (
+                      <div className="size-14 shrink-0 overflow-hidden rounded-lg border border-hairline bg-white p-1 flex items-center justify-center">
+                        <img
+                          src={item.imageUrl || item.image}
+                          alt={item.designation}
+                          className="h-full w-full object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : null}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-[10px] font-bold text-orsap-red bg-paper px-1.5 py-0.5 rounded border border-hairline">
                           {item.code}
                         </span>
+                        {item.brand && (
+                          <span className="text-[9.5px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-1 py-0.5 rounded">
+                            {item.brand}
+                          </span>
+                        )}
                         {item.isCustom && (
                           <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">
                             Sur-Mesure

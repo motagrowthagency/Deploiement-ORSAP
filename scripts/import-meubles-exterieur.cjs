@@ -117,6 +117,10 @@ for (let i = 1; i < lines.length; i++) {
     target.rayon = 'JARDINAGE ET PLEIN AIR';
     target.famille = 'MEUBLES EXTERIEUR';
     if (brand) target.brand = brand;
+    if (photo) {
+      target.imageUrl = photo;
+      target.image = photo;
+    }
     updatedCount++;
   } else {
     // Add new article
@@ -136,6 +140,10 @@ for (let i = 1; i < lines.length; i++) {
       famille: 'MEUBLES EXTERIEUR',
     };
     if (brand) newArticle.brand = brand;
+    if (photo) {
+      newArticle.imageUrl = photo;
+      newArticle.image = photo;
+    }
 
     articles.push(newArticle);
     articlesByNorm.set(norm, articles.length - 1);
