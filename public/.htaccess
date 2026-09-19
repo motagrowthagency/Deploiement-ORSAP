@@ -78,7 +78,18 @@
   ExpiresByType text/css "access plus 1 month"
   ExpiresByType application/javascript "access plus 1 month"
   ExpiresByType text/javascript "access plus 1 month"
+
+  # Never cache index.html to ensure users always get the latest SPA version
+  ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
+
+<FilesMatch "^(index\.html)?$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </IfModule>
+</FilesMatch>
 
 # ── Prevent Direct Access to Hidden or Sensitive Files ─────────────
 <FilesMatch "^\.(env|git|htaccess)|(\.json|\.sql|\.log|\.md|\.sh|\.lock)$">
