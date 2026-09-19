@@ -26,20 +26,17 @@ jobs:
       - name: 🔨 Compilation du Frontend (Vite)
         run: npm run build
 
-      - name: 🚀 Déploiement sur Heberjahiz via FTP / FTPS
+      - name: 🚀 Déploiement sur Heberjahiz via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        env:
-          NODE_OPTIONS: "--tls-max-v1.2"
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
-          protocol: ftps
+          protocol: ftp
           port: 21
-          security: loose
-          security-options: '{"rejectUnauthorized": false, "maxVersion": "TLSv1.2"}'
+          timeout: 60000
           exclude: |
             **/.git*
             **/.git*/**
