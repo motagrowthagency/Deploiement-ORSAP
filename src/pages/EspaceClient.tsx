@@ -2,6 +2,8 @@ import { useState, useEffect, useId } from "react"
 import { useSearchParams, Link, useNavigate } from "react-router"
 import { useAuth, AuthUser } from "@/context/AuthContext"
 import SEO from "@/components/SEO"
+import B2BCommercePlatform from "@/components/B2BCommercePlatform"
+
 
 interface Submission {
   id: string
@@ -90,8 +92,8 @@ export default function EspaceClient() {
 
   // Client dashboard state
   const tabParam = searchParams.get("tab")
-  const [activeTab, setActiveTab] = useState<"devis" | "profile" | "docs">(
-    tabParam === "profile" || tabParam === "docs" ? tabParam : "devis"
+  const [activeTab, setActiveTab] = useState<"catalogue" | "devis" | "profile" | "docs">(
+    tabParam === "devis" || tabParam === "profile" || tabParam === "docs" ? tabParam : "catalogue"
   )
   const [userSubmissions, setUserSubmissions] = useState<Submission[]>([])
   const [catalogueDevis, setCatalogueDevis] = useState<CatalogueDevis[]>([])
@@ -474,6 +476,21 @@ export default function EspaceClient() {
             <div className="mt-8 flex flex-wrap gap-2 border-t border-white/10 pt-6">
               <button
                 type="button"
+                onClick={() => setActiveTab("catalogue")}
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+                  activeTab === "catalogue"
+                    ? "bg-orsap-red text-white shadow-md shadow-orsap-red/30"
+                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                Boutique &amp; Catalogue B2B (48 000+ réf.)
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setActiveTab("devis")}
                 className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                   activeTab === "devis"
@@ -518,6 +535,19 @@ export default function EspaceClient() {
               </button>
             </div>
           </div>
+
+          {/* TAB 0: BOUTIQUE & CATALOGUE B2B */}
+          {activeTab === "catalogue" && (
+            <div className="mt-8">
+              <B2BCommercePlatform
+                token={token || ""}
+                onOrderSubmitted={() => {
+                  loadClientData()
+                  setActiveTab("devis")
+                }}
+              />
+            </div>
+          )}
 
           {/* TAB 1: DEVIS */}
           {activeTab === "devis" && (
@@ -1214,7 +1244,7 @@ export default function EspaceClient() {
               Espace Client
             </h1>
             <p className="mt-2 text-xs text-white/70">
-              Gérez vos demandes de devis, accédez aux tarifs et documentations techniques
+              Accès exclusif au catalogue B2B (48 000+ références outillage &amp; quincaillerie), cotations directes, commandes et documentations techniques
             </p>
 
             {/* Toggle Switcher */}
