@@ -1110,12 +1110,36 @@ export default function Admin() {
         {/* ── TAB 6: GESTION DU BLOG ──────────────────────────────────── */}
         {activeTab === "blogs" && (
           <div className="space-y-4">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <span>📰 Articles de Blog & Actualités</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/30">
-                {blogsList.length} article(s)
-              </span>
-            </h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <span>📰 Articles de Blog &amp; Actualités</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/30">
+                  {blogsList.length} article(s)
+                </span>
+              </h2>
+
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await fetch("/api/admin/sync/github", { method: "POST", credentials: "include" })
+                    const data = await res.json()
+                    if (data.success) {
+                      showNotification("Synchronisation GitHub réussie ! Tous les articles ont été commités et poussés.")
+                    } else {
+                      showNotification("Sync GitHub: " + (data.error || "Vérifiez le token GitHub configuré."))
+                    }
+                  } catch {
+                    showNotification("Erreur lors de la synchronisation avec GitHub.")
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 transition"
+              >
+                <svg className="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Synchroniser avec GitHub</span>
+              </button>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {blogsList.map((post) => (
