@@ -4,8 +4,15 @@ import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 import SEO from "@/components/SEO"
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
+  const [blogs, setBlogs] = useState<BlogPost[]>(() => {
+    try {
+      const cached = localStorage.getItem("orsap_cached_blogs")
+      const parsed = cached ? JSON.parse(cached) : null
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+    } catch {}
+    return INITIAL_BLOGS
+  })
+  const [loading, setLoading] = useState(() => blogs.length === 0)
 
   useEffect(() => {
     let cancelled = false
@@ -137,9 +144,7 @@ export default function Blog() {
                     {post.title}
                   </h2>
                   <p className="mt-3 flex-1 text-[14.5px] leading-[1.6] text-ink-soft line-clamp-3">
-                    {post.summary && !post.summary.includes(",") && post.summary !== post.title
-                      ? post.summary
-                      : "Consultez notre guide technique et nos recommandations d'experts."}
+                    {post.summary || "Consultez notre guide technique et nos recommandations d'experts."}
                   </p>
                   <Link
                     to={`/blog/${post.id}`}

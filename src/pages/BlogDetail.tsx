@@ -1,7 +1,22 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { Link, useParams } from "react-router"
 import { INITIAL_BLOGS, type BlogPost } from "@/data/blogs"
 import SEO from "@/components/SEO"
+
+function renderFormattedText(text: string): ReactNode {
+  // Support bold **text**
+  const parts = text.split(/(\*\*[^*]+\*\*)/g)
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={i} className="font-bold text-ink">
+          {part.slice(2, -2)}
+        </strong>
+      )
+    }
+    return part
+  })
+}
 
 export default function BlogDetail() {
   const { id } = useParams()
@@ -160,9 +175,9 @@ export default function BlogDetail() {
               </div>
             )}
 
-            {/* PDF Viewer - Prominent at the top */}
+            {/* PDF Banner if present */}
             {post.pdf && (
-              <div className="my-8 border border-hairline bg-surface rounded-sm overflow-hidden shadow-md">
+              <div className="my-8 border border-hairline bg-surface rounded-sm overflow-hidden shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-6 py-4 border-b border-hairline bg-paper/80">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-orsap-red/10 text-orsap-red font-bold text-[12px]">
@@ -173,42 +188,89 @@ export default function BlogDetail() {
                         {post.pdfName || "Document technique ORSAP"}
                       </h3>
                       <p className="text-[12px] text-ink-soft">
-                        Document officiel • Consultation en ligne sécurisée
+                        Document officiel • Consultation &amp; Téléchargement
                       </p>
                     </div>
                   </div>
-                </div>
-
-                <div className="w-full bg-paper overflow-hidden">
-                  <iframe
-                    src={`${post.pdf}#toolbar=0`}
-                    title={post.pdfName || "Document"}
-                    className="w-full h-[680px] border-none"
-                  />
+                  <a
+                    href={post.pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 text-[13px] font-bold uppercase tracking-[0.06em] text-white bg-ink hover:bg-orsap-red transition-colors rounded-sm"
+                  >
+                    Ouvrir le PDF <span>↗</span>
+                  </a>
                 </div>
               </div>
             )}
 
-            {/* Text block - Positioned AFTER the PDF (smaller & discreet) */}
-            {(post.content || post.summary) && (
-              <div className="mt-14 border-t border-hairline pt-8">
-                <div className="rounded-sm border border-hairline/80 bg-paper/70 p-6 sm:p-8 text-[12.5px] leading-[1.75] text-ink-soft">
-                  <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-soft/70">
-                    Termes techniques &amp; Références
-                  </div>
-                  <div className="space-y-4">
-                    {post.content && post.content.split("\n\n").map((para, idx) => (
-                      <p key={idx} className="whitespace-pre-line">
-                        {para}
-                      </p>
-                    ))}
-                    {post.summary && post.summary !== post.content && post.summary !== post.title && (
-                      <p className="whitespace-pre-line pt-3 text-[12px] text-ink-soft/80 border-t border-hairline/60">
-                        {post.summary}
-                      </p>
-                    )}
-                  </div>
-                </div>
+            {/* Article Body Content */}
+            {post.summary && (
+              <div className="mb-8 border-l-4 border-orsap-red bg-paper/90 p-5 text-[16px] font-medium leading-[1.6] text-ink shadow-sm rounded-r-sm">
+                {post.summary}
+              </div>
+            )}
+
+            {post.content && (
+              <div className="space-y-6 text-[16px] leading-[1.8] text-ink/90">
+                {post.content.split("\n\n").map((block, idx) => {
+                  const trimmed = block.trim()
+                  if (trimmed.startsWith("### ")) {
+                    return (
+                      <h3
+                        key={idx}
+                        className="font-display text-[22px] font-black text-ink mt-10 mb-4 pt-4 border-t border-hairline first:border-none first:pt-0"
+                      >
+                        {trimmed.replace(/^###\s+/, "")}
+                      </h3>
+                    )
+                  }
+                  if (trimmed.startsWith("## ")) {
+                    return (
+                      <h2
+                        key={idx}
+                        className="font-display text-[26px] font-black text-ink mt-12 mb-5"
+                      >
+                        {trimmed.replace(/^##\s+/, "")}
+                      </h2>
+                    )
+                  }
+                  if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+                    const items = trimmed.split("\n").filter((l) => l.trim().length > 0)
+                    return (
+                      <ul key={idx} className="my-4 space-y-2 pl-5 list-disc text-ink/90">
+                        {items.map((it, iIdx) => {
+                          const cleanText = it.replace(/^[-*]\s+/, "")
+                          return (
+                            <li key={iIdx} className="leading-[1.7]">
+                              {renderFormattedText(cleanText)}
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )
+                  }
+                  if (/^\d+\.\s+/.test(trimmed)) {
+                    const items = trimmed.split("\n").filter((l) => l.trim().length > 0)
+                    return (
+                      <ol key={idx} className="my-4 space-y-2 pl-5 list-decimal text-ink/90">
+                        {items.map((it, iIdx) => {
+                          const cleanText = it.replace(/^\d+\.\s+/, "")
+                          return (
+                            <li key={iIdx} className="leading-[1.7]">
+                              {renderFormattedText(cleanText)}
+                            </li>
+                          )
+                        })}
+                      </ol>
+                    )
+                  }
+                  return (
+                    <p key={idx} className="leading-[1.8]">
+                      {renderFormattedText(trimmed)}
+                    </p>
+                  )
+                })}
               </div>
             )}
 
