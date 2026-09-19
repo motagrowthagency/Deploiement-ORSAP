@@ -37,13 +37,16 @@ jobs:
           protocol: ftps
           port: 21
           security: loose
-          state-name: .ftp-deploy-sync-state-v2.json
+          state-name: .ftp-deploy-sync-state-v3.json
           timeout: 60000
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
-            **/data/**
-            data/**
+            **/submissions.json
+            **/applications.json
+            **/users.json
+            **/subscribers.json
             **/config.local.php
+
 
