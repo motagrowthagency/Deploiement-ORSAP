@@ -159392,7 +159392,8 @@
     "priceTtc": 79,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_enfant_ariel_rouge.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_enfant_ariel_rouge.jpg",
+    "brand": "NARDI"
   },
   {
     "code": "OR010887",
@@ -160176,7 +160177,8 @@
     "priceTtc": 2379,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relaxe_suspendu_sw3001_1_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relaxe_suspendu_sw3001_1_.jpg",
+    "brand": "ELG"
   },
   {
     "code": "OR118873",
@@ -171557,7 +171559,7 @@
     "priceHt": 224.17,
     "priceTtc": 269,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR",
+    "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/119737.jpg"
   },
   {
@@ -172792,7 +172794,7 @@
     "priceHt": 1075,
     "priceTtc": 1290,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR",
+    "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108569.jpg"
   },
   {
@@ -173819,7 +173821,7 @@
     "priceHt": 95.83,
     "priceTtc": 115,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR",
+    "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_de_plage_pliable_white_2.jpg"
   },
   {
@@ -173829,7 +173831,7 @@
     "priceHt": 95.83,
     "priceTtc": 115,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR",
+    "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_de_plage_pliable_lime_2_1.jpg"
   },
   {
@@ -173839,7 +173841,7 @@
     "priceHt": 95.83,
     "priceTtc": 115,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR",
+    "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/112578.png"
   },
   {
@@ -441646,7 +441648,8 @@
     "priceTtc": 3995,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_manhattan_1_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_manhattan_1_.jpg",
+    "brand": "SHAF"
   },
   {
     "code": "OR1013023",
@@ -441656,7 +441659,8 @@
     "priceTtc": 219,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_elba_1_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_elba_1_.jpg",
+    "brand": "NARDI"
   },
   {
     "code": "OR1013024",
@@ -441702,8 +441706,8 @@
     "code": "OR1013028",
     "designation": "TABLE RONDE  EN TECK",
     "tva": 20,
-    "priceHt": 1575,
-    "priceTtc": 1890,
+    "priceHt": 1908.33,
+    "priceTtc": 2290,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_en_teck_1_1.jpg"
@@ -441722,8 +441726,8 @@
     "code": "OR1013030",
     "designation": "TABLE RONDE EXTENSIBLE EN TECK",
     "tva": 20,
-    "priceHt": 3882.5,
-    "priceTtc": 4659,
+    "priceHt": 4812.5,
+    "priceTtc": 5775,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
     "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_extensible_en_teck_5_.png"
@@ -441786,7 +441790,8 @@
     "priceTtc": 2999,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_manger_arizona.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_manger_arizona.png",
+    "brand": "RAINBOW"
   },
   {
     "code": "OR115146",
@@ -441866,7 +441871,8 @@
     "priceTtc": 2399,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_miami_piedra_4places_1_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_miami_piedra_4places_1_.jpg",
+    "brand": "SHAF"
   },
   {
     "code": "OR1013040",
@@ -441876,7 +441882,8 @@
     "priceTtc": 2999,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_diva_comfort_storage_1_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_diva_comfort_storage_1_.jpg",
+    "brand": "SHAF"
   },
   {
     "code": "OR1013041",
@@ -441886,7 +441893,8 @@
     "priceTtc": 1299,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_miami_te_te_a_te_te_3.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_miami_te_te_a_te_te_3.png",
+    "brand": "SHAF"
   },
   {
     "code": "OR1013042",
@@ -441896,7 +441904,8 @@
     "priceTtc": 3879,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_oasis_5places_en_l_1_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_oasis_5places_en_l_1_.jpg",
+    "brand": "SHAF"
   },
   {
     "code": "OR1013043",
@@ -441906,7 +441915,8 @@
     "priceTtc": 1399,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2023-08-11_a_15.53.46.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2023-08-11_a_15.53.46.png",
+    "brand": "SHAF"
   },
   {
     "code": "OR1013044",
@@ -441916,7 +441926,8 @@
     "priceTtc": 1399,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2023-08-11_a_15.58.13.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2023-08-11_a_15.58.13.png",
+    "brand": "SHAF"
   },
   {
     "code": "OR122817",
@@ -441960,7 +441971,7 @@
   },
   {
     "code": "OR122821",
-    "designation": "TABLE RECTANGULAIRE PLIABLE  FH152 \"",
+    "designation": "TABLE RECTANGULAIRE PLIABLE  FH152 \\\\",
     "tva": 20,
     "priceHt": 482.5,
     "priceTtc": 579,
@@ -441970,7 +441981,7 @@
   },
   {
     "code": "OR1013047",
-    "designation": "TABLE RECTANGULAIRE PLIABLE FH122D\"",
+    "designation": "TABLE RECTANGULAIRE PLIABLE FH122D\\\\",
     "tva": 20,
     "priceHt": 449.17,
     "priceTtc": 539,
@@ -442176,7 +442187,8 @@
     "priceTtc": 299,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/124137_.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/124137_.png",
+    "brand": "HYBA"
   },
   {
     "code": "OR1013059",
@@ -442186,7 +442198,8 @@
     "priceTtc": 209,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_hyba_rouge_design_1_1.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_hyba_rouge_design_1_1.png",
+    "brand": "HYBA"
   },
   {
     "code": "OR1013060",
@@ -442206,7 +442219,8 @@
     "priceTtc": 7999,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125259.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125259.jpg",
+    "brand": "GARDIUN"
   },
   {
     "code": "OR125262",
@@ -442216,7 +442230,8 @@
     "priceTtc": 4490,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125262_mdf.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125262_mdf.jpg",
+    "brand": "GARDIUN"
   },
   {
     "code": "OR125263",
@@ -442226,7 +442241,8 @@
     "priceTtc": 4490,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125263.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125263.jpg",
+    "brand": "GARDIUN"
   },
   {
     "code": "OR126025",
@@ -442286,7 +442302,8 @@
     "priceTtc": 1995,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/e/set_table_de_jardin_ronde_avec_4_chaises_sf4014sf5014_3_.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/e/set_table_de_jardin_ronde_avec_4_chaises_sf4014sf5014_3_.jpg",
+    "brand": "ELG"
   },
   {
     "code": "OR1013065",
@@ -442296,7 +442313,8 @@
     "priceTtc": 6990,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/a/b/abri_de_voiture_en_metal_3.6_x_4.5_m_1_1.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/a/b/abri_de_voiture_en_metal_3.6_x_4.5_m_1_1.png",
+    "brand": "ELG"
   },
   {
     "code": "OR129830",
@@ -442306,7 +442324,8 @@
     "priceTtc": 499,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129830_table_pliante_ppng.png"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129830_table_pliante_ppng.png",
+    "brand": "HOME DECO"
   },
   {
     "code": "OR129846",
@@ -442316,6 +442335,90 @@
     "priceTtc": 99,
     "rayon": "JARDINAGE ET PLEIN AIR",
     "famille": "MEUBLES EXTERIEUR",
-    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129846_chaise_de_camping_png.jpg"
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129846_chaise_de_camping_png.jpg",
+    "brand": "HOME DECO"
+  },
+  {
+    "code": "OR81000",
+    "designation": "TABLE BABY ALODIN ROUGE",
+    "tva": 20,
+    "priceHt": 295.83,
+    "priceTtc": 355,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
+  },
+  {
+    "code": "BR108209",
+    "designation": "TABLE PLIANTE RECTANGULAIRE EN TECK",
+    "tva": 20,
+    "priceHt": 1665.83,
+    "priceTtc": 1999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
+  },
+  {
+    "code": "BR108200",
+    "designation": "TRANSAT FANIA",
+    "tva": 20,
+    "priceHt": 2499.17,
+    "priceTtc": 2999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
+  },
+  {
+    "code": "BR108564",
+    "designation": "MEUBLES DE JARDIN SET 4 PLACES + TABLE BASSE + COUSSINS",
+    "tva": 20,
+    "priceHt": 3825,
+    "priceTtc": 4590,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "brand": "ELG"
+  },
+  {
+    "code": "BR115321",
+    "designation": "PARASOL DEPORTE KHAKI 3X4M",
+    "tva": 20,
+    "priceHt": 4999.17,
+    "priceTtc": 5999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
+  },
+  {
+    "code": "BR115314",
+    "designation": "PARASOL AVEC MANIVELLE DAIM 300CM SOCLE CROISÉ GRIS",
+    "tva": 20,
+    "priceHt": 1082.5,
+    "priceTtc": 1299,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
+  },
+  {
+    "code": "OR81001",
+    "designation": "PARASOL AVEC MANIVELLE SOCLE CROISÉ 200X300 CM GRIS",
+    "tva": 20,
+    "priceHt": 1165.83,
+    "priceTtc": 1399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
+  },
+  {
+    "code": "OR81002",
+    "designation": "SOCLE DE PARASOL EN BETON CARRE 12KG",
+    "tva": 20,
+    "priceHt": 182.5,
+    "priceTtc": 219,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "brand": "ELG"
+  },
+  {
+    "code": "BR123181",
+    "designation": "CHAISE DANTE LOWBACK GRAPHITE 207063",
+    "tva": 20,
+    "priceHt": 182.5,
+    "priceTtc": 219,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR"
   }
 ]
