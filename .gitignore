@@ -28,3 +28,4 @@ public/api/config.local.php
 __pycache__/
 *.pyc
 /ORSAP Services - Catalogue.pdf
+*orsap_catalogue_complet.csv

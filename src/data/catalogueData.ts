@@ -2190,7 +2190,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 60,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c1a89965-379a-5e98-8548-a5909aa9dfd4/7f31a3c9-4b73-501f-9356-23b21e091604.jpg"
+    "image": "/images/categories/cone_chantier.jpg"
   },
   {
     "code": "OR120260",
@@ -5215,7 +5215,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 79,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e917b18a970100590d3303cc0e93897643b2ac32bc193331c342d463746f8ede3228733faec55e30939ba6038bc70b1335ba9958b56c6e08286180c84c2a70dec"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR46904",
@@ -5413,7 +5413,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 187.5,
     "priceTtc": 225,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR56057",
@@ -5783,7 +5784,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 79,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e917b18a970100590d3303cc0e93897643b2ac32bc193331c342d463746f8ede3228733faec55e30939ba6038bc70b1335ba9958b56c6e08286180c84c2a70dec"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR117216",
@@ -85371,7 +85372,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 785,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3f64fab2-5402-5ef5-9f42-defae649a8fc/8c3a3e07-c0c2-5082-b55c-3feb1de096dc.jpg"
+    "image": "/images/categories/cone_chantier.jpg"
   },
   {
     "code": "OR33651",
@@ -149532,7 +149533,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 29.17,
     "priceTtc": 35,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "ARROSAGE"
+    "famille": "PLANTES"
   },
   {
     "code": "OR15008",
@@ -151692,7 +151693,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7.5,
     "priceTtc": 9,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010754",
@@ -151701,7 +151702,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9.58,
     "priceTtc": 11.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010756",
@@ -151710,7 +151711,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 15.83,
     "priceTtc": 19,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010757",
@@ -151719,7 +151720,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 18.75,
     "priceTtc": 22.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010758",
@@ -151728,7 +151729,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 27.5,
     "priceTtc": 33,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010759",
@@ -151737,7 +151738,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32.5,
     "priceTtc": 39,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010760",
@@ -151746,7 +151747,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 40.83,
     "priceTtc": 49,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010761",
@@ -151755,7 +151756,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49.17,
     "priceTtc": 59,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010762",
@@ -151764,7 +151765,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 65.83,
     "priceTtc": 79,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR010763",
@@ -151773,7 +151774,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR21556",
@@ -151809,7 +151810,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5.42,
     "priceTtc": 6.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR27852",
@@ -151818,7 +151819,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8.33,
     "priceTtc": 10,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR27853",
@@ -151827,7 +151828,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 13.75,
     "priceTtc": 16.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR27854",
@@ -151836,7 +151837,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17.5,
     "priceTtc": 21,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR27874",
@@ -151926,7 +151927,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7.08,
     "priceTtc": 8.5,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "PLANTES"
   },
   {
     "code": "OR49030",
@@ -151934,8 +151935,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 58.33,
     "priceTtc": 70,
-    "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "PLANTES"
   },
   {
     "code": "OR53301",
@@ -152007,7 +152008,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 25,
     "priceTtc": 30,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/i/bisagras-clickfence-verde-scaled.jpeg"
   },
   {
     "code": "OR114579",
@@ -152016,7 +152018,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 25,
     "priceTtc": 30,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/i/bisagras-clickfence-blanco-1000x1000.jpeg"
   },
   {
     "code": "OR114580",
@@ -152025,7 +152028,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 25,
     "priceTtc": 30,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/5/1/51_0laapvfl._ac_sl1080_.jpg"
   },
   {
     "code": "OR110942",
@@ -152052,7 +152056,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 715.83,
     "priceTtc": 859,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010687_mdf.jpg"
   },
   {
     "code": "OR010688",
@@ -152061,7 +152066,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 715.83,
     "priceTtc": 859,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010688_mdf.jpg"
   },
   {
     "code": "OR010689",
@@ -152079,7 +152085,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 607.5,
     "priceTtc": 729,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010690_mdf.jpg"
   },
   {
     "code": "OR010691",
@@ -152088,7 +152095,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 607.5,
     "priceTtc": 729,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010691_mdf.jpg"
   },
   {
     "code": "OR010719",
@@ -152115,7 +152123,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 187.5,
     "priceTtc": 225,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010721_mdf.jpg"
   },
   {
     "code": "OR010722",
@@ -152133,7 +152142,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 275,
     "priceTtc": 330,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010723_mdf_1.jpg"
   },
   {
     "code": "OR010728",
@@ -152232,7 +152242,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 832.5,
     "priceTtc": 999,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/103424_mdf.jpg"
   },
   {
     "code": "OR103425",
@@ -152241,7 +152252,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 832.5,
     "priceTtc": 999,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/103425_mdf.jpg"
   },
   {
     "code": "OR103427",
@@ -152268,7 +152280,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 524.17,
     "priceTtc": 629,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/109178.jpg"
   },
   {
     "code": "OR109179",
@@ -152304,25 +152317,28 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32.5,
     "priceTtc": 39,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/112178.jpg"
   },
   {
     "code": "OR113955",
     "designation": "CLOTURE AVEC HERBE ARTIFICIELLE H 1M*10",
     "tva": 20,
-    "priceHt": 1207.5,
-    "priceTtc": 1449,
+    "priceHt": 1082.5,
+    "priceTtc": 1299,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-03-02_a_15.11.25_1.png"
   },
   {
     "code": "OR113956",
     "designation": "CLOTURE AVEC HERBE ARTIFICIELLE H 1.5M*10",
     "tva": 20,
-    "priceHt": 1665.83,
-    "priceTtc": 1999,
+    "priceHt": 1624.17,
+    "priceTtc": 1949,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-03-02_a_15.11.25_2.png"
   },
   {
     "code": "OR120362",
@@ -152366,8 +152382,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 45.83,
     "priceTtc": 55,
-    "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "PLANTES"
   },
   {
     "code": "OR26766",
@@ -152475,7 +152491,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 349.17,
     "priceTtc": 419,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27879_mdf.jpg"
   },
   {
     "code": "OR27886",
@@ -152493,7 +152510,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 429.17,
     "priceTtc": 515,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27887_mdf.jpg"
   },
   {
     "code": "OR27888",
@@ -152565,7 +152583,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 270.83,
     "priceTtc": 325,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27895_mdf.jpg"
   },
   {
     "code": "OR27896",
@@ -152592,7 +152611,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 524.17,
     "priceTtc": 629,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27898._.jpg"
   },
   {
     "code": "OR27899",
@@ -152601,7 +152621,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 332.5,
     "priceTtc": 399,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27899_mdf.jpg"
   },
   {
     "code": "OR27900",
@@ -152610,7 +152631,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 362.5,
     "priceTtc": 435,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27900_mdf_1.jpg"
   },
   {
     "code": "OR27902",
@@ -152619,7 +152641,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 249.17,
     "priceTtc": 299,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27902_mdf.jpg"
   },
   {
     "code": "OR27903",
@@ -152628,7 +152651,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 532.5,
     "priceTtc": 639,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27903_mdf.jpg"
   },
   {
     "code": "OR27904",
@@ -152637,7 +152661,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 387.5,
     "priceTtc": 465,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27904_mdf.jpg"
   },
   {
     "code": "OR27905",
@@ -152646,7 +152671,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 490.83,
     "priceTtc": 589,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27905_mdf.jpg"
   },
   {
     "code": "OR27912",
@@ -152709,7 +152735,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 157.5,
     "priceTtc": 189,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/3/2/32422_mdf.jpg"
   },
   {
     "code": "OR33471",
@@ -152736,7 +152763,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 40.83,
     "priceTtc": 49,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/3/5/35470_mdf.jpg"
   },
   {
     "code": "OR35471",
@@ -152745,7 +152773,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 48.33,
     "priceTtc": 58,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/3/5/35471_mdf.jpg"
   },
   {
     "code": "OR38725",
@@ -152781,7 +152810,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 35,
     "priceTtc": 42,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/1/41885_mdf.jpg"
   },
   {
     "code": "OR41886",
@@ -152808,7 +152838,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49.17,
     "priceTtc": 59,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/1/41888_mdf.jpg"
   },
   {
     "code": "OR41896",
@@ -152961,7 +152992,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 199.17,
     "priceTtc": 239,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/1/41916_mdf.jpg"
   },
   {
     "code": "OR41917",
@@ -152970,7 +153002,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 265.83,
     "priceTtc": 319,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/1/41917_mdf.jpg"
   },
   {
     "code": "OR41918",
@@ -152979,7 +153012,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 362.5,
     "priceTtc": 435,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/1/41918_mdf.jpg"
   },
   {
     "code": "OR41919",
@@ -153006,7 +153040,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 224.17,
     "priceTtc": 269,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/1/41921_mdf.jpg"
   },
   {
     "code": "OR41922",
@@ -153141,7 +153176,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 374.17,
     "priceTtc": 449,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/9/49025_mdf.jpg"
   },
   {
     "code": "OR49026",
@@ -153150,7 +153186,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 325,
     "priceTtc": 390,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/9/49026_mdf.jpg"
   },
   {
     "code": "OR49027",
@@ -153249,7 +153286,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49.17,
     "priceTtc": 59,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/7/1/7176_mdf.jpg"
   },
   {
     "code": "OR90439",
@@ -153294,7 +153332,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 932.5,
     "priceTtc": 1119,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/1/91692_mdf.jpg"
   },
   {
     "code": "OR91693",
@@ -153303,7 +153342,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 932.5,
     "priceTtc": 1119,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/1/91693_mdf.jpg"
   },
   {
     "code": "OR91694",
@@ -153564,7 +153604,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 640.83,
     "priceTtc": 769,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/106992_mdf.jpg"
   },
   {
     "code": "OR108688",
@@ -153654,7 +153695,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1099.17,
     "priceTtc": 1319,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/5/95193_mdf.jpg"
   },
   {
     "code": "OR95594",
@@ -153732,10 +153774,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR100620",
     "designation": "HAIE ARTIFICIELLE 1.5X3 FINO",
     "tva": 20,
-    "priceHt": 407.5,
-    "priceTtc": 489,
+    "priceHt": 908.33,
+    "priceTtc": 1090,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/100620.jpg"
   },
   {
     "code": "OR100621",
@@ -153753,7 +153796,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 90.83,
     "priceTtc": 109,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/100622_mdf.jpg"
   },
   {
     "code": "OR107954",
@@ -153762,7 +153806,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 332.5,
     "priceTtc": 399,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107954_mdf.jpg"
   },
   {
     "code": "OR107955",
@@ -153771,7 +153816,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 382.5,
     "priceTtc": 459,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107955_mdf.jpg"
   },
   {
     "code": "OR107956",
@@ -153780,7 +153826,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 249.17,
     "priceTtc": 299,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107956_mdf.jpg"
   },
   {
     "code": "OR107957",
@@ -153789,7 +153836,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 382.5,
     "priceTtc": 459,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107957_mdf.jpg"
   },
   {
     "code": "OR107958",
@@ -153798,7 +153846,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 540.83,
     "priceTtc": 649,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107958_mdf.jpg"
   },
   {
     "code": "OR107959",
@@ -153807,7 +153856,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107959_mdf.jpg"
   },
   {
     "code": "OR107960",
@@ -153816,7 +153866,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107960.jpg"
   },
   {
     "code": "OR107961",
@@ -153825,7 +153876,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107961.jpg"
   },
   {
     "code": "OR107962",
@@ -153834,7 +153886,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 707.5,
     "priceTtc": 849,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107962_mdf.jpg"
   },
   {
     "code": "OR107963",
@@ -153843,7 +153896,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 707.5,
     "priceTtc": 849,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-04-13_a_12.26.57.png"
   },
   {
     "code": "OR114576",
@@ -153852,7 +153906,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 249.17,
     "priceTtc": 299,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/m/i/mini-vallas-clickfence-lop-40x40cm-blanco-oferta-scaled.jpeg"
   },
   {
     "code": "OR114577",
@@ -153861,7 +153916,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 249.17,
     "priceTtc": 299,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/m/i/mini-vallas-clickfence-lop-40x40cm-marron-oferta-scaled.jpeg"
   },
   {
     "code": "OR114516",
@@ -154104,7 +154160,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 149.17,
     "priceTtc": 179,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/107070-compressed.jpg"
   },
   {
     "code": "OR107071",
@@ -154221,7 +154278,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 172.5,
     "priceTtc": 207,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27859_mdf.png"
   },
   {
     "code": "OR27860",
@@ -154230,7 +154288,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 328.33,
     "priceTtc": 394,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27860..jpg"
   },
   {
     "code": "OR27861",
@@ -154248,7 +154307,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 260.83,
     "priceTtc": 313,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27862_.png"
   },
   {
     "code": "OR27863",
@@ -154266,7 +154326,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 290.83,
     "priceTtc": 349,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/7/27864_mdf.jpg"
   },
   {
     "code": "OR27872",
@@ -154347,7 +154408,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 60,
     "priceTtc": 72,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108497.png"
   },
   {
     "code": "OR108498",
@@ -154389,10 +154451,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR114712",
     "designation": "GAZON ARTIFICIEL CONFORT 20MM (M²)",
     "tva": 20,
-    "priceHt": 99.17,
-    "priceTtc": 119,
+    "priceHt": 132.5,
+    "priceTtc": 159,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/114712.png"
   },
   {
     "code": "OR114814",
@@ -154401,7 +154464,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 162.5,
     "priceTtc": 195,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/114814.png"
   },
   {
     "code": "OR116836",
@@ -154410,7 +154474,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 125,
     "priceTtc": 150,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/116836_.jpg"
   },
   {
     "code": "OR117125",
@@ -154527,7 +154592,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 232.5,
     "priceTtc": 279,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/3/8/38692_mdf.jpg"
   },
   {
     "code": "OR110353",
@@ -154662,7 +154728,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115368.jpg"
   },
   {
     "code": "OR115369",
@@ -154671,7 +154738,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115369.jpg"
   },
   {
     "code": "OR115370",
@@ -154689,7 +154757,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "DECORATION JARDIN"
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115371.jpg"
   },
   {
     "code": "OR115372",
@@ -154734,7 +154803,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1408.33,
     "priceTtc": 1690,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR10758",
@@ -154743,7 +154813,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2983.33,
     "priceTtc": 3580,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109637",
@@ -154752,7 +154823,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1765.83,
     "priceTtc": 2119,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109638",
@@ -154761,7 +154833,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2082.5,
     "priceTtc": 2499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109639",
@@ -154770,7 +154843,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2916.67,
     "priceTtc": 3500,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109640",
@@ -154779,7 +154853,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3499.17,
     "priceTtc": 4199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109641",
@@ -154788,7 +154863,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 432.5,
     "priceTtc": 519,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109642",
@@ -154797,7 +154873,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 490.83,
     "priceTtc": 589,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109643",
@@ -154806,7 +154883,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 640.83,
     "priceTtc": 769,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109644",
@@ -154815,7 +154893,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 765.83,
     "priceTtc": 919,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR109645",
@@ -154824,7 +154903,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 799.17,
     "priceTtc": 959,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109646",
@@ -154833,7 +154913,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 991.67,
     "priceTtc": 1190,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109647",
@@ -154842,7 +154923,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109648",
@@ -154851,7 +154933,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1432.5,
     "priceTtc": 1719,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109649",
@@ -154860,7 +154943,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1215.83,
     "priceTtc": 1459,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109650",
@@ -154869,7 +154953,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1499.17,
     "priceTtc": 1799,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109651",
@@ -154878,7 +154963,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1790.83,
     "priceTtc": 2149,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109652",
@@ -154887,7 +154973,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2382.5,
     "priceTtc": 2859,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR109653",
@@ -154896,7 +154983,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2832.5,
     "priceTtc": 3399,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR112140",
@@ -154905,7 +154993,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR112141",
@@ -154914,7 +155003,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR112142",
@@ -154923,7 +155013,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1912.5,
     "priceTtc": 2295,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR119669",
@@ -154932,7 +155023,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1765.83,
     "priceTtc": 2119,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR119670",
@@ -154941,7 +155033,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2082.5,
     "priceTtc": 2499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR119671",
@@ -154950,7 +155043,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3250,
     "priceTtc": 3900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR119672",
@@ -154959,7 +155053,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 432.5,
     "priceTtc": 519,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR119673",
@@ -154968,7 +155063,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 490.83,
     "priceTtc": 589,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR119674",
@@ -154977,7 +155073,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 640.83,
     "priceTtc": 769,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR119675",
@@ -154986,7 +155083,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 799.17,
     "priceTtc": 959,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119676",
@@ -154995,7 +155093,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 991.67,
     "priceTtc": 1190,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119677",
@@ -155004,7 +155103,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119678",
@@ -155013,7 +155113,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1432.5,
     "priceTtc": 1719,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119679",
@@ -155022,7 +155123,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1215.83,
     "priceTtc": 1459,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119680",
@@ -155031,7 +155133,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1499.17,
     "priceTtc": 1799,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119681",
@@ -155040,7 +155143,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1790.83,
     "priceTtc": 2149,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119682",
@@ -155049,7 +155153,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2382.5,
     "priceTtc": 2859,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR119683",
@@ -155058,7 +155163,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2832.5,
     "priceTtc": 3399,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR15959",
@@ -155067,7 +155173,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1812",
@@ -155076,7 +155183,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 474.17,
     "priceTtc": 569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1813",
@@ -155085,7 +155193,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 615.83,
     "priceTtc": 739,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1814",
@@ -155094,7 +155203,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 724.17,
     "priceTtc": 869,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1823",
@@ -155103,7 +155213,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2158.33,
     "priceTtc": 2590,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1840",
@@ -155112,7 +155223,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR26955",
@@ -155121,7 +155233,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 965.83,
     "priceTtc": 1159,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR26956",
@@ -155130,7 +155243,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1157.5,
     "priceTtc": 1389,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR35350",
@@ -155139,7 +155253,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1632.5,
     "priceTtc": 1959,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR46012",
@@ -155148,7 +155263,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 300,
     "priceTtc": 360,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR46013",
@@ -155157,7 +155273,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 390.83,
     "priceTtc": 469,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR46014",
@@ -155166,7 +155283,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 500,
     "priceTtc": 600,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR46015",
@@ -155175,7 +155293,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 582.5,
     "priceTtc": 699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR46016",
@@ -155184,7 +155303,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 574.17,
     "priceTtc": 689,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46017",
@@ -155193,7 +155313,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 637.5,
     "priceTtc": 765,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46018",
@@ -155202,7 +155323,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 720.83,
     "priceTtc": 865,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46019",
@@ -155211,7 +155333,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 790.83,
     "priceTtc": 949,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR46020",
@@ -155220,7 +155343,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1000,
     "priceTtc": 1200,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46021",
@@ -155229,7 +155353,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1132.5,
     "priceTtc": 1359,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46022",
@@ -155238,7 +155363,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 845.83,
     "priceTtc": 1015,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46023",
@@ -155247,7 +155373,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 916.67,
     "priceTtc": 1100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46024",
@@ -155256,7 +155383,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46025",
@@ -155265,7 +155393,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1245.83,
     "priceTtc": 1495,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46684",
@@ -155274,7 +155403,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10833.33,
     "priceTtc": 13000,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR7722",
@@ -155283,7 +155413,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4199.17,
     "priceTtc": 5039,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR107854",
@@ -155292,7 +155423,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1366.67,
     "priceTtc": 1640,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR15960",
@@ -155301,7 +155433,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1165.83,
     "priceTtc": 1399,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR1811",
@@ -155310,7 +155443,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 365.83,
     "priceTtc": 439,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1815",
@@ -155319,7 +155453,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1316.67,
     "priceTtc": 1580,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1816",
@@ -155328,7 +155463,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1824",
@@ -155337,7 +155473,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2583.33,
     "priceTtc": 3100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1825",
@@ -155346,7 +155483,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2866.67,
     "priceTtc": 3440,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1826",
@@ -155355,7 +155493,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4916.67,
     "priceTtc": 5900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1838",
@@ -155364,7 +155503,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2440.83,
     "priceTtc": 2929,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1839",
@@ -155373,7 +155513,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3240.83,
     "priceTtc": 3889,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1841",
@@ -155382,7 +155523,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1549.17,
     "priceTtc": 1859,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1842",
@@ -155391,7 +155533,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1874.17,
     "priceTtc": 2249,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1843",
@@ -155400,7 +155543,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1941.67,
     "priceTtc": 2330,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46101",
@@ -155409,7 +155553,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3525,
     "priceTtc": 4230,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR57107",
@@ -155436,7 +155581,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2958.33,
     "priceTtc": 3550,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR90086",
@@ -155445,7 +155591,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2140.83,
     "priceTtc": 2569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR101839",
@@ -155454,7 +155601,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8700,
     "priceTtc": 10440,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1819",
@@ -155463,7 +155611,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2683.33,
     "priceTtc": 3220,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1822",
@@ -155472,7 +155621,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4750,
     "priceTtc": 5700,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR21452",
@@ -155481,7 +155631,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2957.5,
     "priceTtc": 3549,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR22125",
@@ -155490,7 +155641,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7274.17,
     "priceTtc": 8729,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR2669",
@@ -155499,7 +155651,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17800,
     "priceTtc": 21360,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR1817",
@@ -155508,7 +155661,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1818",
@@ -155517,7 +155671,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2390.83,
     "priceTtc": 2869,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1820",
@@ -155526,7 +155681,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4891.67,
     "priceTtc": 5870,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1821",
@@ -155535,7 +155691,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5058.33,
     "priceTtc": 6070,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1827",
@@ -155544,7 +155701,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 745.83,
     "priceTtc": 895,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1828",
@@ -155553,7 +155711,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 890.83,
     "priceTtc": 1069,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1829",
@@ -155562,7 +155721,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 974.17,
     "priceTtc": 1169,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_articulee.jpg"
   },
   {
     "code": "OR1830",
@@ -155571,7 +155731,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1199.17,
     "priceTtc": 1439,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1831",
@@ -155580,7 +155741,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1457.5,
     "priceTtc": 1749,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1832",
@@ -155589,7 +155751,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1283.33,
     "priceTtc": 1540,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1833",
@@ -155598,7 +155761,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1441.67,
     "priceTtc": 1730,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1834",
@@ -155607,7 +155771,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1654.17,
     "priceTtc": 1985,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1835",
@@ -155616,7 +155781,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1836",
@@ -155625,7 +155791,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2607.5,
     "priceTtc": 3129,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR1837",
@@ -155634,7 +155801,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3057.5,
     "priceTtc": 3669,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR3818",
@@ -155643,7 +155811,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 16625,
     "priceTtc": 19950,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR38268",
@@ -155652,7 +155821,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5657.5,
     "priceTtc": 6789,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46100",
@@ -155661,7 +155831,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5916.67,
     "priceTtc": 7100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46700",
@@ -155670,7 +155841,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10400,
     "priceTtc": 12480,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR46701",
@@ -155679,7 +155851,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12333.33,
     "priceTtc": 14800,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_transformable.jpg"
   },
   {
     "code": "OR57109",
@@ -155688,7 +155861,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6908.33,
     "priceTtc": 8290,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR57200",
@@ -155697,7 +155871,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12041.67,
     "priceTtc": 14450,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR103511",
@@ -155706,7 +155881,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5532.5,
     "priceTtc": 6639,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR109654",
@@ -155715,7 +155891,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 899.17,
     "priceTtc": 1079,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR109655",
@@ -155724,7 +155901,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1065.83,
     "priceTtc": 1279,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR109656",
@@ -155733,7 +155911,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR109657",
@@ -155742,7 +155921,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR109658",
@@ -155751,7 +155931,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1624.17,
     "priceTtc": 1949,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR109659",
@@ -155760,7 +155941,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1974.17,
     "priceTtc": 2369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR121924",
@@ -155769,7 +155951,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 999.17,
     "priceTtc": 1199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR121925",
@@ -155778,7 +155961,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR121926",
@@ -155787,7 +155971,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1233.33,
     "priceTtc": 1480,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR121927",
@@ -155796,7 +155981,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR121928",
@@ -155805,7 +155991,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR26400",
@@ -155814,7 +156001,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 766.67,
     "priceTtc": 920,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/escabeau_pro.jpg"
   },
   {
     "code": "OR103958",
@@ -155823,7 +156011,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 474.17,
     "priceTtc": 569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR105652",
@@ -155832,7 +156021,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR105653",
@@ -155841,7 +156031,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2124.17,
     "priceTtc": 2549,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR105654",
@@ -155850,7 +156041,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2349.17,
     "priceTtc": 2819,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR47373",
@@ -155859,7 +156051,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 999.17,
     "priceTtc": 1199,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR47374",
@@ -155868,7 +156061,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR47375",
@@ -155877,7 +156071,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1233.33,
     "priceTtc": 1480,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR47376",
@@ -155886,7 +156081,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1415.83,
     "priceTtc": 1699,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR47377",
@@ -155895,7 +156091,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1658.33,
     "priceTtc": 1990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Escabeaux & Marchepieds"
+    "famille": "Escabeaux & Marchepieds",
+    "image": "/images/categories/marchepied_folding.jpg"
   },
   {
     "code": "OR109636",
@@ -155904,7 +156101,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4083.33,
     "priceTtc": 4900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR114437",
@@ -155913,7 +156111,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 43023.33,
     "priceTtc": 51628,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR26804",
@@ -155922,7 +156121,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 13269.17,
     "priceTtc": 15923,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR38158",
@@ -155931,7 +156131,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3966.67,
     "priceTtc": 4760,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR41245",
@@ -155940,7 +156141,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3966.67,
     "priceTtc": 4760,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR41246",
@@ -155949,7 +156151,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1766.67,
     "priceTtc": 2120,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR41247",
@@ -155958,7 +156161,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4650,
     "priceTtc": 5580,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR43537",
@@ -155967,7 +156171,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32716.67,
     "priceTtc": 39260,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR46702",
@@ -155976,7 +156181,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12880,
     "priceTtc": 15456,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR59617",
@@ -155985,7 +156191,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1146.67,
     "priceTtc": 1376,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR90404",
@@ -155994,7 +156201,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4641.67,
     "priceTtc": 5570,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR95312",
@@ -156003,7 +156211,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 33525,
     "priceTtc": 40230,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR95361",
@@ -156012,7 +156221,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 566.67,
     "priceTtc": 680,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR95362",
@@ -156021,7 +156231,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 566.67,
     "priceTtc": 680,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR95363",
@@ -156030,7 +156241,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1265.83,
     "priceTtc": 1519,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR95364",
@@ -156039,7 +156251,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1140.83,
     "priceTtc": 1369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR99349",
@@ -156048,7 +156261,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 20416.67,
     "priceTtc": 24500,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR102842",
@@ -156057,7 +156271,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 50860,
     "priceTtc": 61032,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR46026",
@@ -156066,7 +156281,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 825,
     "priceTtc": 990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR58744",
@@ -156075,7 +156291,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4197.5,
     "priceTtc": 5037,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR58848",
@@ -156084,7 +156301,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5572.5,
     "priceTtc": 6687,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR90822",
@@ -156093,7 +156311,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 39750,
     "priceTtc": 47700,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR94144",
@@ -156102,7 +156321,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 47416.67,
     "priceTtc": 56900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR94621",
@@ -156111,7 +156331,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4158.33,
     "priceTtc": 4990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97875",
@@ -156120,7 +156341,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 22825,
     "priceTtc": 27390,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97876",
@@ -156129,7 +156351,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 23866.67,
     "priceTtc": 28640,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97877",
@@ -156138,7 +156361,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 29641.67,
     "priceTtc": 35570,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97878",
@@ -156147,7 +156371,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32416.67,
     "priceTtc": 38900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97879",
@@ -156156,7 +156381,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5916.67,
     "priceTtc": 7100,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97880",
@@ -156165,7 +156391,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8491.67,
     "priceTtc": 10190,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97881",
@@ -156174,7 +156401,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 21116.67,
     "priceTtc": 25340,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97882",
@@ -156183,7 +156411,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 29300,
     "priceTtc": 35160,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR97883",
@@ -156192,7 +156421,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32458.33,
     "priceTtc": 38950,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113026",
@@ -156201,7 +156431,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4916.67,
     "priceTtc": 5900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113027",
@@ -156210,7 +156441,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2196.67,
     "priceTtc": 2636,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113028",
@@ -156219,7 +156451,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5766.67,
     "priceTtc": 6920,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113029",
@@ -156228,7 +156461,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4916.67,
     "priceTtc": 5900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113030",
@@ -156237,7 +156471,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7113.33,
     "priceTtc": 8536,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113031",
@@ -156246,7 +156481,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5458.33,
     "priceTtc": 6550,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113032",
@@ -156255,7 +156491,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6958.33,
     "priceTtc": 8350,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113033",
@@ -156264,7 +156501,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9980.83,
     "priceTtc": 11977,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR1851",
@@ -156273,7 +156511,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR19613",
@@ -156282,7 +156521,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 24625,
     "priceTtc": 29550,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR20585",
@@ -156291,7 +156531,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17796.67,
     "priceTtc": 21356,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR32812",
@@ -156300,7 +156541,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 22713.33,
     "priceTtc": 27256,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR33037",
@@ -156309,7 +156551,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 69083.33,
     "priceTtc": 82900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR33717",
@@ -156318,7 +156561,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2000,
     "priceTtc": 2400,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR40542",
@@ -156327,7 +156571,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 17883.33,
     "priceTtc": 21460,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échafaudages & Plates-formes"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR39905",
@@ -156336,7 +156581,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 187.5,
     "priceTtc": 225,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR80678",
@@ -156399,7 +156645,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 245.83,
     "priceTtc": 295,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR40184",
@@ -156408,7 +156655,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 433.33,
     "priceTtc": 520,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR100911",
@@ -156417,7 +156665,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 11249.17,
     "priceTtc": 13499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR101011",
@@ -156426,7 +156675,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 15140.83,
     "priceTtc": 18169,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113741",
@@ -156435,7 +156685,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 158291.67,
     "priceTtc": 189950,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR119710",
@@ -156444,7 +156695,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5832.5,
     "priceTtc": 6999,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR119711",
@@ -156453,7 +156705,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6140.83,
     "priceTtc": 7369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR119712",
@@ -156462,7 +156715,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6332.5,
     "priceTtc": 7599,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR119713",
@@ -156471,7 +156725,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7375,
     "priceTtc": 8850,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR32501",
@@ -156480,7 +156735,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 45000,
     "priceTtc": 54000,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR34215",
@@ -156489,7 +156745,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 45000,
     "priceTtc": 54000,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR37904",
@@ -156498,7 +156755,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49158.33,
     "priceTtc": 58990,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR38675",
@@ -156507,7 +156765,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 83250,
     "priceTtc": 99900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR38974",
@@ -156516,7 +156775,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 54500,
     "priceTtc": 65400,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_telescopique.jpg"
   },
   {
     "code": "OR54341",
@@ -156525,7 +156785,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 69083.33,
     "priceTtc": 82900,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR93565",
@@ -156534,7 +156795,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6991.67,
     "priceTtc": 8390,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR94313",
@@ -156543,7 +156805,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7825,
     "priceTtc": 9390,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR96349",
@@ -156552,7 +156815,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5541.67,
     "priceTtc": 6650,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR96350",
@@ -156561,7 +156825,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6140.83,
     "priceTtc": 7369,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR96351",
@@ -156570,7 +156835,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7399.17,
     "priceTtc": 8879,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR98374",
@@ -156579,7 +156845,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 14165.83,
     "priceTtc": 16999,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR113964",
@@ -156588,7 +156855,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9108.33,
     "priceTtc": 10930,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échafaudages & Plates-formes",
+    "image": "/images/categories/echafaudage_roulant.jpg"
   },
   {
     "code": "OR117438",
@@ -158538,10 +158806,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR99507",
     "designation": "CHAISE DE JARDIN DANTE LOWBACK GRAPHITE",
     "tva": 20,
-    "priceHt": 154.17,
-    "priceTtc": 185,
+    "priceHt": 182.5,
+    "priceTtc": 219,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123181.png"
   },
   {
     "code": "OR99510",
@@ -158631,7 +158900,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 299.17,
     "priceTtc": 359,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118661.jpg"
   },
   {
     "code": "OR118662",
@@ -158640,7 +158910,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 299.17,
     "priceTtc": 359,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118662.jpg"
   },
   {
     "code": "OR118663",
@@ -158649,7 +158920,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 232.5,
     "priceTtc": 279,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_delta_gris_fonce_03888_1.jpg"
   },
   {
     "code": "OR118664",
@@ -158658,7 +158930,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 232.5,
     "priceTtc": 279,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_delta_blanc_03887_4.jpg"
   },
   {
     "code": "OR118665",
@@ -158667,7 +158940,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 370.83,
     "priceTtc": 445,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_ona_blanc_-_assise_gris_fonce_03704_1_.jpg"
   },
   {
     "code": "OR118666",
@@ -158676,7 +158950,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 99.17,
     "priceTtc": 119,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118666.jpg"
   },
   {
     "code": "OR118667",
@@ -158685,7 +158960,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 99.17,
     "priceTtc": 119,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118667.jpg"
   },
   {
     "code": "OR118668",
@@ -158694,7 +158970,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 82.5,
     "priceTtc": 99,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118668.jpg"
   },
   {
     "code": "OR91932",
@@ -159090,7 +159367,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 295.83,
     "priceTtc": 355,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_baby_alodin_rouge_1.jpg"
   },
   {
     "code": "OR010839",
@@ -159099,7 +159377,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 295.83,
     "priceTtc": 355,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_baby_alodin_bleu_2.jpg"
   },
   {
     "code": "OR010840",
@@ -159117,7 +159396,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 65.83,
     "priceTtc": 79,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_enfant_ariel_rouge.jpg"
   },
   {
     "code": "OR010887",
@@ -159285,10 +159565,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR108200",
     "designation": "TRANSAT FANIA AVEC PLATEAU EN TECK REF TGF061",
     "tva": 20,
-    "priceHt": 3582.5,
-    "priceTtc": 4299,
+    "priceHt": 2499.17,
+    "priceTtc": 2999,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108200_mdf-compressed.jpg"
   },
   {
     "code": "OR108202",
@@ -159357,10 +159638,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR108209",
     "designation": "TABLE PLIANTE RECTANGULAIRE 12X70EN TECK REF TGF 633A",
     "tva": 20,
-    "priceHt": 2082.5,
-    "priceTtc": 2499,
+    "priceHt": 1665.83,
+    "priceTtc": 1999,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108209_mdf-compressed.jpg"
   },
   {
     "code": "OR39404",
@@ -159648,7 +159930,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 62.5,
     "priceTtc": 75,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/p/i/pied_de_parasol_a_remplir_blanc_mpod-s449_3_.jpg"
   },
   {
     "code": "OR113616",
@@ -159693,7 +159976,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 332.5,
     "priceTtc": 399,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115310_.jpg"
   },
   {
     "code": "OR115311",
@@ -159711,7 +159995,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1165.83,
     "priceTtc": 1399,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/p/a/parasol_avec_manivelle_socle_croise_200x300_cm_gris_1.png"
   },
   {
     "code": "OR115313",
@@ -159729,7 +160014,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115314.png"
   },
   {
     "code": "OR115315",
@@ -159756,7 +160042,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 632.5,
     "priceTtc": 759,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115317_.jpg"
   },
   {
     "code": "OR115318",
@@ -159765,7 +160052,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 707.5,
     "priceTtc": 849,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115318_.jpg"
   },
   {
     "code": "OR115319",
@@ -159792,7 +160080,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4999.17,
     "priceTtc": 5999,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115321_mdf.jpg"
   },
   {
     "code": "OR112579",
@@ -159891,16 +160180,18 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1982.5,
     "priceTtc": 2379,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relaxe_suspendu_sw3001_1_.jpg"
   },
   {
     "code": "OR118873",
     "designation": "RELAX STRUCTURE METALIQUE LOUNGE CHAIR - SF5502",
     "tva": 20,
-    "priceHt": 824.17,
-    "priceTtc": 989,
+    "priceHt": 741.67,
+    "priceTtc": 890,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relax_structure_metalique_lounge_chair_-_sf5502_2.png"
   },
   {
     "code": "OR112581",
@@ -159927,7 +160218,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108564_mdf.jpg"
   },
   {
     "code": "OR115170",
@@ -160572,10 +160864,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR108563",
     "designation": "TABLE DE JARDIN AVEC 6 CHAISES SF4001",
     "tva": 20,
-    "priceHt": 2999.17,
-    "priceTtc": 3599,
+    "priceHt": 2158.33,
+    "priceTtc": 2590,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108563_-compressed.jpg"
   },
   {
     "code": "OR99508",
@@ -160674,7 +160967,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 82.5,
     "priceTtc": 99,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "MEUBLES EXTERIEUR"
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/112575_mdf.jpg"
   },
   {
     "code": "OR4802",
@@ -161178,7 +161472,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8.33,
     "priceTtc": 10,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "OUTILLAGE DE JARDINAGE"
+    "famille": "PLANTES"
   },
   {
     "code": "OR25084",
@@ -161403,7 +161697,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 220.83,
     "priceTtc": 265,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "OUTILLAGE DE JARDINAGE"
+    "famille": "OUTILLAGE DE JARDINAGE",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/5/95196_mdf.jpg"
   },
   {
     "code": "OR108228",
@@ -171267,7 +171562,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 224.17,
     "priceTtc": 269,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR"
+    "famille": "PLEIN AIR ET LOISIR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/119737.jpg"
   },
   {
     "code": "OR119738",
@@ -171312,7 +171608,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 182.5,
     "priceTtc": 219,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR"
+    "famille": "PLEIN AIR ET LOISIR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/o/socle_de_parasol_en_beton_carre_12kg_1_.png"
   },
   {
     "code": "OR119611",
@@ -172497,10 +172794,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR108569",
     "designation": "PARASOL BANANE 3M INCLINABLE A MANIVELLE (8 BRANCHES) SU1009",
     "tva": 20,
-    "priceHt": 1249.17,
-    "priceTtc": 1499,
+    "priceHt": 1075,
+    "priceTtc": 1290,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR"
+    "famille": "PLEIN AIR ET LOISIR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/108569.jpg"
   },
   {
     "code": "OR91637",
@@ -173526,7 +173824,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 95.83,
     "priceTtc": 115,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR"
+    "famille": "PLEIN AIR ET LOISIR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_de_plage_pliable_white_2.jpg"
   },
   {
     "code": "OR112577",
@@ -173535,7 +173834,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 95.83,
     "priceTtc": 115,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR"
+    "famille": "PLEIN AIR ET LOISIR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_de_plage_pliable_lime_2_1.jpg"
   },
   {
     "code": "OR112578",
@@ -173544,7 +173844,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 95.83,
     "priceTtc": 115,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PLEIN AIR ET LOISIR"
+    "famille": "PLEIN AIR ET LOISIR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/112578.png"
   },
   {
     "code": "OR21551",
@@ -189798,7 +190099,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 57.5,
     "priceTtc": 69,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PRODUITS DE PISCINE"
+    "famille": "PLANTES"
   },
   {
     "code": "OR45892",
@@ -192120,7 +192421,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1954.17,
     "priceTtc": 2345,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR118548",
@@ -192129,7 +192431,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2332.5,
     "priceTtc": 2799,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR93868",
@@ -192138,7 +192441,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1674.17,
     "priceTtc": 2009,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR94379",
@@ -192147,7 +192451,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2054.17,
     "priceTtc": 2465,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR94744",
@@ -192156,7 +192461,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2262.5,
     "priceTtc": 2715,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR94745",
@@ -192192,7 +192498,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 274.17,
     "priceTtc": 329,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33320",
@@ -192201,7 +192508,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33321",
@@ -192210,7 +192518,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33322",
@@ -192219,7 +192528,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1374.17,
     "priceTtc": 1649,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33323",
@@ -192228,7 +192538,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33324",
@@ -192237,7 +192548,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33325",
@@ -192246,7 +192558,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1374.17,
     "priceTtc": 1649,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33326",
@@ -192255,7 +192568,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1124.17,
     "priceTtc": 1349,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33327",
@@ -192264,7 +192578,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1249.17,
     "priceTtc": 1499,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR33328",
@@ -192273,7 +192588,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1374.17,
     "priceTtc": 1649,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR38808",
@@ -192282,7 +192598,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1579.17,
     "priceTtc": 1895,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR39567",
@@ -192291,7 +192608,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1575,
     "priceTtc": 1890,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR90883",
@@ -192300,7 +192618,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 474.17,
     "priceTtc": 569,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR98901",
@@ -192309,7 +192628,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1575,
     "priceTtc": 1890,
     "rayon": "ECHELLES ET ECHAFAUDAGES",
-    "famille": "Échelles professionnelles"
+    "famille": "Échelles professionnelles",
+    "image": "/images/categories/ladder_coulissante.jpg"
   },
   {
     "code": "OR105480",
@@ -192639,10 +192959,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR33712",
     "designation": "CHLORE EN POUDRE 90° SWIM-IN-CLEAR 5KG",
     "tva": 20,
-    "priceHt": 187.5,
-    "priceTtc": 225,
+    "priceHt": 145.83,
+    "priceTtc": 175,
     "rayon": "JARDINAGE ET PLEIN AIR",
-    "famille": "PRODUITS DE PISCINE"
+    "famille": "PRODUITS DE PISCINE",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/3/3/33712_mdf2.jpg"
   },
   {
     "code": "OR33713",
@@ -212864,8 +213185,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 162.5,
     "priceTtc": 195,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47641",
@@ -213332,8 +213653,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 324.17,
     "priceTtc": 389,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR58921",
@@ -213557,8 +213878,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 240.83,
     "priceTtc": 289,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR54107",
@@ -216545,8 +216866,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40241",
@@ -216554,8 +216875,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40242",
@@ -216563,8 +216884,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40243",
@@ -216572,8 +216893,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40247",
@@ -216581,8 +216902,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40250",
@@ -216590,8 +216911,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40252",
@@ -216599,8 +216920,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 132.5,
     "priceTtc": 159,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40258",
@@ -216608,8 +216929,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40262",
@@ -216617,8 +216938,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40264",
@@ -216626,8 +216947,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR40265",
@@ -216635,8 +216956,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47534",
@@ -216644,8 +216965,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 70,
     "priceTtc": 84,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47535",
@@ -216653,8 +216974,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47536",
@@ -216662,8 +216983,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 57.5,
     "priceTtc": 69,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47537",
@@ -216671,8 +216992,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 64.58,
     "priceTtc": 77.5,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR55861",
@@ -216681,7 +217002,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 65,
     "priceTtc": 78,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR59342",
@@ -216689,8 +217011,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 70.83,
     "priceTtc": 85,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59343",
@@ -216698,8 +217020,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 62.5,
     "priceTtc": 75,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59344",
@@ -216707,8 +217029,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59345",
@@ -216716,8 +217038,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59902",
@@ -216725,8 +217047,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 62.5,
     "priceTtc": 75,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59903",
@@ -216734,8 +217056,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 107.5,
     "priceTtc": 129,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59904",
@@ -216743,8 +217065,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 62.5,
     "priceTtc": 75,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR59905",
@@ -216752,8 +217074,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 107.5,
     "priceTtc": 129,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100860",
@@ -216770,8 +217092,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100870",
@@ -216779,8 +217101,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100871",
@@ -216788,8 +217110,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100872",
@@ -216797,8 +217119,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100873",
@@ -216806,8 +217128,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100874",
@@ -216815,8 +217137,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100898",
@@ -216824,8 +217146,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 581.67,
     "priceTtc": 698,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR100899",
@@ -216833,8 +217155,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR101077",
@@ -216842,8 +217164,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR101078",
@@ -216851,8 +217173,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR103339",
@@ -216860,8 +217182,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR103340",
@@ -216869,8 +217191,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR118791",
@@ -216878,8 +217200,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR120540",
@@ -216887,8 +217209,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR120541",
@@ -216896,8 +217218,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR120542",
@@ -216905,8 +217227,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR120543",
@@ -216914,8 +217236,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR121236",
@@ -216923,8 +217245,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 21.67,
     "priceTtc": 26,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR70975",
@@ -216932,8 +217254,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 163.33,
     "priceTtc": 196,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR70976",
@@ -216941,8 +217263,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 163.33,
     "priceTtc": 196,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR70977",
@@ -216950,8 +217272,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR90802",
@@ -216959,8 +217281,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR90803",
@@ -216968,8 +217290,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 3.25,
     "priceTtc": 3.9,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR90804",
@@ -216977,8 +217299,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 3.25,
     "priceTtc": 3.9,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR90807",
@@ -216986,8 +217308,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR90808",
@@ -216995,8 +217317,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 32.5,
     "priceTtc": 39,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR91411",
@@ -217004,8 +217326,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 7.5,
     "priceTtc": 9,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR92166",
@@ -217013,8 +217335,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165.83,
     "priceTtc": 199,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR93003",
@@ -217022,8 +217344,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR93656",
@@ -217031,8 +217353,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 156.67,
     "priceTtc": 188,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR93657",
@@ -217040,8 +217362,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 163.33,
     "priceTtc": 196,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR93682",
@@ -217049,8 +217371,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR93684",
@@ -217058,8 +217380,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 81.67,
     "priceTtc": 98,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR93686",
@@ -217076,8 +217398,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 33.25,
     "priceTtc": 39.9,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR94817",
@@ -217085,8 +217407,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 113.33,
     "priceTtc": 136,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR95214",
@@ -217094,8 +217416,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 249.17,
     "priceTtc": 299,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR95215",
@@ -217103,8 +217425,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 249.17,
     "priceTtc": 299,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR97631",
@@ -217121,8 +217443,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR98430",
@@ -217130,8 +217452,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 80,
     "priceTtc": 96,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR99616",
@@ -217149,7 +217471,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 46.67,
     "priceTtc": 56,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35264",
@@ -217158,7 +217481,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 49.17,
     "priceTtc": 59,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35265",
@@ -217167,7 +217491,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 50,
     "priceTtc": 60,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35267",
@@ -217176,7 +217501,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 51.67,
     "priceTtc": 62,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR35270",
@@ -217185,7 +217511,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 51.67,
     "priceTtc": 62,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR47904",
@@ -217193,8 +217520,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47907",
@@ -217202,8 +217529,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 90.83,
     "priceTtc": 109,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47908",
@@ -217211,8 +217538,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47909",
@@ -217220,8 +217547,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47910",
@@ -217229,8 +217556,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47911",
@@ -217238,8 +217565,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47912",
@@ -217247,8 +217574,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 91.67,
     "priceTtc": 110,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47913",
@@ -217256,8 +217583,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 91.67,
     "priceTtc": 110,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47914",
@@ -217265,8 +217592,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47915",
@@ -217274,8 +217601,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47916",
@@ -217283,8 +217610,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47917",
@@ -217292,8 +217619,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47918",
@@ -217301,8 +217628,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47919",
@@ -217310,8 +217637,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47920",
@@ -217319,8 +217646,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47921",
@@ -217328,8 +217655,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47922",
@@ -217337,8 +217664,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47923",
@@ -217346,8 +217673,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 91.67,
     "priceTtc": 110,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47924",
@@ -217355,8 +217682,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 112.5,
     "priceTtc": 135,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47925",
@@ -217364,8 +217691,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115.83,
     "priceTtc": 139,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47926",
@@ -217373,8 +217700,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR47927",
@@ -217382,8 +217709,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR98411",
@@ -217391,8 +217718,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 79.17,
     "priceTtc": 95,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR101475",
@@ -217454,8 +217781,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR102255",
@@ -217464,7 +217791,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165,
     "priceTtc": 198,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR102283",
@@ -217472,8 +217800,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR102284",
@@ -217481,8 +217809,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR102285",
@@ -217490,8 +217818,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR102286",
@@ -217499,8 +217827,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 15.83,
     "priceTtc": 19,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR112927",
@@ -217508,8 +217836,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115,
     "priceTtc": 138,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR112928",
@@ -217517,8 +217845,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 115,
     "priceTtc": 138,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR114116",
@@ -217526,8 +217854,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR102812",
@@ -217535,8 +217863,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 140,
     "priceTtc": 168,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR103063",
@@ -217544,8 +217872,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR103064",
@@ -217553,8 +217881,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR103065",
@@ -217634,8 +217962,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR104091",
@@ -217679,8 +218007,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR106023",
@@ -217688,8 +218016,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 74.17,
     "priceTtc": 89,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR106024",
@@ -217697,8 +218025,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR106417",
@@ -217715,8 +218043,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 54.17,
     "priceTtc": 65,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR107204",
@@ -217724,8 +218052,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR107205",
@@ -217733,8 +218061,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR107206",
@@ -217742,8 +218070,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR107207",
@@ -217751,8 +218079,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR107281",
@@ -217760,8 +218088,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR107282",
@@ -217769,8 +218097,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 40.83,
     "priceTtc": 49,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR108272",
@@ -217778,8 +218106,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR108273",
@@ -217787,8 +218115,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR108274",
@@ -217796,8 +218124,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR108275",
@@ -217805,8 +218133,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 65.83,
     "priceTtc": 79,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR108669",
@@ -217814,8 +218142,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 165,
     "priceTtc": 198,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR109205",
@@ -217823,8 +218151,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 99.17,
     "priceTtc": 119,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR109206",
@@ -217832,8 +218160,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 107.5,
     "priceTtc": 129,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR109207",
@@ -217841,8 +218169,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 123.33,
     "priceTtc": 148,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR109208",
@@ -217850,8 +218178,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 82.5,
     "priceTtc": 99,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR109209",
@@ -217859,8 +218187,8 @@ export const ALL_ARTICLES: Article[] = [
     "tva": 20,
     "priceHt": 90.83,
     "priceTtc": 109,
-    "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "rayon": "LUMINAIRE",
+    "famille": "Éclairage jardin & Balisage"
   },
   {
     "code": "OR109591",
@@ -247308,7 +247636,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 20.83,
     "priceTtc": 25,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR105174",
@@ -247317,7 +247646,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 24.17,
     "priceTtc": 29,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR105175",
@@ -247327,7 +247657,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 465,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/b4b796e6-8c36-52df-91b4-c11c91e80583/5d1fb866-bea0-5de5-ac1d-53dcaffcdca5.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR106775",
@@ -249064,7 +249394,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1958.33,
     "priceTtc": 2350,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR97392",
@@ -249082,7 +249413,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 16.25,
     "priceTtc": 19.5,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR47433",
@@ -250738,7 +251070,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 82.5,
     "priceTtc": 99,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR98582",
@@ -252205,7 +252538,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 40.83,
     "priceTtc": 49,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR52580",
@@ -252214,7 +252548,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 190.83,
     "priceTtc": 229,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR52581",
@@ -252223,7 +252558,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 24.17,
     "priceTtc": 29,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR55731",
@@ -252233,7 +252569,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR55732",
@@ -252242,7 +252578,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 607.5,
     "priceTtc": 729,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR57568",
@@ -252251,7 +252588,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 499.17,
     "priceTtc": 599,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR98388",
@@ -252261,7 +252599,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 1399,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Sécurité Incendie & Extincteurs",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f870331f-4db5-586d-a50e-1f5f078bc7a3/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR100145",
@@ -252270,7 +252608,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 524.17,
     "priceTtc": 629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR45511",
@@ -252279,7 +252618,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 195.83,
     "priceTtc": 235,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR7310",
@@ -252288,7 +252628,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 32.5,
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR7311",
@@ -252297,7 +252638,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 37.5,
     "priceTtc": 45,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Sécurité Incendie & Extincteurs"
+    "famille": "Sécurité Incendie & Extincteurs",
+    "image": "/images/categories/extincteur_incendie.jpg"
   },
   {
     "code": "OR7334",
@@ -341215,7 +341557,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 82.5,
     "priceTtc": 99,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR21009",
@@ -341224,7 +341567,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 136.67,
     "priceTtc": 164,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR21010",
@@ -341233,7 +341577,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 208.33,
     "priceTtc": 250,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR41187",
@@ -341242,7 +341587,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 75,
     "priceTtc": 90,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR58935",
@@ -341251,7 +341597,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR58936",
@@ -341260,7 +341607,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 154.17,
     "priceTtc": 185,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR58937",
@@ -341269,7 +341617,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 182.5,
     "priceTtc": 219,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR107143",
@@ -341278,7 +341627,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165.83,
     "priceTtc": 199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR107144",
@@ -341287,7 +341637,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 241.67,
     "priceTtc": 290,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR107145",
@@ -341296,8 +341647,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 315.83,
     "priceTtc": 379,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c8f15b10-3186-5659-8849-0c4af8e13340/19fff8e5-c8d2-5bcc-b34c-43e2ef28b80a.jpg"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR116969",
@@ -341306,7 +341657,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 132.5,
     "priceTtc": 159,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR116970",
@@ -341315,7 +341667,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 316.67,
     "priceTtc": 380,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR116971",
@@ -341324,7 +341677,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 449.17,
     "priceTtc": 539,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR532",
@@ -341333,7 +341687,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 240.83,
     "priceTtc": 289,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR533",
@@ -341342,7 +341697,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 299.17,
     "priceTtc": 359,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/armoire_cles.jpg"
   },
   {
     "code": "OR20225",
@@ -341351,7 +341707,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 79.17,
     "priceTtc": 95,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR20226",
@@ -341360,7 +341717,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 99.17,
     "priceTtc": 119,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR20227",
@@ -341369,7 +341727,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 124.17,
     "priceTtc": 149,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR21305",
@@ -341378,7 +341737,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 66.67,
     "priceTtc": 80,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR58938",
@@ -341387,7 +341747,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 99.17,
     "priceTtc": 119,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR58939",
@@ -341396,7 +341757,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR58940",
@@ -341405,7 +341767,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165.83,
     "priceTtc": 199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107140",
@@ -341414,7 +341777,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 115.83,
     "priceTtc": 139,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107141",
@@ -341423,7 +341787,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 132.5,
     "priceTtc": 159,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107142",
@@ -341432,7 +341797,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 174.17,
     "priceTtc": 209,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR500",
@@ -341441,7 +341807,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 115.83,
     "priceTtc": 139,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR501",
@@ -341450,7 +341817,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 140.83,
     "priceTtc": 169,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR530",
@@ -341459,7 +341827,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 165.83,
     "priceTtc": 199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR109473",
@@ -341468,7 +341837,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 249.17,
     "priceTtc": 299,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107857",
@@ -341477,7 +341847,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 107.5,
     "priceTtc": 129,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107858",
@@ -341486,7 +341857,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 115.83,
     "priceTtc": 139,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107859",
@@ -341495,7 +341867,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 157.5,
     "priceTtc": 189,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR118538",
@@ -341504,7 +341877,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4125,
     "priceTtc": 4950,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR120364",
@@ -341522,7 +341896,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4991.67,
     "priceTtc": 5990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR35962",
@@ -341531,7 +341906,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5825,
     "priceTtc": 6990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR35963",
@@ -341540,7 +341916,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9583.33,
     "priceTtc": 11500,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR35964",
@@ -341549,7 +341926,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12491.67,
     "priceTtc": 14990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR42274",
@@ -341559,7 +341937,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 999,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/71650049-3d8d-5e2a-b955-686a3645bec0/85f3b98f-e456-5087-921e-d0501c5dbf35.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR42275",
@@ -341568,7 +341946,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1329.17,
     "priceTtc": 1595,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR46875",
@@ -341586,7 +341965,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1657.5,
     "priceTtc": 1989,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR53170",
@@ -341595,7 +341975,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 957.5,
     "priceTtc": 1149,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR99921",
@@ -341604,7 +341985,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3000,
     "priceTtc": 3600,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR99922",
@@ -341613,7 +341995,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3825,
     "priceTtc": 4590,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR99923",
@@ -341622,7 +342005,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3833.33,
     "priceTtc": 4600,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR99924",
@@ -341631,7 +342015,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3958.33,
     "priceTtc": 4750,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR27441",
@@ -341640,7 +342025,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 491.67,
     "priceTtc": 590,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR31308",
@@ -341694,7 +342080,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 8332.5,
     "priceTtc": 9999,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR31334",
@@ -341703,7 +342090,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10582.5,
     "priceTtc": 12699,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR31335",
@@ -341712,7 +342100,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 12847.5,
     "priceTtc": 15417,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR3479",
@@ -341748,7 +342137,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5665.83,
     "priceTtc": 6799,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR99260",
@@ -341766,7 +342156,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 7324.17,
     "priceTtc": 8789,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR39903",
@@ -341776,7 +342167,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 6699,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e8d85ebcb1b3a4211bffa73fcd3cd250052ad3ffbaa50350e23db751c4b8213f0dfdd9f804c102346a1946e0122ee8fe46e73e1312e164b"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR113980",
@@ -341785,7 +342176,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5829.17,
     "priceTtc": 6995,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR113981",
@@ -341794,7 +342186,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6245.83,
     "priceTtc": 7495,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR120363",
@@ -341803,7 +342196,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4408.33,
     "priceTtc": 5290,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR121123",
@@ -341812,7 +342206,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 749.17,
     "priceTtc": 899,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR35958",
@@ -341821,7 +342216,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 482.5,
     "priceTtc": 579,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR35959",
@@ -341830,7 +342226,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1082.5,
     "priceTtc": 1299,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR35960",
@@ -341839,7 +342236,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1000,
     "priceTtc": 1200,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR38475",
@@ -341848,7 +342246,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1162.5,
     "priceTtc": 1395,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR38476",
@@ -341857,7 +342256,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1274.17,
     "priceTtc": 1529,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR38477",
@@ -341866,7 +342266,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 749.17,
     "priceTtc": 899,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR50196",
@@ -341875,7 +342276,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 457.5,
     "priceTtc": 549,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR50197",
@@ -341884,7 +342286,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5412.5,
     "priceTtc": 6495,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR50198",
@@ -341893,7 +342296,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 5825,
     "priceTtc": 6990,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR55709",
@@ -341902,7 +342306,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 958.33,
     "priceTtc": 1150,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR58934",
@@ -341911,7 +342316,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2749.17,
     "priceTtc": 3299,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR60397",
@@ -341920,7 +342326,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3658.33,
     "priceTtc": 4390,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR90464",
@@ -341929,7 +342336,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 215.83,
     "priceTtc": 259,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR93855",
@@ -341938,7 +342346,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2915.83,
     "priceTtc": 3499,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR93862",
@@ -341947,7 +342356,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 6625,
     "priceTtc": 7950,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR93865",
@@ -341956,7 +342366,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3329.17,
     "priceTtc": 3995,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR94383",
@@ -341965,7 +342376,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 2665.83,
     "priceTtc": 3199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR94496",
@@ -341974,7 +342386,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 999.17,
     "priceTtc": 1199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR94497",
@@ -341983,7 +342396,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR94498",
@@ -341992,7 +342406,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1832.5,
     "priceTtc": 2199,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR94499",
@@ -342001,7 +342416,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 832.5,
     "priceTtc": 999,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107146",
@@ -342010,7 +342426,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 574.17,
     "priceTtc": 689,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107147",
@@ -342055,7 +342472,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1115.83,
     "priceTtc": 1339,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107838",
@@ -342064,7 +342482,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1365.83,
     "priceTtc": 1639,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107839",
@@ -342073,7 +342492,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1482.5,
     "priceTtc": 1779,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107840",
@@ -342082,7 +342502,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 1607.5,
     "priceTtc": 1929,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107841",
@@ -342092,7 +342513,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 5560,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/a25a9167-bbfd-5b12-9d30-0e915a3c92ac/09673c47-08f7-52ee-9ece-e18113d39bcd.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107842",
@@ -342102,7 +342523,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 7375,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e3f151be9112be73d593036f7bd3d819123fcaa365679f4be107f472af042b872c948f1454cfd3640110ce4d57f4328b095e0f9a0f6e608562cbcefa7bd79c4ae"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR107843",
@@ -342112,7 +342533,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 8629,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/a25a9167-bbfd-5b12-9d30-0e915a3c92ac/09673c47-08f7-52ee-9ece-e18113d39bcd.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR113258",
@@ -342203,7 +342624,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 520,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6eb8f7e49f04f8cfee8437920570ca5432594016359567a0f1b9e5ea789b6b6abfc4800e932e6ae9a61ae8e317fa86ca154d3736083fb5faea93af78e36c14e3b0"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR57202",
@@ -342213,7 +342634,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 6499,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e55b701e2d477782d40c937c93924a3c2947d74f50b8f5824d25dde3ccb6c7f8547fc8858541f5d6e109d388ccc1a864c81297f09c6aec30a9e99395a60549715"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR70620",
@@ -342223,7 +342644,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 249,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR70621",
@@ -342251,7 +342672,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 569,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR101214",
@@ -342261,7 +342682,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 599,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Coffres-forts & Sécurité physique",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4d3063a2-ea2d-5d17-a646-373e56eea9dd/7c7ff811-149f-51e7-b23d-7da89ff9d512.jpg"
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR25913",
@@ -351640,7 +352061,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 3.72,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/608c34c8-f551-5e53-9676-081eb5964296/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR104601",
@@ -351650,7 +352071,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 37.2,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ea5daaf3b66002fc9a7d40869799fda20e8c4a7b18c73f6efc70bde3dc02402cb190d963643d06426d1116ae7b647cf2c89f88f3ba086e129e4aeacb39e76cdc5"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR105205",
@@ -351930,7 +352351,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR44480",
@@ -351940,7 +352361,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 39,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR44499",
@@ -352238,7 +352659,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/093e9f11-5949-5d3a-8e19-8a4532c4dedd/6143fc3a-3876-57b7-88b6-7cdf15895113.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101900",
@@ -352248,7 +352669,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ed1aafd2503eca8c621993886a22d5554124498b901fc0522c45fdeb96a2aa264061373faba842e6dcce9ef9dc3953b61f02121d3985291f9457274f3afd5d3bf"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101901",
@@ -352258,7 +352679,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8699f999-5998-535c-9bb8-b79512330b48/10f1907b-2567-564d-b1ad-0ade96af1083.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101902",
@@ -352268,7 +352689,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101903",
@@ -352278,7 +352699,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6edec3987dd2e40d523e6ff274bb59c1f888e56faf15a84e3fa1d0445c0e7a3bf3db76822508d199cb55d7671a5c93b296df5be3791b77de437085feeaa93b462e"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101904",
@@ -352288,7 +352709,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 10,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/8a5040d0-7f13-59f4-9b7b-e3074d578d96/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101905",
@@ -352298,7 +352719,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/e58191ee-db34-55b1-ac41-735eaa1efafe/88db8e19-69db-53bd-bfec-3008f8f2a3b8.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101906",
@@ -352308,7 +352729,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 15,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ef37c36b96a6a37440e4521872e15b287a857f16168a1ef704b5c16108e5c47f122304567f6a38612e7009c74efbcb7fd1592b405acf5e62af079d128795c3559"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101907",
@@ -352318,7 +352739,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 10,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/75d20b47-e935-5378-b04e-395e768cfdbc/a69c50b3-59ce-58ef-816e-abf5def34122.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR101908",
@@ -352625,7 +353046,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57028",
@@ -352635,7 +353056,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57029",
@@ -352645,7 +353066,7 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
     "famille": "Signalisation de chantier & Balisage",
-    "image": "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbd65fab-6624-5e9f-a9ef-4bea88827a01/9f399b24-922d-580c-8aa4-9632e6b294b2.jpg"
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57030",
@@ -352654,7 +353075,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 10,
     "priceTtc": 12,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR57035",
@@ -354283,7 +354705,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 15.83,
     "priceTtc": 19,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Signalisation de chantier & Balisage"
+    "famille": "Signalisation de chantier & Balisage",
+    "image": "/images/categories/panneau_signalisation.jpg"
   },
   {
     "code": "OR104133",
@@ -358837,7 +359260,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 60,
     "priceTtc": 72,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Coffres-forts & Sécurité physique"
+    "famille": "Coffres-forts & Sécurité physique",
+    "image": "/images/categories/coffre_fort_securite.jpg"
   },
   {
     "code": "OR94413",
@@ -394609,10 +395033,11 @@ export const ALL_ARTICLES: Article[] = [
     "code": "OR114689",
     "designation": "CLIMATISEUR ECOPLUS  9000 BTU CARRIER SPLIT+UNITE",
     "tva": 20,
-    "priceHt": 3082.5,
-    "priceTtc": 3699,
+    "priceHt": 22.42,
+    "priceTtc": 26.9,
     "rayon": "SANITAIRE ET ETANCHEITE",
-    "famille": "CLIMATISEUR"
+    "famille": "CLIMATISEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/114689.png"
   },
   {
     "code": "OR114690",
@@ -425158,7 +425583,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 3.17,
     "priceTtc": 3.8,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs"
+    "famille": "Protection de voirie & Ralentisseurs",
+    "image": "/images/categories/ralentisseur_voirie.jpg"
   },
   {
     "code": "OR105916",
@@ -425167,7 +425593,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 4.58,
     "priceTtc": 5.5,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs"
+    "famille": "Protection de voirie & Ralentisseurs",
+    "image": "/images/categories/ralentisseur_voirie.jpg"
   },
   {
     "code": "OR105917",
@@ -425176,7 +425603,8 @@ export const ALL_ARTICLES: Article[] = [
     "priceHt": 9.17,
     "priceTtc": 11,
     "rayon": "SIGNALISATION ET SECURITE CHANTIER",
-    "famille": "Protection de voirie & Ralentisseurs"
+    "famille": "Protection de voirie & Ralentisseurs",
+    "image": "/images/categories/ralentisseur_voirie.jpg"
   },
   {
     "code": "OR105931",
@@ -440594,6 +441022,1306 @@ export const ALL_ARTICLES: Article[] = [
     "priceTtc": 6592,
     "rayon": "SANITAIRE ET ETANCHEITE",
     "famille": "ROBINETTERIE"
+  },
+  {
+    "code": "OR1013000",
+    "designation": "KIT FIXATION VOILE D’OMBRAGE – 6 PIÈCES AVEC VIS – INOX 304",
+    "tva": 20,
+    "priceHt": 65.83,
+    "priceTtc": 79,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/k/i/kit_fixation_voile_d_ombrage_6_pi_ces_avec_vis_1.png"
+  },
+  {
+    "code": "OR1013001",
+    "designation": "KIT FIXATION VOILE D’OMBRAGE – 8 PIÈCES AVEC VIS – INOX 304",
+    "tva": 20,
+    "priceHt": 82.5,
+    "priceTtc": 99,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/k/i/kit_fixation_voile_d_ombrage_8_pi_ces_avec_vis_inox_30_3.png"
+  },
+  {
+    "code": "OR129841",
+    "designation": "VOILE D'OMBRAGE 170G 3.6X3.6X3.6M BEIGE VES-6273",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129841_toile_ombrage_beige_png.jpg"
+  },
+  {
+    "code": "OR129842",
+    "designation": "VOILE D'OMBRAGE 170G 3.6X3.6M GREY VES-6274",
+    "tva": 20,
+    "priceHt": 290.83,
+    "priceTtc": 349,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129842_voile_ombarge_gris_4_crochets_png.jpg"
+  },
+  {
+    "code": "OR129843",
+    "designation": "VOILE D'OMBRAGE 170G 3.6X3.6M BEIGE VES-6275",
+    "tva": 20,
+    "priceHt": 290.83,
+    "priceTtc": 349,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129843_voile_ombrage_beige_4_png.jpg"
+  },
+  {
+    "code": "OR129844",
+    "designation": "VOILE D'OMBRAGE 170G 3X4M GREY VES-6276",
+    "tva": 20,
+    "priceHt": 332.5,
+    "priceTtc": 399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129844_voile_ombrage_gris_3x4m_png.jpg"
+  },
+  {
+    "code": "OR129845",
+    "designation": "VOILE D'OMBRAGE 170G 3X4M BEIGE",
+    "tva": 20,
+    "priceHt": 332.5,
+    "priceTtc": 399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129845_voile_ombrage_3_x4_m_png.jpg"
+  },
+  {
+    "code": "OR1013002",
+    "designation": "VOILE D'OMBRAGE 170G 3.6X3.6X3.6M GRIS",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/v/o/voile_ombrage_gris_1_1.jpg"
+  },
+  {
+    "code": "OR10731",
+    "designation": "ROULEAU MOUSTIQUAIRE 1X3 BLANC 174521",
+    "tva": 20,
+    "priceHt": 120.83,
+    "priceTtc": 145,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010731.jpg"
+  },
+  {
+    "code": "OR10730",
+    "designation": "ROULEAU MOUSTIQUAIRE 1X3 VERT",
+    "tva": 20,
+    "priceHt": 120.83,
+    "priceTtc": 145,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/0/1/010730.jpg"
+  },
+  {
+    "code": "OR106690",
+    "designation": "DALLE DE TERRASSE EGAZON SYNTHETIQUE  CD-GRS-1",
+    "tva": 20,
+    "priceHt": 57.5,
+    "priceTtc": 69,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/0/106690_.png"
+  },
+  {
+    "code": "OR1013003",
+    "designation": "CLOTURE HERBE ARTIFICIELLE  2M*10M",
+    "tva": 20,
+    "priceHt": 2500,
+    "priceTtc": 3000,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-03-02_a_15.11.25.png"
+  },
+  {
+    "code": "OR40010001",
+    "designation": "PACK 9 DALLES CLICKFLOOR MADERA 30X30CM",
+    "tva": 20,
+    "priceHt": 524.17,
+    "priceTtc": 629,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/0/40010001_1.jpeg"
+  },
+  {
+    "code": "OR1013004",
+    "designation": "PACK 9 DALLES CLICKFLOOR PIEDRA 30X30CM",
+    "tva": 20,
+    "priceHt": 482.5,
+    "priceTtc": 579,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/a/baldosa-sintetica-lop-imitacion-piedra.jpeg"
+  },
+  {
+    "code": "OR1013005",
+    "designation": "PACK 9 DALLES CLICKFLOOR  PIZARRA 30X30CM",
+    "tva": 20,
+    "priceHt": 499.17,
+    "priceTtc": 599,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-04-08_a_11.10.06.png"
+  },
+  {
+    "code": "OR114569",
+    "designation": "PACK 5 BORDURES TRONCS CLICKBORDER",
+    "tva": 20,
+    "priceHt": 207.5,
+    "priceTtc": 249,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/114569-compressed.jpg"
+  },
+  {
+    "code": "OR1013006",
+    "designation": "PACK 5 BORDURES TRONCS CLICKBORDER 40X20CM",
+    "tva": 20,
+    "priceHt": 207.5,
+    "priceTtc": 249,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/o/bordura-jardin-clickborder-40x20cm-blanca-catral-scaled.jpeg"
+  },
+  {
+    "code": "OR1013007",
+    "designation": "PACK 5 BORDURES TRONCS CLICKBORDER 40X20CM",
+    "tva": 20,
+    "priceHt": 207.5,
+    "priceTtc": 249,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/o/bordura-jardin-clickborder-40x20cm-marron-catral-scaled.jpeg"
+  },
+  {
+    "code": "OR1013008",
+    "designation": "PACK 5 BORDURES TRONCS CLICKBORDER 40X20CM",
+    "tva": 20,
+    "priceHt": 207.5,
+    "priceTtc": 249,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/o/bordura-jardin-clickborder-40x20cm-antracita-scaled.jpeg"
+  },
+  {
+    "code": "OR1013009",
+    "designation": "PACK 5 BORDURES PLANCHE CLICKBORDER",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/o/bordillo-jardin-clickborder-40x20cm-verde-scaled.jpeg"
+  },
+  {
+    "code": "OR1013010",
+    "designation": "PACK 5 BORDURES PLANCHE CLICKBORDER 40X20CM",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/o/bordillo-jardin-clickborder-lop-40x20cm-marron-catral-scaled.jpeg"
+  },
+  {
+    "code": "OR1013011",
+    "designation": "PACK 5 BORDURES PLANCHE CLICKBORDER 40X20CM",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/o/bordillo-jardin-clickborder-lop-40x20cm-antracita-oferta-scaled.jpeg"
+  },
+  {
+    "code": "OR1013012",
+    "designation": "PANNEAU DECORATIF NAUTIC 1X1M",
+    "tva": 20,
+    "priceHt": 457.5,
+    "priceTtc": 549,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-10-04_a_08.58.00.png"
+  },
+  {
+    "code": "OR1013013",
+    "designation": "PANNEAU NAUTIC 1x1M ANTHRACITE",
+    "tva": 20,
+    "priceHt": 457.5,
+    "priceTtc": 549,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/n/a/nautic.png"
+  },
+  {
+    "code": "OR1013014",
+    "designation": "PANNEAU DECORATIF MOON 1X1M",
+    "tva": 20,
+    "priceHt": 457.5,
+    "priceTtc": 549,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2022-10-04_a_09.00.03.png"
+  },
+  {
+    "code": "OR2019490",
+    "designation": "PANNEAU DECORATIF MOON 1X1M",
+    "tva": 20,
+    "priceHt": 457.5,
+    "priceTtc": 549,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/2/0/2019490_a.jpeg"
+  },
+  {
+    "code": "OR118137",
+    "designation": "DALLE DE TERRASSE CLIPSABLE VES-4303",
+    "tva": 20,
+    "priceHt": 40.83,
+    "priceTtc": 49,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118137_.jpg"
+  },
+  {
+    "code": "OR123237",
+    "designation": "PARASOL 3/3 V LED SOLAIRE AVEC SOCLE",
+    "tva": 20,
+    "priceHt": 5491.67,
+    "priceTtc": 6590,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123237-compressed.jpg"
+  },
+  {
+    "code": "OR125265",
+    "designation": "PERGOLA MURALE ELLIOT 8 M2 EN ALUMINIUM ET POLYCARBONATE GARDIUN MARQUISE",
+    "tva": 20,
+    "priceHt": 8332.5,
+    "priceTtc": 9999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125265.jpg"
+  },
+  {
+    "code": "OR1013015",
+    "designation": "TAPIS Z- NOIR 5MM LARGEUR1,20M (ML)",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/tapis_z-_noir_5mm_largeur1_20m_ml_2_.png"
+  },
+  {
+    "code": "OR1013016",
+    "designation": "TAPIS Z NOIR 5MM LARGEUR 0,9M (ML)",
+    "tva": 20,
+    "priceHt": 140.83,
+    "priceTtc": 169,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/tapis_z_noir_5mm_largeur_0_9m_ml_1_.png"
+  },
+  {
+    "code": "OR1013017",
+    "designation": "TAPIS Z ROUGE 5MM LARGEUR 0,9M (ML)",
+    "tva": 20,
+    "priceHt": 140.83,
+    "priceTtc": 169,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/tapis_z_rouge_5mm_largeur_0_9m_ml_1_.jpg"
+  },
+  {
+    "code": "OR1013018",
+    "designation": "TAPIS Z- ROUGE 5MM LARGEUR1,20M (ML)",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/tapis_z-_rouge_5mm_largeur1_20m_ml_1_.jpg"
+  },
+  {
+    "code": "OR1013019",
+    "designation": "TAPIS Z- GRIS 5MM LARGEUR1,20M (ML)",
+    "tva": 20,
+    "priceHt": 165.83,
+    "priceTtc": 199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/tapis_z-_gris_5mm_largeur1_20m_ml_2_.jpg"
+  },
+  {
+    "code": "OR1013020",
+    "designation": "TAPIS Z GRIS 5MM LARGEUR 0,9M (ML)",
+    "tva": 20,
+    "priceHt": 140.83,
+    "priceTtc": 169,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/tapis_z_gris_5mm_largeur_0_9m_ml_1_.jpg"
+  },
+  {
+    "code": "OR128504",
+    "designation": "PIERRES DÉCORATIVES GALETS COLORÉS 2KG 4-6MM-PR38-046",
+    "tva": 20,
+    "priceHt": 20.83,
+    "priceTtc": 25,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128504_.png"
+  },
+  {
+    "code": "OR128513",
+    "designation": "PIERRES DÉCORATIVES ARDOISE VERTE 650G 1-3CM-PRCS-108",
+    "tva": 20,
+    "priceHt": 12.5,
+    "priceTtc": 15,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128513.png"
+  },
+  {
+    "code": "OR128514",
+    "designation": "PIERRES DÉCORATIVES ARDOISE GRENAT 650G 1-3CM-PRCS-112",
+    "tva": 20,
+    "priceHt": 12.5,
+    "priceTtc": 15,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128514.png"
+  },
+  {
+    "code": "OR128521",
+    "designation": "COQUILLAGES DÉCORATIFS 850G-PRSSM-101",
+    "tva": 20,
+    "priceHt": 49.17,
+    "priceTtc": 59,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128521.png"
+  },
+  {
+    "code": "OR128505",
+    "designation": "PIERRES DÉCORATIVES POLIES NOIRES 2KG 8-12MM-PR01-812",
+    "tva": 20,
+    "priceHt": 16.67,
+    "priceTtc": 20,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128505_1.png"
+  },
+  {
+    "code": "OR128506",
+    "designation": "PIERRES DÉCORATIVES POLIES COLORÉES 2KG 1-2 CM-PR05-102",
+    "tva": 20,
+    "priceHt": 13.33,
+    "priceTtc": 16,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128506.png"
+  },
+  {
+    "code": "OR128509",
+    "designation": "PIERRES DÉCORATIVES GLAZE NOIRES 1KG  17-19MM-PRGN-117",
+    "tva": 20,
+    "priceHt": 29.17,
+    "priceTtc": 35,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128509.png"
+  },
+  {
+    "code": "OR128522",
+    "designation": "COQUILLAGES DÉCORATIFS 650G-PRSS-129",
+    "tva": 20,
+    "priceHt": 65.83,
+    "priceTtc": 79,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128522.png"
+  },
+  {
+    "code": "OR128520",
+    "designation": "COQUILLAGES DÉCORATIFS 550G-PRSS-104",
+    "tva": 20,
+    "priceHt": 49.17,
+    "priceTtc": 59,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128520.png"
+  },
+  {
+    "code": "OR128523",
+    "designation": "COQUILLAGES DÉCORATIFS 600G-PRSS-1577",
+    "tva": 20,
+    "priceHt": 49.17,
+    "priceTtc": 59,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128523.png"
+  },
+  {
+    "code": "OR128524",
+    "designation": "COQUILLAGES DÉCORATIFS BROYÉS 700 G  2-4CM-PRCSS-116",
+    "tva": 20,
+    "priceHt": 20,
+    "priceTtc": 24,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128524_1.png"
+  },
+  {
+    "code": "OR128511",
+    "designation": "PIERRES DÉCORATIVES GALETS BLANCS 2KG 8-12MM-PR10-812",
+    "tva": 20,
+    "priceHt": 20,
+    "priceTtc": 24,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128511_.png"
+  },
+  {
+    "code": "OR128517",
+    "designation": "PIERRES DÉCORATIVES GALETS GRIS 2KG 1-2CM-PR07-102",
+    "tva": 20,
+    "priceHt": 16.67,
+    "priceTtc": 20,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128517_.png"
+  },
+  {
+    "code": "OR128518",
+    "designation": "PIERRES DÉCORATIVES GALETS MOUCHETÉS 1.8KG 1-2CM-PR49-102",
+    "tva": 20,
+    "priceHt": 20.83,
+    "priceTtc": 25,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128518_.png"
+  },
+  {
+    "code": "OR128515",
+    "designation": "PIERRES DÉCORATIVES GALETS ROSE INDIEN 750G 5-8MM-PRP111-058",
+    "tva": 20,
+    "priceHt": 12.5,
+    "priceTtc": 15,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128515.png"
+  },
+  {
+    "code": "OR128516",
+    "designation": "PIERRES DÉCORATIVES JADE 2KG 1-2CM-PR34-102",
+    "tva": 20,
+    "priceHt": 20.83,
+    "priceTtc": 25,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128516_.png"
+  },
+  {
+    "code": "OR128507",
+    "designation": "PIERRES DÉCORATIVES BLANCHES 2KG  1-2CM-PR06-102",
+    "tva": 20,
+    "priceHt": 16.67,
+    "priceTtc": 20,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128507.png"
+  },
+  {
+    "code": "OR128508",
+    "designation": "PIERRES DÉCORATIVES GLAZE BLANCHES 1KG 17-19MM-PRGN-116",
+    "tva": 20,
+    "priceHt": 29.17,
+    "priceTtc": 35,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128508.png"
+  },
+  {
+    "code": "OR128510",
+    "designation": "PIERRES DÉCORATIVES CRYSTALISÉES VERTES 800 G  1-2CM-PRGN-102F",
+    "tva": 20,
+    "priceHt": 20,
+    "priceTtc": 24,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128510.png"
+  },
+  {
+    "code": "OR128512",
+    "designation": "PIERRES DÉCORATIVES ARDOISE JAUNE 650G 1-3CM-PRCS-101",
+    "tva": 20,
+    "priceHt": 12.5,
+    "priceTtc": 15,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128512.png"
+  },
+  {
+    "code": "OR128519",
+    "designation": "PIERRES DÉCORATIVES LAVE 950G 3-5CM-PR02-305",
+    "tva": 20,
+    "priceHt": 20,
+    "priceTtc": 24,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/128519.png"
+  },
+  {
+    "code": "OR54780",
+    "designation": "PIERRE DECORATIVE 12/18",
+    "tva": 20,
+    "priceHt": 104.17,
+    "priceTtc": 125,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/5/4/54780_copie.png"
+  },
+  {
+    "code": "OR1013021",
+    "designation": "PIERRE DECORATIVE 20.40",
+    "tva": 20,
+    "priceHt": 104.17,
+    "priceTtc": 125,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/5/4/54780_copie.png"
+  },
+  {
+    "code": "OR90453",
+    "designation": "BRISE VUE EXTRANET",
+    "tva": 20,
+    "priceHt": 365.83,
+    "priceTtc": 439,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/0/90453._1.jpg"
+  },
+  {
+    "code": "OR94443",
+    "designation": "BILLES DECORATIVES",
+    "tva": 20,
+    "priceHt": 16.67,
+    "priceTtc": 20,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/4/94443_mdf.jpg"
+  },
+  {
+    "code": "OR94444",
+    "designation": "BILLES DECORATIVES",
+    "tva": 20,
+    "priceHt": 18.33,
+    "priceTtc": 22,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/4/94444_mdf.jpg"
+  },
+  {
+    "code": "OR95176",
+    "designation": "FIL BARBELE JP13 100X4P",
+    "tva": 20,
+    "priceHt": 107.5,
+    "priceTtc": 129,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "DECORATION JARDIN",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/9/5/95176_mdf.jpg"
+  },
+  {
+    "code": "OR1013022",
+    "designation": "SALON DE JARDIN MANHATTAN",
+    "tva": 20,
+    "priceHt": 3329.17,
+    "priceTtc": 3995,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_manhattan_1_.jpg"
+  },
+  {
+    "code": "OR1013023",
+    "designation": "CHAISE ELBA",
+    "tva": 20,
+    "priceHt": 182.5,
+    "priceTtc": 219,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_elba_1_.jpg"
+  },
+  {
+    "code": "OR1013024",
+    "designation": "CHAISE EMPILABLE BALI EN TECK",
+    "tva": 20,
+    "priceHt": 999.17,
+    "priceTtc": 1199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_empilable_bali_en_teck_1.png"
+  },
+  {
+    "code": "OR1013025",
+    "designation": "CHAISE HAMPTON PLIABLE EN TECK",
+    "tva": 20,
+    "priceHt": 532.5,
+    "priceTtc": 639,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_hampton_pliable_en_teck_4.png"
+  },
+  {
+    "code": "OR1013026",
+    "designation": "TABLE À MANGER EN TECK CARRÉE POUR PIQUE NIQUE",
+    "tva": 20,
+    "priceHt": 957.5,
+    "priceTtc": 1149,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_a_manger_en_teck_carre_e_pour_pique_nique_3.png"
+  },
+  {
+    "code": "OR1013027",
+    "designation": "TABLE À MANGER RONDE POUR PIQUE-NIQUE",
+    "tva": 20,
+    "priceHt": 1075,
+    "priceTtc": 1290,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/4/9/496.png"
+  },
+  {
+    "code": "OR1013028",
+    "designation": "TABLE RONDE  EN TECK",
+    "tva": 20,
+    "priceHt": 1575,
+    "priceTtc": 1890,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_en_teck_1_1.jpg"
+  },
+  {
+    "code": "OR1013029",
+    "designation": "TABLE RONDE  EN TECK",
+    "tva": 20,
+    "priceHt": 1908.33,
+    "priceTtc": 2290,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_en_teck_2.jpg"
+  },
+  {
+    "code": "OR1013030",
+    "designation": "TABLE RONDE EXTENSIBLE EN TECK",
+    "tva": 20,
+    "priceHt": 3882.5,
+    "priceTtc": 4659,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_extensible_en_teck_5_.png"
+  },
+  {
+    "code": "OR1013031",
+    "designation": "TABLE RONDE EXTENSIBLE EN TECK",
+    "tva": 20,
+    "priceHt": 4812.5,
+    "priceTtc": 5775,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_extensible_en_teck_4.png"
+  },
+  {
+    "code": "OR110609",
+    "designation": "PARASOL A MANIVELLE",
+    "tva": 20,
+    "priceHt": 1215.83,
+    "priceTtc": 1459,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/110609_mdf.jpg"
+  },
+  {
+    "code": "OR1013032",
+    "designation": "RELAX SUNLOUNGER MALIBU BLANC",
+    "tva": 20,
+    "priceHt": 521.67,
+    "priceTtc": 626,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relax_sunlounger_malibu_blanc_4.jpg"
+  },
+  {
+    "code": "OR115144",
+    "designation": "SET ALASKA 4 PLACES + TABLE MARRON",
+    "tva": 20,
+    "priceHt": 2408.33,
+    "priceTtc": 2890,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115144.jpeg"
+  },
+  {
+    "code": "OR1013033",
+    "designation": "SALON SET MANHATTAN STYLE MEUBLES DE JARDIN",
+    "tva": 20,
+    "priceHt": 2957.5,
+    "priceTtc": 3549,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_set_manhattan_style_meubles_de_jardin_4.png"
+  },
+  {
+    "code": "OR1013034",
+    "designation": "TABLE À MANGER ARIZONA AVEC 6 CHAISES",
+    "tva": 20,
+    "priceHt": 2499.17,
+    "priceTtc": 2999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_manger_arizona.png"
+  },
+  {
+    "code": "OR115146",
+    "designation": "FAUTEUIL DE JARDIN SUSPENDU",
+    "tva": 20,
+    "priceHt": 2708.33,
+    "priceTtc": 3250,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/115146_mdf.png"
+  },
+  {
+    "code": "OR1013035",
+    "designation": "SWING APPLE FAUTEUIL SUSPENDU GRIS",
+    "tva": 20,
+    "priceHt": 2708.33,
+    "priceTtc": 3250,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/_/s/_swing_apple_fauteuil_suspendu_gris_2.jpg"
+  },
+  {
+    "code": "OR1013036",
+    "designation": "BALANCELLE SWING LARGE CONFORTABLE BEIGE",
+    "tva": 20,
+    "priceHt": 2241.67,
+    "priceTtc": 2690,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/a/balancelle_swing_large_confortable_beige_1_.jpg"
+  },
+  {
+    "code": "OR1013037",
+    "designation": "BALANCELLE SWING MEDIUM CONFORTABLE BEIGE",
+    "tva": 20,
+    "priceHt": 2075,
+    "priceTtc": 2490,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/a/balancelle_swing_medium_confortable_beige_2_.png"
+  },
+  {
+    "code": "OR1013038",
+    "designation": "BALANCELLE SWING LARGE GRIS",
+    "tva": 20,
+    "priceHt": 2241.67,
+    "priceTtc": 2690,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/b/a/bal-swing.png"
+  },
+  {
+    "code": "OR118874",
+    "designation": "TABLE DE JARDIN PLUS DEUX CHAISES        SF 4805",
+    "tva": 20,
+    "priceHt": 1249.17,
+    "priceTtc": 1499,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/118874_ffn.jpg"
+  },
+  {
+    "code": "OR119728",
+    "designation": "SET MEUBLES JARDIN MIAMI BALCONY GRAPHITE",
+    "tva": 20,
+    "priceHt": 1658.33,
+    "priceTtc": 1990,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/1/119728.png"
+  },
+  {
+    "code": "OR1013039",
+    "designation": "SALON DE JARDIN MIAMI PIEDRA 4PLACES",
+    "tva": 20,
+    "priceHt": 1999.17,
+    "priceTtc": 2399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_miami_piedra_4places_1_.jpg"
+  },
+  {
+    "code": "OR1013040",
+    "designation": "SALON DE JARDIN DIVA COMFORT STORAGE",
+    "tva": 20,
+    "priceHt": 2499.17,
+    "priceTtc": 2999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_diva_comfort_storage_1_.jpg"
+  },
+  {
+    "code": "OR1013041",
+    "designation": "SALON DE JARDIN MIAMI TÊTE À TÊTE",
+    "tva": 20,
+    "priceHt": 1082.5,
+    "priceTtc": 1299,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_miami_te_te_a_te_te_3.png"
+  },
+  {
+    "code": "OR1013042",
+    "designation": "SALON DE JARDIN OASIS 5PLACES EN L",
+    "tva": 20,
+    "priceHt": 3232.5,
+    "priceTtc": 3879,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon_de_jardin_oasis_5places_en_l_1_.jpg"
+  },
+  {
+    "code": "OR1013043",
+    "designation": "SET DE JARDIN 2 CHAISES ET TABLE BAKU + MONACO MARQUE SHAF",
+    "tva": 20,
+    "priceHt": 1165.83,
+    "priceTtc": 1399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2023-08-11_a_15.53.46.png"
+  },
+  {
+    "code": "OR1013044",
+    "designation": "SET DE JARDIN 2 CHAISES +TABLE BAKU+MONACO",
+    "tva": 20,
+    "priceHt": 1165.83,
+    "priceTtc": 1399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2023-08-11_a_15.58.13.png"
+  },
+  {
+    "code": "OR122817",
+    "designation": "TABLE RONDE PLIABLE  RH152",
+    "tva": 20,
+    "priceHt": 1241.67,
+    "priceTtc": 1490,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/122817_copie.png"
+  },
+  {
+    "code": "OR1013045",
+    "designation": "TABLE RONDE PLIABLE RH122",
+    "tva": 20,
+    "priceHt": 832.5,
+    "priceTtc": 999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/122817_copie_3.png"
+  },
+  {
+    "code": "OR122823",
+    "designation": "CHAISE PLIANTE D'EXTERIEURE  Y01",
+    "tva": 20,
+    "priceHt": 290.83,
+    "priceTtc": 349,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/122823_copie.png"
+  },
+  {
+    "code": "OR1013046",
+    "designation": "TABLE RECTANGULAIRE PLIABLE  FH180D",
+    "tva": 20,
+    "priceHt": 582.5,
+    "priceTtc": 699,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_rectangulaire_pliable_fh180d_2.jpg"
+  },
+  {
+    "code": "OR122821",
+    "designation": "TABLE RECTANGULAIRE PLIABLE  FH152 \"",
+    "tva": 20,
+    "priceHt": 482.5,
+    "priceTtc": 579,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/122821_copie.png"
+  },
+  {
+    "code": "OR1013047",
+    "designation": "TABLE RECTANGULAIRE PLIABLE FH122D\"",
+    "tva": 20,
+    "priceHt": 449.17,
+    "priceTtc": 539,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_rectangulaire_pliable_fh122d_221.jpg"
+  },
+  {
+    "code": "OR1013048",
+    "designation": "TABLE RONDE PLIABLE  R180",
+    "tva": 20,
+    "priceHt": 2325,
+    "priceTtc": 2790,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ronde_pliable_r180_2.png"
+  },
+  {
+    "code": "OR122822",
+    "designation": "TABLE RECTANGULAIRE PLIABLE  FH240",
+    "tva": 20,
+    "priceHt": 991.67,
+    "priceTtc": 1190,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/122822_copie_2.png"
+  },
+  {
+    "code": "OR122826",
+    "designation": "SET PARIS LOUNGE",
+    "tva": 20,
+    "priceHt": 2916.67,
+    "priceTtc": 3500,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/122826.png"
+  },
+  {
+    "code": "OR123275",
+    "designation": "TABLE OCEAN SIDE 45X45 DARK GREY",
+    "tva": 20,
+    "priceHt": 245.83,
+    "priceTtc": 295,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123275.jpg"
+  },
+  {
+    "code": "OR1013049",
+    "designation": "CHAISE BLOOM DARK GREY",
+    "tva": 20,
+    "priceHt": 820.83,
+    "priceTtc": 985,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_bloom_dark_grey_3.jpg"
+  },
+  {
+    "code": "OR123233",
+    "designation": "SET TABLE SOLDING+ 2TABOURET HELEN",
+    "tva": 20,
+    "priceHt": 1999.17,
+    "priceTtc": 2399,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123233_1.jpg"
+  },
+  {
+    "code": "OR123246",
+    "designation": "SALON DE JARDIN VENUS",
+    "tva": 20,
+    "priceHt": 2075,
+    "priceTtc": 2490,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123246.jpg"
+  },
+  {
+    "code": "OR1013050",
+    "designation": "CHAISE BLOOM",
+    "tva": 20,
+    "priceHt": 770.83,
+    "priceTtc": 925,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_bloom_5.png"
+  },
+  {
+    "code": "OR123272",
+    "designation": "SET TABLE LAGOS ANTHRACITE+ 6 FAUTEUIL PARIS DARK GREY",
+    "tva": 20,
+    "priceHt": 7665.83,
+    "priceTtc": 9199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123272.jpg"
+  },
+  {
+    "code": "OR123236",
+    "designation": "SET SAM TATVAN TABLE  + 4 CHAISE METALIQUE",
+    "tva": 20,
+    "priceHt": 2408.33,
+    "priceTtc": 2890,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123236.jpg"
+  },
+  {
+    "code": "OR1013051",
+    "designation": "RELAX PACIFIC",
+    "tva": 20,
+    "priceHt": 1332.5,
+    "priceTtc": 1599,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relax_pacific_3.png"
+  },
+  {
+    "code": "OR1013052",
+    "designation": "TABLE OCEAN SIDE 45X45 TAUPE",
+    "tva": 20,
+    "priceHt": 245.83,
+    "priceTtc": 295,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_ocean_side_45x45_taupe_2.png"
+  },
+  {
+    "code": "OR1013053",
+    "designation": "SET SAM SKY 1:TABLE 105 RONDE+ 4 FAUTEUIL PARIS",
+    "tva": 20,
+    "priceHt": 3075,
+    "priceTtc": 3690,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/a/capture_d_e_cran_2025-05-21_a_15.40.14.png"
+  },
+  {
+    "code": "OR123273",
+    "designation": "RELAX PACIFIC DARK GREY",
+    "tva": 20,
+    "priceHt": 1332.5,
+    "priceTtc": 1599,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/123273_mdf.jpg"
+  },
+  {
+    "code": "OR1013054",
+    "designation": "FAUTEUIL PANORA",
+    "tva": 20,
+    "priceHt": 290.83,
+    "priceTtc": 349,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/f/a/fauteuil_panora_png.png"
+  },
+  {
+    "code": "OR1013055",
+    "designation": "CHAISE FIJI BLANCHE",
+    "tva": 20,
+    "priceHt": 182.5,
+    "priceTtc": 219,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/c/h/chaise_fiji_blanche_2.png"
+  },
+  {
+    "code": "OR1013056",
+    "designation": "RELAX CAIMAN BLANC",
+    "tva": 20,
+    "priceHt": 565.83,
+    "priceTtc": 679,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/r/e/relax_caiman_blanc_1_1.png"
+  },
+  {
+    "code": "OR1013057",
+    "designation": "TABLE BASSE DE JARDIN ALASKA BLANCHE",
+    "tva": 20,
+    "priceHt": 207.5,
+    "priceTtc": 249,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_basse_de_jardin_alaska_blanche_1.png"
+  },
+  {
+    "code": "OR1013058",
+    "designation": "TABLE BASSE DE JARDIN ALASKA ANTRHACITE",
+    "tva": 20,
+    "priceHt": 207.5,
+    "priceTtc": 249,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_basse_de_jardin_alaska_antracite_1.png"
+  },
+  {
+    "code": "OR124137",
+    "designation": "CHAISE HYBA ROUGE DESIGN",
+    "tva": 20,
+    "priceHt": 249.17,
+    "priceTtc": 299,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/124137_.png"
+  },
+  {
+    "code": "OR1013059",
+    "designation": "TABLE HYBA ROUGE DESIGN",
+    "tva": 20,
+    "priceHt": 174.17,
+    "priceTtc": 209,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_hyba_rouge_design_1_1.png"
+  },
+  {
+    "code": "OR1013060",
+    "designation": "TABLE MERCURIO BLANCHE",
+    "tva": 20,
+    "priceHt": 382.5,
+    "priceTtc": 459,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/t/a/table_mercurio_blanche_3.png"
+  },
+  {
+    "code": "OR125259",
+    "designation": "MAISON EN RÉSINE GARDIUN MARENA 2,47M2 GARDIUN COULEUR ANTHRACITE",
+    "tva": 20,
+    "priceHt": 6665.83,
+    "priceTtc": 7999,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125259.jpg"
+  },
+  {
+    "code": "OR125262",
+    "designation": "HANGAR EN MÉTAL BUCKINGHAM GREEN 2,43M2 GARDIUN AVEC PORTE COULISSANTE DOUBLE",
+    "tva": 20,
+    "priceHt": 3741.67,
+    "priceTtc": 4490,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125262_mdf.jpg"
+  },
+  {
+    "code": "OR125263",
+    "designation": "HANGAR BUCKINGHAM MÉTALLISÉ GRIS 2,43M2 GARDIUN AVEC PORTE COULISSANTE DOUBLE",
+    "tva": 20,
+    "priceHt": 3741.67,
+    "priceTtc": 4490,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/125263.jpg"
+  },
+  {
+    "code": "OR126025",
+    "designation": "FAUTEUIL DIVA",
+    "tva": 20,
+    "priceHt": 350,
+    "priceTtc": 420,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/126025_.png"
+  },
+  {
+    "code": "OR126265",
+    "designation": "PERGOLA BIOCLIMATIQUE MURALE 3MX4M (2 PIEDS)",
+    "tva": 20,
+    "priceHt": 23499.17,
+    "priceTtc": 28199,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/126265_1.png"
+  },
+  {
+    "code": "OR1013061",
+    "designation": "SET VENUS BEIGE",
+    "tva": 20,
+    "priceHt": 2075,
+    "priceTtc": 2490,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/e/set-exochis-fylliana-elton-mayro-kafe-chroma-119x67x82ek1715257215.jpg"
+  },
+  {
+    "code": "OR1013062",
+    "designation": "ENSEMBLE MODERNE SET NASSAU 4P - GRAPHITE - 55522",
+    "tva": 20,
+    "priceHt": 2483.33,
+    "priceTtc": 2980,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/e/n/ensemble_moderne_set_nassau_4p_-_graphite_-_55522_1.png"
+  },
+  {
+    "code": "OR1013063",
+    "designation": "SALON DE JARDIN 5 PLACES EN ALUM+COUSSINS+TABLE",
+    "tva": 20,
+    "priceHt": 5415.83,
+    "priceTtc": 6499,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/a/salon.jpg"
+  },
+  {
+    "code": "OR1013064",
+    "designation": "SET TABLE DE JARDIN RONDE AVEC 4 CHAISES SF4014/SF5014",
+    "tva": 20,
+    "priceHt": 1662.5,
+    "priceTtc": 1995,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/s/e/set_table_de_jardin_ronde_avec_4_chaises_sf4014sf5014_3_.jpg"
+  },
+  {
+    "code": "OR1013065",
+    "designation": "ABRI DE VOITURE EN METAL 3.6 X 4.5 M",
+    "tva": 20,
+    "priceHt": 5825,
+    "priceTtc": 6990,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/a/b/abri_de_voiture_en_metal_3.6_x_4.5_m_1_1.png"
+  },
+  {
+    "code": "OR129830",
+    "designation": "TABLE PLIANTE AVEC HAUTEUR RÉGLABLE EN 3 NIVEAUX 122*61*52.5*74CM",
+    "tva": 20,
+    "priceHt": 415.83,
+    "priceTtc": 499,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129830_table_pliante_ppng.png"
+  },
+  {
+    "code": "OR129846",
+    "designation": "CHAISE DE CAMPING PLIANTE 120KG",
+    "tva": 20,
+    "priceHt": 82.5,
+    "priceTtc": 99,
+    "rayon": "JARDINAGE ET PLEIN AIR",
+    "famille": "MEUBLES EXTERIEUR",
+    "image": "https://www.bricoma.ma/pub/media/catalog/product/cache/91592fba593eb22710bd0e431c05b560/1/2/129846_chaise_de_camping_png.jpg"
   }
 ];
 export const CATALOGUE_ARTICLES: Article[] = ALL_ARTICLES;
@@ -440617,7 +442345,7 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "LUMINAIRE",
-      "count": 5700
+      "count": 5820
     },
     {
       "name": "SANITAIRE ET ETANCHEITE",
@@ -440625,7 +442353,7 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "JARDINAGE ET PLEIN AIR",
-      "count": 4988
+      "count": 5120
     },
     {
       "name": "PROTECTION ET SECURITE (EPI)",
@@ -440636,12 +442364,12 @@ export const DEFAULT_FACETS: Facets = {
       "count": 376
     },
     {
-      "name": "SIGNALISATION ET SECURITE CHANTIER",
-      "count": 261
+      "name": "ECHELLES ET ECHAFAUDAGES",
+      "count": 218
     },
     {
-      "name": "ECHELLES ET ECHAFAUDAGES",
-      "count": 220
+      "name": "SIGNALISATION ET SECURITE CHANTIER",
+      "count": 141
     }
   ],
   "familles": [
@@ -440776,14 +442504,14 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "ELECTRICITE ET ECLAIRAGE"
     },
     {
+      "name": "PLANTES",
+      "count": 493,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
       "name": "MEUBLES ET ACCESSOIRES DE RANGEMENTS",
       "count": 489,
       "rayon": "QUINCAILLERIE"
-    },
-    {
-      "name": "PLANTES",
-      "count": 473,
-      "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
       "name": "COLLE & PDT ETANCHEITE",
@@ -440807,7 +442535,12 @@ export const DEFAULT_FACETS: Facets = {
     },
     {
       "name": "OUTILLAGE DE JARDINAGE",
-      "count": 394,
+      "count": 393,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
+      "name": "DECORATION JARDIN",
+      "count": 392,
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
@@ -440826,17 +442559,17 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "QUINCAILLERIE"
     },
     {
+      "name": "MEUBLES EXTERIEUR",
+      "count": 352,
+      "rayon": "JARDINAGE ET PLEIN AIR"
+    },
+    {
       "name": "PRODUITS DE PISCINE",
-      "count": 353,
+      "count": 352,
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
       "name": "ARROSAGE",
-      "count": 346,
-      "rayon": "JARDINAGE ET PLEIN AIR"
-    },
-    {
-      "name": "DECORATION JARDIN",
       "count": 345,
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
@@ -440869,11 +442602,6 @@ export const DEFAULT_FACETS: Facets = {
       "name": "CONNECTIQUE",
       "count": 298,
       "rayon": "ELECTRICITE ET ECLAIRAGE"
-    },
-    {
-      "name": "MEUBLES EXTERIEUR",
-      "count": 284,
-      "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
       "name": "NETTOYAGE",
@@ -440921,11 +442649,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "DROGUERIE ET PEINTURE"
     },
     {
-      "name": "Signalisation de chantier & Balisage",
-      "count": 184,
-      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
-    },
-    {
       "name": "Equipements de Protection",
       "count": 183,
       "rayon": "PROTECTION ET SECURITE (EPI)"
@@ -440941,11 +442664,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "QUINCAILLERIE"
     },
     {
-      "name": "Échelles professionnelles",
-      "count": 167,
-      "rayon": "ECHELLES ET ECHAFAUDAGES"
-    },
-    {
       "name": "ANIMALERIE",
       "count": 160,
       "rayon": "JARDINAGE ET PLEIN AIR"
@@ -440959,6 +442677,11 @@ export const DEFAULT_FACETS: Facets = {
       "name": "OUTILLAGE PEINTURE",
       "count": 151,
       "rayon": "DROGUERIE ET PEINTURE"
+    },
+    {
+      "name": "Échelles professionnelles",
+      "count": 150,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
     },
     {
       "name": "CHAUFFAGE ET VENTILLATION",
@@ -441016,6 +442739,11 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "ELECTRICITE ET ECLAIRAGE"
     },
     {
+      "name": "Éclairage jardin & Balisage",
+      "count": 120,
+      "rayon": "LUMINAIRE"
+    },
+    {
       "name": "Roues & Roulettes industrielles",
       "count": 118,
       "rayon": "LEVAGE ET MANUTENTION"
@@ -441049,6 +442777,11 @@ export const DEFAULT_FACETS: Facets = {
       "name": "Protection respiratoire & Masques",
       "count": 92,
       "rayon": "PROTECTION ET SECURITE (EPI)"
+    },
+    {
+      "name": "Coffres-forts & Sécurité physique",
+      "count": 91,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
     },
     {
       "name": "ENGRAIS ET SEMENCES",
@@ -441086,11 +442819,6 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "PROTECTION ET SECURITE (EPI)"
     },
     {
-      "name": "Coffres-forts & Sécurité physique",
-      "count": 59,
-      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
-    },
-    {
       "name": "TRINGLES",
       "count": 59,
       "rayon": "QUINCAILLERIE"
@@ -441104,6 +442832,11 @@ export const DEFAULT_FACETS: Facets = {
       "name": "PRECABLAGE IPS",
       "count": 51,
       "rayon": "ELECTRICITE ET ECLAIRAGE"
+    },
+    {
+      "name": "Échafaudages & Plates-formes",
+      "count": 51,
+      "rayon": "ECHELLES ET ECHAFAUDAGES"
     },
     {
       "name": "BASSE LUMINACE",
@@ -441121,9 +442854,9 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "JARDINAGE ET PLEIN AIR"
     },
     {
-      "name": "Échafaudages & Plates-formes",
-      "count": 36,
-      "rayon": "ECHELLES ET ECHAFAUDAGES"
+      "name": "Signalisation de chantier & Balisage",
+      "count": 33,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
     },
     {
       "name": "Levage & Arrimage (Élingues/Palans)",
@@ -441191,14 +442924,14 @@ export const DEFAULT_FACETS: Facets = {
       "rayon": "QUINCAILLERIE"
     },
     {
-      "name": "Protection de voirie & Ralentisseurs",
-      "count": 4,
-      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
-    },
-    {
       "name": "ACCESSOIRES",
       "count": 3,
       "rayon": "OUTILLAGE ET RANGEMENT"
+    },
+    {
+      "name": "Protection de voirie & Ralentisseurs",
+      "count": 3,
+      "rayon": "SIGNALISATION ET SECURITE CHANTIER"
     },
     {
       "name": "MATERIEL DE TRAITEMENT",
