@@ -12,7 +12,10 @@ export default function Blog() {
 
     async function fetchBlogs() {
       try {
-        const res = await fetch("/api/blogs")
+        let res = await fetch("/api/blogs")
+        if (!res.ok) {
+          res = await fetch("/data/blogs.json")
+        }
         if (!res.ok) throw new Error("Réponse invalide du serveur.")
         const data = await res.json()
         if (cancelled) return

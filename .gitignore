@@ -27,5 +27,9 @@ public/api/config.local.php
 .DS_Store
 __pycache__/
 *.pyc
+*.backup.json
+*.xlsx
 /ORSAP Services - Catalogue.pdf
+/public/ORSAP Services - Catalogue.pdf
 *orsap_catalogue_complet.csv
+

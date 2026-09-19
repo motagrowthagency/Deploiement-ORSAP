@@ -22,12 +22,27 @@ export default function BlogDetail() {
   useEffect(() => {
     async function fetchPost() {
       try {
-        const res = await fetch(`/api/blogs/${id}`)
+        let res = await fetch(`/api/blogs/${id}`)
         if (res.ok) {
           const data = await res.json()
           setPost(data)
           setError(null)
-        } else if (!post) {
+          return
+        }
+
+        // Try fetching /data/blogs.json
+        const fallbackRes = await fetch("/data/blogs.json")
+        if (fallbackRes.ok) {
+          const list = await fallbackRes.json()
+          const found = Array.isArray(list) ? list.find((b: BlogPost) => b.id === id) : null
+          if (found) {
+            setPost(found)
+            setError(null)
+            return
+          }
+        }
+
+        if (!post) {
           throw new Error("Article introuvable.")
         }
       } catch (err: unknown) {
