@@ -5,8 +5,8 @@ export default function Products() {
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-12 lg:py-16">
       <SEO
-        title="Catalogue Produits & Devis en Ligne (7 600+ Références) | ORSAP Maroc"
-        description="Consultez plus de 7 600 références industrielles, EPI, outillage, quincaillerie, électricité, plomberie avec photos, prix et devis instantané."
+        title="Catalogue Produits & Devis en Ligne (49 000+ Références) | ORSAP Maroc"
+        description="Consultez plus de 49 000 références industrielles, EPI, outillage, quincaillerie, électricité, plomberie avec prix et devis instantané."
         breadcrumbs={[
           { name: "Accueil", url: "/" },
           { name: "Catalogue & E-Commerce", url: "/catalogue" },
@@ -23,7 +23,7 @@ export default function Products() {
           Catalogue Produits Officiel ORSAP
         </h1>
         <p className="mt-4 text-[16px] leading-[1.6] text-ink-soft">
-          Explorez plus de 7 600 références industrielles certifiées avec photos réelles, prix actualisés et disponibilité.
+          Explorez plus de 49 000 références industrielles certifiées avec prix actualisés et disponibilité en direct.
           Ajoutez vos articles au devis en 1 clic pour une expédition rapide sous 24/48h au Maroc.
         </p>
       </div>
