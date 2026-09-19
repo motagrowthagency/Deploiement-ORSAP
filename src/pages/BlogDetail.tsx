@@ -156,38 +156,28 @@ export default function BlogDetail() {
               </div>
             )}
 
-            {/* PDF Banner if present */}
+            {/* PDF Viewer - View-only embedded reader */}
             {post.pdf && (
               <div className="my-8 border border-hairline bg-surface rounded-sm overflow-hidden shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-6 py-4 border-b border-hairline bg-paper/80">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-orsap-red/10 text-orsap-red font-bold text-[12px]">
-                      PDF
-                    </div>
-                    <div>
-                      <h3 className="font-display text-[15px] font-bold text-ink leading-tight">
-                        {post.pdfName || "Document technique ORSAP"}
-                      </h3>
-                      <p className="text-[12px] text-ink-soft">
-                        Document officiel • Consultation &amp; Téléchargement
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3 px-6 py-4 border-b border-hairline bg-paper/80">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-orsap-red/10 text-orsap-red font-bold text-[12px]">
+                    PDF
                   </div>
-                  <a
-                    href={post.pdf}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2 text-[13px] font-bold uppercase tracking-[0.06em] text-white bg-ink hover:bg-orsap-red transition-colors rounded-sm"
-                  >
-                    Ouvrir le PDF <span>↗</span>
-                  </a>
+                  <div>
+                    <h3 className="font-display text-[15px] font-bold text-ink leading-tight">
+                      {post.pdfName || "Document technique ORSAP"}
+                    </h3>
+                    <p className="text-[12px] text-ink-soft">
+                      Document officiel • Consultation en ligne sécurisée
+                    </p>
+                  </div>
                 </div>
 
-                <div className="w-full bg-paper overflow-hidden border-t border-hairline">
+                <div className="w-full bg-paper overflow-hidden">
                   <iframe
-                    src={`${post.pdf}#toolbar=0`}
+                    src={`${post.pdf}#toolbar=0&navpanes=0`}
                     title={post.pdfName || "Document"}
-                    className="w-full h-[640px] border-none"
+                    className="w-full h-[720px] border-none"
                   />
                 </div>
               </div>
