@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite"
 import path from "node:path"
 import fs from "node:fs"
 
-import siteConfiguration from "./.figma/make/site.json"
+import siteConfiguration from "./.figma/make/site.json" with { type: "json" }
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        "@": path.resolve(import.meta.dirname, "./src"),
       },
     },
     server: {
@@ -435,7 +435,7 @@ function figmaApiDevPlugin(): Plugin {
 
   function getArticles() {
     if (articlesCache && articlesCache.length > 0) return articlesCache
-    const filePath = path.resolve(__dirname, "./data/articles.json")
+    const filePath = path.resolve(import.meta.dirname, "./data/articles.json")
     if (fs.existsSync(filePath)) {
       try {
         articlesCache = JSON.parse(fs.readFileSync(filePath, "utf-8"))
@@ -504,7 +504,7 @@ function figmaApiDevPlugin(): Plugin {
   }
 
   function readJsonFile(relPath: string, fallback: any = []) {
-    const filePath = path.resolve(__dirname, relPath)
+    const filePath = path.resolve(import.meta.dirname, relPath)
     if (fs.existsSync(filePath)) {
       try {
         return JSON.parse(fs.readFileSync(filePath, "utf-8"))
@@ -516,7 +516,7 @@ function figmaApiDevPlugin(): Plugin {
   }
 
   function writeJsonFile(relPath: string, data: any) {
-    const filePath = path.resolve(__dirname, relPath)
+    const filePath = path.resolve(import.meta.dirname, relPath)
     try {
       const dir = path.dirname(filePath)
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
