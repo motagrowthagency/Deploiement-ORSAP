@@ -931,32 +931,64 @@ if ($uri === '/api/admin/export/subscribers' || $uri === '/api/admin/export/subs
 // ── Blogs API ───────────────────────────────────────────────────────
 if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
     if ($method === 'GET') {
-        // Images/PDFs are now stored as real files (see saveBlogAsset()) and
-        // blogs.json only holds their URL paths, so the list payload is tiny
-        // -- no need to strip anything out anymore.
+        // Ensure list payload is ultra-lightweight (< 5 KB) by converting/sanitizing any legacy base64
+        $posts = [];
         if ($pdo) {
             try {
                 $stmt = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
                 $rows = $stmt->fetchAll();
                 if (!empty($rows)) {
-                    $formatted = array_map(function($r) {
+                    $posts = array_map(function($r) {
+                        $img = $r['image'] ?? null;
+                        if (!empty($img) && strpos($img, 'data:image') === 0) {
+                            $img = saveBlogAsset($img, $r['id'], 'image');
+                        }
+                        $pdf = $r['pdf'] ?? null;
+                        if (!empty($pdf) && strpos($pdf, 'data:application') === 0) {
+                            $pdf = saveBlogAsset($pdf, $r['id'], 'document');
+                        }
                         return [
                             'id' => $r['id'],
                             'date' => $r['date'],
                             'title' => $r['title'],
                             'summary' => $r['summary'],
                             'content' => $r['content'],
-                            'image' => $r['image'],
-                            'pdf' => $r['pdf'],
-                            'pdfName' => $r['pdf_name'],
-                            'updatedAt' => $r['updated_at'],
+                            'image' => $img,
+                            'pdf' => $pdf,
+                            'pdfName' => $r['pdf_name'] ?? null,
+                            'updatedAt' => $r['updated_at'] ?? null,
                         ];
                     }, $rows);
-                    sendJson($formatted);
                 }
             } catch (Exception $e) {}
         }
-        sendJson(readJsonFile('blogs.json'));
+        
+        if (empty($posts)) {
+            $rawBlogs = readJsonFile('blogs.json');
+            $posts = array_map(function($r) {
+                $img = $r['image'] ?? null;
+                if (!empty($img) && strpos($img, 'data:image') === 0) {
+                    $img = saveBlogAsset($img, $r['id'], 'image');
+                }
+                $pdf = $r['pdf'] ?? null;
+                if (!empty($pdf) && strpos($pdf, 'data:application') === 0) {
+                    $pdf = saveBlogAsset($pdf, $r['id'], 'document');
+                }
+                return [
+                    'id' => $r['id'],
+                    'date' => $r['date'],
+                    'title' => $r['title'],
+                    'summary' => $r['summary'],
+                    'content' => $r['content'],
+                    'image' => $img,
+                    'pdf' => $pdf,
+                    'pdfName' => $r['pdfName'] ?? null,
+                    'updatedAt' => $r['updatedAt'] ?? null,
+                ];
+            }, $rawBlogs);
+        }
+
+        sendJson($posts);
     }
 
     if ($method === 'POST') {
