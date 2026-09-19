@@ -12,43 +12,25 @@ export default function Blog() {
     } catch {}
     return INITIAL_BLOGS
   })
-  const [loading, setLoading] = useState(() => blogs.length === 0)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     let cancelled = false
 
     async function fetchBlogs() {
       try {
-        let res = await fetch("/api/blogs")
-        if (!res.ok) {
-          res = await fetch("/data/blogs.json")
-        }
-        if (!res.ok) throw new Error("Réponse invalide du serveur.")
-        const data = await res.json()
-        if (cancelled) return
-
-        if (Array.isArray(data) && data.length > 0) {
-          setBlogs(data)
-          try {
-            localStorage.setItem("orsap_cached_blogs", JSON.stringify(data))
-          } catch {}
-        } else {
-          setBlogs(INITIAL_BLOGS)
+        const res = await fetch("/api/blogs")
+        if (res.ok) {
+          const data = await res.json()
+          if (!cancelled && Array.isArray(data) && data.length > 0) {
+            setBlogs(data)
+            try {
+              localStorage.setItem("orsap_cached_blogs", JSON.stringify(data))
+            } catch {}
+          }
         }
       } catch (err: unknown) {
-        if (cancelled) return
-        console.warn("Falling back to cached / bundled blogs:", err)
-        try {
-          const cached = localStorage.getItem("orsap_cached_blogs")
-          const parsed = cached ? JSON.parse(cached) : null
-          setBlogs(
-            Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_BLOGS
-          )
-        } catch {
-          setBlogs(INITIAL_BLOGS)
-        }
-      } finally {
-        if (!cancelled) setLoading(false)
+        // Silently keep using instant bundled/cached blogs
       }
     }
 

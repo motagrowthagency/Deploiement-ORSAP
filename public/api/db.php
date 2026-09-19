@@ -65,7 +65,17 @@ function getDbConnection() {
 
 
 function initTables(PDO $pdo) {
+    static $done = false;
+    if ($done) return;
+    $done = true;
+
+    $flagFile = sys_get_temp_dir() . '/orsap_tables_v3.flag';
+    if (file_exists($flagFile) && (time() - filemtime($flagFile)) < 86400) {
+        return;
+    }
+
     try {
+        @touch($flagFile);
         // 1. Submissions table
         $pdo->exec("CREATE TABLE IF NOT EXISTS `submissions` (
             `id` VARCHAR(64) NOT NULL PRIMARY KEY,

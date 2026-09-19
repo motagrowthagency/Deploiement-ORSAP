@@ -37,35 +37,16 @@ export default function BlogDetail() {
   useEffect(() => {
     async function fetchPost() {
       try {
-        let res = await fetch(`/api/blogs/${id}`)
+        const res = await fetch(`/api/blogs/${id}`)
         if (res.ok) {
           const data = await res.json()
-          setPost(data)
-          setError(null)
-          return
-        }
-
-        // Try fetching /data/blogs.json
-        const fallbackRes = await fetch("/data/blogs.json")
-        if (fallbackRes.ok) {
-          const list = await fallbackRes.json()
-          const found = Array.isArray(list) ? list.find((b: BlogPost) => b.id === id) : null
-          if (found) {
-            setPost(found)
+          if (data && data.id === id) {
+            setPost(data)
             setError(null)
-            return
           }
         }
-
-        if (!post) {
-          throw new Error("Article introuvable.")
-        }
       } catch (err: unknown) {
-        if (!post) {
-          setError(
-            err instanceof Error ? err.message : "Une erreur est survenue.",
-          )
-        }
+        // Silently preserve instant bundled/cached article
       } finally {
         setLoading(false)
       }
