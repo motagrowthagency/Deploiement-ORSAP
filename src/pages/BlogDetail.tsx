@@ -201,6 +201,14 @@ export default function BlogDetail() {
                     Ouvrir le PDF <span>↗</span>
                   </a>
                 </div>
+
+                <div className="w-full bg-paper overflow-hidden border-t border-hairline">
+                  <iframe
+                    src={`${post.pdf}#toolbar=0`}
+                    title={post.pdfName || "Document"}
+                    className="w-full h-[640px] border-none"
+                  />
+                </div>
               </div>
             )}
 
