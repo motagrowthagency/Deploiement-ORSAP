@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const csvPath = path.join(__dirname, '../data/meubles_exterieur_user_import.csv');
+const meublesCsvPath = path.join(__dirname, '../data/meubles_exterieur_user_import.csv');
+const jardinCsvPath = path.join(__dirname, '../data/jardin_user_import.csv');
+const signalisationCsvPath = path.join(__dirname, '../data/signalisation_user_import.csv');
 const articlesPath = path.join(__dirname, '../data/articles.json');
 const publicArticlesPath = path.join(__dirname, '../public/data/articles.json');
 
@@ -55,34 +57,43 @@ function normalizeStr(str) {
 console.log('Reading data files...');
 const articles = JSON.parse(fs.readFileSync(articlesPath, 'utf8'));
 const existingCodes = new Set(articles.map(a => a.code));
-const articlesByNorm = new Map();
-articles.forEach((a, idx) => {
-  const norm = normalizeStr(a.designation);
-  if (norm && !articlesByNorm.has(norm)) {
-    articlesByNorm.set(norm, idx);
-  }
-});
 
-const csvContent = fs.readFileSync(csvPath, 'utf8');
-const lines = csvContent.split(/\r?\n/).filter(l => l.trim().length > 0);
-
-// Find max numeric code in range 80000..89999 for new outdoor furniture items
-let nextCodeNum = 80001;
+// Find next available code number
+let nextCodeNum = 90001;
 articles.forEach(a => {
   const m = a.code && a.code.match(/^OR(\d+)$/);
   if (m) {
     const num = parseInt(m[1], 10);
-    if (num >= 80000 && num < 90000 && num >= nextCodeNum) {
+    if (num >= nextCodeNum) {
       nextCodeNum = num + 1;
     }
   }
 });
 
-let addedCount = 0;
-let updatedCount = 0;
+function getNextCode(sku) {
+  if (sku && !existingCodes.has(sku)) {
+    existingCodes.add(sku);
+    return sku;
+  }
+  let code = `OR${nextCodeNum++}`;
+  while (existingCodes.has(code)) {
+    code = `OR${nextCodeNum++}`;
+  }
+  existingCodes.add(code);
+  return code;
+}
 
-for (let i = 1; i < lines.length; i++) {
-  const row = parseCSVLine(lines[i]);
+// ── 1. Process Meubles Exterieur CSV (Primary Target) ──
+const meublesContent = fs.readFileSync(meublesCsvPath, 'utf8');
+const meublesLines = meublesContent.split(/\r?\n/).filter(l => l.trim().length > 0);
+
+console.log(`Processing ${meublesLines.length - 1} outdoor furniture products...`);
+
+let matchedMeubles = 0;
+let addedMeubles = 0;
+
+for (let i = 1; i < meublesLines.length; i++) {
+  const row = parseCSVLine(meublesLines[i]);
   if (row.length < 5) continue;
 
   const designation = (row[3] || '').trim();
@@ -99,37 +110,29 @@ for (let i = 1; i < lines.length; i++) {
   const matchId = photo.match(/\/([0-9]{5,8})[_\.\-]/);
   const potentialSku = matchId ? `BR${matchId[1]}` : null;
 
-  let existingIdx = -1;
-
-  if (potentialSku && existingCodes.has(potentialSku)) {
-    existingIdx = articles.findIndex(a => a.code === potentialSku);
-  } else if (articlesByNorm.has(norm)) {
-    existingIdx = articlesByNorm.get(norm);
+  // Search by exact photo OR (exact norm + price match) OR exact SKU
+  let found = articles.find(a => a.imageUrl === photo || a.image === photo);
+  if (!found && potentialSku) {
+    found = articles.find(a => a.code === potentialSku);
+  }
+  if (!found) {
+    found = articles.find(a => normalizeStr(a.designation) === norm && Math.abs((a.priceTtc || 0) - priceTtc) < 1.0);
   }
 
-  if (existingIdx !== -1) {
-    // Update existing article
-    const target = articles[existingIdx];
-    target.designation = designation;
-    target.priceTtc = priceTtc || target.priceTtc;
-    target.priceHt = priceHt || target.priceHt;
-    target.tva = 20;
-    target.rayon = 'JARDINAGE ET PLEIN AIR';
-    target.famille = 'MEUBLES EXTERIEUR';
-    if (brand) target.brand = brand;
-    if (photo) {
-      target.imageUrl = photo;
-      target.image = photo;
-    }
-    updatedCount++;
+  if (found) {
+    found.designation = designation;
+    found.priceTtc = priceTtc || found.priceTtc;
+    found.priceHt = priceHt || found.priceHt;
+    found.tva = 20;
+    found.rayon = 'JARDINAGE ET PLEIN AIR';
+    found.famille = 'MEUBLES EXTERIEUR';
+    if (brand) found.brand = brand;
+    found.imageUrl = photo;
+    found.image = photo;
+    matchedMeubles++;
   } else {
-    // Add new article
-    let newCode = potentialSku && !existingCodes.has(potentialSku) ? potentialSku : `OR${nextCodeNum++}`;
-    while (existingCodes.has(newCode)) {
-      newCode = `OR${nextCodeNum++}`;
-    }
-    existingCodes.add(newCode);
-
+    // Create new distinct article
+    const newCode = getNextCode(potentialSku);
     const newArticle = {
       code: newCode,
       designation: designation,
@@ -138,21 +141,61 @@ for (let i = 1; i < lines.length; i++) {
       priceTtc: priceTtc,
       rayon: 'JARDINAGE ET PLEIN AIR',
       famille: 'MEUBLES EXTERIEUR',
+      imageUrl: photo,
+      image: photo,
     };
     if (brand) newArticle.brand = brand;
-    if (photo) {
-      newArticle.imageUrl = photo;
-      newArticle.image = photo;
-    }
-
     articles.push(newArticle);
-    articlesByNorm.set(norm, articles.length - 1);
-    addedCount++;
+    addedMeubles++;
   }
 }
 
-console.log(`✅ Import finished: ${addedCount} articles added, ${updatedCount} articles updated.`);
-console.log(`📦 Total articles now: ${articles.length}`);
+console.log(`✅ Meubles exterieur: ${matchedMeubles} matched/updated, ${addedMeubles} newly added.`);
+
+// ── 2. Also attach images from Jardin & Signalisation CSVs if matching ──
+if (fs.existsSync(jardinCsvPath)) {
+  const jardinLines = fs.readFileSync(jardinCsvPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
+  let jardinCount = 0;
+  for (let i = 1; i < jardinLines.length; i++) {
+    const row = parseCSVLine(jardinLines[i]);
+    const name = (row[2] || '').trim();
+    const photo = (row[row.length - 1] || '').trim();
+    if (!name || !photo || !photo.startsWith('http')) continue;
+
+    const norm = normalizeStr(name);
+    const found = articles.find(a => normalizeStr(a.designation) === norm);
+    if (found && !found.imageUrl) {
+      found.imageUrl = photo;
+      found.image = photo;
+      jardinCount++;
+    }
+  }
+  console.log(`🌿 Jardin CSV: ${jardinCount} additional images attached.`);
+}
+
+if (fs.existsSync(signalisationCsvPath)) {
+  const sigLines = fs.readFileSync(signalisationCsvPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
+  let sigCount = 0;
+  for (let i = 1; i < sigLines.length; i++) {
+    const row = parseCSVLine(sigLines[i]);
+    const name = (row[2] || '').trim();
+    const photo = (row[row.length - 1] || '').trim();
+    if (!name || !photo || !photo.startsWith('http')) continue;
+
+    const norm = normalizeStr(name);
+    const found = articles.find(a => normalizeStr(a.designation) === norm);
+    if (found && !found.imageUrl) {
+      found.imageUrl = photo;
+      found.image = photo;
+      sigCount++;
+    }
+  }
+  console.log(`🚧 Signalisation CSV: ${sigCount} additional images attached.`);
+}
+
+console.log(`📦 Total articles in catalogue: ${articles.length}`);
+const totalWithImages = articles.filter(a => a.imageUrl || a.image).length;
+console.log(`🖼️ Total articles with valid images: ${totalWithImages}`);
 
 fs.writeFileSync(articlesPath, JSON.stringify(articles, null, 2), 'utf8');
 console.log(`Saved to ${articlesPath}`);
