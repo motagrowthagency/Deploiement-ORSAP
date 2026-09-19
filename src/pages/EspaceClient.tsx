@@ -185,7 +185,57 @@ export default function EspaceClient() {
 
       if (resDevis.ok) {
         const dataDevis = await resDevis.json()
-        setCatalogueDevis(dataDevis.devis || [])
+        const rawList: any[] = Array.isArray(dataDevis)
+          ? dataDevis
+          : Array.isArray(dataDevis.devis)
+            ? dataDevis.devis
+            : Array.isArray(dataDevis.items)
+              ? dataDevis.items
+              : []
+
+        const sanitized: CatalogueDevis[] = rawList.map((d: any) => {
+          const items = Array.isArray(d.items) ? d.items : []
+          const calcHt = items.reduce(
+            (sum: number, it: any) => sum + (Number(it.priceHt) || (Number(it.price_ht) || 0)) * (Number(it.quantity) || 1),
+            0
+          )
+          const calcTtc = items.reduce(
+            (sum: number, it: any) => sum + (Number(it.priceTtc) || (Number(it.price_ttc) || 0)) * (Number(it.quantity) || 1),
+            0
+          )
+          const totalHtVal = typeof d.totalHt === "number" ? d.totalHt : calcHt
+          const totalTtcVal = typeof d.totalTtc === "number" ? d.totalTtc : calcTtc
+          const totalTvaVal = typeof d.totalTva === "number" ? d.totalTva : (totalTtcVal - totalHtVal)
+
+          return {
+            id: d.id || `DEV-${Math.random().toString(36).substring(2, 9)}`,
+            reference: d.reference || d.id || "DEV-OFFICIEL",
+            createdAt: d.createdAt || d.created_at || new Date().toISOString(),
+            status: d.status || "pending",
+            totalHt: totalHtVal,
+            totalTva: totalTvaVal,
+            totalTtc: totalTtcVal,
+            notes: d.notes || d.note || "",
+            items: items.map((it: any) => {
+              const pht = Number(it.priceHt) || (Number(it.price_ht) || 0)
+              const pttc = Number(it.priceTtc) || (Number(it.price_ttc) || 0)
+              const qty = Number(it.quantity) || 1
+              return {
+                code: it.articleCode || it.article_code || it.code || "ART",
+                designation: it.designation || "Article",
+                rayon: it.rayon,
+                famille: it.famille,
+                priceHt: pht,
+                priceTtc: pttc,
+                quantity: qty,
+                lineTotalHt: pht * qty,
+                isCustom: Boolean(it.isCustom || it.is_custom),
+              }
+            }),
+          }
+        })
+
+        setCatalogueDevis(sanitized)
       }
     } catch (e) {
       console.error("Failed to load client data:", e)
@@ -645,7 +695,7 @@ export default function EspaceClient() {
                                     <div className="text-right">
                                       <div className="text-[10px] font-bold uppercase tracking-wider text-ink-soft">Total Estimé</div>
                                       <div className="font-mono text-sm font-extrabold text-orsap-red">
-                                        {dev.totalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD <span className="text-[10px] font-normal text-ink-soft">HT</span>
+                                        {(dev.totalHt || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD <span className="text-[10px] font-normal text-ink-soft">HT</span>
                                       </div>
                                     </div>
                                     <button
@@ -710,7 +760,7 @@ export default function EspaceClient() {
                                             </td>
                                             <td className="px-4 py-3 text-right font-mono text-ink-soft">
                                               {item.priceHt > 0
-                                                ? `${item.priceHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
+                                                ? `${(item.priceHt || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
                                                 : "Sur devis"}
                                             </td>
                                             <td className="px-4 py-3 text-center font-mono font-bold text-ink">
@@ -718,7 +768,7 @@ export default function EspaceClient() {
                                             </td>
                                             <td className="px-4 py-3 text-right font-mono font-bold text-ink">
                                               {item.lineTotalHt > 0
-                                                ? `${item.lineTotalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
+                                                ? `${(item.lineTotalHt || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD`
                                                 : "Sur devis"}
                                             </td>
                                           </tr>
@@ -744,19 +794,19 @@ export default function EspaceClient() {
                                       <div className="flex justify-between text-ink-soft">
                                         <span>Total Net HT</span>
                                         <span className="font-mono font-bold text-ink">
-                                          {dev.totalHt.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+                                          {(dev.totalHt || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
                                         </span>
                                       </div>
                                       <div className="flex justify-between text-ink-soft">
                                         <span>TVA (20%)</span>
                                         <span className="font-mono font-bold text-ink">
-                                          {dev.totalTva.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+                                          {(dev.totalTva || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
                                         </span>
                                       </div>
                                       <div className="border-t border-hairline pt-2 flex justify-between font-display text-sm font-black text-ink">
                                         <span>Total TTC Estimé</span>
                                         <span className="font-mono text-orsap-red">
-                                          {dev.totalTtc.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
+                                          {(dev.totalTtc || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MAD
                                         </span>
                                       </div>
                                     </div>

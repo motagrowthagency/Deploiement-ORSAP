@@ -47,6 +47,9 @@ jobs:
             **/applications.json
             **/users.json
             **/subscribers.json
+            **/devis_requests.json
+            **/devis_items.json
             **/config.local.php
+
 
 

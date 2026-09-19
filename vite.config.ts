@@ -579,6 +579,75 @@ function figmaApiDevPlugin(): Plugin {
           return
         }
 
+        // POST /api/devis-catalogue (Client Cart Submission)
+        if (pathname === "/api/devis-catalogue" && method === "POST") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {
+            body = {}
+          }
+
+          const devisId = `DEV-${Date.now().toString(36).toUpperCase()}`
+          const items = Array.isArray(body.items) ? body.items : []
+          const requests = readJsonFile("./data/devis_requests.json", [])
+          const allItems = readJsonFile("./data/devis_items.json", [])
+
+          const newRequest = {
+            id: devisId,
+            reference: devisId,
+            createdAt: new Date().toISOString(),
+            status: "pending",
+            note: body.note || "",
+            userId: "client-demo",
+            name: "Client Connecté",
+            email: "client@orsap.ma",
+            phone: "+212 6 44 20 30 30",
+            items: items.map((it: any) => ({
+              id: `${devisId}-${Math.random().toString(36).substring(2, 7)}`,
+              articleCode: it.code || "ART",
+              code: it.code || "ART",
+              designation: it.designation || "Article",
+              priceHt: Number(it.priceHt) || 0,
+              priceTtc: Number(it.priceTtc) || 0,
+              quantity: Number(it.quantity) || 1,
+              isCustom: Boolean(it.isCustom),
+            })),
+          }
+
+          requests.unshift(newRequest)
+          writeJsonFile("./data/devis_requests.json", requests)
+
+          for (const it of newRequest.items) {
+            allItems.push({ ...it, devisId, requestId: devisId })
+          }
+          writeJsonFile("./data/devis_items.json", allItems)
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, id: devisId, reference: devisId, items: newRequest.items }))
+          return
+        }
+
+        // GET /api/devis-catalogue/mine
+        if (pathname === "/api/devis-catalogue/mine" && method === "GET") {
+          const requests = readJsonFile("./data/devis_requests.json", [])
+          const items = readJsonFile("./data/devis_items.json", [])
+
+          const enriched = requests.map((req: any) => {
+            const reqItems = items.filter((it: any) => it.devisId === req.id || it.requestId === req.id)
+            return {
+              ...req,
+              items: reqItems.length > 0 ? reqItems : (req.items || []),
+            }
+          })
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(enriched))
+          return
+        }
+
         // /api/admin/devis-catalogue
         if (pathname === "/api/admin/devis-catalogue") {
           const requests = readJsonFile("./data/devis_requests.json", [])
