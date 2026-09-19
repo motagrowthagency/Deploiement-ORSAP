@@ -124,10 +124,10 @@ export default function RefundPolicy() {
             <p className="text-sm text-white/70 mb-4">Notre équipe commerciale et technique est à votre écoute du lundi au samedi.</p>
             <div className="flex flex-wrap gap-4 text-sm">
               <a href="tel:+212644203030" className="inline-flex items-center gap-2 rounded-lg bg-orsap-red px-4 py-2 font-bold text-white hover:bg-orsap-red-deep transition focus-visible:ring-2 focus-visible:ring-white">
-                📞 +212 6 44 20 30 30
+                +212 6 44 20 30 30
               </a>
               <a href="mailto:orsap@orsap.ma" className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 font-semibold text-white hover:bg-white/20 transition focus-visible:ring-2 focus-visible:ring-white">
-                ✉️ orsap@orsap.ma
+                orsap@orsap.ma
               </a>
             </div>
           </div>

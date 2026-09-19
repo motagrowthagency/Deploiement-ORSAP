@@ -111,7 +111,7 @@ export default function CookiePolicy() {
                 }}
                 className="inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-paper hover:bg-orsap-red transition focus-visible:ring-2 focus-visible:ring-orsap-red focus-visible:outline-none"
               >
-                ⚙️ Modifier mes préférences cookies
+                Modifier mes préférences cookies
               </button>
             </div>
             <p className="mt-4 text-xs text-steel">

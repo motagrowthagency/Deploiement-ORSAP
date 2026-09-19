@@ -264,9 +264,9 @@ export default function Root() {
                   onClick={() => {
                     window.dispatchEvent(new CustomEvent("open-cookie-banner"))
                   }}
-                  className="text-xs text-orsap-red hover:underline transition"
+                  className="text-xs text-white/50 hover:text-orsap-red transition-colors"
                 >
-                  ⚙️ Gérer mes préférences cookies
+                  Gérer les préférences de cookies
                 </button>
               </li>
             </ul>
