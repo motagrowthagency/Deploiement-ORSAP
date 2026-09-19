@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: 🚀 Déploiement sur Heberjahiz via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -37,6 +37,7 @@ jobs:
           protocol: ftps
           port: 21
           security: loose
+          state-name: .ftp-deploy-sync-state-v2.json
           timeout: 60000
           exclude: |
             **/.git*
