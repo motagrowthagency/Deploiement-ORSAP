@@ -98,7 +98,10 @@ export default function EspaceClient() {
   const [userSubmissions, setUserSubmissions] = useState<Submission[]>([])
   const [catalogueDevis, setCatalogueDevis] = useState<CatalogueDevis[]>([])
   const [expandedDevisId, setExpandedDevisId] = useState<string | null>(null)
+  const [newlyCreatedDevisRef, setNewlyCreatedDevisRef] = useState<string | null>(null)
   const [loadingDashboard, setLoadingDashboard] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null)
   const [profileSuccess, setProfileSuccess] = useState<string | null>(null)
   const [profileError, setProfileError] = useState<string | null>(null)
   const [editName, setEditName] = useState(user?.name || "")
@@ -134,11 +137,84 @@ export default function EspaceClient() {
     }
   }, [tokenParam])
 
-  // Load client data if logged in
+  // Handle URL created / highlight params
+  useEffect(() => {
+    const createdParam = searchParams.get("created")
+    const highlightParam = searchParams.get("highlight")
+    if (createdParam || highlightParam) {
+      const ref = createdParam || highlightParam
+      setNewlyCreatedDevisRef(ref)
+      if (highlightParam) setExpandedDevisId(highlightParam)
+      setActiveTab("devis")
+    }
+  }, [searchParams])
+
+  // Load client data initially
   useEffect(() => {
     if (token && user) {
-      loadClientData()
+      loadClientData(false)
     }
+  }, [token, user?.id])
+
+  // Auto-refresh data when switching to the Devis tab
+  useEffect(() => {
+    if (token && user && activeTab === "devis") {
+      loadClientData(true)
+    }
+  }, [activeTab])
+
+  // Auto-sync on window focus & document visibility change
+  useEffect(() => {
+    if (!token || !user) return
+
+    const handleFocus = () => {
+      loadClientData(true)
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        loadClientData(true)
+      }
+    }
+
+    window.addEventListener("focus", handleFocus)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    return () => {
+      window.removeEventListener("focus", handleFocus)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+  }, [token, user?.id])
+
+  // Periodic background polling (every 25 seconds) to ensure devis are always up-to-date
+  useEffect(() => {
+    if (!token || !user) return
+    const interval = setInterval(() => {
+      loadClientData(true)
+    }, 25000)
+    return () => clearInterval(interval)
+  }, [token, user?.id])
+
+  // Listen to custom global devis-created event
+  useEffect(() => {
+    const handleDevisCreated = (e: any) => {
+      const detail = e.detail
+      if (detail?.devis) {
+        setCatalogueDevis((prev) => {
+          const exists = prev.some((d) => d.id === detail.devis.id || d.reference === detail.devis.reference)
+          if (exists) return prev
+          return [detail.devis, ...prev]
+        })
+      }
+      if (detail?.id || detail?.reference) {
+        setNewlyCreatedDevisRef(detail.reference || detail.id)
+        setExpandedDevisId(detail.id || detail.reference)
+      }
+      setActiveTab("devis")
+      loadClientData(true)
+    }
+
+    window.addEventListener("orsap:devis-created", handleDevisCreated)
+    return () => window.removeEventListener("orsap:devis-created", handleDevisCreated)
   }, [token, user?.id])
 
   async function handleVerifyByToken(tok: string) {
@@ -165,9 +241,14 @@ export default function EspaceClient() {
     }
   }
 
-  async function loadClientData() {
+  async function loadClientData(silent = false) {
     if (!token) return
-    setLoadingDashboard(true)
+    if (!silent) {
+      setLoadingDashboard(true)
+    } else {
+      setIsRefreshing(true)
+    }
+
     try {
       const [resMe, resDevis] = await Promise.all([
         fetch("/api/auth/me", {
@@ -235,12 +316,30 @@ export default function EspaceClient() {
           }
         })
 
-        setCatalogueDevis(sanitized)
+        setCatalogueDevis((prev) => {
+          // If we have a newly created devis that might not yet be returned by server, keep it prepended
+          if (newlyCreatedDevisRef) {
+            const serverHasIt = sanitized.some(
+              (s) => s.reference === newlyCreatedDevisRef || s.id === newlyCreatedDevisRef
+            )
+            if (!serverHasIt) {
+              const localNew = prev.find(
+                (p) => p.reference === newlyCreatedDevisRef || p.id === newlyCreatedDevisRef
+              )
+              if (localNew) {
+                return [localNew, ...sanitized.filter((s) => s.id !== localNew.id)]
+              }
+            }
+          }
+          return sanitized
+        })
       }
+      setLastSyncTime(new Date())
     } catch (e) {
       console.error("Failed to load client data:", e)
     } finally {
       setLoadingDashboard(false)
+      setIsRefreshing(false)
     }
   }
 
@@ -591,9 +690,18 @@ export default function EspaceClient() {
             <div className="mt-8">
               <B2BCommercePlatform
                 token={token || ""}
-                onOrderSubmitted={() => {
-                  loadClientData()
+                onOrderSubmitted={(newDevis) => {
+                  if (newDevis) {
+                    setCatalogueDevis((prev) => {
+                      const exists = prev.some((d) => d.id === newDevis.id || d.reference === newDevis.reference)
+                      if (exists) return prev
+                      return [newDevis, ...prev]
+                    })
+                    setNewlyCreatedDevisRef(newDevis.reference || newDevis.id)
+                    setExpandedDevisId(newDevis.id)
+                  }
                   setActiveTab("devis")
+                  loadClientData(true)
                 }}
               />
             </div>
@@ -602,23 +710,93 @@ export default function EspaceClient() {
           {/* TAB 1: DEVIS */}
           {activeTab === "devis" && (
             <div className="mt-8 space-y-10">
+              {/* Newly Created Devis Reassurance Banner */}
+              {newlyCreatedDevisRef && (
+                <div className="rounded-2xl border-2 border-emerald-500/40 bg-emerald-500/10 p-5 shadow-sm backdrop-blur-sm animate-in fade-in slide-in-from-top-3 duration-300">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex items-start gap-3.5">
+                      <div className="size-10 rounded-xl bg-emerald-600 text-white grid place-items-center shrink-0 shadow-md shadow-emerald-600/20">
+                        <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="inline-flex items-center gap-1 rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-mono font-bold text-white uppercase tracking-wider">
+                            ✓ Devis bien enregistré
+                          </span>
+                          <span className="font-mono text-xs font-black text-emerald-950">
+                            Réf : {newlyCreatedDevisRef}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs text-emerald-900 leading-relaxed">
+                          Votre demande a été prise en compte avec succès par nos serveurs et transmise à notre service commercial. Votre devis chiffré apparaît ci-dessous et a été mis à jour automatiquement.
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setNewlyCreatedDevisRef(null)}
+                      className="self-start sm:self-center shrink-0 rounded-lg border border-emerald-600/20 bg-emerald-600/10 px-3 py-1.5 text-xs font-semibold text-emerald-900 hover:bg-emerald-600/20 transition"
+                    >
+                      Masquer l&apos;alerte
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Top Action Bar */}
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-display text-xl font-bold text-ink">Historique de vos devis et demandes</h2>
-                  <p className="text-xs text-ink-soft">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <h2 className="font-display text-xl font-bold text-ink">Historique de vos devis et demandes</h2>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-500/20">
+                      <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                      Synchronisé en direct
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-ink-soft">
                     Retrouvez l&apos;ensemble de vos demandes de devis et cotations sur-mesure.
+                    {lastSyncTime && (
+                      <span className="ml-1.5 opacity-75">
+                        • Dernière actualisation : {lastSyncTime.toLocaleTimeString("fr-FR")}
+                      </span>
+                    )}
                   </p>
                 </div>
-                <Link
-                  to="/devis"
-                  className="inline-flex items-center gap-2 rounded-lg bg-orsap-red px-4 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orsap-red/25 transition hover:bg-orsap-red-deep"
-                >
-                  <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                  </svg>
-                  Nouvelle Demande de Devis
-                </Link>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => loadClientData(true)}
+                    disabled={isRefreshing || loadingDashboard}
+                    className="inline-flex items-center gap-2 rounded-lg border border-hairline bg-card px-3.5 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-paper hover:border-ink-soft disabled:opacity-50"
+                  >
+                    <svg
+                      className={`size-3.5 text-ink-soft ${isRefreshing ? "animate-spin text-orsap-red" : ""}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                    <span>{isRefreshing ? "Actualisation..." : "Actualiser"}</span>
+                  </button>
+
+                  <Link
+                    to="/devis"
+                    className="inline-flex items-center gap-2 rounded-lg bg-orsap-red px-4 py-2.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orsap-red/25 transition hover:bg-orsap-red-deep"
+                  >
+                    <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Nouvelle Demande
+                  </Link>
+                </div>
               </div>
 
               {loadingDashboard ? (
@@ -663,12 +841,20 @@ export default function EspaceClient() {
                       <div className="space-y-4">
                         {catalogueDevis.map((dev) => {
                           const isExpanded = expandedDevisId === dev.id
+                          const isNew =
+                            dev.reference === newlyCreatedDevisRef ||
+                            dev.id === newlyCreatedDevisRef ||
+                            Date.now() - new Date(dev.createdAt).getTime() < 1000 * 60 * 15
                           return (
                             <div
                               key={dev.id}
-                              className="overflow-hidden rounded-2xl border border-hairline bg-card shadow-sm transition hover:border-orsap-red/30 hover:shadow-md"
+                              className={`overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:shadow-md ${
+                                isNew
+                                  ? "border-emerald-500/60 ring-2 ring-emerald-500/20"
+                                  : "border-hairline hover:border-orsap-red/30"
+                              }`}
                             >
-                              <div className="border-b border-hairline bg-paper/50 p-5">
+                              <div className={`border-b p-5 ${isNew ? "bg-emerald-500/[0.04] border-emerald-500/20" : "bg-paper/50 border-hairline"}`}>
                                 <div className="flex flex-wrap items-center justify-between gap-3">
                                   <div className="flex flex-wrap items-center gap-3">
                                     <span className="inline-flex items-center gap-1.5 rounded-lg bg-ink px-3 py-1 font-mono text-xs font-bold text-white shadow-sm">
@@ -677,6 +863,11 @@ export default function EspaceClient() {
                                       </svg>
                                       {dev.reference}
                                     </span>
+                                    {isNew && (
+                                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-0.5 text-[10px] font-extrabold uppercase text-white shadow-sm animate-pulse">
+                                        ● Nouveau
+                                      </span>
+                                    )}
                                     <span className="font-mono text-xs text-ink-soft">
                                       {new Date(dev.createdAt).toLocaleDateString("fr-FR", {
                                         day: "numeric",

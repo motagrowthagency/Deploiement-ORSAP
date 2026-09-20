@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react"
-import { Link } from "react-router"
+import { Link, useSearchParams } from "react-router"
+import { useAuth } from "@/context/AuthContext"
 import SEO from "@/components/SEO"
 import { trackFormStart, trackGenerateLead } from "@/utils/analytics"
 import { classifyLead, getStoredAttribution } from "@/utils/attribution"
@@ -9,21 +10,51 @@ type ClientType = "professional" | "personal"
 const API_URL = "/api/devis"
 
 export default function Devis() {
-  const [clientType, setClientType] = useState<ClientType>("professional")
+  const [searchParams] = useSearchParams()
+  const { user, token } = useAuth()
+
+  const [clientType, setClientType] = useState<ClientType>(
+    user?.clientType === "individual" ? "personal" : "professional"
+  )
   const [submitted, setSubmitted] = useState(false)
+  const [submittedRef, setSubmittedRef] = useState<string | null>(null)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [formStarted, setFormStarted] = useState(false)
   const [form, setForm] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
+    name: user?.name || "",
+    company: user?.company || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
     message: "",
   })
 
+  // Prefill if user logs in or changes
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        company: prev.company || user.company || "",
+        email: prev.email || user.email || "",
+        phone: prev.phone || user.phone || "",
+      }))
+      if (user.clientType === "individual") {
+        setClientType("personal")
+      }
+    }
+  }, [user])
+
   const [solutions, setSolutions] = useState<string[]>([])
   const [sectors, setSectors] = useState<string[]>([])
+
+  // Check URL parameter for pre-selected solution
+  useEffect(() => {
+    const solutionParam = searchParams.get("solution")
+    if (solutionParam && !solutions.includes(solutionParam)) {
+      setSolutions((prev) => [...prev, solutionParam])
+    }
+  }, [searchParams])
 
   const SOLUTIONS_OPTIONS = [
     "Equipements de Protection Individuelle",
@@ -56,9 +87,14 @@ export default function Devis() {
     const attribution = getStoredAttribution()
 
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" }
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`
+      }
+
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           clientType,
           ...form,
@@ -69,9 +105,21 @@ export default function Devis() {
         }),
       })
 
+      const data = await res.json().catch(() => null)
       if (!res.ok) {
-        const data = await res.json().catch(() => null)
         throw new Error(data?.error || "Erreur serveur. Veuillez réessayer.")
+      }
+
+      const newRef = data?.id || `DEV-${Date.now().toString(36).toUpperCase()}`
+      setSubmittedRef(newRef)
+
+      // Notify other pages and Espace Client instantly
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("orsap:devis-created", {
+            detail: { id: newRef, reference: newRef },
+          })
+        )
       }
 
       trackGenerateLead({
@@ -91,18 +139,19 @@ export default function Devis() {
     }
   }
 
-  useEffect(() => {
-    if (!submitted) return
-    const timer = setTimeout(() => handleReset(), 10000)
-    return () => clearTimeout(timer)
-  }, [submitted])
-
   function handleReset() {
     setSubmitted(false)
-    setForm({ name: "", company: "", email: "", phone: "", message: "" })
+    setSubmittedRef(null)
+    setForm({
+      name: user?.name || "",
+      company: user?.company || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      message: "",
+    })
     setSolutions([])
     setSectors([])
-    setClientType("professional")
+    setClientType(user?.clientType === "individual" ? "personal" : "professional")
   }
 
   return (
@@ -168,19 +217,35 @@ export default function Devis() {
               </svg>
             </div>
             <h2 className="font-display text-[24px] font-black tracking-[-0.01em] text-ink">
-              Demande envoyée !
+              Demande de Devis Enregistrée !
             </h2>
+            {submittedRef && (
+              <div className="mt-3 inline-flex items-center gap-2 rounded-lg bg-paper px-3.5 py-1.5 border border-hairline font-mono text-xs font-bold text-ink">
+                <span>Réf. Dossier :</span>
+                <span className="text-orsap-red">{submittedRef}</span>
+              </div>
+            )}
             <p className="mt-3 text-[15px] leading-[1.6] text-ink-soft">
-              Merci pour votre demande. Un expert ORSAP vous contactera dans les
-              plus brefs délais.
+              Votre demande a bien été transmise à notre service commercial. Elle a été automatiquement synchronisée avec votre Espace Client.
             </p>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="mt-8 inline-flex items-center justify-center border border-ink px-6 py-3 font-display text-[13.5px] font-bold uppercase tracking-[0.04em] text-ink transition-colors hover:bg-ink hover:text-paper"
-            >
-              Nouvelle demande
-            </button>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                to={`/espace-client?tab=devis&created=${encodeURIComponent(submittedRef || "")}`}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-orsap-red px-6 py-3 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-white shadow-md shadow-orsap-red/25 hover:bg-orsap-red-deep transition-all"
+              >
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Voir dans mon Espace Client
+              </Link>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="w-full sm:w-auto inline-flex items-center justify-center border border-ink/20 px-6 py-3 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-ink transition-colors hover:bg-paper"
+              >
+                Nouvelle demande
+              </button>
+            </div>
           </div>
         ) : (
           /* ── Form ── */

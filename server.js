@@ -862,7 +862,7 @@ app.post("/api/devis-catalogue", requireClientAuth, submissionLimiter, async (re
 // The logged-in client's own itemized devis history
 app.get("/api/devis-catalogue/mine", requireClientAuth, async (req, res) => {
   const user = req.user || req.clientUser
-  const requests = await loadDevisRequestsForUser(user.id)
+  const requests = await loadDevisRequestsForUser(user.id, user.email)
   return res.json({ devis: requests })
 })
 

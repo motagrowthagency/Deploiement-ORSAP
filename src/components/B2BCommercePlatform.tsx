@@ -44,7 +44,7 @@ export default function B2BCommercePlatform({
   onOrderSubmitted,
 }: {
   token: string
-  onOrderSubmitted: () => void
+  onOrderSubmitted?: (newDevis?: any) => void
 }) {
   const [query, setQuery] = useState("")
   const [rayon, setRayon] = useState("")
@@ -245,11 +245,51 @@ export default function B2BCommercePlatform({
         throw new Error(data?.error || "Erreur lors de l'enregistrement de la commande.")
       }
 
-      setOrderSuccess(data.reference || data.id || "DEV-CONFIRME")
+      const newDevisId = data.id || `DEV-${Date.now().toString(36).toUpperCase()}`
+      const newReference = data.reference || data.id || newDevisId
+
+      const createdDevisPayload = {
+        id: newDevisId,
+        reference: newReference,
+        createdAt: new Date().toISOString(),
+        status: "pending",
+        totalHt,
+        totalTva,
+        totalTtc,
+        notes: orderNotes.trim() || undefined,
+        items: cartItems.map((it) => ({
+          code: it.code,
+          designation: it.designation,
+          rayon: it.rayon,
+          famille: it.famille,
+          priceHt: it.priceHt,
+          priceTtc: it.priceTtc,
+          quantity: it.quantity,
+          lineTotalHt: (it.priceHt || 0) * (it.quantity || 1),
+          isCustom: Boolean(it.isCustom),
+        })),
+      }
+
+      // Dispatch window event for immediate app-wide reactivity
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("orsap:devis-created", {
+            detail: {
+              id: newDevisId,
+              reference: newReference,
+              devis: createdDevisPayload,
+            },
+          })
+        )
+      }
+
+      setOrderSuccess(newReference)
       setCart({})
       setOrderNotes("")
       setCartDrawerOpen(false)
-      onOrderSubmitted()
+      if (onOrderSubmitted) {
+        onOrderSubmitted(createdDevisPayload)
+      }
     } catch (err: any) {
       setSubmitError(err.message || "Une erreur est survenue lors de l'envoi.")
     } finally {

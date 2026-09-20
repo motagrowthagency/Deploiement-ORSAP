@@ -1058,12 +1058,18 @@ function attachDevisItemsPHP(array $requests) {
     }, $requests);
 }
 
-function loadDevisRequestsForUserPHP($userId) {
+function loadDevisRequestsForUserPHP($userId, $email = null) {
     $pdo = getDbConnection();
     if ($pdo) {
         try {
-            $stmt = $pdo->prepare("SELECT * FROM `devis_requests` WHERE `user_id` = :user_id ORDER BY `created_at` DESC");
-            $stmt->execute([':user_id' => $userId]);
+            $emailClean = $email ? strtolower(trim($email)) : '';
+            if (!empty($emailClean)) {
+                $stmt = $pdo->prepare("SELECT * FROM `devis_requests` WHERE `user_id` = :user_id OR (`email` IS NOT NULL AND LOWER(`email`) = :email) ORDER BY `created_at` DESC");
+                $stmt->execute([':user_id' => $userId, ':email' => $emailClean]);
+            } else {
+                $stmt = $pdo->prepare("SELECT * FROM `devis_requests` WHERE `user_id` = :user_id ORDER BY `created_at` DESC");
+                $stmt->execute([':user_id' => $userId]);
+            }
             $rows = $stmt->fetchAll();
             $mapped = array_map(function($r) {
                 return [
@@ -1084,7 +1090,11 @@ function loadDevisRequestsForUserPHP($userId) {
         }
     }
     $reqs = readJsonFile('devis_requests.json');
-    $userReqs = array_values(array_filter($reqs, function($r) use ($userId) { return ($r['userId'] ?? '') === $userId; }));
+    $userReqs = array_values(array_filter($reqs, function($r) use ($userId, $email) {
+        if (($r['userId'] ?? '') === $userId) return true;
+        if (!empty($email) && !empty($r['email']) && strtolower(trim($r['email'])) === strtolower(trim($email))) return true;
+        return false;
+    }));
     return attachDevisItemsPHP($userReqs);
 }
 

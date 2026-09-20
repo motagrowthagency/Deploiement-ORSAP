@@ -1492,19 +1492,24 @@ export async function createDevisRequest(entry, items) {
   saveDevisItemsToJSON(allItems)
 }
 
-export async function loadDevisRequestsForUser(userId) {
+export async function loadDevisRequestsForUser(userId, email = null) {
   if (pool) {
     try {
+      const emailClean = email ? String(email).trim().toLowerCase() : null
       const [rows] = await pool.query(
-        "SELECT * FROM `devis_requests` WHERE `user_id` = ? ORDER BY `created_at` DESC",
-        [userId]
+        "SELECT * FROM `devis_requests` WHERE `user_id` = ? OR (`email` IS NOT NULL AND LOWER(`email`) = ?) ORDER BY `created_at` DESC",
+        [userId, emailClean || ""]
       )
       return attachDevisItems(rows.map(mapDevisRequestRow))
     } catch (err) {
       console.error("❌ Erreur loadDevisRequestsForUser MySQL:", err.message)
     }
   }
-  const requests = loadDevisRequestsFromJSON().filter((r) => r.userId === userId)
+  const requests = loadDevisRequestsFromJSON().filter((r) => {
+    if (r.userId === userId) return true
+    if (email && r.email && r.email.toLowerCase() === email.toLowerCase()) return true
+    return false
+  })
   return attachDevisItems(requests)
 }
 

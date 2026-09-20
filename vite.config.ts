@@ -680,6 +680,39 @@ function figmaApiDevPlugin(): Plugin {
           return
         }
 
+        // POST /api/devis
+        if (pathname === "/api/devis" && method === "POST") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {
+            body = {}
+          }
+
+          const submissionId = `DEV-EXP-${Date.now().toString(36).toUpperCase()}`
+          const subs = readJsonFile("./data/submissions.json", [])
+          const newSubmission = {
+            id: submissionId,
+            createdAt: new Date().toISOString(),
+            clientType: body.clientType || "professional",
+            name: body.name || "",
+            company: body.company || null,
+            email: body.email || null,
+            phone: body.phone || "",
+            solutions: Array.isArray(body.solutions) ? body.solutions : [],
+            sectors: Array.isArray(body.sectors) ? body.sectors : [],
+            message: body.message || null,
+          }
+          subs.unshift(newSubmission)
+          writeJsonFile("./data/submissions.json", subs)
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, id: submissionId }))
+          return
+        }
+
         // /api/submissions
         if (pathname === "/api/submissions") {
           const subs = readJsonFile("./data/submissions.json", [])

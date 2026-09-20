@@ -1467,7 +1467,7 @@ if ($uri === '/api/devis-catalogue/mine' || $uri === '/api/devis-catalogue/mine/
         if (!$user) {
             sendJson(['error' => 'Connexion requise.'], 401);
         }
-        $list = loadDevisRequestsForUserPHP($user['id']);
+        $list = loadDevisRequestsForUserPHP($user['id'], $user['email'] ?? null);
         sendJson($list);
     }
 }
