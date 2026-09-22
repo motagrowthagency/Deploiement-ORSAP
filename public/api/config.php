@@ -48,7 +48,7 @@ return [
     'db_name' => getenv('DB_NAME') ?: 'orsap_site',
     'db_user' => getenv('DB_USER') ?: 'orsap_admin',
     'db_pass' => getenv('DB_PASSWORD') ?: '',
-    'admin_password' => getenv('ADMIN_PASSWORD') ?: 'MotaFouad223',
+    'admin_password' => getenv('ADMIN_PASSWORD') ?: 'admin',
     'jwt_secret' => getenv('JWT_SECRET') ?: 'orsap-secure-jwt-secret-2026-auth',
     'notification_email' => getenv('NOTIFICATION_EMAIL') ?: 'orsap@orsap.ma',
     'from_email' => 'no-reply@orsap.ma',

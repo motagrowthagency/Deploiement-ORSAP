@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url"
 import { randomBytes } from "node:crypto"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { sendVerificationEmail, sendPasswordResetEmail, sendCatalogueDevisEmails } from "./server/email.js"
+import { sendVerificationEmail, sendPasswordResetEmail, sendCatalogueDevisEmails, sendCrmActiveCartAlert } from "./server/email.js"
 import {
   initDatabase,
   loadSubmissions,
@@ -45,6 +45,12 @@ import {
   loadDevisRequestsForUser,
   loadAllDevisRequests,
   deleteDevisRequest,
+  saveActiveCart,
+  loadAllActiveCarts,
+  loadActiveCartForUser,
+  updateCrmCartStatus,
+  deleteActiveCart,
+  markCartAlertSent,
 } from "./server/database.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -175,7 +181,7 @@ function esc(str) {
 }
 
 const JWT_SECRET = process.env.JWT_SECRET || "orsap-secure-jwt-secret-2026-auth"
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "MotaFouad223"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin"
 
 function isRequestAdminAuthenticated(req) {
   const cookies = req.headers.cookie || ""
@@ -856,7 +862,123 @@ app.post("/api/devis-catalogue", requireClientAuth, submissionLimiter, async (re
     note: entry.note,
   }).catch((err) => console.error("❌ Erreur envoi email devis catalogue:", err.message))
 
+  // Clean up active cart on quote submission
+  deleteActiveCart(user.id).catch(() => {})
+
   return res.status(201).json({ success: true, id: entry.id, items: resolvedItems })
+})
+
+// ── CRM & Active Carts API Routes ───────────────────────────────────
+
+// Client: Synchronize active cart in real-time
+app.post("/api/crm/cart-sync", requireClientAuth, async (req, res) => {
+  const user = req.user || req.clientUser
+  const { items, totalCount, totalHt, totalTtc } = req.body
+
+  const cleanItems = Array.isArray(items) ? items : []
+
+  if (cleanItems.length === 0) {
+    // If cart is cleared, delete active cart record
+    await deleteActiveCart(user.id)
+    return res.json({ success: true, cart: null })
+  }
+
+  const existingCart = await loadActiveCartForUser(user.id)
+
+  const savedCart = await saveActiveCart({
+    userId: user.id,
+    clientName: user.name,
+    clientEmail: user.email,
+    clientPhone: user.phone,
+    clientCompany: user.company,
+    clientType: user.clientType,
+    items: cleanItems,
+    totalCount,
+    totalHt,
+    totalTtc,
+  })
+
+  // Email Notification Throttle: Send email alert to admin if cart has items
+  // and no alert was sent in the last 30 minutes for this user
+  const THIRTY_MINUTES_MS = 30 * 60 * 1000
+  const lastAlertTime = existingCart?.lastAlertSentAt ? new Date(existingCart.lastAlertSentAt).getTime() : 0
+  const shouldSendAlert = Date.now() - lastAlertTime > THIRTY_MINUTES_MS
+
+  if (shouldSendAlert && cleanItems.length > 0) {
+    markCartAlertSent(savedCart.id).catch(() => {})
+    sendCrmActiveCartAlert({
+      user: {
+        id: user.id,
+        name: user.name,
+        company: user.company,
+        email: user.email,
+        phone: user.phone,
+        clientType: user.clientType,
+      },
+      items: cleanItems,
+      totalHt: savedCart.totalHt,
+      totalTtc: savedCart.totalTtc,
+    }).catch((err) => console.error("❌ Erreur envoi notification CRM email:", err.message))
+  }
+
+  return res.json({ success: true, cart: savedCart })
+})
+
+// Client: Restore active cart on login/session restore
+app.get("/api/crm/my-cart", requireClientAuth, async (req, res) => {
+  const user = req.user || req.clientUser
+  const cart = await loadActiveCartForUser(user.id)
+  return res.json({ cart: cart || null })
+})
+
+// Admin: Get all active carts and CRM leads
+app.get("/api/admin/crm/carts", requireAdmin, async (_req, res) => {
+  const carts = await loadAllActiveCarts()
+  return res.json(carts)
+})
+
+// Admin: Update CRM lead status & internal notes
+app.patch("/api/admin/crm/carts/:id", requireAdmin, async (req, res) => {
+  const { status, notes } = req.body
+  const updated = await updateCrmCartStatus(req.params.id, { status, notes })
+  if (!updated) {
+    return res.status(404).json({ error: "Panier CRM introuvable." })
+  }
+  return res.json({ success: true, cart: updated })
+})
+
+// Admin: Delete / Archive a CRM active cart
+app.delete("/api/admin/crm/carts/:id", requireAdmin, async (req, res) => {
+  const success = await deleteActiveCart(req.params.id)
+  if (!success) {
+    return res.status(404).json({ error: "Panier introuvable." })
+  }
+  return res.json({ success: true })
+})
+
+// Admin: Manually trigger CRM alert test
+app.post("/api/admin/crm/carts/:id/notify", requireAdmin, async (req, res) => {
+  const carts = await loadAllActiveCarts()
+  const cart = carts.find((c) => c.id === req.params.id || c.userId === req.params.id)
+  if (!cart) {
+    return res.status(404).json({ error: "Panier introuvable." })
+  }
+
+  const result = await sendCrmActiveCartAlert({
+    user: {
+      name: cart.clientName,
+      company: cart.clientCompany,
+      email: cart.clientEmail,
+      phone: cart.clientPhone,
+      clientType: cart.clientType,
+    },
+    items: cart.items,
+    totalHt: cart.totalHt,
+    totalTtc: cart.totalTtc,
+  })
+
+  await markCartAlertSent(cart.id)
+  return res.json({ success: true, result })
 })
 
 // The logged-in client's own itemized devis history
@@ -1321,6 +1443,41 @@ function handleAdminLogin(req, res) {
 
 app.post("/admin/login", authLimiter, handleAdminLogin)
 app.post("/admin", authLimiter, handleAdminLogin)
+
+// API JSON endpoints for Admin SPA
+app.post("/api/admin/login", authLimiter, (req, res) => {
+  const { password } = req.body || {}
+  const expectedPassword = process.env.ADMIN_PASSWORD || ADMIN_PASSWORD
+  if (password && password === expectedPassword) {
+    const adminToken = jwt.sign(
+      { role: "admin", iat: Math.floor(Date.now() / 1000) },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    )
+    const isProd = process.env.NODE_ENV === "production"
+    res.setHeader(
+      "Set-Cookie",
+      `orsap_admin_token=${adminToken}; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax${
+        isProd ? "; Secure" : ""
+      }`
+    )
+    return res.json({ success: true, message: "Authentification réussie" })
+  } else {
+    return res.status(401).json({ error: "Mot de passe incorrect." })
+  }
+})
+
+app.get("/api/admin/check-auth", (req, res) => {
+  return res.json({ authenticated: isRequestAdminAuthenticated(req) })
+})
+
+app.post("/api/admin/logout", (_req, res) => {
+  res.setHeader(
+    "Set-Cookie",
+    "orsap_admin_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax"
+  )
+  return res.json({ success: true })
+})
 
 app.get("/admin/logout", (_req, res) => {
   res.setHeader(

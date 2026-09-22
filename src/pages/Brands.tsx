@@ -51,7 +51,7 @@ const LOGO_IMAGES: Record<string, string> = {
 
 // BrandLogo renders the official logo image if available in LOGO_IMAGES.
 // Otherwise, it falls back to a clean, styled CSS-only logo badge using the brand's primary colors.
-function BrandLogo({ slug, name }: { slug: string name: string }) {
+function BrandLogo({ slug, name }: { slug: string; name: string }) {
   if (LOGO_IMAGES[slug]) {
     return (
       <div className="inline-flex items-center justify-center select-none bg-white p-1 rounded-sm border border-hairline">

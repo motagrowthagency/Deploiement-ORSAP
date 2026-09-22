@@ -12,6 +12,8 @@ dist/
 /data/subscribers.json
 /data/devis_requests.json
 /data/devis_items.json
+/data/active_carts.json
+/data/abandoned_notifications.json
 /public/data/submissions.json
 /public/data/applications.json
 /public/data/devis_requests.json

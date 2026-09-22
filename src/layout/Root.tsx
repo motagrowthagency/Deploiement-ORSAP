@@ -4,7 +4,9 @@ import orsapIcon from "@/imports/logo.jpg"
 import { NAV } from "@/layout/nav"
 import ClientListPopup from "@/components/ClientListPopup"
 import CookieConsentBanner from "@/components/CookieConsentBanner"
+import GlobalCartDrawer from "@/components/GlobalCartDrawer"
 import { useAuth } from "@/context/AuthContext"
+import { useCart } from "@/context/CartContext"
 import { initAttribution } from "@/utils/attribution"
 import {
   trackPageView,
@@ -32,6 +34,7 @@ function OrsapMark() {
 export default function Root() {
   const [menuOpen, setMenuOpen] = useState(false)
   const { user } = useAuth()
+  const { totalCount, totalHt, setCartDrawerOpen } = useCart()
   const location = useLocation()
 
   // Initialize attribution and track SPA virtual pageviews
@@ -73,7 +76,7 @@ export default function Root() {
       </div>
 
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-hairline bg-paper/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-hairline bg-paper/95 backdrop-blur">
         <nav className="mx-auto grid max-w-[1240px] grid-cols-[auto_1fr_auto] items-center gap-4 px-6 py-3.5">
           <OrsapMark />
           <ul className="hidden min-w-0 items-center justify-center gap-x-5 gap-y-1 whitespace-nowrap xl:flex">
@@ -95,6 +98,36 @@ export default function Root() {
             ))}
           </ul>
           <div className="flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setCartDrawerOpen(true)}
+              title="Ouvrir le panier de devis B2B"
+              className={`relative inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 font-display text-[12.5px] font-bold uppercase tracking-wider transition shadow-xs cursor-pointer ${
+                totalCount > 0
+                  ? "border border-orsap-red bg-orsap-red text-white shadow-md shadow-orsap-red/25 hover:bg-orsap-red-deep"
+                  : "border border-hairline bg-paper text-ink-soft hover:border-orsap-red hover:text-orsap-red"
+              }`}
+            >
+              <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <span>Panier</span>
+              <span
+                className={`flex size-5 items-center justify-center rounded-full font-mono text-[10px] font-bold ${
+                  totalCount > 0
+                    ? "bg-white text-orsap-red"
+                    : "bg-slate-100 text-slate-500"
+                }`}
+              >
+                {totalCount}
+              </span>
+              {totalHt > 0 && (
+                <span className="hidden sm:inline font-mono font-normal opacity-90 text-[11px] ml-0.5">
+                  · {totalHt.toLocaleString("fr-FR", { maximumFractionDigits: 0 })} DH
+                </span>
+              )}
+            </button>
+
             <Link
               to="/devis"
               onClick={() => trackCtaClick("Demander un devis", "/devis", "header_desktop")}
@@ -107,7 +140,7 @@ export default function Root() {
               aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className="grid size-11 place-items-center border border-hairline text-ink xl:hidden"
+              className="grid size-11 place-items-center border border-hairline text-ink xl:hidden cursor-pointer"
             >
               <span className="relative block h-4 w-5">
                 <span
@@ -168,6 +201,26 @@ export default function Root() {
                   {user ? `Mon Espace (${user.name})` : "Espace Client (Connexion / Inscription)"}
                 </NavLink>
               </li>
+              {totalCount > 0 && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMenuOpen(false)
+                      setCartDrawerOpen(true)
+                    }}
+                    className="w-full flex items-center justify-between border-b border-hairline/60 py-3.5 text-[15px] font-bold text-orsap-red text-left cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                      <span>Mon Panier B2B ({totalCount} articles)</span>
+                    </span>
+                    <span className="font-mono text-sm">{totalHt.toLocaleString("fr-FR", { maximumFractionDigits: 0 })} DH HT</span>
+                  </button>
+                </li>
+              )}
             </ul>
             <div className="mx-auto max-w-[1240px] px-6 pb-4">
               <Link
@@ -334,6 +387,7 @@ export default function Root() {
 
       <ClientListPopup />
       <CookieConsentBanner />
+      <GlobalCartDrawer />
       <ScrollRestoration />
     </div>
   )

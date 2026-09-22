@@ -52,14 +52,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
       if (res.ok) {
         const data = await res.json()
-        setUser(data.user)
-        localStorage.setItem("orsap_client_user", JSON.stringify(data.user))
-      } else {
-        // Token expired or invalid
+        if (data.user) {
+          setUser(data.user)
+          try {
+            localStorage.setItem("orsap_client_user", JSON.stringify(data.user))
+            sessionStorage.setItem("orsap_client_user", JSON.stringify(data.user))
+          } catch {}
+        }
+      } else if (res.status === 401) {
+        // Token explicitly expired or invalid on server
         logout()
       }
     } catch {
-      // Network error, keep cached user
+      // Network error or offline, keep cached user
     } finally {
       setLoading(false)
     }
@@ -72,15 +77,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = (newToken: string, newUser: AuthUser) => {
     setToken(newToken)
     setUser(newUser)
-    localStorage.setItem("orsap_client_token", newToken)
-    localStorage.setItem("orsap_client_user", JSON.stringify(newUser))
+    try {
+      localStorage.setItem("orsap_client_token", newToken)
+      localStorage.setItem("orsap_client_user", JSON.stringify(newUser))
+      sessionStorage.setItem("orsap_client_token", newToken)
+      sessionStorage.setItem("orsap_client_user", JSON.stringify(newUser))
+    } catch {}
   }
 
   const logout = () => {
     setToken(null)
     setUser(null)
-    localStorage.removeItem("orsap_client_token")
-    localStorage.removeItem("orsap_client_user")
+    try {
+      localStorage.removeItem("orsap_client_token")
+      localStorage.removeItem("orsap_client_user")
+      sessionStorage.removeItem("orsap_client_token")
+      sessionStorage.removeItem("orsap_client_user")
+    } catch {}
   }
 
   return (

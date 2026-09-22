@@ -1544,6 +1544,162 @@ if (preg_match('#^/api/admin/articles/([^/]+)$#', $uri, $matches)) {
     }
 }
 
+// Client: Sync active cart to CRM / server
+if ($uri === '/api/crm/cart-sync' || $uri === '/api/crm/cart-sync/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $user = getAuthUserPHP();
+        $items = isset($body['items']) && is_array($body['items']) ? $body['items'] : [];
+        $filePath = __DIR__ . '/../../data/active_carts.json';
+        $carts = [];
+        if (file_exists($filePath)) {
+            $carts = json_decode(file_get_contents($filePath), true) ?: [];
+        }
+
+        $clientName = $body['guest']['name'] ?? ($user['name'] ?? 'Client Visiteur');
+        $clientEmail = $body['guest']['email'] ?? ($user['email'] ?? 'visiteur@orsap.ma');
+        $clientPhone = $body['guest']['phone'] ?? ($user['phone'] ?? '+212 6 44 20 30 30');
+        $clientCompany = $body['guest']['company'] ?? ($user['company'] ?? null);
+        $clientType = !empty($body['guest']['company']) || ($user['clientType'] ?? '') === 'professional' ? 'professional' : 'individual';
+        $userId = $user['id'] ?? (!empty($body['guest']['email']) ? 'guest-' . $body['guest']['email'] : 'guest-active');
+
+        $totalHt = 0.0;
+        $totalTtc = 0.0;
+        $totalCount = 0;
+        foreach ($items as $it) {
+            $q = max(1, intval($it['quantity'] ?? 1));
+            $totalCount += $q;
+            $totalHt += (float)($it['priceHt'] ?? 0) * $q;
+            $totalTtc += (float)($it['priceTtc'] ?? 0) * $q;
+        }
+
+        $existingIndex = -1;
+        foreach ($carts as $idx => $c) {
+            if ((!empty($c['userId']) && $c['userId'] === $userId) || (!empty($clientEmail) && !empty($c['clientEmail']) && $c['clientEmail'] === $clientEmail)) {
+                $existingIndex = $idx;
+                break;
+            }
+        }
+
+        if (empty($items)) {
+            if ($existingIndex >= 0) {
+                array_splice($carts, $existingIndex, 1);
+                @file_put_contents($filePath, json_encode($carts, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            }
+            sendJson(['success' => true, 'cart' => null]);
+        }
+
+        $cartRecord = [
+            'id' => $existingIndex >= 0 ? $carts[$existingIndex]['id'] : 'CART-' . strtoupper(bin2hex(random_bytes(4))),
+            'userId' => $userId,
+            'clientName' => $clientName,
+            'clientEmail' => $clientEmail,
+            'clientPhone' => $clientPhone,
+            'clientCompany' => $clientCompany,
+            'clientType' => $clientType,
+            'status' => $existingIndex >= 0 ? ($carts[$existingIndex]['status'] ?? 'cart_active') : 'cart_active',
+            'items' => $items,
+            'totalCount' => $totalCount,
+            'totalHt' => $totalHt,
+            'totalTva' => $totalTtc - $totalHt,
+            'totalTtc' => $totalTtc,
+            'notes' => $existingIndex >= 0 ? ($carts[$existingIndex]['notes'] ?? '') : '',
+            'createdAt' => $existingIndex >= 0 ? ($carts[$existingIndex]['createdAt'] ?? date('Y-m-d H:i:s')) : date('Y-m-d H:i:s'),
+            'updatedAt' => date('Y-m-d H:i:s'),
+        ];
+
+        if ($existingIndex >= 0) {
+            $carts[$existingIndex] = $cartRecord;
+        } else {
+            array_unshift($carts, $cartRecord);
+        }
+
+        @file_put_contents($filePath, json_encode($carts, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        sendJson(['success' => true, 'cart' => $cartRecord]);
+    }
+}
+
+// Client: Restore active cart on session restore
+if ($uri === '/api/crm/my-cart' || $uri === '/api/crm/my-cart/') {
+    if ($method === 'GET') {
+        $user = getAuthUserPHP();
+        if (!$user) {
+            sendJson(['cart' => null]);
+        }
+        $filePath = __DIR__ . '/../../data/active_carts.json';
+        $carts = [];
+        if (file_exists($filePath)) {
+            $carts = json_decode(file_get_contents($filePath), true) ?: [];
+        }
+        $userCart = null;
+        foreach ($carts as $c) {
+            if ((!empty($c['userId']) && $c['userId'] === $user['id']) || (!empty($user['email']) && !empty($c['clientEmail']) && $c['clientEmail'] === $user['email'])) {
+                $userCart = $c;
+                break;
+            }
+        }
+        sendJson(['cart' => $userCart]);
+    }
+}
+
+// Admin: API Login
+if ($uri === '/api/admin/login' || $uri === '/api/admin/login/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $password = trim((string)($body['password'] ?? ''));
+        $config = require __DIR__ . '/config.php';
+        $expected = $config['admin_password'] ?? (getenv('ADMIN_PASSWORD') ?: '');
+
+        if ($password && $expected && hash_equals($expected, $password)) {
+            $jwtSecret = $config['jwt_secret'] ?? 'orsap-secure-jwt-secret-2026-auth';
+            $time = time();
+            $data = "orsap_admin:" . $time;
+            $hash = hash_hmac('sha256', $data, $jwtSecret);
+            $token = base64_encode($data . ":" . $hash);
+
+            $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+            @setcookie('orsap_admin_token', $token, [
+                'expires' => time() + (86400 * 7),
+                'path' => '/',
+                'httponly' => true,
+                'samesite' => 'Lax',
+                'secure' => $secure
+            ]);
+            sendJson(['success' => true, 'message' => 'Authentification réussie']);
+        } else {
+            sendJson(['error' => 'Mot de passe incorrect.'], 401);
+        }
+    }
+}
+
+// Admin: Check Auth Status
+if ($uri === '/api/admin/check-auth' || $uri === '/api/admin/check-auth/') {
+    if ($method === 'GET') {
+        $isAuth = false;
+        try {
+            requireAdminPHP();
+            $isAuth = true;
+        } catch (Exception $e) {
+            $isAuth = false;
+        }
+        sendJson(['authenticated' => $isAuth]);
+    }
+}
+
+// Admin: API Logout
+if ($uri === '/api/admin/logout' || $uri === '/api/admin/logout/') {
+    if ($method === 'POST') {
+        @setcookie('orsap_admin_token', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure' => false
+        ]);
+        sendJson(['success' => true]);
+    }
+}
+
 // Fallback 404
 sendJson(['error' => 'Endpoint introuvable'], 404);
 

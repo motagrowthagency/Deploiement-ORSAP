@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react"
+import { useCart } from "@/context/CartContext"
 
 export interface Article {
   id?: string
@@ -17,20 +18,6 @@ export interface Article {
 export interface Facets {
   rayons: { name: string; count: number }[]
   familles: { name: string; rayon: string; count: number }[]
-}
-
-export interface CartLine {
-  id: string
-  code: string
-  designation: string
-  priceHt: number
-  priceTtc: number
-  quantity: number
-  imageUrl?: string
-  image?: string
-  brand?: string
-  isCustom?: boolean
-  notes?: string
 }
 
 const PAGE_SIZE = 24
@@ -57,13 +44,27 @@ export default function B2BCommercePlatform({
   const [loading, setLoading] = useState(true)
   const [searchError, setSearchError] = useState<string | null>(null)
 
-  // Cart & Order State
-  const [cart, setCart] = useState<Record<string, CartLine>>({})
+  // Global Cart State from CartProvider
+  const {
+    cart,
+    cartItems,
+    totalCount,
+    totalHt,
+    totalTva,
+    totalTtc,
+    cartDrawerOpen,
+    setCartDrawerOpen,
+    addToCart,
+    updateQuantity,
+    removeFromCart,
+    addCustomArticle,
+    clearCart,
+  } = useCart()
+
   const [orderNotes, setOrderNotes] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [orderSuccess, setOrderSuccess] = useState<string | null>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  const [cartDrawerOpen, setCartDrawerOpen] = useState(false)
 
   // Custom Article Modal State
   const [customModalOpen, setCustomModalOpen] = useState(false)
@@ -132,81 +133,9 @@ export default function B2BCommercePlatform({
     return facets.familles.filter((f) => f.rayon === rayon)
   }, [facets, rayon])
 
-  // Cart totals calculation
-  const { cartItems, totalCount, totalHt, totalTva, totalTtc } = useMemo(() => {
-    const items = Object.values(cart)
-    const count = items.reduce((sum, item) => sum + item.quantity, 0)
-    const ht = items.reduce((sum, item) => sum + item.priceHt * item.quantity, 0)
-    const ttc = items.reduce((sum, item) => sum + item.priceTtc * item.quantity, 0)
-    const tva = ttc - ht
-    return {
-      cartItems: items,
-      totalCount: count,
-      totalHt: ht,
-      totalTva: tva,
-      totalTtc: ttc,
-    }
-  }, [cart])
-
-  // Cart operations
-  const addToCart = (article: Article, qtyToAdd = 1) => {
-    setCart((prev) => {
-      const existing = prev[article.code]
-      const newQty = existing ? existing.quantity + qtyToAdd : qtyToAdd
-      return {
-        ...prev,
-        [article.code]: {
-          id: article.id || article.code,
-          code: article.code,
-          designation: article.designation,
-          priceHt: article.priceHt || 0,
-          priceTtc: article.priceTtc || 0,
-          imageUrl: article.imageUrl || article.image,
-          brand: article.brand,
-          quantity: newQty,
-        },
-      }
-    })
-  }
-
-  const updateQuantity = (code: string, newQty: number) => {
-    if (newQty <= 0) {
-      removeFromCart(code)
-      return
-    }
-    setCart((prev) => {
-      if (!prev[code]) return prev
-      return {
-        ...prev,
-        [code]: { ...prev[code], quantity: newQty },
-      }
-    })
-  }
-
-  const removeFromCart = (code: string) => {
-    setCart((prev) => {
-      const copy = { ...prev }
-      delete copy[code]
-      return copy
-    })
-  }
-
-  const addCustomArticle = () => {
+  const handleAddCustomArticle = () => {
     if (!customName.trim()) return
-    const customCode = `SURMESURE-${Date.now()}`
-    setCart((prev) => ({
-      ...prev,
-      [customCode]: {
-        id: customCode,
-        code: customCode,
-        designation: customName.trim(),
-        priceHt: 0,
-        priceTtc: 0,
-        quantity: Math.max(1, customQty),
-        isCustom: true,
-        notes: customNotes.trim() || undefined,
-      },
-    }))
+    addCustomArticle(customName, customQty, customNotes)
     setCustomName("")
     setCustomQty(1)
     setCustomNotes("")
@@ -284,7 +213,7 @@ export default function B2BCommercePlatform({
       }
 
       setOrderSuccess(newReference)
-      setCart({})
+      clearCart()
       setOrderNotes("")
       setCartDrawerOpen(false)
       if (onOrderSubmitted) {
@@ -520,7 +449,8 @@ export default function B2BCommercePlatform({
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {articles.map((art) => {
-            const inCart = cart[art.code]
+            const cleanCode = (art.code || "").trim()
+            const inCart = cart[cleanCode] || cart[art.code] || Object.values(cart).find((it) => (it.code || "").trim().toLowerCase() === cleanCode.toLowerCase())
             return (
               <div
                 key={art.code}
@@ -588,8 +518,8 @@ export default function B2BCommercePlatform({
                     <div className="flex items-center justify-between rounded-lg border border-orsap-red bg-paper p-1">
                       <button
                         type="button"
-                        onClick={() => updateQuantity(art.code, inCart.quantity - 1)}
-                        className="size-7 rounded bg-card text-ink font-bold hover:bg-slate-200 grid place-items-center"
+                        onClick={() => updateQuantity(inCart.code || art.code, inCart.quantity - 1)}
+                        className="size-7 rounded bg-card text-ink font-bold hover:bg-slate-200 grid place-items-center cursor-pointer"
                       >
                         -
                       </button>
@@ -598,8 +528,8 @@ export default function B2BCommercePlatform({
                       </span>
                       <button
                         type="button"
-                        onClick={() => updateQuantity(art.code, inCart.quantity + 1)}
-                        className="size-7 rounded bg-orsap-red text-white font-bold hover:bg-orsap-red-deep grid place-items-center"
+                        onClick={() => updateQuantity(inCart.code || art.code, inCart.quantity + 1)}
+                        className="size-7 rounded bg-orsap-red text-white font-bold hover:bg-orsap-red-deep grid place-items-center cursor-pointer"
                       >
                         +
                       </button>
@@ -608,7 +538,7 @@ export default function B2BCommercePlatform({
                     <button
                       type="button"
                       onClick={() => addToCart(art, 1)}
-                      className="w-full rounded-lg bg-ink py-2 font-display text-xs font-bold uppercase tracking-wider text-white transition hover:bg-orsap-red"
+                      className="w-full rounded-lg bg-ink py-2 font-display text-xs font-bold uppercase tracking-wider text-white transition hover:bg-orsap-red cursor-pointer"
                     >
                       Ajouter au devis
                     </button>
@@ -706,7 +636,7 @@ export default function B2BCommercePlatform({
                 <button
                   type="button"
                   disabled={!customName.trim()}
-                  onClick={addCustomArticle}
+                  onClick={handleAddCustomArticle}
                   className="flex-1 rounded-lg bg-orsap-red py-3 font-display text-xs font-bold uppercase tracking-wider text-white hover:bg-orsap-red-deep disabled:opacity-50"
                 >
                   Ajouter au devis
@@ -723,162 +653,7 @@ export default function B2BCommercePlatform({
           </div>
         </div>
       )}
-
-      {/* Cart Drawer Panel */}
-      {cartDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-xs">
-          <div className="w-full max-w-md bg-paper border-l border-hairline shadow-2xl flex flex-col h-full animate-in slide-in-from-right duration-200">
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between p-5 border-b border-hairline bg-card">
-              <div className="flex items-center gap-2">
-                <svg className="size-5 text-orsap-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                <h3 className="font-display text-base font-bold text-ink">
-                  Votre Panier B2B ({totalCount} articles)
-                </h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setCartDrawerOpen(false)}
-                className="text-steel hover:text-ink font-bold text-sm"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Cart Items List */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-3">
-              {cartItems.length === 0 ? (
-                <div className="py-12 text-center text-ink-soft text-xs">
-                  Votre panier B2B est vide. Ajoutez des articles depuis le catalogue ci-contre.
-                </div>
-              ) : (
-                cartItems.map((item) => (
-                  <div
-                    key={item.code}
-                    className="flex items-start justify-between gap-3 rounded-xl border border-hairline bg-card p-3.5"
-                  >
-                    {(item.imageUrl || item.image) ? (
-                      <div className="size-14 shrink-0 overflow-hidden rounded-lg border border-hairline bg-white p-1 flex items-center justify-center">
-                        <img
-                          src={item.imageUrl || item.image}
-                          alt={item.designation}
-                          className="h-full w-full object-contain"
-                          loading="lazy"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] font-bold text-orsap-red bg-paper px-1.5 py-0.5 rounded border border-hairline">
-                          {item.code}
-                        </span>
-                        {item.brand && (
-                          <span className="text-[9.5px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-1 py-0.5 rounded">
-                            {item.brand}
-                          </span>
-                        )}
-                        {item.isCustom && (
-                          <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">
-                            Sur-Mesure
-                          </span>
-                        )}
-                      </div>
-                      <h5 className="mt-1 font-display text-xs font-bold text-ink line-clamp-2">
-                        {item.designation}
-                      </h5>
-                      <div className="mt-1 font-mono text-xs font-semibold text-ink-soft">
-                        {item.priceHt > 0 ? `${formatMAD(item.priceHt)} HT` : "Sur devis"}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col items-end gap-2 shrink-0">
-                      <div className="flex items-center rounded border border-hairline bg-paper">
-                        <button
-                          type="button"
-                          onClick={() => updateQuantity(item.code, item.quantity - 1)}
-                          className="size-6 text-xs font-bold text-ink hover:bg-slate-200 grid place-items-center"
-                        >
-                          -
-                        </button>
-                        <span className="font-mono text-xs font-bold px-2 text-ink">
-                          {item.quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => updateQuantity(item.code, item.quantity + 1)}
-                          className="size-6 text-xs font-bold text-ink hover:bg-slate-200 grid place-items-center"
-                        >
-                          +
-                        </button>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => removeFromCart(item.code)}
-                        className="text-[11px] text-steel hover:text-orsap-red underline"
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* Drawer Footer & Checkout */}
-            {cartItems.length > 0 && (
-              <div className="border-t border-hairline bg-card p-5 space-y-4">
-                {/* Notes & PO input */}
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-ink mb-1">
-                    Référence PO / Chantier &amp; Instructions (optionnel) :
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={orderNotes}
-                    onChange={(e) => setOrderNotes(e.target.value)}
-                    placeholder="Ex: Projet Usine Tanger - Bon de commande N° 2026-44"
-                    className="w-full rounded-lg border border-hairline bg-paper p-2.5 text-xs text-ink outline-none focus:border-orsap-red"
-                  />
-                </div>
-
-                {/* Financial Totals */}
-                <div className="space-y-1.5 text-xs">
-                  <div className="flex justify-between text-ink-soft">
-                    <span>Total Net HT :</span>
-                    <span className="font-mono font-bold text-ink">{formatMAD(totalHt)}</span>
-                  </div>
-                  <div className="flex justify-between text-ink-soft">
-                    <span>TVA estimée (20%) :</span>
-                    <span className="font-mono">{formatMAD(totalTva)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-black text-ink border-t border-hairline pt-2">
-                    <span>Total Général TTC :</span>
-                    <span className="font-mono text-base text-orsap-red">{formatMAD(totalTtc)}</span>
-                  </div>
-                </div>
-
-                {submitError && (
-                  <div className="rounded-lg bg-red-500/10 p-2.5 text-xs text-red-600 border border-red-500/20">
-                    {submitError}
-                  </div>
-                )}
-
-                <button
-                  type="button"
-                  disabled={submitting}
-                  onClick={handleSubmitOrder}
-                  className="w-full rounded-xl bg-orsap-red py-3.5 font-display text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orsap-red/30 hover:bg-orsap-red-deep disabled:opacity-50 transition"
-                >
-                  {submitting ? "Envoi du chiffrage en cours..." : "Valider et Générer le Devis Officiel"}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   )
 }
+

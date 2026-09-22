@@ -91,6 +91,37 @@ interface BlogPost {
   pdfName?: string | null
 }
 
+export interface CrmActiveCart {
+  id: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+  clientName: string
+  clientEmail: string
+  clientPhone: string
+  clientCompany?: string | null
+  clientType: "professional" | "individual" | string
+  totalCount: number
+  totalHt: number
+  totalTtc: number
+  items: Array<{
+    id?: string
+    code: string
+    designation: string
+    priceHt: number
+    priceTtc: number
+    quantity: number
+    imageUrl?: string
+    image?: string
+    brand?: string
+    isCustom?: boolean
+    notes?: string
+  }>
+  status: "cart_active" | "contacted" | "quote_sent" | "converted" | "abandoned" | "archived" | string
+  notes?: string
+  lastAlertSentAt?: string | null
+}
+
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return sessionStorage.getItem("orsap_admin_auth") === "true" || localStorage.getItem("orsap_admin_auth") === "true"
@@ -100,10 +131,11 @@ export default function Admin() {
   const [rememberMe, setRememberMe] = useState(true)
 
   // Active Tab
-  const [activeTab, setActiveTab] = useState<"devis-catalogue" | "submissions" | "applications" | "users" | "subscribers" | "blogs">("devis-catalogue")
+  const [activeTab, setActiveTab] = useState<"crm" | "devis-catalogue" | "submissions" | "applications" | "users" | "subscribers" | "blogs">("crm")
 
   // Data states
   const [loading, setLoading] = useState(false)
+  const [crmCartsList, setCrmCartsList] = useState<CrmActiveCart[]>([])
   const [devisCatalogueList, setDevisCatalogueList] = useState<DevisCatalogue[]>([])
   const [submissionsList, setSubmissionsList] = useState<SimpleSubmission[]>([])
   const [applicationsList, setApplicationsList] = useState<Application[]>([])
@@ -113,25 +145,64 @@ export default function Admin() {
 
   // Search & Filters
   const [searchTerm, setSearchTerm] = useState("")
+  const [crmStatusFilter, setCrmStatusFilter] = useState<string>("all")
+  const [selectedCrmCart, setSelectedCrmCart] = useState<CrmActiveCart | null>(null)
+  const [editingNotesCartId, setEditingNotesCartId] = useState<string | null>(null)
+  const [notesInput, setNotesInput] = useState<string>("")
   const [selectedQuote, setSelectedQuote] = useState<DevisCatalogue | null>(null)
   const [actionFeedback, setActionFeedback] = useState<string | null>(null)
 
-  // Form password submit
-  const handleLogin = (e: React.FormEvent) => {
+  const [submittingLogin, setSubmittingLogin] = useState(false)
+
+  // Check server auth status on mount
+  useEffect(() => {
+    fetch("/api/admin/check-auth", { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.authenticated) {
+          setIsAuthenticated(true)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  // Form password submit via secure server verification
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (passwordInput === "MotaFouad223" || passwordInput === "admin" || passwordInput === "ORSAP2026!") {
-      setIsAuthenticated(true)
-      if (rememberMe) {
-        localStorage.setItem("orsap_admin_auth", "true")
+    if (!passwordInput.trim()) return
+    setSubmittingLogin(true)
+    setLoginError(null)
+
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ password: passwordInput }),
+      })
+      const data = await res.json()
+      if (res.ok && data.success) {
+        setIsAuthenticated(true)
+        if (rememberMe) {
+          localStorage.setItem("orsap_admin_auth", "true")
+        }
+        sessionStorage.setItem("orsap_admin_auth", "true")
+        setPasswordInput("")
+        setLoginError(null)
+      } else {
+        setLoginError(data?.error || "Mot de passe incorrect. Veuillez vérifier vos identifiants.")
       }
-      sessionStorage.setItem("orsap_admin_auth", "true")
-      setLoginError(null)
-    } else {
-      setLoginError("Mot de passe incorrect. Veuillez vérifier vos identifiants.")
+    } catch {
+      setLoginError("Erreur de connexion au serveur d'authentification.")
+    } finally {
+      setSubmittingLogin(false)
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST", credentials: "include" })
+    } catch {}
     setIsAuthenticated(false)
     sessionStorage.removeItem("orsap_admin_auth")
     localStorage.removeItem("orsap_admin_auth")
@@ -141,6 +212,17 @@ export default function Admin() {
   const refreshData = async () => {
     setLoading(true)
     try {
+      // 0. CRM Active Carts
+      try {
+        const res = await fetch("/api/admin/crm/carts", { credentials: "include" })
+        if (res.ok) {
+          const data = await res.json()
+          setCrmCartsList(Array.isArray(data) ? data : [])
+        }
+      } catch (err) {
+        console.warn("CRM carts fetch error:", err)
+      }
+
       // 1. Devis Catalogue
       try {
         const res = await fetch("/api/admin/devis-catalogue", { credentials: "include" })
@@ -223,6 +305,80 @@ export default function Admin() {
       refreshData()
     }
   }, [isAuthenticated])
+
+  // CRM Handlers
+  const handleUpdateCrmStatus = async (id: string, newStatus: string) => {
+    try {
+      const res = await fetch(`/api/admin/crm/carts/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ status: newStatus }),
+      })
+      if (res.ok) {
+        setCrmCartsList((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, status: newStatus, updatedAt: new Date().toISOString() } : c))
+        )
+        if (selectedCrmCart?.id === id) {
+          setSelectedCrmCart((prev) => (prev ? { ...prev, status: newStatus } : null))
+        }
+        showNotification("Statut du prospect mis à jour avec succès.")
+      }
+    } catch (err) {
+      showNotification("Erreur lors de la mise à jour du statut.")
+    }
+  }
+
+  const handleSaveCrmNotes = async (id: string, notes: string) => {
+    try {
+      const res = await fetch(`/api/admin/crm/carts/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ notes }),
+      })
+      if (res.ok) {
+        setCrmCartsList((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, notes, updatedAt: new Date().toISOString() } : c))
+        )
+        if (selectedCrmCart?.id === id) {
+          setSelectedCrmCart((prev) => (prev ? { ...prev, notes } : null))
+        }
+        setEditingNotesCartId(null)
+        showNotification("Notes commerciales enregistrées.")
+      }
+    } catch (err) {
+      showNotification("Erreur lors de l'enregistrement des notes.")
+    }
+  }
+
+  const handleDeleteCrmCart = async (id: string) => {
+    if (!window.confirm("Supprimer définitivement ce panier / prospect du CRM ?")) return
+    try {
+      await fetch(`/api/admin/crm/carts/${id}`, { method: "DELETE", credentials: "include" })
+      setCrmCartsList((prev) => prev.filter((c) => c.id !== id))
+      if (selectedCrmCart?.id === id) setSelectedCrmCart(null)
+      showNotification("Panier retiré du CRM.")
+    } catch {
+      setCrmCartsList((prev) => prev.filter((c) => c.id !== id))
+    }
+  }
+
+  const handleTriggerCrmAlert = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/crm/carts/${id}/notify`, {
+        method: "POST",
+        credentials: "include",
+      })
+      if (res.ok) {
+        showNotification("Email d'alerte CRM envoyé avec succès à l'équipe commerciale !")
+      } else {
+        showNotification("Erreur lors de l'envoi de l'email.")
+      }
+    } catch {
+      showNotification("Erreur de connexion.")
+    }
+  }
 
   // Delete handlers
   const deleteDevisCatalogue = async (id: string) => {
@@ -466,9 +622,10 @@ export default function Admin() {
 
             <button
               type="submit"
-              className="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-cyan-600/20 transition-all active:scale-[0.99] flex items-center justify-center gap-2"
+              disabled={submittingLogin}
+              className="w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-cyan-600/20 transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Déverrouiller le Tableau de Bord</span>
+              <span>{submittingLogin ? "Vérification..." : "Déverrouiller le Tableau de Bord"}</span>
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -520,6 +677,25 @@ export default function Admin() {
     )
   })
 
+  const filteredCrmCarts = crmCartsList.filter((c) => {
+    if (crmStatusFilter !== "all" && c.status !== crmStatusFilter) return false
+    if (!searchTerm) return true
+    const term = searchTerm.toLowerCase()
+    return (
+      (c.clientName || "").toLowerCase().includes(term) ||
+      (c.clientCompany || "").toLowerCase().includes(term) ||
+      (c.clientEmail || "").toLowerCase().includes(term) ||
+      (c.clientPhone || "").toLowerCase().includes(term) ||
+      (c.notes || "").toLowerCase().includes(term) ||
+      c.items.some((it) => (it.code || "").toLowerCase().includes(term) || (it.designation || "").toLowerCase().includes(term))
+    )
+  })
+
+  const activeCartsCount = crmCartsList.filter((c) => c.status === "cart_active" || !c.status).length
+  const totalCrmValueHt = crmCartsList.reduce((sum, c) => sum + (c.totalHt || 0), 0)
+  const contactedCount = crmCartsList.filter((c) => c.status === "contacted" || c.status === "quote_sent").length
+  const convertedCount = crmCartsList.filter((c) => c.status === "converted").length
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
       <SEO title="Administration Globale — ORSAP" description="Gestion complète du catalogue, devis et candidatures." />
@@ -534,7 +710,7 @@ export default function Admin() {
             <div>
               <span className="font-black tracking-tight text-white text-lg">ORSAP</span>
               <span className="ml-2 text-xs font-semibold px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                PORTAIL ADMIN
+                PORTAIL ADMIN & CRM
               </span>
             </div>
           </Link>
@@ -577,7 +753,30 @@ export default function Admin() {
       {/* Main Admin Workspace */}
       <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
         {/* KPI Top Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+          <div
+            onClick={() => setActiveTab("crm")}
+            className={`cursor-pointer p-4 rounded-xl border transition-all relative overflow-hidden ${
+              activeTab === "crm"
+                ? "bg-red-950/40 border-red-500 shadow-lg shadow-red-950/50 ring-1 ring-red-500"
+                : "bg-slate-900/60 border-slate-800 hover:border-slate-700"
+            }`}
+          >
+            {activeCartsCount > 0 && (
+              <span className="absolute top-2 right-2 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+              </span>
+            )}
+            <div className="text-xs font-medium text-slate-400 flex items-center gap-1">
+              <span>🎯 CRM Paniers</span>
+            </div>
+            <div className="text-2xl font-black text-red-400 mt-1">{crmCartsList.length}</div>
+            <div className="text-[10px] text-red-400/80 font-semibold mt-1">
+              {activeCartsCount} actif{activeCartsCount > 1 ? "s" : ""} · {totalCrmValueHt > 0 ? (totalCrmValueHt).toLocaleString('fr-FR', { maximumFractionDigits: 0 }) + ' DH' : 'Prospects'}
+            </div>
+          </div>
+
           <div
             onClick={() => setActiveTab("devis-catalogue")}
             className={`cursor-pointer p-4 rounded-xl border transition-all ${
@@ -667,7 +866,7 @@ export default function Admin() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Rechercher par référence, client, article, email, société..."
+              placeholder="Rechercher par client, société, téléphone, email, article, notes..."
               className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-500"
             />
           </div>
@@ -675,6 +874,7 @@ export default function Admin() {
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-400 font-medium">Vue active:</span>
             <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-950/60 px-2.5 py-1 rounded-md border border-cyan-500/30">
+              {activeTab === "crm" && "🎯 CRM & Suivi des Paniers Actifs"}
               {activeTab === "devis-catalogue" && "Devis Catalogue (Chiffrés)"}
               {activeTab === "submissions" && "Devis Express"}
               {activeTab === "applications" && "Candidatures RH"}
@@ -684,6 +884,424 @@ export default function Admin() {
             </span>
           </div>
         </div>
+
+        {/* ── TAB 0: CRM & PANIERS ACTIFS ─────────────────────────────────── */}
+        {activeTab === "crm" && (
+          <div className="space-y-6">
+            {/* CRM Header & Filters */}
+            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-xl font-black text-white flex items-center gap-2">
+                    <span>🎯 CRM & Suivi des Paniers Actifs</span>
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 font-semibold">
+                      {filteredCrmCarts.length} prospect(s)
+                    </span>
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Détection automatique des articles en panier. Coordonnées complètes pré-remplies de l'Espace Client avec actions de relance en 1 clic.
+                  </p>
+                </div>
+
+                {/* Status Filter Pills */}
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { id: "all", label: "Tous les prospects", count: crmCartsList.length },
+                    { id: "cart_active", label: "🟢 Paniers Actifs", count: activeCartsCount },
+                    { id: "contacted", label: "🟡 Contactés", count: contactedCount },
+                    { id: "quote_sent", label: "🔵 Devis Transmis", count: crmCartsList.filter((c) => c.status === "quote_sent").length },
+                    { id: "converted", label: "🟣 Convertis / Gagnés", count: convertedCount },
+                    { id: "abandoned", label: "🔴 Abandonnés", count: crmCartsList.filter((c) => c.status === "abandoned").length },
+                  ].map((filter) => (
+                    <button
+                      key={filter.id}
+                      onClick={() => setCrmStatusFilter(filter.id)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                        crmStatusFilter === filter.id
+                          ? "bg-red-600 text-white shadow-md shadow-red-600/30"
+                          : "bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700/60"
+                      }`}
+                    >
+                      <span>{filter.label}</span>
+                      <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-900/60 text-slate-300">
+                        {filter.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Sub-KPIs Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-800">
+                <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3">
+                  <div className="text-[11px] text-slate-400 font-medium">🛒 Paniers Détectés</div>
+                  <div className="text-lg font-bold text-white mt-0.5">{crmCartsList.length}</div>
+                </div>
+                <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3">
+                  <div className="text-[11px] text-slate-400 font-medium">💰 Valeur Potentielle Totale</div>
+                  <div className="text-lg font-bold text-emerald-400 mt-0.5">
+                    {totalCrmValueHt.toLocaleString("fr-FR", { minimumFractionDigits: 2 })} MAD HT
+                  </div>
+                </div>
+                <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3">
+                  <div className="text-[11px] text-slate-400 font-medium">📞 Relances Effectuées</div>
+                  <div className="text-lg font-bold text-amber-400 mt-0.5">{contactedCount}</div>
+                </div>
+                <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3">
+                  <div className="text-[11px] text-slate-400 font-medium">🏆 Taux de Conversion</div>
+                  <div className="text-lg font-bold text-cyan-400 mt-0.5">
+                    {crmCartsList.length > 0 ? ((convertedCount / crmCartsList.length) * 100).toFixed(0) : 0}%
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* List of CRM Leads */}
+            {filteredCrmCarts.length === 0 ? (
+              <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-12 text-center text-slate-400">
+                <svg className="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <div className="font-semibold text-white">Aucun panier actif / prospect trouvé</div>
+                <p className="text-xs text-slate-500 mt-1">
+                  Dès qu'un client connecté ajoute des articles à son panier sur l'Espace Client, sa fiche de contact et ses articles apparaîtront ici automatiquement avec les boutons d'action rapide.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {filteredCrmCarts.map((cart) => {
+                  // Format Clean Phone for WhatsApp
+                  let cleanPhone = String(cart.clientPhone || "").replace(/[^\d+]/g, "")
+                  if (cleanPhone.startsWith("0")) cleanPhone = "212" + cleanPhone.substring(1)
+                  else if (cleanPhone.startsWith("+")) cleanPhone = cleanPhone.substring(1)
+                  else if (!cleanPhone.startsWith("212") && cleanPhone.length === 9) cleanPhone = "212" + cleanPhone
+
+                  const sampleItemsText = cart.items.slice(0, 3).map((it) => it.designation || it.code).join(", ")
+                  const waMessage = encodeURIComponent(
+                    `Bonjour ${cart.clientName},\n\nNous avons remarqué votre sélection d'articles sur notre catalogue ORSAP (${cart.items.length} article(s) : ${sampleItemsText}${cart.items.length > 3 ? "..." : ""}).\n\nSouhaitez-vous une assistance technique ou un devis personnalisé avec nos remises professionnelles ?\n\nL'équipe ORSAP Maroc\nhttps://orsap.ma`
+                  )
+                  const waUrl = `https://wa.me/${cleanPhone}?text=${waMessage}`
+                  const mailtoUrl = `mailto:${cart.clientEmail}?subject=${encodeURIComponent(`Votre sélection sur ORSAP — Offre commerciale & Devis`)}`
+
+                  const isEditingNotes = editingNotesCartId === cart.id
+
+                  return (
+                    <div
+                      key={cart.id}
+                      className="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition space-y-4 p-5 sm:p-6"
+                    >
+                      {/* Top Bar with Client Profile & Status */}
+                      <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-slate-800">
+                        <div className="flex items-start gap-3.5">
+                          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 flex items-center justify-center text-white font-black text-lg shadow-md shadow-red-950/60 shrink-0">
+                            {(cart.clientName || "C").charAt(0).toUpperCase()}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-bold text-white text-base">{cart.clientName}</span>
+                              <span className="text-[11px] px-2 py-0.5 rounded-full font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                {cart.clientType === "individual" ? "👤 Particulier" : "🏢 Professionnel"}
+                              </span>
+                              {cart.clientCompany && (
+                                <span className="text-xs font-semibold text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/20">
+                                  {cart.clientCompany}
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-xs text-slate-400 mt-1 flex flex-wrap items-center gap-3">
+                              <span>Activité: {new Date(cart.updatedAt || cart.createdAt).toLocaleString("fr-FR")}</span>
+                              <span>·</span>
+                              <span>Compte: {cart.clientEmail}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Status selector */}
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-slate-400 font-medium">Statut CRM:</span>
+                          <select
+                            value={cart.status || "cart_active"}
+                            onChange={(e) => handleUpdateCrmStatus(cart.id, e.target.value)}
+                            className="bg-slate-950 border border-slate-700 text-xs font-bold rounded-lg px-3 py-1.5 text-white outline-none focus:border-cyan-500 cursor-pointer"
+                          >
+                            <option value="cart_active">🟢 Panier Actif</option>
+                            <option value="contacted">🟡 Contacté / En cours</option>
+                            <option value="quote_sent">🔵 Devis Envoyé</option>
+                            <option value="converted">🟣 Converti / Gagné</option>
+                            <option value="abandoned">🔴 Abandonné / Perdu</option>
+                            <option value="archived">⚪ Archivé</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Middle Row: Contact Buttons & Cart Summary */}
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+                        {/* 1-Click Action Buttons (5 Cols) */}
+                        <div className="lg:col-span-5 space-y-2">
+                          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                            ⚡ Actions Rapides en 1 Clic :
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            {/* WhatsApp Button */}
+                            <a
+                              href={waUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-950/40 transition active:scale-[0.98]"
+                            >
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.97.53 1.961.815 2.796.815 3.183 0 5.769-2.587 5.77-5.767 0-3.18-2.587-5.801-5.77-5.801zm3.385 8.163c-.144.405-.837.774-1.17.822-.312.043-.683.056-1.921-.462-1.464-.61-2.42-2.079-2.493-2.179-.074-.098-.592-.787-.592-1.501 0-.713.374-1.066.508-1.21.134-.145.293-.181.391-.181.098 0 .195.001.28.005.09.004.21.034.32.298.113.272.391.954.425 1.025.034.072.057.155.008.252-.049.098-.073.159-.146.244-.073.085-.153.19-.219.255-.073.072-.15.15-.064.297.086.146.38 6.27.815 1.009.562.499 1.036.654 1.182.727.147.073.232.061.317-.037.086-.098.366-.427.464-.573.098-.146.195-.122.329-.073.134.049.854.402 1.001.475.146.073.244.11.28.17.037.061.037.354-.107.759z" />
+                              </svg>
+                              <span>WhatsApp</span>
+                            </a>
+
+                            {/* Call Button */}
+                            <a
+                              href={`tel:${cart.clientPhone}`}
+                              className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md shadow-cyan-950/40 transition active:scale-[0.98]"
+                            >
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                              </svg>
+                              <span>Appeler ({cart.clientPhone || "Tel"})</span>
+                            </a>
+
+                            {/* Email Button */}
+                            <a
+                              href={mailtoUrl}
+                              className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition"
+                            >
+                              <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              <span>Email</span>
+                            </a>
+
+                            {/* Trigger Email Alert Test */}
+                            <button
+                              type="button"
+                              onClick={() => handleTriggerCrmAlert(cart.id)}
+                              title="Envoyer ou ré-envoyer l'alerte email commerciale"
+                              className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-red-950/60 hover:bg-red-900/60 text-red-300 font-semibold text-xs border border-red-500/30 transition"
+                            >
+                              <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                              </svg>
+                              <span>Alerte Email</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Cart Items Preview & Total (4 Cols) */}
+                        <div className="lg:col-span-4 bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 space-y-2">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-bold text-slate-300 flex items-center gap-1.5">
+                              <span>🛒 Contenu ({cart.items?.length || 0} réf.)</span>
+                              <span className="text-[10px] px-1.5 py-0.2 bg-slate-800 rounded font-semibold text-slate-400">
+                                {cart.totalCount} pièces
+                              </span>
+                            </span>
+                            <span className="font-black text-sm text-cyan-400">
+                              {(cart.totalHt || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2 })} DH HT
+                            </span>
+                          </div>
+
+                          <div className="space-y-1 max-h-20 overflow-y-auto text-xs text-slate-400 pr-1">
+                            {cart.items?.slice(0, 3).map((it, idx) => (
+                              <div key={idx} className="flex justify-between items-center text-[11px] truncate">
+                                <span className="truncate pr-2 font-medium text-slate-300">
+                                  {it.quantity}x {it.designation || it.code}
+                                </span>
+                                <span className="shrink-0 text-slate-500 font-mono">
+                                  {it.priceHt ? (it.priceHt * it.quantity).toFixed(2) + " DH" : "Sur devis"}
+                                </span>
+                              </div>
+                            ))}
+                            {cart.items && cart.items.length > 3 && (
+                              <div className="text-[10px] text-cyan-400 font-semibold italic">
+                                + {cart.items.length - 3} autre(s) article(s)...
+                              </div>
+                            )}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setSelectedCrmCart(cart)}
+                            className="w-full text-center text-xs font-bold text-cyan-400 hover:text-cyan-300 hover:underline pt-1 flex items-center justify-center gap-1"
+                          >
+                            <span>Inspecter tous les articles en détail</span>
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Notes & Commercial Follow-up (3 Cols) */}
+                        <div className="lg:col-span-3 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                              📝 Notes de Suivi :
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (isEditingNotes) {
+                                  handleSaveCrmNotes(cart.id, notesInput)
+                                } else {
+                                  setEditingNotesCartId(cart.id)
+                                  setNotesInput(cart.notes || "")
+                                }
+                              }}
+                              className="text-[11px] font-semibold text-cyan-400 hover:text-cyan-300"
+                            >
+                              {isEditingNotes ? "Enregistrer" : "Modifier"}
+                            </button>
+                          </div>
+
+                          {isEditingNotes ? (
+                            <div className="space-y-1.5">
+                              <textarea
+                                value={notesInput}
+                                onChange={(e) => setNotesInput(e.target.value)}
+                                placeholder="Note de relance (ex: Rappelé le 22/09, attend devis formel)..."
+                                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-500 h-16 resize-none"
+                              />
+                              <div className="flex justify-end gap-1.5">
+                                <button
+                                  type="button"
+                                  onClick={() => setEditingNotesCartId(null)}
+                                  className="text-[10px] px-2 py-1 rounded bg-slate-800 text-slate-400"
+                                >
+                                  Annuler
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleSaveCrmNotes(cart.id, notesInput)}
+                                  className="text-[10px] px-2 py-1 rounded bg-cyan-600 font-bold text-white"
+                                >
+                                  Sauvegarder
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              onClick={() => {
+                                setEditingNotesCartId(cart.id)
+                                setNotesInput(cart.notes || "")
+                              }}
+                              className="bg-slate-950/60 border border-slate-800 rounded-lg p-2 text-xs text-slate-300 min-h-[50px] cursor-pointer hover:border-slate-700"
+                            >
+                              {cart.notes ? (
+                                <p className="line-clamp-2">{cart.notes}</p>
+                              ) : (
+                                <span className="text-slate-500 italic text-[11px]">+ Ajouter une note de suivi...</span>
+                              )}
+                            </div>
+                          )}
+
+                          <div className="text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteCrmCart(cart.id)}
+                              className="text-[11px] text-red-400/80 hover:text-red-400 hover:underline"
+                            >
+                              Supprimer du CRM
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Modal for Cart Items Details */}
+            {selectedCrmCart && (
+              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+                  {/* Modal Header */}
+                  <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+                    <div>
+                      <h3 className="font-bold text-lg text-white flex items-center gap-2">
+                        <span>Panier détaillé de {selectedCrmCart.clientName}</span>
+                        {selectedCrmCart.clientCompany && (
+                          <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-semibold border border-cyan-500/20">
+                            {selectedCrmCart.clientCompany}
+                          </span>
+                        )}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {selectedCrmCart.clientPhone} · {selectedCrmCart.clientEmail}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedCrmCart(null)}
+                      className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Modal Table Content */}
+                  <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead>
+                          <tr className="border-b border-slate-800 text-slate-400 font-semibold">
+                            <th className="pb-2">Réf</th>
+                            <th className="pb-2">Désignation</th>
+                            <th className="pb-2 text-center">Qté</th>
+                            <th className="pb-2 text-right">P.U HT</th>
+                            <th className="pb-2 text-right">Total HT</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/60">
+                          {selectedCrmCart.items.map((it, idx) => (
+                            <tr key={idx} className="hover:bg-slate-800/30">
+                              <td className="py-2.5 font-mono text-cyan-400 font-semibold">{it.code}</td>
+                              <td className="py-2.5 text-slate-200">
+                                <div>{it.designation}</div>
+                                {it.notes && <div className="text-[10px] text-cyan-400 italic">Note: {it.notes}</div>}
+                              </td>
+                              <td className="py-2.5 text-center font-bold text-white">{it.quantity}</td>
+                              <td className="py-2.5 text-right text-slate-300">
+                                {it.priceHt ? Number(it.priceHt).toFixed(2) + " DH" : "Sur devis"}
+                              </td>
+                              <td className="py-2.5 text-right font-bold text-cyan-400">
+                                {it.priceHt ? (Number(it.priceHt) * it.quantity).toFixed(2) + " DH" : "Sur devis"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 flex justify-between items-center text-sm font-bold">
+                      <span className="text-slate-400">Total Estimatif HT :</span>
+                      <span className="text-cyan-400 text-lg">
+                        {(selectedCrmCart.totalHt || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2 })} MAD HT
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Modal Footer */}
+                  <div className="p-4 border-t border-slate-800 flex justify-end gap-2 bg-slate-900">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCrmCart(null)}
+                      className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-semibold text-xs"
+                    >
+                      Fermer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* ── TAB 1: DEVIS CATALOGUE (PANIERS CHIFFRÉS) ─────────────────── */}
         {activeTab === "devis-catalogue" && (

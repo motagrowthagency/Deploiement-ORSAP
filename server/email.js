@@ -314,3 +314,208 @@ export async function sendCatalogueDevisEmails({ devisId, user, items, note }) {
   }
   return { success: true, mocked: true }
 }
+
+/**
+ * Send instant CRM alert to ORSAP commercial team when a logged-in client has an active cart
+ */
+export async function sendCrmActiveCartAlert({ user, items, totalHt, totalTtc }) {
+  const calculatedHt = totalHt !== undefined ? totalHt : items.reduce((sum, it) => sum + (it.priceHt || 0) * (it.quantity || 1), 0)
+  const calculatedTtc = totalTtc !== undefined ? totalTtc : items.reduce((sum, it) => sum + (it.priceTtc || 0) * (it.quantity || 1), 0)
+  const tvaAmount = calculatedTtc - calculatedHt
+
+  // Clean phone number for WhatsApp link
+  let cleanPhone = String(user.phone || "").replace(/[^\d+]/g, "")
+  if (cleanPhone.startsWith("0")) {
+    cleanPhone = "212" + cleanPhone.substring(1)
+  } else if (cleanPhone.startsWith("+")) {
+    cleanPhone = cleanPhone.substring(1)
+  } else if (!cleanPhone.startsWith("212") && cleanPhone.length === 9) {
+    cleanPhone = "212" + cleanPhone
+  }
+
+  const sampleArticles = items.slice(0, 3).map((it) => it.designation || it.code).join(", ")
+  const waMessage = encodeURIComponent(
+    `Bonjour ${user.name},\n\nNous avons remarqué votre sélection d'articles sur notre catalogue ORSAP (${items.length} article(s) : ${sampleArticles}${items.length > 3 ? '...' : ''}).\n\nSouhaitez-vous une assistance technique ou un devis personnalisé avec nos remises professionnelles ?\n\nL'équipe ORSAP Maroc\nhttps://orsap.ma`
+  )
+  const waUrl = `https://wa.me/${cleanPhone}?text=${waMessage}`
+
+  const mailtoSubject = encodeURIComponent(`Votre sélection sur ORSAP — Assistance & Offre commerciale`)
+  const mailtoBody = encodeURIComponent(
+    `Bonjour ${user.name},\n\nNous avons bien noté les articles ajoutés à votre panier sur l'Espace Client ORSAP.\n\nRestant à votre disposition pour vous transmettre notre meilleure offre de prix et délais de livraison.\n\nCordialement,\nService Commercial ORSAP`
+  )
+  const mailtoUrl = `mailto:${user.email}?subject=${mailtoSubject}&body=${mailtoBody}`
+  const adminCrmUrl = `${APP_URL}/admin?tab=crm`
+
+  const itemRowsHtml = items
+    .map(
+      (it, idx) => `
+    <tr style="border-bottom: 1px solid #e2e8f0; background: ${idx % 2 === 0 ? "#ffffff" : "#f8fafc"};">
+      <td style="padding: 10px; font-family: monospace; font-size: 12px; font-weight: bold; color: #14171a;">
+        ${it.isCustom ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>' : (it.code || it.articleCode || "N/A")}
+      </td>
+      <td style="padding: 10px; font-size: 13px; color: #334155;">${it.designation}</td>
+      <td style="padding: 10px; text-align: center; font-weight: bold; font-size: 13px;">${it.quantity || 1}</td>
+      <td style="padding: 10px; text-align: right; font-size: 13px; font-weight: 600;">
+        ${it.priceHt ? Number(it.priceHt).toFixed(2) + " MAD" : "Sur devis"}
+      </td>
+      <td style="padding: 10px; text-align: right; font-size: 13px; font-weight: bold; color: #d3121a;">
+        ${it.priceHt ? (Number(it.priceHt) * (it.quantity || 1)).toFixed(2) + " MAD" : "Sur devis"}
+      </td>
+    </tr>`
+    )
+    .join("")
+
+  const html = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f2f0ec; margin: 0; padding: 0; color: #14171a; }
+    .container { max-width: 680px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 5px solid #d3121a; }
+    .header { background: #14171a; padding: 25px 30px; text-align: center; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 0.05em; }
+    .header .alert-tag { display: inline-block; background: #d3121a; color: #ffffff; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 8px; }
+    .content { padding: 30px; line-height: 1.6; }
+    
+    .client-card { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #14171a; border-radius: 6px; padding: 18px 22px; margin: 15px 0 25px 0; }
+    .client-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 12px; }
+    .client-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+    .client-label { color: #64748b; font-weight: 500; }
+    .client-val { color: #0f172a; font-weight: 700; }
+    
+    .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 25px 0; }
+    .action-btn { display: block; text-align: center; padding: 14px 16px; border-radius: 8px; font-size: 13px; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.04em; }
+    .btn-wa { background: #25d366; color: #ffffff !important; box-shadow: 0 4px 10px rgba(37,211,102,0.3); }
+    .btn-call { background: #0284c7; color: #ffffff !important; box-shadow: 0 4px 10px rgba(2,132,199,0.3); }
+    .btn-mail { background: #475569; color: #ffffff !important; }
+    .btn-crm { background: #d3121a; color: #ffffff !important; box-shadow: 0 4px 10px rgba(211,18,26,0.3); }
+    
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+    th { background: #14171a; color: #ffffff; padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .totals { margin-top: 15px; border-top: 2px solid #14171a; padding-top: 12px; }
+    .total-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+    .total-main { font-size: 16px; font-weight: 900; color: #d3121a; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 4px; }
+    
+    .footer { background: #fafbfc; border-top: 1px solid #e2e8f0; padding: 18px 30px; text-align: center; font-size: 12px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ORSAP — CRM &amp; Lead Tracker</h1>
+      <div class="alert-tag">🔔 Panier Actif Détecté sur l'Espace Client</div>
+    </div>
+    <div class="content">
+      <p style="font-size: 15px; color: #1e293b; margin-top: 0;">
+        Un client connecté a actuellement <strong>${items.length} article(s)</strong> dans son panier sur le site. Voici son dossier complet prêt pour une relance rapide :
+      </p>
+
+      <!-- Client Dossier -->
+      <div class="client-card">
+        <div class="client-title">👤 Fiche Contact Client (Espace Client)</div>
+        <div class="client-row">
+          <span class="client-label">Nom complet :</span>
+          <span class="client-val">${user.name || "N/A"}</span>
+        </div>
+        ${user.company ? `
+        <div class="client-row">
+          <span class="client-label">Entreprise :</span>
+          <span class="client-val">${user.company}</span>
+        </div>` : ""}
+        <div class="client-row">
+          <span class="client-label">Téléphone direct :</span>
+          <span class="client-val"><a href="tel:${user.phone}" style="color: #0284c7; text-decoration: none;">${user.phone || "N/A"}</a></span>
+        </div>
+        <div class="client-row">
+          <span class="client-label">Email :</span>
+          <span class="client-val"><a href="mailto:${user.email}" style="color: #0284c7; text-decoration: none;">${user.email || "N/A"}</a></span>
+        </div>
+        <div class="client-row">
+          <span class="client-label">Profil :</span>
+          <span class="client-val">${user.clientType === "individual" ? "👤 Particulier" : "🏢 Professionnel"}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #475569; margin-bottom: 8px;">
+        ⚡ Actions de Relance Commerciale Immédiate :
+      </div>
+      <table style="width: 100%; border: none; margin: 10px 0 25px 0;">
+        <tr>
+          <td style="padding: 6px; width: 50%;">
+            <a href="${waUrl}" class="action-btn btn-wa" target="_blank">💬 Relancer sur WhatsApp</a>
+          </td>
+          <td style="padding: 6px; width: 50%;">
+            <a href="tel:${user.phone}" class="action-btn btn-call">📞 Appeler au téléphone</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; width: 50%;">
+            <a href="${mailtoUrl}" class="action-btn btn-mail">✉️ Envoyer un Email</a>
+          </td>
+          <td style="padding: 6px; width: 50%;">
+            <a href="${adminCrmUrl}" class="action-btn btn-crm" target="_blank">🎯 Ouvrir dans le CRM</a>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Items in cart -->
+      <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; color: #14171a; margin-top: 25px;">
+        🛒 Contenu du Panier Actif (${items.length} références) :
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Désignation</th>
+            <th style="text-align: center;">Qté</th>
+            <th style="text-align: right;">P.U HT</th>
+            <th style="text-align: right;">Total HT</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemRowsHtml}
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <div class="total-row"><span>Total HT estimé :</span><strong>${calculatedHt.toFixed(2)} MAD</strong></div>
+        <div class="total-row"><span>TVA (20%) :</span><strong>${tvaAmount.toFixed(2)} MAD</strong></div>
+        <div class="total-row total-main"><span>TOTAL ESTIMÉ TTC :</span><span>${calculatedTtc.toFixed(2)} MAD</span></div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>ORSAP CRM Automatisé — Détection de Panier Actif en Temps Réel</p>
+      <p>Casablanca, Maroc · <a href="mailto:orsap@orsap.ma">orsap@orsap.ma</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `
+
+  console.log(`\n📬 ═════════════════════════════════════════════════════`)
+  console.log(`🚨  ALERTE CRM — PANIER ACTIF DÉTECTÉ POUR : ${user.name} (${user.email} · ${user.phone})`)
+  console.log(`📦  Articles dans le panier : ${items.length} références | Total HT : ${calculatedHt.toFixed(2)} MAD`)
+  console.log(`💬  Lien WhatsApp Direct : ${waUrl}`)
+  console.log(`═════════════════════════════════════════════════════\n`)
+
+  if (transporter) {
+    try {
+      await transporter.sendMail({
+        from: SMTP_FROM,
+        to: "orsap@orsap.ma",
+        replyTo: user.email,
+        subject: `🚨 [CRM ORSAP] Panier Actif en cours — ${user.name}${user.company ? ` (${user.company})` : ""} [${calculatedHt.toFixed(2)} MAD HT]`,
+        html,
+      })
+      return { success: true }
+    } catch (err) {
+      console.error(`❌ Échec d'envoi alerte CRM email:`, err.message)
+      return { success: false, error: err.message }
+    }
+  }
+
+  return { success: true, mocked: true }
+}
+

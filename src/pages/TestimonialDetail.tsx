@@ -30,7 +30,7 @@ export default function TestimonialDetail() {
     <div>
       <SEO
         title={`Étude de Cas : ${data.client} (${data.sector}) | ORSAP Maroc`}
-        description={data.summary || data.quote}
+        description={data.card || data.need}
         breadcrumbs={[
           { name: "Accueil", url: "/" },
           { name: "Témoignages", url: "/temoignages" },

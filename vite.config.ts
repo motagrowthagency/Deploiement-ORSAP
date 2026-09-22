@@ -756,11 +756,306 @@ function figmaApiDevPlugin(): Plugin {
           return
         }
 
+        // ── Admin Auth Endpoints ────────────────────────────────────
+        // POST /api/admin/login
+        if (pathname === "/api/admin/login" && method === "POST") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {}
+
+          const expectedPassword = process.env.ADMIN_PASSWORD || "admin"
+
+          if (password && password === expectedPassword) {
+            res.setHeader("Set-Cookie", "orsap_admin_token=admin_authenticated_session; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax")
+            res.setHeader("Content-Type", "application/json; charset=utf-8")
+            res.end(JSON.stringify({ success: true, message: "Authentification réussie" }))
+            return
+          } else {
+            res.statusCode = 401
+            res.setHeader("Content-Type", "application/json; charset=utf-8")
+            res.end(JSON.stringify({ error: "Mot de passe incorrect." }))
+            return
+          }
+        }
+
+        // GET /api/admin/check-auth
+        if (pathname === "/api/admin/check-auth" && method === "GET") {
+          const cookieHeader = req.headers.cookie || ""
+          const isAuth = cookieHeader.includes("orsap_admin_token=") || cookieHeader.includes("orsap_admin_auth=")
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ authenticated: isAuth }))
+          return
+        }
+
+        // POST /api/admin/logout
+        if ((pathname === "/api/admin/logout" || pathname === "/api/admin/logout/") && method === "POST") {
+          res.setHeader("Set-Cookie", "orsap_admin_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax")
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true }))
+          return
+        }
+
         // /api/blogs
         if (pathname === "/api/blogs") {
           const blogs = readJsonFile("./data/blogs.json", [])
           res.setHeader("Content-Type", "application/json; charset=utf-8")
           res.end(JSON.stringify(blogs))
+          return
+        }
+
+        // ── Auth Endpoints ──────────────────────────────────────────
+        // POST /api/auth/login
+        if (pathname === "/api/auth/login" && method === "POST") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {}
+
+          const email = String(body.email || "").trim().toLowerCase()
+          const users = readJsonFile("./data/users.json", [])
+          const user = users.find((u: any) => (u.email || "").toLowerCase() === email)
+
+          if (!user && email !== "client@orsap.ma") {
+            // If user doesn't exist, create/allow instant demo login
+            const demoUser = {
+              id: `user-${Date.now().toString(36)}`,
+              name: email.split("@")[0] || "Client ORSAP",
+              email,
+              phone: "0644203030",
+              company: "Société Cliente",
+              clientType: "professional",
+              isVerified: true,
+              createdAt: new Date().toISOString(),
+            }
+            users.push(demoUser)
+            writeJsonFile("./data/users.json", users)
+            res.setHeader("Content-Type", "application/json; charset=utf-8")
+            res.end(JSON.stringify({ success: true, token: `demo-token-${demoUser.id}`, user: demoUser }))
+            return
+          }
+
+          const activeUser = user || {
+            id: "user-demo",
+            name: "Client Connecté",
+            email: "client@orsap.ma",
+            phone: "+212 6 44 20 30 30",
+            company: "ORSAP Partenaire",
+            clientType: "professional",
+            isVerified: true,
+          }
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, token: `demo-token-${activeUser.id}`, user: activeUser }))
+          return
+        }
+
+        // POST /api/auth/register
+        if (pathname === "/api/auth/register" && method === "POST") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {}
+
+          const users = readJsonFile("./data/users.json", [])
+          const newUser = {
+            id: `usr-${Date.now().toString(36)}`,
+            name: body.name || "Nouveau Client",
+            email: String(body.email || "").trim().toLowerCase(),
+            phone: body.phone || "",
+            company: body.company || null,
+            clientType: body.clientType || "professional",
+            isVerified: true,
+            createdAt: new Date().toISOString(),
+          }
+          users.push(newUser)
+          writeJsonFile("./data/users.json", users)
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, token: `demo-token-${newUser.id}`, user: newUser }))
+          return
+        }
+
+        // GET /api/auth/me
+        if (pathname === "/api/auth/me" && method === "GET") {
+          const users = readJsonFile("./data/users.json", [])
+          const firstUser = users[0] || {
+            id: "usr-default",
+            name: "Client ORSAP",
+            email: "contact@entreprise.ma",
+            phone: "+212 6 44 20 30 30",
+            company: "Entreprise B2B",
+            clientType: "professional",
+          }
+          const subs = readJsonFile("./data/submissions.json", [])
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ user: firstUser, submissions: subs }))
+          return
+        }
+
+        // PUT /api/auth/profile
+        if (pathname === "/api/auth/profile" && method === "PUT") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {}
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, user: body }))
+          return
+        }
+
+        // ── CRM & Active Carts Endpoints ────────────────────────────
+        // POST /api/crm/cart-sync (Real-time cart synchronization)
+        if (pathname === "/api/crm/cart-sync" && method === "POST") {
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {}
+
+          const items = Array.isArray(body.items) ? body.items : []
+          const carts = readJsonFile("./data/active_carts.json", [])
+          const authHeader = req.headers.authorization || ""
+          const token = authHeader.replace("Bearer ", "").trim()
+
+          const users = readJsonFile("./data/users.json", [])
+          const matchedUser = users.find((u: any) => `demo-token-${u.id}` === token || u.id === token) || users[0]
+
+          const clientName = body.guest?.name || matchedUser?.name || "Client Visiteur"
+          const clientEmail = body.guest?.email || matchedUser?.email || "visiteur@orsap.ma"
+          const clientPhone = body.guest?.phone || matchedUser?.phone || "+212 6 44 20 30 30"
+          const clientCompany = body.guest?.company || matchedUser?.company || null
+          const clientType = body.guest ? (body.guest.company ? "professional" : "individual") : (matchedUser?.clientType || "professional")
+          const userId = matchedUser?.id || (body.guest?.email ? `guest-${body.guest.email}` : "guest-active")
+
+          const totalHt = items.reduce((sum: number, it: any) => sum + (Number(it.priceHt) || 0) * (Number(it.quantity) || 1), 0)
+          const totalTtc = items.reduce((sum: number, it: any) => sum + (Number(it.priceTtc) || 0) * (Number(it.quantity) || 1), 0)
+          const totalCount = items.reduce((sum: number, it: any) => sum + (Number(it.quantity) || 1), 0)
+
+          const existingIndex = carts.findIndex((c: any) => c.userId === userId || (clientEmail && c.clientEmail === clientEmail))
+
+          if (items.length === 0) {
+            if (existingIndex >= 0) {
+              carts.splice(existingIndex, 1)
+              writeJsonFile("./data/active_carts.json", carts)
+            }
+            res.setHeader("Content-Type", "application/json; charset=utf-8")
+            res.end(JSON.stringify({ success: true, cart: null }))
+            return
+          }
+
+          const cartRecord = {
+            id: existingIndex >= 0 ? carts[existingIndex].id : `CART-${Date.now().toString(36).toUpperCase()}`,
+            userId,
+            clientName,
+            clientEmail,
+            clientPhone,
+            clientCompany,
+            clientType,
+            status: existingIndex >= 0 ? carts[existingIndex].status : "cart_active",
+            items,
+            totalCount,
+            totalHt,
+            totalTva: totalTtc - totalHt,
+            totalTtc,
+            notes: existingIndex >= 0 ? carts[existingIndex].notes : "",
+            lastAlertSentAt: existingIndex >= 0 ? carts[existingIndex].lastAlertSentAt : new Date().toISOString(),
+            createdAt: existingIndex >= 0 ? carts[existingIndex].createdAt : new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }
+
+          if (existingIndex >= 0) {
+            carts[existingIndex] = cartRecord
+          } else {
+            carts.unshift(cartRecord)
+          }
+
+          writeJsonFile("./data/active_carts.json", carts)
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, cart: cartRecord }))
+          return
+        }
+
+        // GET /api/crm/my-cart
+        if (pathname === "/api/crm/my-cart" && method === "GET") {
+          const carts = readJsonFile("./data/active_carts.json", [])
+          const authHeader = req.headers.authorization || ""
+          const token = authHeader.replace("Bearer ", "").trim()
+
+          const users = readJsonFile("./data/users.json", [])
+          const matchedUser = users.find((u: any) => `demo-token-${u.id}` === token || u.id === token)
+
+          const userCart = carts.find((c: any) => c.userId === matchedUser?.id || (matchedUser?.email && c.clientEmail === matchedUser.email))
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ cart: userCart || null }))
+          return
+        }
+
+        // GET /api/admin/crm/carts
+        if (pathname === "/api/admin/crm/carts" && method === "GET") {
+          const carts = readJsonFile("./data/active_carts.json", [])
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify(carts))
+          return
+        }
+
+        // PATCH /api/admin/crm/carts/:id
+        if (pathname.startsWith("/api/admin/crm/carts/") && method === "PATCH") {
+          const id = pathname.replace("/api/admin/crm/carts/", "")
+          let body: any = {}
+          try {
+            const chunks: Buffer[] = []
+            for await (const chunk of req) chunks.push(chunk)
+            body = JSON.parse(Buffer.concat(chunks).toString("utf-8"))
+          } catch {}
+
+          const carts = readJsonFile("./data/active_carts.json", [])
+          const cart = carts.find((c: any) => c.id === id)
+          if (!cart) {
+            res.statusCode = 404
+            res.setHeader("Content-Type", "application/json; charset=utf-8")
+            res.end(JSON.stringify({ error: "Panier introuvable" }))
+            return
+          }
+
+          if (body.status !== undefined) cart.status = body.status
+          if (body.notes !== undefined) cart.notes = body.notes
+          cart.updatedAt = new Date().toISOString()
+          writeJsonFile("./data/active_carts.json", carts)
+
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, cart }))
+          return
+        }
+
+        // DELETE /api/admin/crm/carts/:id
+        if (pathname.startsWith("/api/admin/crm/carts/") && method === "DELETE") {
+          const id = pathname.replace("/api/admin/crm/carts/", "")
+          let carts = readJsonFile("./data/active_carts.json", [])
+          carts = carts.filter((c: any) => c.id !== id)
+          writeJsonFile("./data/active_carts.json", carts)
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true }))
+          return
+        }
+
+        // POST /api/admin/crm/carts/:id/notify
+        if (pathname.includes("/notify") && method === "POST") {
+          res.setHeader("Content-Type", "application/json; charset=utf-8")
+          res.end(JSON.stringify({ success: true, message: "Alerte CRM envoyée avec succès" }))
           return
         }
 

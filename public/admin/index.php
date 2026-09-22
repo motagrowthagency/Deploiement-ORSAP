@@ -56,7 +56,7 @@ $isAuth = (isset($_SESSION['orsap_admin_auth']) && $_SESSION['orsap_admin_auth']
 // ── Handle Login Form Submission ────────────────────────────────────
 if ($method === 'POST' && isset($_POST['password'])) {
     $password = trim($_POST['password']);
-    $expected = $config['admin_password'] ?? 'MotaFouad223';
+    $expected = $config['admin_password'] ?? 'admin';
     if ($password && $password === $expected) {
         $token = generateAdminTokenPHP($jwtSecret);
         $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');

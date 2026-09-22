@@ -8,6 +8,7 @@ export type PreventionHubItem = {
   subtitle: string;
   intro: string;
   description: string;
+  category?: string;
   seoClusters: string[];
   targetAudience: string;
   methodologySteps: { step: number; title: string; desc: string; icon?: string }[];

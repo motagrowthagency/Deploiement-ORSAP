@@ -15,6 +15,7 @@ const USERS_DB_PATH = join(DATA_DIR, "users.json")
 const ARTICLES_DB_PATH = join(DATA_DIR, "articles.json")
 const DEVIS_REQ_DB_PATH = join(DATA_DIR, "devis_requests.json")
 const DEVIS_ITEMS_DB_PATH = join(DATA_DIR, "devis_items.json")
+const ACTIVE_CARTS_DB_PATH = join(DATA_DIR, "active_carts.json")
 const BACKUP_DIR = join(DATA_DIR, "backups")
 
 // Ensure fallback data directories exist
@@ -200,6 +201,31 @@ export async function initDatabase() {
           \`price_ttc\` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
           \`is_custom\` TINYINT(1) NOT NULL DEFAULT 0,
           KEY \`idx_items_devis\` (\`devis_id\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `)
+
+      // 9. Active carts table (CRM leads & live cart sync)
+      await connection.query(`
+        CREATE TABLE IF NOT EXISTS \`active_carts\` (
+          \`id\` VARCHAR(64) NOT NULL PRIMARY KEY,
+          \`user_id\` VARCHAR(64) NOT NULL,
+          \`created_at\` DATETIME NOT NULL,
+          \`updated_at\` DATETIME NOT NULL,
+          \`client_name\` VARCHAR(255) NOT NULL,
+          \`client_email\` VARCHAR(255) NOT NULL,
+          \`client_phone\` VARCHAR(64) NOT NULL,
+          \`client_company\` VARCHAR(255) DEFAULT NULL,
+          \`client_type\` VARCHAR(32) NOT NULL DEFAULT 'professional',
+          \`total_count\` INT NOT NULL DEFAULT 0,
+          \`total_ht\` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+          \`total_ttc\` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+          \`items\` JSON NOT NULL,
+          \`status\` VARCHAR(32) NOT NULL DEFAULT 'cart_active',
+          \`notes\` TEXT DEFAULT NULL,
+          \`last_alert_sent_at\` DATETIME DEFAULT NULL,
+          KEY \`idx_carts_user\` (\`user_id\`),
+          KEY \`idx_carts_updated\` (\`updated_at\`),
+          KEY \`idx_carts_status\` (\`status\`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `)
 
@@ -1547,5 +1573,237 @@ export async function deleteDevisRequest(id) {
   saveDevisItemsToJSON(items)
   return filteredReqs.length < before
 }
+
+// ── CRM & Active Carts Management ────────────────────────────────────
+
+function loadActiveCartsFromJSON() {
+  if (!existsSync(ACTIVE_CARTS_DB_PATH)) return []
+  try {
+    const raw = readFileSync(ACTIVE_CARTS_DB_PATH, "utf-8")
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : []
+  } catch (err) {
+    console.error("❌ Erreur lecture active_carts.json:", err.message)
+    return []
+  }
+}
+
+function saveActiveCartsToJSON(carts) {
+  try {
+    writeFileSync(ACTIVE_CARTS_DB_PATH, JSON.stringify(carts, null, 2), "utf-8")
+  } catch (err) {
+    console.error("❌ Erreur écriture active_carts.json:", err.message)
+  }
+}
+
+function mapActiveCartRow(row) {
+  if (!row) return null
+  let items = []
+  if (row.items) {
+    try {
+      items = typeof row.items === "string" ? JSON.parse(row.items) : row.items
+    } catch {}
+  }
+  return {
+    id: row.id,
+    userId: row.user_id,
+    createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : row.created_at,
+    updatedAt: row.updated_at instanceof Date ? row.updated_at.toISOString() : row.updated_at,
+    clientName: row.client_name,
+    clientEmail: row.client_email,
+    clientPhone: row.client_phone,
+    clientCompany: row.client_company,
+    clientType: row.client_type || "professional",
+    totalCount: Number(row.total_count) || (Array.isArray(items) ? items.reduce((s, it) => s + (it.quantity || 1), 0) : 0),
+    totalHt: Number(row.total_ht) || 0,
+    totalTtc: Number(row.total_ttc) || 0,
+    items: Array.isArray(items) ? items : [],
+    status: row.status || "cart_active",
+    notes: row.notes || "",
+    lastAlertSentAt: row.last_alert_sent_at instanceof Date ? row.last_alert_sent_at.toISOString() : row.last_alert_sent_at,
+  }
+}
+
+export async function saveActiveCart({ userId, clientName, clientEmail, clientPhone, clientCompany, clientType, items, totalCount, totalHt, totalTtc }) {
+  const now = new Date()
+  const nowIso = now.toISOString()
+  const cleanItems = Array.isArray(items) ? items : []
+  const count = Number(totalCount) || cleanItems.reduce((sum, it) => sum + (Number(it.quantity) || 1), 0)
+  const ht = Number(totalHt) || cleanItems.reduce((sum, it) => sum + (Number(it.priceHt) || 0) * (Number(it.quantity) || 1), 0)
+  const ttc = Number(totalTtc) || cleanItems.reduce((sum, it) => sum + (Number(it.priceTtc) || 0) * (Number(it.quantity) || 1), 0)
+
+  // Load existing cart if any
+  const existing = await loadActiveCartForUser(userId)
+  const id = existing?.id || `cart_${userId}`
+  const createdAt = existing?.createdAt || nowIso
+  const status = existing?.status || "cart_active"
+  const notes = existing?.notes || ""
+  const lastAlertSentAt = existing?.lastAlertSentAt || null
+
+  const cartRecord = {
+    id,
+    userId,
+    createdAt,
+    updatedAt: nowIso,
+    clientName: clientName || existing?.clientName || "Client Espace Pro",
+    clientEmail: clientEmail || existing?.clientEmail || "",
+    clientPhone: clientPhone || existing?.clientPhone || "",
+    clientCompany: clientCompany || existing?.clientCompany || null,
+    clientType: clientType || existing?.clientType || "professional",
+    totalCount: count,
+    totalHt: ht,
+    totalTtc: ttc,
+    items: cleanItems,
+    status,
+    notes,
+    lastAlertSentAt,
+  }
+
+  if (pool) {
+    try {
+      await pool.query(
+        `INSERT INTO \`active_carts\` 
+          (\`id\`, \`user_id\`, \`created_at\`, \`updated_at\`, \`client_name\`, \`client_email\`, \`client_phone\`, \`client_company\`, \`client_type\`, \`total_count\`, \`total_ht\`, \`total_ttc\`, \`items\`, \`status\`, \`notes\`, \`last_alert_sent_at\`)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+          \`updated_at\` = VALUES(\`updated_at\`),
+          \`client_name\` = VALUES(\`client_name\`),
+          \`client_email\` = VALUES(\`client_email\`),
+          \`client_phone\` = VALUES(\`client_phone\`),
+          \`client_company\` = VALUES(\`client_company\`),
+          \`client_type\` = VALUES(\`client_type\`),
+          \`total_count\` = VALUES(\`total_count\`),
+          \`total_ht\` = VALUES(\`total_ht\`),
+          \`total_ttc\` = VALUES(\`total_ttc\`),
+          \`items\` = VALUES(\`items\`)`,
+        [
+          cartRecord.id,
+          cartRecord.userId,
+          new Date(cartRecord.createdAt),
+          now,
+          cartRecord.clientName,
+          cartRecord.clientEmail,
+          cartRecord.clientPhone,
+          cartRecord.clientCompany,
+          cartRecord.clientType,
+          cartRecord.totalCount,
+          cartRecord.totalHt,
+          cartRecord.totalTtc,
+          JSON.stringify(cartRecord.items),
+          cartRecord.status,
+          cartRecord.notes,
+          cartRecord.lastAlertSentAt ? new Date(cartRecord.lastAlertSentAt) : null,
+        ]
+      )
+    } catch (err) {
+      console.error("❌ Erreur saveActiveCart MySQL:", err.message)
+    }
+  }
+
+  const allCarts = loadActiveCartsFromJSON().filter((c) => c.userId !== userId && c.id !== id)
+  allCarts.unshift(cartRecord)
+  saveActiveCartsToJSON(allCarts)
+
+  return cartRecord
+}
+
+export async function loadAllActiveCarts() {
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM `active_carts` ORDER BY `updated_at` DESC")
+      return rows.map(mapActiveCartRow)
+    } catch (err) {
+      console.error("❌ Erreur loadAllActiveCarts MySQL:", err.message)
+    }
+  }
+  return loadActiveCartsFromJSON()
+}
+
+export async function loadActiveCartForUser(userId) {
+  if (!userId) return null
+  if (pool) {
+    try {
+      const [rows] = await pool.query("SELECT * FROM `active_carts` WHERE `user_id` = ? LIMIT 1", [userId])
+      if (rows && rows.length > 0) return mapActiveCartRow(rows[0])
+    } catch (err) {
+      console.error("❌ Erreur loadActiveCartForUser MySQL:", err.message)
+    }
+  }
+  const all = loadActiveCartsFromJSON()
+  return all.find((c) => c.userId === userId) || null
+}
+
+export async function updateCrmCartStatus(id, { status, notes }) {
+  const now = new Date()
+  if (pool) {
+    try {
+      const updates = []
+      const params = []
+      if (status !== undefined) {
+        updates.push("`status` = ?")
+        params.push(status)
+      }
+      if (notes !== undefined) {
+        updates.push("`notes` = ?")
+        params.push(notes)
+      }
+      if (updates.length > 0) {
+        updates.push("`updated_at` = ?")
+        params.push(now)
+        params.push(id)
+        await pool.query(`UPDATE \`active_carts\` SET ${updates.join(", ")} WHERE \`id\` = ?`, params)
+      }
+    } catch (err) {
+      console.error("❌ Erreur updateCrmCartStatus MySQL:", err.message)
+    }
+  }
+
+  const all = loadActiveCartsFromJSON()
+  const idx = all.findIndex((c) => c.id === id || c.userId === id)
+  if (idx !== -1) {
+    if (status !== undefined) all[idx].status = status
+    if (notes !== undefined) all[idx].notes = notes
+    all[idx].updatedAt = now.toISOString()
+    saveActiveCartsToJSON(all)
+    return all[idx]
+  }
+  return null
+}
+
+export async function markCartAlertSent(id) {
+  const now = new Date()
+  if (pool) {
+    try {
+      await pool.query("UPDATE `active_carts` SET `last_alert_sent_at` = ? WHERE `id` = ?", [now, id])
+    } catch (err) {
+      console.error("❌ Erreur markCartAlertSent MySQL:", err.message)
+    }
+  }
+  const all = loadActiveCartsFromJSON()
+  const idx = all.findIndex((c) => c.id === id || c.userId === id)
+  if (idx !== -1) {
+    all[idx].lastAlertSentAt = now.toISOString()
+    saveActiveCartsToJSON(all)
+  }
+}
+
+export async function deleteActiveCart(id) {
+  if (pool) {
+    try {
+      const [res] = await pool.query("DELETE FROM `active_carts` WHERE `id` = ? OR `user_id` = ?", [id, id])
+      const all = loadActiveCartsFromJSON().filter((c) => c.id !== id && c.userId !== id)
+      saveActiveCartsToJSON(all)
+      return res.affectedRows > 0
+    } catch (err) {
+      console.error("❌ Erreur deleteActiveCart MySQL:", err.message)
+    }
+  }
+  const all = loadActiveCartsFromJSON()
+  const before = all.length
+  const filtered = all.filter((c) => c.id !== id && c.userId !== id)
+  saveActiveCartsToJSON(filtered)
+  return filtered.length < before
+}
+
 
 

@@ -7,6 +7,7 @@ export type BlogPost = {
   image?: string | null
   pdf?: string | null
   pdfName?: string | null
+  updatedAt?: string | null
 }
 
 export const INITIAL_BLOGS: BlogPost[] = [
