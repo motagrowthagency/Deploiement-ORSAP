@@ -15,6 +15,23 @@ $config = require __DIR__ . '/../api/config.php';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
+// PHP 7.x / 8.x Compatibility Polyfills
+if (!function_exists('str_starts_with')) {
+    function str_starts_with($haystack, $needle) {
+        return (string)$needle !== '' && strncmp($haystack, $needle, strlen($needle)) === 0;
+    }
+}
+if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle) {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
+}
+if (!function_exists('str_ends_with')) {
+    function str_ends_with($haystack, $needle) {
+        return $needle !== '' && substr($haystack, -strlen($needle)) === (string)$needle;
+    }
+}
+
 // Helper to escape HTML safely
 function esc($str) {
     return htmlspecialchars((string)($str ?? ''), ENT_QUOTES, 'UTF-8');
@@ -455,7 +472,7 @@ if ($tab === 'crm') {
               🟡 Contactés (' . $contactedCount . ')
             </button>
             <button type="button" id="crm-filter-quote_sent" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #bfdbfe; background: #eff6ff; color: #1d4ed8; cursor: pointer;" onclick="filterCrmTable(\'quote_sent\')">
-              🔵 Devis Transmis (' . count(array_filter($crmCarts, fn($c) => ($c['status'] ?? '') === 'quote_sent')) . ')
+              🔵 Devis Transmis (' . count(array_filter($crmCarts, function($c) { return ($c['status'] ?? '') === 'quote_sent'; })) . ')
             </button>
             <button type="button" id="crm-filter-converted" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #ddd6fe; background: #f5f3ff; color: #6d28d9; cursor: pointer;" onclick="filterCrmTable(\'converted\')">
               🟣 Convertis (' . $convertedCount . ')
