@@ -540,6 +540,111 @@ if ($tab === 'crm') {
       </div>
     </div>';
 } elseif ($tab === 'devis-catalogue') {
+    $catalogueDevisRows = '';
+    foreach ($catalogueDevis as $cd) {
+        $id = esc($cd['id'] ?? '');
+        $dateVal = $cd['created_at'] ?? ($cd['createdAt'] ?? '');
+        $dateFormatted = $dateVal ? date('d/m/Y H:i', strtotime($dateVal)) : '—';
+        $clientName = esc($cd['name'] ?? ($cd['clientName'] ?? 'Client'));
+        $clientCompany = esc($cd['company'] ?? ($cd['clientCompany'] ?? '—'));
+        $email = $cd['email'] ?? ($cd['clientEmail'] ?? '');
+        $emailHtml = !empty($email) ? '<a href="mailto:' . esc($email) . '" style="color:#d3121a; font-weight:700; text-decoration:none;">' . esc($email) . '</a>' : '—';
+        $phone = $cd['phone'] ?? ($cd['clientPhone'] ?? '');
+        $phoneHtml = !empty($phone) ? '<a href="tel:' . esc($phone) . '">' . esc($phone) . '</a>' : '—';
+
+        $items = $cd['items'] ?? [];
+        $totalHt = 0;
+        $totalUnits = 0;
+        foreach ($items as $it) {
+            $qty = (int)($it['quantity'] ?? 1);
+            $pUnit = (float)($it['priceHt'] ?? 0);
+            $totalUnits += $qty;
+            $totalHt += $pUnit * $qty;
+        }
+        if (empty($totalHt) && !empty($cd['totalHt'])) {
+            $totalHt = (float)$cd['totalHt'];
+        }
+
+        $itemsDetailHtml = '';
+        $idx = 0;
+        foreach ($items as $it) {
+            $idx++;
+            $isCustom = !empty($it['isCustom']);
+            $code = $isCustom ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>' : esc($it['articleCode'] ?? ($it['code'] ?? '—'));
+            $qty = (int)($it['quantity'] ?? 1);
+            $pUnit = (float)($it['priceHt'] ?? 0);
+            $pTotal = $pUnit * $qty;
+            $bg = $idx % 2 === 0 ? '#ffffff' : '#f8fafc';
+            $itemsDetailHtml .= '
+            <tr style="background: ' . $bg . '; font-size: 12.5px;">
+              <td style="padding: 8px 12px; font-family: monospace; font-weight: bold; color: #1e293b;">' . $code . '</td>
+              <td style="padding: 8px 12px; font-weight: 600; color: #334155;">' . esc($it['designation'] ?? 'Article') . '</td>
+              <td style="padding: 8px 12px; text-align: center; font-weight: bold;">' . $qty . '</td>
+              <td style="padding: 8px 12px; text-align: right; color: #64748b;">' . ($pUnit > 0 ? number_format($pUnit, 2, ',', ' ') . ' MAD' : 'Sur devis') . '</td>
+              <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #d3121a;">' . ($pTotal > 0 ? number_format($pTotal, 2, ',', ' ') . ' MAD' : 'Sur devis') . '</td>
+            </tr>';
+        }
+
+        $clientNote = $cd['note'] ?? ($cd['notes'] ?? '');
+        $noteHtml = !empty($clientNote) ? '<div style="margin-bottom: 12px; padding: 10px 14px; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 12.5px; color: #92400e; border-radius: 4px;"><strong>Précisions / Note client :</strong> ' . esc($clientNote) . '</div>' : '';
+
+        $catalogueDevisRows .= '
+        <tr id="catdevis-' . $id . '">
+          <td class="chk-cell"><input type="checkbox" class="row-chk chk-catalogue-devis" value="' . $id . '" onchange="onRowCheck(\'catalogue-devis\')"></td>
+          <td class="date-badge">' . $dateFormatted . '</td>
+          <td><span class="badge" style="background:#fee2e2; color:#991b1b; font-weight:800; font-family:monospace;">' . strtoupper($id) . '</span></td>
+          <td style="font-weight: 700;">' . $clientName . '</td>
+          <td>' . $clientCompany . '</td>
+          <td>' . $emailHtml . '</td>
+          <td>' . $phoneHtml . '</td>
+          <td>
+            <span class="badge" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+              ' . count($items) . ' réf. (' . $totalUnits . ' unités)
+            </span>
+          </td>
+          <td style="font-weight: 800; color: #d3121a;">
+            ' . ($totalHt > 0 ? number_format($totalHt, 2, ',', ' ') . ' MAD HT' : 'Sur devis') . '
+          </td>
+          <td>
+            <div class="actions-cell">
+              <button type="button" id="toggle-btn-' . $id . '" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:11px;" onclick="toggleDevisDetails(\'' . $id . '\')">
+                ▼ Voir articles (' . count($items) . ')
+              </button>
+              <button type="button" class="del-btn" style="padding: 5px 10px; font-size: 11px;" onclick="deleteCatalogueDevis(\'' . $id . '\')">
+                ✕
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr id="details-' . $id . '" style="display: none; background: #f8fafc;">
+          <td colspan="10" style="padding: 16px 24px; border-bottom: 2px solid #e2e8f0;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div style="font-weight: 800; font-size: 14px; color: #1e293b;">
+                  Détail chiffré des articles demandés (' . count($items) . ' références) — Client: ' . $clientName . ' (' . $clientCompany . ')
+                </div>
+                <div style="font-size: 13px; font-weight: 800; color: #d3121a;">
+                  Total estimatif : ' . ($totalHt > 0 ? number_format($totalHt, 2, ',', ' ') . ' MAD HT' : 'Sur devis') . '
+                </div>
+              </div>
+              ' . $noteHtml . '
+              <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+                <thead>
+                  <tr style="background: #1e293b; color: #ffffff; font-size: 11px; text-transform: uppercase;">
+                    <th style="padding: 6px 10px; color: #fff;">Code</th>
+                    <th style="padding: 6px 10px; color: #fff;">Désignation Produit &amp; Options</th>
+                    <th style="padding: 6px 10px; color: #fff; text-align: center;">Quantité</th>
+                    <th style="padding: 6px 10px; color: #fff; text-align: right;">P.U HT</th>
+                    <th style="padding: 6px 10px; color: #fff; text-align: right;">Total HT</th>
+                  </tr>
+                </thead>
+                <tbody>' . $itemsDetailHtml . '</tbody>
+              </table>
+            </div>
+          </td>
+        </tr>';
+    }
+
     $tabContent = '
     <div class="wrap">
       <div class="table-container">
