@@ -1521,6 +1521,10 @@ app.get("/admin", async (req, res) => {
           ? new Date(cart.createdAt).toLocaleString("fr-FR")
           : "—"
 
+      const clientName = cart.clientName || "Prospect Visiteur"
+      const nameParts = clientName.trim().split(" ")
+      const initials = ((nameParts[0]?.[0] || "P") + (nameParts[1]?.[0] || "")).toUpperCase() || "PR"
+
       let cleanPhone = String(cart.clientPhone || "").replace(/[^\d+]/g, "")
       if (cleanPhone.startsWith("0")) {
         cleanPhone = "212" + cleanPhone.slice(1)
@@ -1529,34 +1533,36 @@ app.get("/admin", async (req, res) => {
       }
 
       const sampleItemsText = items.slice(0, 3).map((it) => it.designation || it.code).join(", ")
-      const waMessage = `Bonjour ${cart.clientName},\n\nNous avons remarqué votre sélection d'articles sur notre catalogue ORSAP (${items.length} article(s) : ${sampleItemsText}${items.length > 3 ? "..." : ""}).\n\nSouhaitez-vous une assistance technique ou un devis personnalisé avec nos remises professionnelles ?\n\nL'équipe ORSAP Maroc\nhttps://orsap.ma`
+      const waMessage = `Bonjour ${clientName},\n\nNous avons remarqué votre sélection d'articles sur notre catalogue ORSAP (${items.length} article(s) : ${sampleItemsText}${items.length > 3 ? "..." : ""}).\n\nSouhaitez-vous une assistance technique ou un devis personnalisé avec nos remises professionnelles ?\n\nL'équipe ORSAP Maroc\nhttps://orsap.ma`
       const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}` : null
       const mailtoUrl = cart.clientEmail
         ? `mailto:${cart.clientEmail}?subject=${encodeURIComponent("Votre sélection sur ORSAP — Offre commerciale & Devis")}`
         : null
 
       const currentStatus = cart.status || "cart_active"
+      const totalHtVal = Number(cart.totalHt) || 0
+      const totalHtStr = totalHtVal > 0 ? totalHtVal.toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "0,00 MAD"
 
       const itemsDetailHtml = items
         .map(
           (it, idx) => `
         <tr style="background: ${idx % 2 === 0 ? "#ffffff" : "#f8fafc"}; font-size: 12.5px;">
-          <td style="padding: 8px 12px; font-family: monospace; font-weight: bold; color: #1e293b;">
+          <td style="padding: 10px 14px; font-family: monospace; font-weight: bold; color: #0f172a;">
             ${
               it.isCustom
-                ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>'
+                ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;">SUR-MESURE</span>'
                 : esc(it.code || it.articleCode || "—")
             }
           </td>
-          <td style="padding: 8px 12px; font-weight: 600; color: #334155;">
+          <td style="padding: 10px 14px; font-weight: 600; color: #334155;">
             ${esc(it.designation || "Article")}
             ${it.notes ? `<div style="font-size: 11px; color: #64748b; font-style: italic; margin-top: 2px;">📝 ${esc(it.notes)}</div>` : ""}
           </td>
-          <td style="padding: 8px 12px; text-align: center; font-weight: bold;">${it.quantity || 1}</td>
-          <td style="padding: 8px 12px; text-align: right; color: #64748b;">
+          <td style="padding: 10px 14px; text-align: center; font-weight: bold;">${it.quantity || 1}</td>
+          <td style="padding: 10px 14px; text-align: right; color: #64748b;">
             ${it.priceHt ? Number(it.priceHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD" : "Sur devis"}
           </td>
-          <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #d3121a;">
+          <td style="padding: 10px 14px; text-align: right; font-weight: bold; color: #d3121a;">
             ${it.priceHt ? (Number(it.priceHt) * (Number(it.quantity) || 1)).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD" : "Sur devis"}
           </td>
         </tr>
@@ -1566,44 +1572,55 @@ app.get("/admin", async (req, res) => {
 
       return `
       <tr id="crm-row-${cart.id}" class="crm-prospect-row" data-status="${esc(currentStatus)}" data-cart-id="${cart.id}">
-        <td class="date-badge">${dateFormatted}</td>
-        <td>
-          <div style="font-weight: 800; color: #1e293b;">${esc(cart.clientName || "Visiteur")}</div>
-          <div style="font-size: 11.5px; color: #64748b;">
-            ${esc(cart.clientCompany || "—")} · <span class="badge ${cart.clientType === "professional" ? "pro" : "perso"}" style="font-size: 9.5px; padding: 1px 5px;">${cart.clientType === "professional" ? "Pro" : "Particulier"}</span>
+        <td class="date-badge">
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #94a3b8;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            ${dateFormatted}
           </div>
         </td>
         <td>
-          <div style="display: flex; flex-direction: column; gap: 3px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); color: #0f172a; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; border: 1px solid #cbd5e1; flex-shrink: 0;">
+              ${initials}
+            </div>
+            <div>
+              <div style="font-weight: 800; color: #0f172a; font-size: 13.5px;">${esc(clientName)}</div>
+              <div style="font-size: 11.5px; color: #64748b; margin-top: 1px;">
+                ${esc(cart.clientCompany || "Particulier")} · <span class="badge ${cart.clientType === "professional" ? "pro" : "perso"}" style="font-size: 9.5px; padding: 1px 5px;">${cart.clientType === "professional" ? "Pro" : "Particulier"}</span>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
             ${
               waUrl
-                ? `<a href="${waUrl}" target="_blank" class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; font-weight:bold; font-size:11.5px; padding: 4px 8px;" title="Relance directe sur WhatsApp">
-                    💬 WhatsApp (${esc(cart.clientPhone)})
+                ? `<a href="${waUrl}" target="_blank" class="wa-btn" title="Relance directe sur WhatsApp">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                    WhatsApp (${esc(cart.clientPhone)})
                   </a>`
-                : `<a href="tel:${esc(cart.clientPhone)}" style="font-size:12px; color:#334155; font-weight:600;">${esc(cart.clientPhone || "—")}</a>`
+                : `<a href="tel:${esc(cart.clientPhone)}" style="font-size:12px; color:#334155; font-weight:700; text-decoration:none;">📞 ${esc(cart.clientPhone || "—")}</a>`
             }
             ${
               mailtoUrl
-                ? `<a href="${mailtoUrl}" style="color: #d3121a; font-size: 11px; text-decoration: none; font-weight: 600;">${esc(cart.clientEmail)}</a>`
+                ? `<a href="${mailtoUrl}" style="color: #64748b; font-size: 11.5px; text-decoration: none; font-weight: 500;">✉️ ${esc(cart.clientEmail)}</a>`
                 : '<span style="color:#94a3b8; font-size:11px;">Pas d\'email</span>'
             }
           </div>
         </td>
         <td>
-          <span class="badge" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+          <span class="badge" style="background:#f1f5f9; color:#0f172a; font-weight:700; border: 1px solid #e2e8f0;">
             ${items.length} réf. (${totalUnits} pcs)
           </span>
-          <div style="font-size: 11px; color: #64748b; margin-top: 3px;">
-            <button type="button" id="crm-toggle-btn-${cart.id}" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:10.5px; padding: 2px 7px;" onclick="toggleCrmCartDetails('${cart.id}')">
+          <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+            <button type="button" id="crm-toggle-btn-${cart.id}" class="view-link" style="cursor:pointer; background:#0f172a; color:#fff; border-color:#0f172a; font-size:10.5px; padding: 3px 8px; border-radius: 6px;" onclick="toggleCrmCartDetails('${cart.id}')">
               ▼ Voir articles
             </button>
           </div>
         </td>
-        <td style="font-weight: 800; color: #d3121a; font-size: 13.5px;">
-          ${cart.totalHt > 0 ? Number(cart.totalHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "0.00 MAD"}
-        </td>
+        <td><span class="price-badge">${totalHtStr}</span></td>
         <td>
-          <select style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 8px; font-size: 12px; font-weight: 700; background: #fff; color: #1e293b; cursor: pointer;" onchange="updateCrmStatus('${cart.id}', this.value)">
+          <select style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 700; background: #fff; color: #0f172a; cursor: pointer; outline: none;" onchange="updateCrmStatus('${cart.id}', this.value)">
             <option value="cart_active" ${currentStatus === "cart_active" ? "selected" : ""}>🟢 Panier Actif</option>
             <option value="contacted" ${currentStatus === "contacted" ? "selected" : ""}>🟡 Contacté</option>
             <option value="quote_sent" ${currentStatus === "quote_sent" ? "selected" : ""}>🔵 Devis Transmis</option>
@@ -1614,8 +1631,8 @@ app.get("/admin", async (req, res) => {
         </td>
         <td style="min-width: 220px;">
           <div style="display: flex; gap: 4px; align-items: flex-start;">
-            <textarea id="crm-notes-${cart.id}" rows="2" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; font-size: 11.5px; font-family: inherit; resize: vertical;" placeholder="Compte-rendu d'appel ou relance...">${esc(cart.notes || "")}</textarea>
-            <button type="button" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b; padding: 5px 8px; font-size: 11px; cursor: pointer; shrink: 0;" onclick="saveCrmNotes('${cart.id}')" title="Enregistrer la note">
+            <textarea id="crm-notes-${cart.id}" rows="2" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 8px; font-size: 11.5px; font-family: inherit; resize: vertical;" placeholder="Compte-rendu d'appel ou relance...">${esc(cart.notes || "")}</textarea>
+            <button type="button" class="view-link" style="background:#0f172a; color:#fff; border-color:#0f172a; padding: 6px 9px; font-size: 11px; cursor: pointer; flex-shrink: 0; border-radius: 8px;" onclick="saveCrmNotes('${cart.id}')" title="Enregistrer la note">
               💾
             </button>
           </div>
@@ -1623,35 +1640,35 @@ app.get("/admin", async (req, res) => {
         </td>
         <td>
           <div class="actions-cell">
-            <button type="button" class="view-link" style="padding: 4px 8px; font-size: 11px; background:#f8fafc; border-color:#cbd5e1;" onclick="testCrmNotify('${cart.id}')" title="Tester l'envoi de l'alerte email">
+            <button type="button" class="view-link" style="padding: 5px 9px; font-size: 11px; background:#f8fafc; border-color:#cbd5e1;" onclick="testCrmNotify('${cart.id}')" title="Tester l'envoi de l'alerte email">
               🔔 Alerte
             </button>
-            <button type="button" class="del-btn" style="padding: 4px 8px; font-size: 11px;" onclick="deleteCrmCart('${cart.id}')" title="Supprimer ce prospect">
+            <button type="button" class="del-btn" style="padding: 5px 9px; font-size: 11px;" onclick="deleteCrmCart('${cart.id}')" title="Supprimer ce prospect">
               ✕
             </button>
           </div>
         </td>
       </tr>
       <tr id="crm-details-${cart.id}" style="display: none; background: #f8fafc;">
-        <td colspan="8" style="padding: 14px 20px; border-bottom: 2px solid #e2e8f0;">
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
-              <div style="font-weight: 800; font-size: 13px; color: #1e293b;">
-                📦 Articles du panier (${items.length} références) — ${esc(cart.clientName)} (${esc(cart.clientCompany || "Particulier")})
+        <td colspan="8" style="padding: 16px 22px; border-bottom: 2px solid #e2e8f0;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <div style="font-weight: 800; font-size: 13.5px; color: #0f172a;">
+                📦 Articles du panier (${items.length} références) — ${esc(clientName)} (${esc(cart.clientCompany || "Particulier")})
               </div>
-              <div style="font-size: 13px; font-weight: 800; color: #d3121a;">
-                Total estimatif : ${cart.totalHt > 0 ? Number(cart.totalHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "0.00 MAD"}
+              <div style="font-size: 13.5px; font-weight: 800; color: #d3121a;">
+                Total estimatif : ${totalHtStr}
               </div>
             </div>
 
-            <table style="width: 100%; border-collapse: collapse; margin-top: 6px;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 6px; border-radius: 8px; overflow: hidden;">
               <thead>
-                <tr style="background: #1e293b; color: #ffffff; font-size: 11px; text-transform: uppercase;">
-                  <th style="padding: 6px 10px; color: #fff;">Code</th>
-                  <th style="padding: 6px 10px; color: #fff;">Désignation Produit &amp; Options</th>
-                  <th style="padding: 6px 10px; color: #fff; text-align: center;">Quantité</th>
-                  <th style="padding: 6px 10px; color: #fff; text-align: right;">P.U HT</th>
-                  <th style="padding: 6px 10px; color: #fff; text-align: right;">Total HT</th>
+                <tr style="background: #0f172a; color: #ffffff; font-size: 11px; text-transform: uppercase;">
+                  <th style="padding: 8px 12px; color: #fff;">Code Réf</th>
+                  <th style="padding: 8px 12px; color: #fff;">Désignation Produit &amp; Options</th>
+                  <th style="padding: 8px 12px; color: #fff; text-align: center;">Quantité</th>
+                  <th style="padding: 8px 12px; color: #fff; text-align: right;">P.U HT</th>
+                  <th style="padding: 8px 12px; color: #fff; text-align: right;">Total HT</th>
                 </tr>
               </thead>
               <tbody>${itemsDetailHtml}</tbody>
@@ -1906,60 +1923,79 @@ app.get("/admin", async (req, res) => {
     tabContent = `
       <div class="wrap">
         <!-- CRM KPI SUMMARY CARDS -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #10b981;">
-            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">🟢 Paniers Actifs en cours</div>
-            <div style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 900; color: #10b981; margin-top: 4px;">${activeCartsCount}</div>
-            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Prospects chauds à relancer</div>
-          </div>
-
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #d3121a;">
-            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">💰 Valeur Marchande Estimée</div>
-            <div style="font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 900; color: #d3121a; margin-top: 4px;">
-              ${totalCrmValueHt > 0 ? Number(totalCrmValueHt).toLocaleString("fr-FR", { maximumFractionDigits: 0 }) + " MAD" : "0 MAD"}
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Paniers Actifs en Cours</span>
+              <div class="kpi-icon-wrap kpi-icon-green">🛒</div>
             </div>
-            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Total HT dans les paniers</div>
+            <div class="kpi-value" style="color: #059669;">${activeCartsCount}</div>
+            <div class="kpi-sub"><span class="badge live" style="padding: 1px 6px; font-size: 10px;">🟢 Live Sync</span> Prospects chauds à relancer</div>
           </div>
 
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #3b82f6;">
-            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">📞 Relances &amp; Devis Transmis</div>
-            <div style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 900; color: #3b82f6; margin-top: 4px;">${contactedCount}</div>
-            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Prospects contactés / chiffrés</div>
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Valeur Marchande Estimée</span>
+              <div class="kpi-icon-wrap kpi-icon-red">💰</div>
+            </div>
+            <div class="kpi-value" style="color: #d3121a;">
+              ${totalCrmValueHt > 0 ? Number(totalCrmValueHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD" : "0 MAD"}
+            </div>
+            <div class="kpi-sub">Total HT cumulé dans les paniers</div>
           </div>
 
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #8b5cf6;">
-            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">🎯 Taux de Conversion</div>
-            <div style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 900; color: #8b5cf6; margin-top: 4px;">${conversionRate}%</div>
-            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">${convertedCount} panier(s) converti(s) en commande</div>
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Relances &amp; Devis Transmis</span>
+              <div class="kpi-icon-wrap kpi-icon-blue">📞</div>
+            </div>
+            <div class="kpi-value" style="color: #2563eb;">${contactedCount}</div>
+            <div class="kpi-sub">Prospects contactés / chiffrés</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Taux de Transformation</span>
+              <div class="kpi-icon-wrap kpi-icon-purple">🎯</div>
+            </div>
+            <div class="kpi-value" style="color: #7c3aed;">${conversionRate}%</div>
+            <div class="kpi-sub">${convertedCount} commande(s) conclue(s)</div>
           </div>
         </div>
 
         <!-- CRM TABLE CONTAINER -->
         <div class="table-container">
-          <div class="table-header-title" style="flex-direction: column; align-items: stretch; gap: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-              <span style="font-size: 17px;">🎯 Suivi Commercial CRM &amp; Paniers Actifs (${crmCarts.length} prospects)</span>
-              <span style="font-size: 12px; color: #64748b;">Alerte automatique générée dès l'ajout au panier</span>
+          <div class="table-header-title" style="flex-direction: column; align-items: stretch; gap: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <span class="main-title">🎯 Suivi Commercial CRM &amp; Paniers Actifs (${crmCarts.length} prospects)</span>
+                <p style="font-size: 12.5px; color: #64748b; margin-top: 2px;">Synchronisation continue des intentions d'achat et relance directe WhatsApp</p>
+              </div>
+
+              <div class="search-input-wrap">
+                <svg class="search-input-icon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input type="text" id="crm-search-input" placeholder="Rechercher un prospect, article..." oninput="onCrmSearchInput()" />
+              </div>
             </div>
 
             <!-- STATUS FILTER PILLS -->
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button type="button" id="crm-filter-all" class="crm-filter-btn active" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #cbd5e1; background: #1e293b; color: #fff; cursor: pointer;" onclick="filterCrmTable('all')">
+            <div class="filter-pills-bar">
+              <button type="button" id="crm-filter-all" class="crm-filter-btn active" onclick="filterCrmTable('all')">
                 Tous (${crmCarts.length})
               </button>
-              <button type="button" id="crm-filter-cart_active" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #bbf7d0; background: #f0fdf4; color: #15803d; cursor: pointer;" onclick="filterCrmTable('cart_active')">
+              <button type="button" id="crm-filter-cart_active" class="crm-filter-btn" onclick="filterCrmTable('cart_active')">
                 🟢 Paniers Actifs (${activeCartsCount})
               </button>
-              <button type="button" id="crm-filter-contacted" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #fef08a; background: #fefce8; color: #a16207; cursor: pointer;" onclick="filterCrmTable('contacted')">
+              <button type="button" id="crm-filter-contacted" class="crm-filter-btn" onclick="filterCrmTable('contacted')">
                 🟡 Contactés (${crmCarts.filter((c) => c.status === "contacted").length})
               </button>
-              <button type="button" id="crm-filter-quote_sent" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #bfdbfe; background: #eff6ff; color: #1d4ed8; cursor: pointer;" onclick="filterCrmTable('quote_sent')">
+              <button type="button" id="crm-filter-quote_sent" class="crm-filter-btn" onclick="filterCrmTable('quote_sent')">
                 🔵 Devis Transmis (${crmCarts.filter((c) => c.status === "quote_sent").length})
               </button>
-              <button type="button" id="crm-filter-converted" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #ddd6fe; background: #f5f3ff; color: #6d28d9; cursor: pointer;" onclick="filterCrmTable('converted')">
+              <button type="button" id="crm-filter-converted" class="crm-filter-btn" onclick="filterCrmTable('converted')">
                 🟣 Convertis (${convertedCount})
               </button>
-              <button type="button" id="crm-filter-abandoned" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #fecaca; background: #fef2f2; color: #b91c1c; cursor: pointer;" onclick="filterCrmTable('abandoned')">
+              <button type="button" id="crm-filter-abandoned" class="crm-filter-btn" onclick="filterCrmTable('abandoned')">
                 🔴 Abandonnés (${abandonedCount})
               </button>
             </div>
@@ -1967,13 +2003,42 @@ app.get("/admin", async (req, res) => {
 
           ${
             crmCarts.length === 0
-              ? '<div class="empty">Aucun prospect ou panier actif pour le moment. Les paniers synchronisés par les visiteurs apparaîtront ici automatiquement en direct.</div>'
+              ? `<div class="radar-hero">
+                  <div class="radar-animation-container">
+                    <div class="radar-ring r1"></div>
+                    <div class="radar-ring r2"></div>
+                    <div class="radar-ring r3"></div>
+                    <div class="radar-center-core">
+                      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                  </div>
+                  <h3>Radar CRM en écoute active</h3>
+                  <p>Dès qu'un visiteur ajoute un équipement de sécurité (Extincteurs, RIA, Matériel Incendie...) à son panier sur <strong>orsap.ma</strong>, sa sélection apparaîtra ici instantanément avec relance WhatsApp 1-clic.</p>
+                  <div class="radar-features-grid">
+                    <div class="radar-feat-pill">
+                      <span class="radar-feat-icon">⚡</span>
+                      <div><strong>Détection Live</strong><br><span style="color:#64748b; font-size:11px;">Enregistrement automatique</span></div>
+                    </div>
+                    <div class="radar-feat-pill">
+                      <span class="radar-feat-icon">💬</span>
+                      <div><strong>WhatsApp 1-Clic</strong><br><span style="color:#64748b; font-size:11px;">Message pré-rempli</span></div>
+                    </div>
+                    <div class="radar-feat-pill">
+                      <span class="radar-feat-icon">📊</span>
+                      <div><strong>Chiffrage Pro</strong><br><span style="color:#64748b; font-size:11px;">Calcul immédiat HT/TVA</span></div>
+                    </div>
+                  </div>
+                  <a href="/catalogue" target="_blank" class="radar-cta-btn">
+                    <span>🌐 Ouvrir le catalogue orsap.ma en direct</span>
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                  </a>
+                </div>`
               : `<div class="table-responsive"><table>
             <thead>
               <tr>
-                <th style="width: 120px;">Dernière Activité</th>
+                <th style="width: 140px;">Dernière Activité</th>
                 <th>Prospect / Entreprise</th>
-                <th>Contact &amp; Relance 1-Clic</th>
+                <th>Contact &amp; Relance</th>
                 <th>Sélection</th>
                 <th>Total Estimatif</th>
                 <th>Statut Commercial</th>
