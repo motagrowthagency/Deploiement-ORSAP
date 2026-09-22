@@ -122,8 +122,6 @@ export interface CrmActiveCart {
   lastAlertSentAt?: string | null
 }
 
-const DEFAULT_CRM_CARTS: CrmActiveCart[] = []
-
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return sessionStorage.getItem("orsap_admin_auth") === "true" || localStorage.getItem("orsap_admin_auth") === "true"
@@ -137,16 +135,7 @@ export default function Admin() {
 
   // Data states
   const [loading, setLoading] = useState(false)
-  const [crmCartsList, setCrmCartsList] = useState<CrmActiveCart[]>(() => {
-    const cached = localStorage.getItem("orsap_admin_crm_carts")
-    if (cached) {
-      try {
-        const parsed = JSON.parse(cached)
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed
-      } catch {}
-    }
-    return DEFAULT_CRM_CARTS
-  })
+  const [crmCartsList, setCrmCartsList] = useState<CrmActiveCart[]>([])
   const [devisCatalogueList, setDevisCatalogueList] = useState<DevisCatalogue[]>([])
   const [submissionsList, setSubmissionsList] = useState<SimpleSubmission[]>([])
   const [applicationsList, setApplicationsList] = useState<Application[]>([])
@@ -201,29 +190,10 @@ export default function Admin() {
         setPasswordInput("")
         setLoginError(null)
       } else {
-        // Allow client fallback for standard passwords if offline
-        const p = passwordInput.trim()
-        if (p === "admin" || p === "MotaFouad223" || p === "ORSAP2026!") {
-          setIsAuthenticated(true)
-          if (rememberMe) localStorage.setItem("orsap_admin_auth", "true")
-          sessionStorage.setItem("orsap_admin_auth", "true")
-          setPasswordInput("")
-          setLoginError(null)
-        } else {
-          setLoginError(data?.error || "Mot de passe incorrect. Essayez 'admin' ou 'ORSAP2026!'.")
-        }
+        setLoginError(data?.error || "Mot de passe incorrect. Veuillez vérifier vos identifiants.")
       }
     } catch {
-      const p = passwordInput.trim()
-      if (p === "admin" || p === "MotaFouad223" || p === "ORSAP2026!") {
-        setIsAuthenticated(true)
-        if (rememberMe) localStorage.setItem("orsap_admin_auth", "true")
-        sessionStorage.setItem("orsap_admin_auth", "true")
-        setPasswordInput("")
-        setLoginError(null)
-      } else {
-        setLoginError("Erreur de connexion. Utilisez le mot de passe 'admin'.")
-      }
+      setLoginError("Erreur de connexion au serveur d'authentification.")
     } finally {
       setSubmittingLogin(false)
     }
@@ -247,18 +217,10 @@ export default function Admin() {
         const res = await fetch("/api/admin/crm/carts", { credentials: "include" })
         if (res.ok) {
           const data = await res.json()
-          if (Array.isArray(data) && data.length > 0) {
-            setCrmCartsList(data)
-            localStorage.setItem("orsap_admin_crm_carts", JSON.stringify(data))
-          } else {
-            setCrmCartsList(DEFAULT_CRM_CARTS)
-          }
-        } else {
-          setCrmCartsList(DEFAULT_CRM_CARTS)
+          setCrmCartsList(Array.isArray(data) ? data : [])
         }
       } catch (err) {
         console.warn("CRM carts fetch error:", err)
-        setCrmCartsList(DEFAULT_CRM_CARTS)
       }
 
       // 1. Devis Catalogue
@@ -996,55 +958,14 @@ export default function Admin() {
 
             {/* List of CRM Leads */}
             {filteredCrmCarts.length === 0 ? (
-              <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-12 text-center text-slate-400 flex flex-col items-center justify-center space-y-5">
-                <div className="relative w-24 h-24 flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full border border-red-500/20 animate-ping opacity-75"></div>
-                  <div className="absolute inset-2 rounded-full border border-red-500/30 animate-pulse"></div>
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600 to-rose-700 flex items-center justify-center text-white shadow-xl shadow-red-950/80 z-10">
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">Radar CRM en écoute active</h3>
-                  <p className="text-xs text-slate-400 max-w-lg mx-auto mt-1 leading-relaxed">
-                    Dès qu'un visiteur ajoute des équipements de sécurité (Extincteurs, RIA, Matériel incendie...) à son panier sur <strong>orsap.ma</strong>, sa fiche et sa sélection s'afficheront ici en direct avec relance WhatsApp 1-clic.
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-xl text-left">
-                  <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3 flex items-center gap-3">
-                    <span className="text-lg">⚡</span>
-                    <div>
-                      <div className="text-xs font-bold text-slate-200">Détection Live</div>
-                      <div className="text-[10px] text-slate-500">Synchronisation automatique</div>
-                    </div>
-                  </div>
-                  <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3 flex items-center gap-3">
-                    <span className="text-lg">💬</span>
-                    <div>
-                      <div className="text-xs font-bold text-slate-200">WhatsApp 1-Clic</div>
-                      <div className="text-[10px] text-slate-500">Message commercial prêt</div>
-                    </div>
-                  </div>
-                  <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3 flex items-center gap-3">
-                    <span className="text-lg">📊</span>
-                    <div>
-                      <div className="text-xs font-bold text-slate-200">Chiffrage Pro</div>
-                      <div className="text-[10px] text-slate-500">Calcul des totaux & marges</div>
-                    </div>
-                  </div>
-                </div>
-                <Link
-                  to="/catalogue"
-                  target="_blank"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition border border-slate-700"
-                >
-                  <span>🌐 Ouvrir le catalogue orsap.ma en direct</span>
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </Link>
+              <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-12 text-center text-slate-400">
+                <svg className="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <div className="font-semibold text-white">Aucun panier actif / prospect trouvé</div>
+                <p className="text-xs text-slate-500 mt-1">
+                  Dès qu'un client connecté ajoute des articles à son panier sur l'Espace Client, sa fiche de contact et ses articles apparaîtront ici automatiquement avec les boutons d'action rapide.
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4">

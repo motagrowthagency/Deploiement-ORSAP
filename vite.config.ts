@@ -44,6 +44,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        "/admin": {
+          target: "http://127.0.0.1:3001",
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
     preview: {
@@ -762,9 +767,8 @@ function figmaApiDevPlugin(): Plugin {
           } catch {}
 
           const expectedPassword = process.env.ADMIN_PASSWORD || "admin"
-          const password = body.password || ""
 
-          if (password && (password === expectedPassword || password === "MotaFouad223" || password === "ORSAP2026!")) {
+          if (password && password === expectedPassword) {
             res.setHeader("Set-Cookie", "orsap_admin_token=admin_authenticated_session; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax")
             res.setHeader("Content-Type", "application/json; charset=utf-8")
             res.end(JSON.stringify({ success: true, message: "Authentification réussie" }))
