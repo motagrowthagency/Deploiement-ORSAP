@@ -375,8 +375,13 @@ export default function Root() {
 
         <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-[1240px] flex-col gap-2 px-6 py-5 text-[12px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              © {new Date().getFullYear()} ORSAP SARL. Tous droits réservés.
+            <div className="flex items-center gap-3">
+              <span>© {new Date().getFullYear()} ORSAP SARL. Tous droits réservés.</span>
+              <span>·</span>
+              <Link to="/admin" className="text-white/40 hover:text-white transition flex items-center gap-1 font-semibold">
+                <span>Portail Admin</span>
+                <span className="size-1.5 rounded-full bg-red-500 inline-block" />
+              </Link>
             </div>
             <div className="text-[11px] text-white/30">
               Les marques, logos et visuels cités sont la propriété exclusive de leurs détenteurs respectifs.
