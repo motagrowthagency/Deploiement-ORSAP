@@ -147,6 +147,11 @@
     </div>
     
     <div class="nav-tabs">
+      <a href="/admin?tab=crm" class="tab-btn {{TAB_CRM_ACTIVE}}" style="background: {{TAB_CRM_ACTIVE_BG}}">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+        🎯 CRM &amp; Paniers Actifs
+        <span class="tab-badge" style="background:#ef4444; color:#fff;">{{CRM_CARTS_COUNT}}</span>
+      </a>
       <a href="/admin?tab=devis" class="tab-btn {{TAB_DEVIS_ACTIVE}}">
         <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
         Devis Express
@@ -742,6 +747,110 @@
       } finally {
         if (btn) { btn.disabled = false; btn.innerHTML = originalHtml; }
       }
+    }
+
+    // ── CRM Active Carts Actions ──────────────────────────────────
+    async function updateCrmStatus(cartId, newStatus) {
+      try {
+        const res = await fetch("/api/admin/crm/carts/" + cartId, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: newStatus }),
+        });
+        if (res.ok) {
+          location.reload();
+        } else {
+          alert("Erreur lors de la mise à jour du statut.");
+        }
+      } catch (e) {
+        alert("Erreur réseau : " + e.message);
+      }
+    }
+
+    async function saveCrmNotes(cartId) {
+      const textarea = document.getElementById("crm-notes-" + cartId);
+      const notes = textarea ? textarea.value : "";
+      const statusBadge = document.getElementById("crm-notes-saved-" + cartId);
+      try {
+        const res = await fetch("/api/admin/crm/carts/" + cartId, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ notes }),
+        });
+        if (res.ok) {
+          if (statusBadge) {
+            statusBadge.style.display = "inline";
+            setTimeout(() => { statusBadge.style.display = "none"; }, 3000);
+          }
+        } else {
+          alert("Erreur lors de l'enregistrement de la note.");
+        }
+      } catch (e) {
+        alert("Erreur réseau : " + e.message);
+      }
+    }
+
+    async function deleteCrmCart(cartId) {
+      if (!confirm("Supprimer / Archiver définitivement ce prospect CRM ?")) return;
+      try {
+        const res = await fetch("/api/admin/crm/carts/" + cartId, { method: "DELETE" });
+        if (res.ok) {
+          const row = document.getElementById("crm-row-" + cartId);
+          if (row) row.remove();
+          location.reload();
+        } else {
+          alert("Erreur lors de la suppression.");
+        }
+      } catch (e) {
+        alert("Erreur réseau : " + e.message);
+      }
+    }
+
+    async function testCrmNotify(cartId) {
+      if (!confirm("Envoyer une alerte email test pour ce panier actif ?")) return;
+      try {
+        const res = await fetch("/api/admin/crm/carts/" + cartId + "/notify", { method: "POST" });
+        const data = await res.json();
+        if (res.ok) {
+          alert("✅ Alerte email envoyée avec succès !");
+        } else {
+          alert("⚠️ " + (data.error || "Erreur lors de l'envoi de l'alerte"));
+        }
+      } catch (e) {
+        alert("Erreur réseau : " + e.message);
+      }
+    }
+
+    function toggleCrmCartDetails(cartId) {
+      const el = document.getElementById("crm-details-" + cartId);
+      const btn = document.getElementById("crm-toggle-btn-" + cartId);
+      if (!el) return;
+      if (el.style.display === "none" || !el.style.display) {
+        el.style.display = "table-row";
+        if (btn) btn.innerHTML = "▲ Masquer les articles";
+      } else {
+        el.style.display = "none";
+        if (btn) btn.innerHTML = "▼ Voir les articles";
+      }
+    }
+
+    function filterCrmTable(status) {
+      const rows = document.querySelectorAll(".crm-prospect-row");
+      const filterBtns = document.querySelectorAll(".crm-filter-btn");
+      filterBtns.forEach(btn => btn.classList.remove("active"));
+      const activeBtn = document.getElementById("crm-filter-" + status);
+      if (activeBtn) activeBtn.classList.add("active");
+
+      rows.forEach(row => {
+        const rowStatus = row.getAttribute("data-status") || "cart_active";
+        if (status === "all" || rowStatus === status) {
+          row.style.display = "table-row";
+        } else {
+          row.style.display = "none";
+          const detailsRow = document.getElementById("crm-details-" + row.getAttribute("data-cart-id"));
+          if (detailsRow) detailsRow.style.display = "none";
+        }
+      });
     }
   </script>
 </body>

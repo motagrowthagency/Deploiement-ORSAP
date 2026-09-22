@@ -1493,13 +1493,175 @@ app.get("/admin", async (req, res) => {
     return renderLoginPage(res)
   }
 
-  const tab = req.query.tab || "devis"
+  const tab = req.query.tab || "crm"
+  const crmCarts = await loadAllActiveCarts()
   const submissions = await loadSubmissions()
   const catalogueDevis = await loadAllDevisRequests()
   const blogs = await loadBlogs()
   const apps = await loadApplications()
   const subscribers = await loadSubscribers()
   const users = await loadUsers()
+
+  // CRM KPIs
+  const activeCartsCount = crmCarts.filter((c) => c.status === "cart_active" || !c.status).length
+  const totalCrmValueHt = crmCarts.reduce((sum, c) => sum + (c.totalHt || 0), 0)
+  const contactedCount = crmCarts.filter((c) => c.status === "contacted" || c.status === "quote_sent").length
+  const convertedCount = crmCarts.filter((c) => c.status === "converted").length
+  const abandonedCount = crmCarts.filter((c) => c.status === "abandoned").length
+  const conversionRate = crmCarts.length > 0 ? ((convertedCount / crmCarts.length) * 100).toFixed(0) : "0"
+
+  // Generate rows for CRM Active Carts
+  const crmRows = crmCarts
+    .map((cart) => {
+      const items = Array.isArray(cart.items) ? cart.items : []
+      const totalUnits = items.reduce((sum, it) => sum + (Number(it.quantity) || 1), 0)
+      const dateFormatted = cart.updatedAt
+        ? new Date(cart.updatedAt).toLocaleString("fr-FR")
+        : cart.createdAt
+          ? new Date(cart.createdAt).toLocaleString("fr-FR")
+          : "—"
+
+      let cleanPhone = String(cart.clientPhone || "").replace(/[^\d+]/g, "")
+      if (cleanPhone.startsWith("0")) {
+        cleanPhone = "212" + cleanPhone.slice(1)
+      } else if (cleanPhone.startsWith("+")) {
+        cleanPhone = cleanPhone.slice(1)
+      }
+
+      const sampleItemsText = items.slice(0, 3).map((it) => it.designation || it.code).join(", ")
+      const waMessage = `Bonjour ${cart.clientName},\n\nNous avons remarqué votre sélection d'articles sur notre catalogue ORSAP (${items.length} article(s) : ${sampleItemsText}${items.length > 3 ? "..." : ""}).\n\nSouhaitez-vous une assistance technique ou un devis personnalisé avec nos remises professionnelles ?\n\nL'équipe ORSAP Maroc\nhttps://orsap.ma`
+      const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}` : null
+      const mailtoUrl = cart.clientEmail
+        ? `mailto:${cart.clientEmail}?subject=${encodeURIComponent("Votre sélection sur ORSAP — Offre commerciale & Devis")}`
+        : null
+
+      const currentStatus = cart.status || "cart_active"
+
+      const itemsDetailHtml = items
+        .map(
+          (it, idx) => `
+        <tr style="background: ${idx % 2 === 0 ? "#ffffff" : "#f8fafc"}; font-size: 12.5px;">
+          <td style="padding: 8px 12px; font-family: monospace; font-weight: bold; color: #1e293b;">
+            ${
+              it.isCustom
+                ? '<span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 10px;">SUR-MESURE</span>'
+                : esc(it.code || it.articleCode || "—")
+            }
+          </td>
+          <td style="padding: 8px 12px; font-weight: 600; color: #334155;">
+            ${esc(it.designation || "Article")}
+            ${it.notes ? `<div style="font-size: 11px; color: #64748b; font-style: italic; margin-top: 2px;">📝 ${esc(it.notes)}</div>` : ""}
+          </td>
+          <td style="padding: 8px 12px; text-align: center; font-weight: bold;">${it.quantity || 1}</td>
+          <td style="padding: 8px 12px; text-align: right; color: #64748b;">
+            ${it.priceHt ? Number(it.priceHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD" : "Sur devis"}
+          </td>
+          <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #d3121a;">
+            ${it.priceHt ? (Number(it.priceHt) * (Number(it.quantity) || 1)).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD" : "Sur devis"}
+          </td>
+        </tr>
+      `
+        )
+        .join("")
+
+      return `
+      <tr id="crm-row-${cart.id}" class="crm-prospect-row" data-status="${esc(currentStatus)}" data-cart-id="${cart.id}">
+        <td class="date-badge">${dateFormatted}</td>
+        <td>
+          <div style="font-weight: 800; color: #1e293b;">${esc(cart.clientName || "Visiteur")}</div>
+          <div style="font-size: 11.5px; color: #64748b;">
+            ${esc(cart.clientCompany || "—")} · <span class="badge ${cart.clientType === "professional" ? "pro" : "perso"}" style="font-size: 9.5px; padding: 1px 5px;">${cart.clientType === "professional" ? "Pro" : "Particulier"}</span>
+          </div>
+        </td>
+        <td>
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            ${
+              waUrl
+                ? `<a href="${waUrl}" target="_blank" class="view-link" style="background:#16a34a; color:#fff; border-color:#16a34a; font-weight:bold; font-size:11.5px; padding: 4px 8px;" title="Relance directe sur WhatsApp">
+                    💬 WhatsApp (${esc(cart.clientPhone)})
+                  </a>`
+                : `<a href="tel:${esc(cart.clientPhone)}" style="font-size:12px; color:#334155; font-weight:600;">${esc(cart.clientPhone || "—")}</a>`
+            }
+            ${
+              mailtoUrl
+                ? `<a href="${mailtoUrl}" style="color: #d3121a; font-size: 11px; text-decoration: none; font-weight: 600;">${esc(cart.clientEmail)}</a>`
+                : '<span style="color:#94a3b8; font-size:11px;">Pas d\'email</span>'
+            }
+          </div>
+        </td>
+        <td>
+          <span class="badge" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+            ${items.length} réf. (${totalUnits} pcs)
+          </span>
+          <div style="font-size: 11px; color: #64748b; margin-top: 3px;">
+            <button type="button" id="crm-toggle-btn-${cart.id}" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:10.5px; padding: 2px 7px;" onclick="toggleCrmCartDetails('${cart.id}')">
+              ▼ Voir articles
+            </button>
+          </div>
+        </td>
+        <td style="font-weight: 800; color: #d3121a; font-size: 13.5px;">
+          ${cart.totalHt > 0 ? Number(cart.totalHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "0.00 MAD"}
+        </td>
+        <td>
+          <select style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 8px; font-size: 12px; font-weight: 700; background: #fff; color: #1e293b; cursor: pointer;" onchange="updateCrmStatus('${cart.id}', this.value)">
+            <option value="cart_active" ${currentStatus === "cart_active" ? "selected" : ""}>🟢 Panier Actif</option>
+            <option value="contacted" ${currentStatus === "contacted" ? "selected" : ""}>🟡 Contacté</option>
+            <option value="quote_sent" ${currentStatus === "quote_sent" ? "selected" : ""}>🔵 Devis Transmis</option>
+            <option value="converted" ${currentStatus === "converted" ? "selected" : ""}>🟣 Converti (Gagné)</option>
+            <option value="abandoned" ${currentStatus === "abandoned" ? "selected" : ""}>🔴 Abandonné</option>
+            <option value="archived" ${currentStatus === "archived" ? "selected" : ""}>⚪ Archivé</option>
+          </select>
+        </td>
+        <td style="min-width: 220px;">
+          <div style="display: flex; gap: 4px; align-items: flex-start;">
+            <textarea id="crm-notes-${cart.id}" rows="2" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; font-size: 11.5px; font-family: inherit; resize: vertical;" placeholder="Compte-rendu d'appel ou relance...">${esc(cart.notes || "")}</textarea>
+            <button type="button" class="view-link" style="background:#1e293b; color:#fff; border-color:#1e293b; padding: 5px 8px; font-size: 11px; cursor: pointer; shrink: 0;" onclick="saveCrmNotes('${cart.id}')" title="Enregistrer la note">
+              💾
+            </button>
+          </div>
+          <span id="crm-notes-saved-${cart.id}" style="display: none; color: #16a34a; font-size: 10px; font-weight: bold; margin-top: 2px;">✓ Enregistré</span>
+        </td>
+        <td>
+          <div class="actions-cell">
+            <button type="button" class="view-link" style="padding: 4px 8px; font-size: 11px; background:#f8fafc; border-color:#cbd5e1;" onclick="testCrmNotify('${cart.id}')" title="Tester l'envoi de l'alerte email">
+              🔔 Alerte
+            </button>
+            <button type="button" class="del-btn" style="padding: 4px 8px; font-size: 11px;" onclick="deleteCrmCart('${cart.id}')" title="Supprimer ce prospect">
+              ✕
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr id="crm-details-${cart.id}" style="display: none; background: #f8fafc;">
+        <td colspan="8" style="padding: 14px 20px; border-bottom: 2px solid #e2e8f0;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+              <div style="font-weight: 800; font-size: 13px; color: #1e293b;">
+                📦 Articles du panier (${items.length} références) — ${esc(cart.clientName)} (${esc(cart.clientCompany || "Particulier")})
+              </div>
+              <div style="font-size: 13px; font-weight: 800; color: #d3121a;">
+                Total estimatif : ${cart.totalHt > 0 ? Number(cart.totalHt).toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " MAD HT" : "0.00 MAD"}
+              </div>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 6px;">
+              <thead>
+                <tr style="background: #1e293b; color: #ffffff; font-size: 11px; text-transform: uppercase;">
+                  <th style="padding: 6px 10px; color: #fff;">Code</th>
+                  <th style="padding: 6px 10px; color: #fff;">Désignation Produit &amp; Options</th>
+                  <th style="padding: 6px 10px; color: #fff; text-align: center;">Quantité</th>
+                  <th style="padding: 6px 10px; color: #fff; text-align: right;">P.U HT</th>
+                  <th style="padding: 6px 10px; color: #fff; text-align: right;">Total HT</th>
+                </tr>
+              </thead>
+              <tbody>${itemsDetailHtml}</tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+      `
+    })
+    .join("")
 
   // Generate rows for catalogue devis
   const catalogueDevisRows = catalogueDevis
@@ -1740,7 +1902,91 @@ app.get("/admin", async (req, res) => {
 
   // Construct tab content
   let tabContent = ""
-  if (tab === "devis") {
+  if (tab === "crm") {
+    tabContent = `
+      <div class="wrap">
+        <!-- CRM KPI SUMMARY CARDS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #10b981;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">🟢 Paniers Actifs en cours</div>
+            <div style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 900; color: #10b981; margin-top: 4px;">${activeCartsCount}</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Prospects chauds à relancer</div>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #d3121a;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">💰 Valeur Marchande Estimée</div>
+            <div style="font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 900; color: #d3121a; margin-top: 4px;">
+              ${totalCrmValueHt > 0 ? Number(totalCrmValueHt).toLocaleString("fr-FR", { maximumFractionDigits: 0 }) + " MAD" : "0 MAD"}
+            </div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Total HT dans les paniers</div>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #3b82f6;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">📞 Relances &amp; Devis Transmis</div>
+            <div style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 900; color: #3b82f6; margin-top: 4px;">${contactedCount}</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Prospects contactés / chiffrés</div>
+          </div>
+
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 4px solid #8b5cf6;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">🎯 Taux de Conversion</div>
+            <div style="font-family: 'Archivo', sans-serif; font-size: 26px; font-weight: 900; color: #8b5cf6; margin-top: 4px;">${conversionRate}%</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">${convertedCount} panier(s) converti(s) en commande</div>
+          </div>
+        </div>
+
+        <!-- CRM TABLE CONTAINER -->
+        <div class="table-container">
+          <div class="table-header-title" style="flex-direction: column; align-items: stretch; gap: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <span style="font-size: 17px;">🎯 Suivi Commercial CRM &amp; Paniers Actifs (${crmCarts.length} prospects)</span>
+              <span style="font-size: 12px; color: #64748b;">Alerte automatique générée dès l'ajout au panier</span>
+            </div>
+
+            <!-- STATUS FILTER PILLS -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" id="crm-filter-all" class="crm-filter-btn active" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #cbd5e1; background: #1e293b; color: #fff; cursor: pointer;" onclick="filterCrmTable('all')">
+                Tous (${crmCarts.length})
+              </button>
+              <button type="button" id="crm-filter-cart_active" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #bbf7d0; background: #f0fdf4; color: #15803d; cursor: pointer;" onclick="filterCrmTable('cart_active')">
+                🟢 Paniers Actifs (${activeCartsCount})
+              </button>
+              <button type="button" id="crm-filter-contacted" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #fef08a; background: #fefce8; color: #a16207; cursor: pointer;" onclick="filterCrmTable('contacted')">
+                🟡 Contactés (${crmCarts.filter((c) => c.status === "contacted").length})
+              </button>
+              <button type="button" id="crm-filter-quote_sent" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #bfdbfe; background: #eff6ff; color: #1d4ed8; cursor: pointer;" onclick="filterCrmTable('quote_sent')">
+                🔵 Devis Transmis (${crmCarts.filter((c) => c.status === "quote_sent").length})
+              </button>
+              <button type="button" id="crm-filter-converted" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #ddd6fe; background: #f5f3ff; color: #6d28d9; cursor: pointer;" onclick="filterCrmTable('converted')">
+                🟣 Convertis (${convertedCount})
+              </button>
+              <button type="button" id="crm-filter-abandoned" class="crm-filter-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid #fecaca; background: #fef2f2; color: #b91c1c; cursor: pointer;" onclick="filterCrmTable('abandoned')">
+                🔴 Abandonnés (${abandonedCount})
+              </button>
+            </div>
+          </div>
+
+          ${
+            crmCarts.length === 0
+              ? '<div class="empty">Aucun prospect ou panier actif pour le moment. Les paniers synchronisés par les visiteurs apparaîtront ici automatiquement en direct.</div>'
+              : `<div class="table-responsive"><table>
+            <thead>
+              <tr>
+                <th style="width: 120px;">Dernière Activité</th>
+                <th>Prospect / Entreprise</th>
+                <th>Contact &amp; Relance 1-Clic</th>
+                <th>Sélection</th>
+                <th>Total Estimatif</th>
+                <th>Statut Commercial</th>
+                <th>Notes / Compte-Rendu</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>${crmRows}</tbody>
+          </table></div>`
+          }
+        </div>
+      </div>`
+  } else if (tab === "devis") {
     tabContent = `
       <div class="wrap">
         <div class="table-container">
@@ -2033,12 +2279,15 @@ app.get("/admin", async (req, res) => {
   try {
     let html = readFileSync(ADMIN_TEMPLATE_PATH, "utf-8")
     html = html.replace("{{LOGO_SRC}}", "/admin/logo.jpg")
+    html = html.replace("{{CRM_CARTS_COUNT}}", crmCarts.length)
     html = html.replace("{{SUBMISSIONS_COUNT}}", submissions.length)
     html = html.replace("{{CATALOGUE_DEVIS_COUNT}}", catalogueDevis.length)
     html = html.replace("{{BLOGS_COUNT}}", blogs.length)
     html = html.replace("{{APPLICATIONS_COUNT}}", apps.length)
     html = html.replace("{{SUBSCRIBERS_COUNT}}", subscribers.length)
     html = html.replace("{{USERS_COUNT}}", users.length)
+    html = html.replace("{{TAB_CRM_ACTIVE}}", tab === "crm" ? "active" : "")
+    html = html.replace("{{TAB_CRM_ACTIVE_BG}}", tab === "crm" ? "#d3121a" : "rgba(255,255,255,0.06)")
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
     html = html.replace("{{TAB_CATALOGUE_DEVIS_ACTIVE}}", tab === "devis-catalogue" ? "active" : "")
     html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
