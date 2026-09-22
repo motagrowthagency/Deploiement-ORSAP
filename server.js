@@ -2287,7 +2287,6 @@ app.get("/admin", async (req, res) => {
     html = html.replace("{{SUBSCRIBERS_COUNT}}", subscribers.length)
     html = html.replace("{{USERS_COUNT}}", users.length)
     html = html.replace("{{TAB_CRM_ACTIVE}}", tab === "crm" ? "active" : "")
-    html = html.replace("{{TAB_CRM_ACTIVE_BG}}", tab === "crm" ? "#d3121a" : "rgba(255,255,255,0.06)")
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
     html = html.replace("{{TAB_CATALOGUE_DEVIS_ACTIVE}}", tab === "devis-catalogue" ? "active" : "")
     html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
