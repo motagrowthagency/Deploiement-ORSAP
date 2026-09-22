@@ -1,0 +1,154 @@
+[
+  {
+    "id": "CART-OCP2026",
+    "userId": "usr-ocp-casablanca",
+    "clientName": "Karim Bennani",
+    "clientEmail": "k.bennani@atlas-btp.ma",
+    "clientPhone": "0661245890",
+    "clientCompany": "Atlas BTP & Génie Civil",
+    "clientType": "professional",
+    "status": "cart_active",
+    "items": [
+      {
+        "code": "CASQ-DELTA-01",
+        "designation": "Casque de Chantier Pro Delta Plus avec Visière",
+        "priceHt": 145.00,
+        "priceTtc": 174.00,
+        "quantity": 50,
+        "isCustom": true,
+        "notes": "Marquage logo entreprise face avant"
+      },
+      {
+        "code": "CHAUSS-S3-SRC",
+        "designation": "Chaussures de Sécurité Hautes S3 SRC Cuir Hydrofuge",
+        "priceHt": 420.00,
+        "priceTtc": 504.00,
+        "quantity": 25,
+        "isCustom": false,
+        "notes": "Pointures : 10x 42, 10x 43, 5x 44"
+      },
+      {
+        "code": "GILET-HV-OR",
+        "designation": "Gilet Haute Visibilité Classe 2 bandes rétroréfléchissantes",
+        "priceHt": 38.00,
+        "priceTtc": 45.60,
+        "quantity": 100,
+        "isCustom": false,
+        "notes": ""
+      }
+    ],
+    "totalCount": 175,
+    "totalHt": 21550.00,
+    "totalTva": 4310.00,
+    "totalTtc": 25860.00,
+    "notes": "Client grand compte BTP Casablanca. A rappelé ce matin pour confirmation de stock disponible.",
+    "lastAlertSentAt": "2026-09-22T08:30:00.000Z",
+    "createdAt": "2026-09-22T08:15:00.000Z",
+    "updatedAt": "2026-09-22T08:45:00.000Z"
+  },
+  {
+    "id": "CART-TMED-LOG",
+    "userId": "usr-tanger-logistics",
+    "clientName": "Youssef Amrani",
+    "clientEmail": "amrani.youssef@tangermed-log.com",
+    "clientPhone": "0663897412",
+    "clientCompany": "Tanger Med Logistics Hub",
+    "clientType": "professional",
+    "status": "contacted",
+    "items": [
+      {
+        "code": "GANT-NITRILE-PRO",
+        "designation": "Gants de Manutention Enduction Nitrile Antiglisse (Lot de 10 paires)",
+        "priceHt": 110.00,
+        "priceTtc": 132.00,
+        "quantity": 40,
+        "isCustom": false,
+        "notes": "Tailles 9 et 10"
+      },
+      {
+        "code": "LUNETTE-ANTI-RAY",
+        "designation": "Lunettes de Protection Oculaire Anti-buée UV400",
+        "priceHt": 65.00,
+        "priceTtc": 78.00,
+        "quantity": 60,
+        "isCustom": false,
+        "notes": ""
+      }
+    ],
+    "totalCount": 100,
+    "totalHt": 8300.00,
+    "totalTva": 1660.00,
+    "totalTtc": 9960.00,
+    "notes": "Appel commercial effectué le 22/09 à 09h10. Le responsable achats souhaite recevoir le devis formel par WhatsApp.",
+    "lastAlertSentAt": "2026-09-21T17:40:00.000Z",
+    "createdAt": "2026-09-21T17:35:00.000Z",
+    "updatedAt": "2026-09-22T09:12:00.000Z"
+  },
+  {
+    "id": "CART-INDUS-KENITRA",
+    "userId": "usr-atlantic-indus",
+    "clientName": "Fatima-Zahra El Mansouri",
+    "clientEmail": "fz.elmansouri@atlantic-solutions.ma",
+    "clientPhone": "0672114578",
+    "clientCompany": "Atlantic Automotive Free Zone",
+    "clientType": "professional",
+    "status": "quote_sent",
+    "items": [
+      {
+        "code": "COMB-CHIMIQUE-T3",
+        "designation": "Combinaison de Protection Risques Chimiques Type 4/5/6",
+        "priceHt": 280.00,
+        "priceTtc": 336.00,
+        "quantity": 30,
+        "isCustom": false,
+        "notes": "Certificats CE & Fiche technique demandés"
+      },
+      {
+        "code": "MASQ-FFP3-VALVE",
+        "designation": "Masques Respiratoires FFP3 avec Soupape Confort (Boîte de 20)",
+        "priceHt": 350.00,
+        "priceTtc": 420.00,
+        "quantity": 15,
+        "isCustom": false,
+        "notes": ""
+      }
+    ],
+    "totalCount": 45,
+    "totalHt": 13650.00,
+    "totalTva": 2730.00,
+    "totalTtc": 16380.00,
+    "notes": "Devis chiffré n° DEV-2026-084 envoyé avec remise 12% accordée pour commande annuelle.",
+    "lastAlertSentAt": "2026-09-20T14:20:00.000Z",
+    "createdAt": "2026-09-20T14:10:00.000Z",
+    "updatedAt": "2026-09-21T11:00:00.000Z"
+  },
+  {
+    "id": "CART-MARRAKECH-HOTEL",
+    "userId": "usr-palmeraie-resort",
+    "clientName": "Mehdi Tazi",
+    "clientEmail": "mehdi.tazi@palmgardens.ma",
+    "clientPhone": "0661983201",
+    "clientCompany": "Palmeraie Hospitality & Maintenance",
+    "clientType": "professional",
+    "status": "converted",
+    "items": [
+      {
+        "code": "BLOUSE-HACCP-BL",
+        "designation": "Blouses d'Hygiène & Maintenance Blanche Norme HACCP",
+        "priceHt": 185.00,
+        "priceTtc": 222.00,
+        "quantity": 20,
+        "isCustom": true,
+        "notes": "Broderie logo sur poche poitrine"
+      }
+    ],
+    "totalCount": 20,
+    "totalHt": 3700.00,
+    "totalTva": 740.00,
+    "totalTtc": 4440.00,
+    "notes": "Bon de commande signé reçu. Livraison prévue sous 48h.",
+    "lastAlertSentAt": "2026-09-19T10:00:00.000Z",
+    "createdAt": "2026-09-19T09:45:00.000Z",
+    "updatedAt": "2026-09-21T16:20:00.000Z"
+  }
+]
