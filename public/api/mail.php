@@ -243,20 +243,53 @@ function sendDevisCustomerConfirmationEmailPHP(array $entry, ?string $toOverride
         </div>
       </div>
 
-      <div class="timeline">
-        <div class="timeline-title">⚡ Prochaines étapes de traitement de votre dossier :</div>
-        <div class="timeline-step">
-          <div class="step-icon">1</div>
-          <div class="step-text"><strong>Étude technique &amp; dimensionnement</strong> : Nos experts vérifient la conformité aux normes (sécurité, charge utile, hauteur de travail) et les accessoires recommandés.</div>
-        </div>
-        <div class="timeline-step">
-          <div class="step-icon">2</div>
-          <div class="step-text"><strong>Offre chiffrée sous 24h</strong> : Vous recevrez par email et WhatsApp notre devis pro formalisé avec nos meilleurs tarifs préférentiels.</div>
-        </div>
-        <div class="timeline-step">
-          <div class="step-icon">3</div>
-          <div class="step-text"><strong>Expédition rapide</strong> : Livraison sécurisée partout au Maroc et assistance à la mise en service.</div>
-        </div>
+      <div style="margin: 28px 0; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; padding: 20px 22px;">
+        <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; color: #0f172a; margin-bottom: 16px; letter-spacing: 0.05em;">⚡ Prochaines étapes de traitement de votre dossier :</div>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 14px;">
+          <tr>
+            <td style="width: 34px; vertical-align: top; padding-right: 12px; padding-top: 1px;">
+              <table cellpadding="0" cellspacing="0" style="width: 24px; height: 24px; background-color: #fee2e2; border-radius: 12px; border-collapse: collapse;">
+                <tr>
+                  <td style="text-align: center; vertical-align: middle; color: #d3121a; font-weight: 900; font-size: 12px; line-height: 24px; width: 24px; height: 24px; padding: 0;">1</td>
+                </tr>
+              </table>
+            </td>
+            <td style="vertical-align: top; font-size: 13.5px; color: #334155; line-height: 1.5;">
+              <strong style="color: #0f172a;">Étude technique &amp; dimensionnement</strong> : Nos experts vérifient la conformité aux normes (sécurité, charge utile, hauteur de travail) et les accessoires recommandés.
+            </td>
+          </tr>
+        </table>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 14px;">
+          <tr>
+            <td style="width: 34px; vertical-align: top; padding-right: 12px; padding-top: 1px;">
+              <table cellpadding="0" cellspacing="0" style="width: 24px; height: 24px; background-color: #fee2e2; border-radius: 12px; border-collapse: collapse;">
+                <tr>
+                  <td style="text-align: center; vertical-align: middle; color: #d3121a; font-weight: 900; font-size: 12px; line-height: 24px; width: 24px; height: 24px; padding: 0;">2</td>
+                </tr>
+              </table>
+            </td>
+            <td style="vertical-align: top; font-size: 13.5px; color: #334155; line-height: 1.5;">
+              <strong style="color: #0f172a;">Offre chiffrée sous 24h</strong> : Vous recevrez par email et WhatsApp notre devis pro formalisé avec nos meilleurs tarifs préférentiels.
+            </td>
+          </tr>
+        </table>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
+          <tr>
+            <td style="width: 34px; vertical-align: top; padding-right: 12px; padding-top: 1px;">
+              <table cellpadding="0" cellspacing="0" style="width: 24px; height: 24px; background-color: #fee2e2; border-radius: 12px; border-collapse: collapse;">
+                <tr>
+                  <td style="text-align: center; vertical-align: middle; color: #d3121a; font-weight: 900; font-size: 12px; line-height: 24px; width: 24px; height: 24px; padding: 0;">3</td>
+                </tr>
+              </table>
+            </td>
+            <td style="vertical-align: top; font-size: 13.5px; color: #334155; line-height: 1.5;">
+              <strong style="color: #0f172a;">Expédition rapide</strong> : Livraison sécurisée partout au Maroc et assistance à la mise en service.
+            </td>
+          </tr>
+        </table>
       </div>
 
       <div style="background-color: #f1f5f9; border-radius: 8px; padding: 18px; text-align: center; margin-top: 24px;">
