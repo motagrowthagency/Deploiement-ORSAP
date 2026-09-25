@@ -150,6 +150,7 @@ export default function Admin() {
   const [editingNotesCartId, setEditingNotesCartId] = useState<string | null>(null)
   const [notesInput, setNotesInput] = useState<string>("")
   const [selectedQuote, setSelectedQuote] = useState<DevisCatalogue | null>(null)
+  const [selectedSubmission, setSelectedSubmission] = useState<SimpleSubmission | null>(null)
   const [actionFeedback, setActionFeedback] = useState<string | null>(null)
 
   const [submittingLogin, setSubmittingLogin] = useState(false)
@@ -548,6 +549,81 @@ export default function Admin() {
 
         <div class="footer">
           ORSAP Maroc — Devis valable 30 jours à compter de la date d'émission. Bon pour accord et commande avec cachet et signature.
+        </div>
+      </body>
+      </html>
+    `)
+    printWin.document.close()
+    setTimeout(() => {
+      printWin.print()
+    }, 500)
+  }
+
+  const printSubmission = (sub: SimpleSubmission) => {
+    const printWin = window.open("", "_blank", "width=900,height=800")
+    if (!printWin) return
+
+    const solutionsHtml = sub.solutions && sub.solutions.length > 0 
+      ? sub.solutions.map((s) => `<span style="display:inline-block; background:#f1f5f9; color:#0f172a; padding:4px 8px; border-radius:4px; margin:2px; font-size:12px; font-weight:600;">${s}</span>`).join(" ")
+      : "Non spécifié"
+
+    const sectorsHtml = sub.sectors && sub.sectors.length > 0 
+      ? sub.sectors.map((s) => `<span style="display:inline-block; background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; margin:2px; font-size:12px; font-weight:600;">${s}</span>`).join(" ")
+      : "Non spécifié"
+
+    printWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Demande de Devis Express ${sub.id} - ORSAP</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #0f172a; margin: 0; line-height: 1.6; }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #d3121a; padding-bottom: 20px; margin-bottom: 25px; }
+          .logo-title { font-size: 26px; font-weight: 900; color: #d3121a; }
+          .badge { display: inline-block; padding: 4px 12px; background: #fee2e2; color: #991b1b; border-radius: 9999px; font-weight: 700; font-size: 12px; }
+          .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+          .box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; font-size: 14px; }
+          .message-box { background: #f8fafc; border-left: 4px solid #d3121a; border-radius: 4px; padding: 18px; margin: 20px 0; font-size: 14px; white-space: pre-wrap; word-break: break-word; }
+          .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <div class="logo-title">ORSAP MAROC</div>
+            <div style="font-size: 13px; color: #64748b; margin-top: 4px;">Demande de Devis Express (Formulaire de Contact)</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="badge">${sub.clientType === "professional" ? "ENTREPRISE / PRO" : "PARTICULIER"}</div>
+            <div style="font-size: 14px; font-weight: 800; margin-top: 6px;">Réf: ${sub.id}</div>
+            <div style="font-size: 12px; color: #64748b;">Date: ${new Date(sub.createdAt).toLocaleString("fr-FR")}</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="box">
+            <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Coordonnées du demandeur :</strong><br>
+            <div style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 6px 0;">${sub.company ? `${sub.company} (${sub.name})` : sub.name}</div>
+            <div><strong>Nom du contact :</strong> ${sub.name}</div>
+            ${sub.company ? `<div><strong>Société :</strong> ${sub.company}</div>` : ""}
+            <div><strong>Téléphone :</strong> ${sub.phone || "Non renseigné"}</div>
+            <div><strong>Email :</strong> ${sub.email || "Non renseigné"}</div>
+          </div>
+
+          <div class="box">
+            <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Besoins &amp; Secteur :</strong><br>
+            <div style="margin-top: 8px;"><strong>Solutions souhaitées :</strong><br>${solutionsHtml}</div>
+            <div style="margin-top: 8px;"><strong>Secteur d'activité :</strong><br>${sectorsHtml}</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <strong style="color: #0f172a; font-size: 14px; text-transform: uppercase;">Texte intégral du devis / Message du client :</strong>
+          <div class="message-box">${sub.message || "Aucun texte saisi."}</div>
+        </div>
+
+        <div class="footer">
+          ORSAP Maroc · Import, Distribution &amp; Services Industriels · orsap.ma · +212 6 44 20 30 30
         </div>
       </body>
       </html>
@@ -1480,71 +1556,395 @@ export default function Admin() {
 
         {/* ── TAB 2: DEVIS EXPRESS (FORMULAIRES SIMPLES) ────────────────── */}
         {activeTab === "submissions" && (
-          <div className="space-y-4">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <span>💼 Demandes de Devis Express (Formulaire de Contact)</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                {filteredSubmissions.length} demande(s)
-              </span>
-            </h2>
+          <div className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-black text-white flex items-center gap-2">
+                  <span>💼 Demandes de Devis Express (Formulaire de Contact)</span>
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-semibold">
+                    {filteredSubmissions.length} demande(s)
+                  </span>
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Visualisez l'intégralité du texte et des besoins saisis par les clients sans aucune troncature, avec relance en 1 clic.
+                </p>
+              </div>
+            </div>
 
             {filteredSubmissions.length === 0 ? (
               <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-12 text-center text-slate-400">
-                Aucun formulaire express reçu pour l'instant.
+                <svg className="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <div className="font-semibold text-white">Aucun formulaire express reçu pour l'instant.</div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {filteredSubmissions.map((sub) => (
-                  <div key={sub.id} className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 space-y-4 hover:border-slate-700 transition flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/20">
-                          {sub.clientType === "professional" ? "🏢 Entreprise" : "👤 Particulier"}
-                        </span>
-                        <span className="text-xs text-slate-500">
-                          {new Date(sub.createdAt).toLocaleDateString("fr-FR")}
-                        </span>
+              <div className="grid grid-cols-1 gap-5">
+                {filteredSubmissions.map((sub) => {
+                  // Format WhatsApp URL
+                  let cleanPhone = String(sub.phone || "").replace(/[^\d+]/g, "")
+                  if (cleanPhone.startsWith("0")) cleanPhone = "212" + cleanPhone.substring(1)
+                  else if (cleanPhone.startsWith("+")) cleanPhone = cleanPhone.substring(1)
+                  else if (!cleanPhone.startsWith("212") && cleanPhone.length === 9) cleanPhone = "212" + cleanPhone
+
+                  const waMessage = encodeURIComponent(
+                    `Bonjour ${sub.name},\n\nNous faisons suite à votre demande de devis sur ORSAP Maroc (Réf: ${sub.id}).\n\nNous restons à votre entière disposition pour vous transmettre notre meilleure offre de prix.\n\nL'équipe ORSAP Maroc\nhttps://orsap.ma`
+                  )
+                  const waUrl = `https://wa.me/${cleanPhone}?text=${waMessage}`
+                  const mailtoUrl = `mailto:${sub.email}?subject=${encodeURIComponent(`Votre demande de devis [${sub.id}] — ORSAP Maroc`)}`
+
+                  return (
+                    <div
+                      key={sub.id}
+                      className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 hover:border-slate-700 transition flex flex-col justify-between shadow-lg"
+                    >
+                      {/* Top Header Row */}
+                      <div className="flex flex-wrap items-start justify-between gap-3 pb-3 border-b border-slate-800/80">
+                        <div className="flex items-center gap-2.5 flex-wrap">
+                          <span className="font-mono text-xs font-bold text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded border border-cyan-500/30">
+                            Réf: {sub.id}
+                          </span>
+                          <span className="text-xs font-bold uppercase tracking-wider text-slate-300 bg-slate-800 px-2.5 py-1 rounded border border-slate-700">
+                            {sub.clientType === "professional" ? "🏢 Entreprise / Pro" : "👤 Particulier"}
+                          </span>
+                          {sub.company && (
+                            <span className="text-xs font-semibold text-amber-400 bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30">
+                              {sub.company}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="text-xs text-slate-400 flex items-center gap-1.5">
+                          <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <span>{new Date(sub.createdAt).toLocaleString("fr-FR")}</span>
+                        </div>
                       </div>
 
-                      <h3 className="text-base font-bold text-white">
-                        {sub.company ? `${sub.company} (${sub.name})` : sub.name}
-                      </h3>
+                      {/* Contact Info & Metadata Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-slate-950/50 p-3.5 rounded-xl border border-slate-800/60 text-xs">
+                        <div>
+                          <div className="text-slate-500 font-semibold text-[11px] uppercase">Nom du demandeur</div>
+                          <div className="font-bold text-white text-sm mt-0.5">{sub.name}</div>
+                        </div>
 
-                      <div className="text-xs text-slate-400 space-y-1 mt-2">
-                        {sub.email && <div>✉️ <a href={`mailto:${sub.email}`} className="text-cyan-400 hover:underline">{sub.email}</a></div>}
-                        {sub.phone && <div>📞 <a href={`tel:${sub.phone}`} className="text-cyan-400 hover:underline">{sub.phone}</a></div>}
-                      </div>
-
-                      {sub.solutions && sub.solutions.length > 0 && (
-                        <div className="mt-3">
-                          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Solutions demandées:</div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {sub.solutions.map((sol, idx) => (
-                              <span key={idx} className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md border border-slate-700">
-                                {sol}
-                              </span>
-                            ))}
+                        <div>
+                          <div className="text-slate-500 font-semibold text-[11px] uppercase">Téléphone</div>
+                          <div className="mt-0.5">
+                            {sub.phone ? (
+                              <a href={`tel:${sub.phone}`} className="text-cyan-400 font-bold hover:underline">
+                                📞 {sub.phone}
+                              </a>
+                            ) : (
+                              <span className="text-slate-500">Non renseigné</span>
+                            )}
                           </div>
                         </div>
-                      )}
 
-                      {sub.message && (
-                        <div className="mt-3 p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-xs text-slate-300 leading-relaxed">
-                          "{sub.message}"
+                        <div>
+                          <div className="text-slate-500 font-semibold text-[11px] uppercase">Adresse Email</div>
+                          <div className="mt-0.5 truncate">
+                            {sub.email ? (
+                              <a href={`mailto:${sub.email}`} className="text-cyan-400 font-medium hover:underline truncate block" title={sub.email}>
+                                ✉️ {sub.email}
+                              </a>
+                            ) : (
+                              <span className="text-slate-500">Non renseigné</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="text-slate-500 font-semibold text-[11px] uppercase">Société / Raison sociale</div>
+                          <div className="font-medium text-slate-200 mt-0.5">{sub.company || "—"}</div>
+                        </div>
+                      </div>
+
+                      {/* Solutions & Sectors Tags */}
+                      {((sub.solutions && sub.solutions.length > 0) || (sub.sectors && sub.sectors.length > 0)) && (
+                        <div className="space-y-2 pt-1">
+                          {sub.solutions && sub.solutions.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">
+                                Solutions demandées :
+                              </span>
+                              {sub.solutions.map((sol, idx) => (
+                                <span key={idx} className="text-xs bg-slate-800 text-cyan-300 font-medium px-2.5 py-0.5 rounded-md border border-cyan-500/20">
+                                  {sol}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {sub.sectors && sub.sectors.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">
+                                Secteur d'activité :
+                              </span>
+                              {sub.sectors.map((sec, idx) => (
+                                <span key={idx} className="text-xs bg-slate-800/80 text-amber-300 font-medium px-2.5 py-0.5 rounded-md border border-amber-500/20">
+                                  {sec}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
+
+                      {/* ── FULL TEXT DEVIS MESSAGE (NO CUTOFF / NO TRUNCATION) ── */}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-bold text-slate-300 flex items-center gap-1.5 uppercase tracking-wider text-[11px]">
+                            <svg className="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                            </svg>
+                            <span>Texte intégral de la demande de devis :</span>
+                          </span>
+
+                          {sub.message && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(sub.message || "")
+                                showNotification("Texte du devis copié dans le presse-papier !")
+                              }}
+                              className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1 hover:underline"
+                            >
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              <span>Copier le texte</span>
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-100 leading-relaxed whitespace-pre-wrap break-words font-normal selection:bg-cyan-500 selection:text-black">
+                          {sub.message ? sub.message : <span className="text-slate-500 italic">Aucun message particulier joint.</span>}
+                        </div>
+                      </div>
+
+                      {/* Bottom Action Bar */}
+                      <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                        {/* Quick 1-Click Contacts */}
+                        <div className="flex flex-wrap items-center gap-2">
+                          {sub.phone && (
+                            <a
+                              href={waUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-emerald-950/40"
+                            >
+                              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.97.53 1.961.815 2.796.815 3.183 0 5.769-2.587 5.77-5.767 0-3.18-2.587-5.801-5.77-5.801zm3.385 8.163c-.144.405-.837.774-1.17.822-.312.043-.683.056-1.921-.462-1.464-.61-2.42-2.079-2.493-2.179-.074-.098-.592-.787-.592-1.501 0-.713.374-1.066.508-1.21.134-.145.293-.181.391-.181.098 0 .195.001.28.005.09.004.21.034.32.298.113.272.391.954.425 1.025.034.072.057.155.008.252-.049.098-.073.159-.146.244-.073.085-.153.19-.219.255-.073.072-.15.15-.064.297.086.146.38 6.27.815 1.009.562.499 1.036.654 1.182.727.147.073.232.061.317-.037.086-.098.366-.427.464-.573.098-.146.195-.122.329-.073.134.049.854.402 1.001.475.146.073.244.11.28.17.037.061.037.354-.107.759z" />
+                              </svg>
+                              <span>WhatsApp</span>
+                            </a>
+                          )}
+
+                          {sub.phone && (
+                            <a
+                              href={`tel:${sub.phone}`}
+                              className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-cyan-950/40"
+                            >
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                              </svg>
+                              <span>Appeler</span>
+                            </a>
+                          )}
+
+                          {sub.email && (
+                            <a
+                              href={mailtoUrl}
+                              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition flex items-center gap-1.5 border border-slate-700"
+                            >
+                              <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              <span>Email</span>
+                            </a>
+                          )}
+                        </div>
+
+                        {/* Management Tools */}
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedSubmission(sub)}
+                            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700"
+                            title="Ouvrir dans une fenêtre grand format"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                            </svg>
+                            <span>Plein Écran</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => printSubmission(sub)}
+                            title="Imprimer ou enregistrer en PDF"
+                            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition flex items-center justify-center border border-slate-700"
+                          >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                            </svg>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => deleteSubmissionItem(sub.id)}
+                            className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold transition border border-red-500/20"
+                          >
+                            Supprimer
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* ── MODAL FULL VIEW FOR DEVIS EXPRESS ── */}
+            {selectedSubmission && (
+              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-in fade-in zoom-in-95">
+                  {/* Modal Header */}
+                  <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+                          Réf: {selectedSubmission.id}
+                        </span>
+                        <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                          {selectedSubmission.clientType === "professional" ? "🏢 Entreprise" : "👤 Particulier"}
+                        </span>
+                      </div>
+                      <h3 className="font-bold text-lg text-white mt-1">
+                        {selectedSubmission.company ? `${selectedSubmission.company} — ` : ""}{selectedSubmission.name}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        Reçu le {new Date(selectedSubmission.createdAt).toLocaleString("fr-FR")}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedSubmission(null)}
+                      className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Modal Body */}
+                  <div className="flex-1 overflow-y-auto p-6 space-y-5">
+                    {/* Contact Details Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                      <div>
+                        <div className="text-xs text-slate-500 font-semibold uppercase">Nom du demandeur</div>
+                        <div className="text-sm font-bold text-white mt-0.5">{selectedSubmission.name}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-semibold uppercase">Société / Raison Sociale</div>
+                        <div className="text-sm font-bold text-white mt-0.5">{selectedSubmission.company || "—"}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-semibold uppercase">Téléphone</div>
+                        <div className="text-sm font-bold text-cyan-400 mt-0.5">
+                          {selectedSubmission.phone ? <a href={`tel:${selectedSubmission.phone}`} className="hover:underline">{selectedSubmission.phone}</a> : "Non renseigné"}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-semibold uppercase">Email</div>
+                        <div className="text-sm font-bold text-cyan-400 mt-0.5">
+                          {selectedSubmission.email ? <a href={`mailto:${selectedSubmission.email}`} className="hover:underline">{selectedSubmission.email}</a> : "Non renseigné"}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="pt-4 border-t border-slate-800/80 flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => deleteSubmissionItem(sub.id)}
-                        className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold transition border border-red-500/20"
-                      >
-                        Supprimer
-                      </button>
+                    {/* Solutions & Sectors */}
+                    {((selectedSubmission.solutions && selectedSubmission.solutions.length > 0) || (selectedSubmission.sectors && selectedSubmission.sectors.length > 0)) && (
+                      <div className="space-y-3 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                        {selectedSubmission.solutions && selectedSubmission.solutions.length > 0 && (
+                          <div>
+                            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Solutions demandées :</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {selectedSubmission.solutions.map((sol, idx) => (
+                                <span key={idx} className="text-xs bg-slate-800 text-cyan-300 font-medium px-2.5 py-1 rounded border border-cyan-500/30">
+                                  {sol}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedSubmission.sectors && selectedSubmission.sectors.length > 0 && (
+                          <div>
+                            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Secteur d'activité :</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {selectedSubmission.sectors.map((sec, idx) => (
+                                <span key={idx} className="text-xs bg-slate-800 text-amber-300 font-medium px-2.5 py-1 rounded border border-amber-500/30">
+                                  {sec}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Full Text View */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          📄 Texte complet &amp; Cahier des charges :
+                        </span>
+                        {selectedSubmission.message && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(selectedSubmission.message || "")
+                              showNotification("Texte du devis copié !")
+                            }}
+                            className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold hover:underline"
+                          >
+                            Copier le texte
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-100 leading-relaxed whitespace-pre-wrap break-words select-text">
+                        {selectedSubmission.message || "Aucun message particulier joint."}
+                      </div>
                     </div>
                   </div>
-                ))}
+
+                  {/* Modal Footer */}
+                  <div className="p-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900">
+                    <button
+                      type="button"
+                      onClick={() => printSubmission(selectedSubmission)}
+                      className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                      </svg>
+                      <span>Imprimer / PDF</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedSubmission(null)}
+                      className="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition"
+                    >
+                      Fermer
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
