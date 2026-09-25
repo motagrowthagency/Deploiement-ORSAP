@@ -519,3 +519,191 @@ export async function sendCrmActiveCartAlert({ user, items, totalHt, totalTtc })
   return { success: true, mocked: true }
 }
 
+/**
+ * Send corporate acknowledgment confirmation email to customer for quote / devis request
+ */
+export async function sendDevisCustomerConfirmationEmail(entry, toOverride = null) {
+  const to = toOverride || entry.email
+  if (!to) {
+    return { success: false, error: "No recipient email" }
+  }
+
+  const isPro = entry.clientType === "professional"
+  const name = entry.name || "Madame, Monsieur"
+  const company = entry.company || ""
+  const phone = entry.phone || "—"
+  const email = entry.email || "—"
+  const message = entry.message || "Demande d'information et offre tarifaire."
+  const devisId = entry.id || `DEV-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`
+  
+  const solutions = Array.isArray(entry.solutions) && entry.solutions.length > 0 
+    ? entry.solutions.join(", ") 
+    : "Travail en hauteur / Équipements Pro"
+
+  const sectors = Array.isArray(entry.sectors) && entry.sectors.length > 0 
+    ? entry.sectors.join(", ") 
+    : "—"
+
+  const waText = encodeURIComponent(`Bonjour, je vous contacte concernant ma demande de devis n° ${devisId} pour ${company || name}`)
+  const waUrl = `https://wa.me/212644203030?text=${waText}`
+
+  const subject = `Confirmation de réception de votre demande de devis [${devisId}] — ORSAP Maroc`
+
+  const html = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation de demande de devis - ORSAP</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 0; color: #1e293b; line-height: 1.6; }
+    .wrapper { width: 100%; max-width: 640px; margin: 30px auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+    .top-bar { height: 5px; background: linear-gradient(90deg, #d3121a 0%, #b91c1c 100%); }
+    .header { background-color: #14171a; padding: 32px 30px; text-align: center; color: #ffffff; }
+    .header h1 { margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff; }
+    .header .subtitle { margin: 6px 0 0 0; font-size: 12px; color: #e2e8f0; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+    .hero-badge { display: inline-block; background-color: #d3121a; color: #ffffff; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 16px; }
+    
+    .body-content { padding: 36px 32px; }
+    .greeting { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px; }
+    .intro-text { font-size: 15px; color: #475569; margin-bottom: 24px; line-height: 1.6; }
+    
+    .card-recap { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #d3121a; border-radius: 8px; padding: 22px; margin-bottom: 28px; }
+    .card-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+    .card-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .card-table td { padding: 6px 0; vertical-align: top; }
+    .card-label { width: 150px; font-weight: 600; color: #64748b; }
+    .card-value { color: #0f172a; font-weight: 700; }
+    
+    .demande-box { background-color: #ffffff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 14px 16px; margin-top: 12px; font-size: 14px; color: #1e293b; font-weight: 600; line-height: 1.5; white-space: pre-wrap; }
+    
+    .timeline { margin: 28px 0; background: #ffffff; border-radius: 8px; border: 1px solid #f1f5f9; padding: 20px 22px; }
+    .timeline-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #0f172a; margin-bottom: 14px; }
+    .timeline-step { display: flex; align-items: flex-start; margin-bottom: 14px; font-size: 13.5px; }
+    .timeline-step:last-child { margin-bottom: 0; }
+    .step-icon { width: 26px; height: 26px; background-color: #fee2e2; color: #d3121a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; margin-right: 12px; flex-shrink: 0; }
+    .step-text { color: #334155; }
+    .step-text strong { color: #0f172a; }
+    
+    .cta-container { text-align: center; margin: 32px 0 20px 0; }
+    .btn-wa { display: inline-block; background-color: #25d366; color: #ffffff !important; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 12px rgba(37,211,102,0.3); margin: 6px; }
+    .btn-phone { display: inline-block; background-color: #14171a; color: #ffffff !important; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; margin: 6px; }
+    
+    .footer { background-color: #fafbfc; border-top: 1px solid #e2e8f0; padding: 26px 30px; text-align: center; font-size: 12px; color: #64748b; line-height: 1.7; }
+    .footer-links a { color: #d3121a; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="top-bar"></div>
+    <div class="header">
+      <h1>ORSAP MAROC</h1>
+      <div class="subtitle">Fournitures Industrielles, Quincaillerie &amp; Équipements Pro</div>
+      <div><span class="hero-badge">Demande de devis enregistrée</span></div>
+    </div>
+    <div class="body-content">
+      <div class="greeting">Bonjour ${name},</div>
+      <p class="intro-text">
+        Nous vous confirmons la bonne réception de votre demande de devis sur notre plateforme <strong>ORSAP Maroc</strong>. Notre équipe commerciale et nos spécialistes techniques sont d'ores et déjà mobilisés pour analyser vos spécifications techniques et vous transmettre notre meilleure proposition.
+      </p>
+
+      <div class="card-recap">
+        <div class="card-title">📋 Récapitulatif de votre demande — Réf : ${devisId}</div>
+        <table class="card-table">
+          <tr>
+            <td class="card-label">Entreprise :</td>
+            <td class="card-value">${company || "—"}</td>
+          </tr>
+          <tr>
+            <td class="card-label">Interlocuteur :</td>
+            <td class="card-value">${name}</td>
+          </tr>
+          <tr>
+            <td class="card-label">Téléphone direct :</td>
+            <td class="card-value">${phone}</td>
+          </tr>
+          <tr>
+            <td class="card-label">Email :</td>
+            <td class="card-value">${email}</td>
+          </tr>
+          <tr>
+            <td class="card-label">Domaine / Solution :</td>
+            <td class="card-value">${solutions}</td>
+          </tr>
+          <tr>
+            <td class="card-label">Secteur(s) :</td>
+            <td class="card-value">${sectors}</td>
+          </tr>
+        </table>
+        
+        <div style="margin-top: 14px;">
+          <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Détail de votre besoin / Spécifications :</span>
+          <div class="demande-box">${message}</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-title">⚡ Prochaines étapes de traitement de votre dossier :</div>
+        <div class="timeline-step">
+          <div class="step-icon">1</div>
+          <div class="step-text"><strong>Étude technique &amp; dimensionnement</strong> : Nos experts vérifient la conformité aux normes (sécurité, charge utile, hauteur de travail) et les accessoires recommandés.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-icon">2</div>
+          <div class="step-text"><strong>Offre chiffrée sous 24h</strong> : Vous recevrez par email et WhatsApp notre devis pro formalisé avec nos meilleurs tarifs préférentiels.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-icon">3</div>
+          <div class="step-text"><strong>Expédition rapide</strong> : Livraison sécurisée partout au Maroc et assistance à la mise en service.</div>
+        </div>
+      </div>
+
+      <div style="background-color: #f1f5f9; border-radius: 8px; padding: 18px; text-align: center; margin-top: 24px;">
+        <p style="margin: 0 0 12px 0; font-size: 13.5px; font-weight: 700; color: #1e293b;">
+          Besoin d'une réponse urgente ou d'un conseil immédiat ?
+        </p>
+        <div>
+          <a href="${waUrl}" class="btn-wa" target="_blank">💬 Échanger sur WhatsApp</a>
+          <a href="tel:+212644203030" class="btn-phone">📞 +212 6 44 20 30 30</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p style="margin: 0 0 8px 0; font-weight: 700; color: #14171a;">ORSAP MAROC — Importateur &amp; Distributeur Équipements Professionnels</p>
+      <p style="margin: 0 0 12px 0;">Casablanca, Maroc · Service Commercial : <a href="tel:+212644203030" style="color:#d3121a; text-decoration:none;">+212 6 44 20 30 30</a> · <a href="mailto:orsap@orsap.ma" style="color:#d3121a; text-decoration:none;">orsap@orsap.ma</a></p>
+      <div class="footer-links">
+        <a href="https://orsap.ma" target="_blank">Visiter notre catalogue en ligne : orsap.ma</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+`
+
+  console.log(`\n📬 ═════════════════════════════════════════════════════`)
+  console.log(`✉️  CONFIRMATION DE DEVIS ENVOYÉE AU CLIENT : ${to}`)
+  console.log(`📋  Dossier : ${devisId} (${name} - ${company})`)
+  console.log(`═════════════════════════════════════════════════════\n`)
+
+  if (transporter) {
+    try {
+      const info = await transporter.sendMail({
+        from: SMTP_FROM,
+        to,
+        subject,
+        html,
+      })
+      console.log(`✅ Email envoyé avec succès à ${to} (MessageId: ${info.messageId})`)
+      return { success: true, messageId: info.messageId }
+    } catch (err) {
+      console.error(`❌ Échec d'envoi confirmation client à ${to}:`, err.message)
+      return { success: false, error: err.message }
+    }
+  }
+
+  return { success: true, mocked: true, html }
+}
+
+

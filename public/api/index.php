@@ -666,7 +666,72 @@ if ($uri === '/api/devis' || $uri === '/api/devis/') {
 
         saveSubmissionEntry($entry);
         @sendDevisNotificationEmail($entry);
+        if (!empty($entry['email'])) {
+            @sendDevisCustomerConfirmationEmailPHP($entry);
+        }
         sendJson(['success' => true, 'id' => $id], 201);
+    }
+}
+
+// ── Send / Resend Devis Confirmation Email ──
+if ($uri === '/api/devis/send-confirmation' || $uri === '/api/devis/send-confirmation/') {
+    if ($method === 'POST') {
+        $body = getJsonBody();
+        $targetEmail = trim($body['targetEmail'] ?? $body['email'] ?? '');
+        $entry = $body['entry'] ?? null;
+        $devisId = trim($body['devisId'] ?? '');
+
+        if (!$entry && $devisId) {
+            $subs = readJsonFile('submissions.json');
+            foreach ($subs as $s) {
+                if (($s['id'] ?? '') === $devisId) {
+                    $entry = $s;
+                    break;
+                }
+            }
+            if (!$entry && $pdo) {
+                try {
+                    $stmt = $pdo->prepare("SELECT * FROM `submissions` WHERE `id` = :id LIMIT 1");
+                    $stmt->execute([':id' => $devisId]);
+                    $row = $stmt->fetch();
+                    if ($row) {
+                        $entry = [
+                            'id' => $row['id'],
+                            'name' => $row['name'],
+                            'company' => $row['company'],
+                            'phone' => $row['phone'],
+                            'email' => $row['email'],
+                            'clientType' => $row['client_type'] ?? 'professional',
+                            'solutions' => !empty($row['solutions']) ? (is_array($row['solutions']) ? $row['solutions'] : json_decode($row['solutions'], true)) : [],
+                            'sectors' => !empty($row['sectors']) ? (is_array($row['sectors']) ? $row['sectors'] : json_decode($row['sectors'], true)) : [],
+                            'message' => $row['message'],
+                        ];
+                    }
+                } catch (Exception $e) {}
+            }
+        }
+
+        if (!$entry) {
+            $entry = [
+                'id' => $devisId ?: 'DEV-' . date('Ymd') . '-DEMO',
+                'name' => $body['name'] ?? 'Client',
+                'company' => $body['company'] ?? '',
+                'phone' => $body['phone'] ?? '',
+                'email' => $targetEmail,
+                'clientType' => $body['clientType'] ?? 'professional',
+                'solutions' => $body['solutions'] ?? ['TRAVAIL EN HAUTEUR'],
+                'sectors' => $body['sectors'] ?? ['FACILITY MANAGEMENT', 'INDUSTRIE'],
+                'message' => $body['message'] ?? '',
+            ];
+        }
+
+        $res = sendDevisCustomerConfirmationEmailPHP($entry, $targetEmail ?: null);
+        sendJson([
+            'success' => true,
+            'recipient' => $targetEmail ?: ($entry['email'] ?? ''),
+            'devisId' => $entry['id'] ?? '',
+            'result' => $res
+        ]);
     }
 }
 
