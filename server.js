@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url"
 import { randomBytes } from "node:crypto"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { sendVerificationEmail, sendPasswordResetEmail, sendCatalogueDevisEmails, sendCrmActiveCartAlert } from "./server/email.js"
+import { sendVerificationEmail, sendPasswordResetEmail, sendCatalogueDevisEmails, sendCrmActiveCartAlert, sendDevisCustomerConfirmationEmail } from "./server/email.js"
 import {
   initDatabase,
   loadSubmissions,
@@ -743,6 +743,15 @@ app.post("/api/devis", submissionLimiter, async (req, res) => {
 
   await addSubmission(entry)
   console.log(`✅  New submission from ${name} (${clientType})`)
+
+  if (entry.email) {
+    try {
+      await sendDevisCustomerConfirmationEmail(entry)
+    } catch (err) {
+      console.error("⚠️ Failed to send customer devis confirmation email:", err.message)
+    }
+  }
+
   return res.status(201).json({ success: true, id: entry.id })
 })
 
