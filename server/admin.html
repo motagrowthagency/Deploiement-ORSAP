@@ -119,9 +119,9 @@
     .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
     .badge.pro { background: #fee2e2; color: #991b1b; }
     .badge.perso { background: #e2e8f0; color: #334155; }
-    .date-badge { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-muted); }
-    
-    .msg { max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
+    .msg { color: var(--text); font-size: 13px; line-height: 1.5; word-break: break-word; }
+    .msg-preview { max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .msg-preview:hover { color: var(--primary); text-decoration: underline; }
     .empty { text-align: center; padding: 60px 24px; color: var(--text-muted); font-size: 14.5px; }
   </style>
 </head>
@@ -316,6 +316,20 @@
           bulkBtn.disabled = false;
           bulkBtn.innerHTML = origHtml;
         }
+      }
+    }
+
+    // Toggle express devis details row
+    function toggleSubmissionDetails(id) {
+      const detailsRow = document.getElementById("details-devis-" + id);
+      const btn = document.getElementById("toggle-btn-devis-" + id);
+      if (!detailsRow) return;
+      if (detailsRow.style.display === "none" || !detailsRow.style.display) {
+        detailsRow.style.display = "table-row";
+        if (btn) btn.innerHTML = "▲ Réduire";
+      } else {
+        detailsRow.style.display = "none";
+        if (btn) btn.innerHTML = "▼ Déplier";
       }
     }
 

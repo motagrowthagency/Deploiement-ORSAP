@@ -293,7 +293,18 @@ foreach ($submissions as $s) {
     $clientBadgeLabel = $isPro ? 'Pro' : 'Particulier';
     $clientName = esc($s['name'] ?? '—');
     $clientCompany = esc($s['company'] ?? '—');
-    $clientMsg = esc($s['message'] ?? '—');
+    $clientMsg = esc($s['message'] ?? 'Aucun message particulier.');
+
+    // WhatsApp clean phone
+    $cleanPhone = preg_replace('/[^\d+]/', '', (string)$phone);
+    if (strpos($cleanPhone, '0') === 0) {
+        $cleanPhone = '212' . substr($cleanPhone, 1);
+    } elseif (strpos($cleanPhone, '+') === 0) {
+        $cleanPhone = substr($cleanPhone, 1);
+    } elseif (strpos($cleanPhone, '212') !== 0 && strlen($cleanPhone) === 9) {
+        $cleanPhone = '212' . $cleanPhone;
+    }
+    $waUrl = !empty($cleanPhone) ? 'https://wa.me/' . $cleanPhone . '?text=' . rawurlencode("Bonjour " . ($s['name'] ?? 'Client') . ",\n\nNous faisons suite à votre demande de devis sur ORSAP Maroc.\n\nL'équipe ORSAP\nhttps://orsap.ma") : '';
 
     $devisRows .= '
     <tr id="row-' . $id . '">
@@ -306,7 +317,38 @@ foreach ($submissions as $s) {
       <td>' . $phoneHtml . '</td>
       <td>' . $solHtml . '</td>
       <td>' . $secHtml . '</td>
-      <td class="msg">' . $clientMsg . '</td>
+      <td>
+        <div class="msg-preview" onclick="toggleSubmissionDetails(\'' . $id . '\')" title="Cliquer pour déplier l\'intégralité du devis">
+          ' . $clientMsg . '
+        </div>
+      </td>
+      <td>
+        <button type="button" id="toggle-btn-devis-' . $id . '" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:11px; white-space:nowrap; padding:5px 10px;" onclick="toggleSubmissionDetails(\'' . $id . '\')">
+          ▼ Déplier
+        </button>
+      </td>
+    </tr>
+    <tr id="details-devis-' . $id . '" style="display: none; background: #f8fafc;">
+      <td colspan="11" style="padding: 16px 24px; border-bottom: 2px solid #e2e8f0;">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
+            <div>
+              <span style="font-weight: 800; font-size: 15px; color: #1e293b;">Demande de Devis Express</span>
+              <span class="badge ' . $clientBadgeClass . '" style="margin-left: 8px;">' . $clientBadgeLabel . '</span>
+              <span style="font-size: 13px; color: #64748b; margin-left: 10px;">Demandeur: <strong style="color:#0f172a;">' . $clientName . '</strong>' . ($clientCompany !== '—' ? ' — Société: <strong style="color:#0f172a;">' . $clientCompany . '</strong>' : '') . '</span>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              ' . (!empty($waUrl) ? '<a href="' . $waUrl . '" target="_blank" class="view-link" style="background:#22c55e; color:#fff; border-color:#22c55e; font-weight:700;">WhatsApp</a>' : '') . '
+              ' . (!empty($phone) ? '<a href="tel:' . esc($phone) . '" class="view-link" style="background:#0284c7; color:#fff; border-color:#0284c7; font-weight:700;">Appeler (' . esc($phone) . ')</a>' : '') . '
+              ' . (!empty($email) ? '<a href="mailto:' . esc($email) . '" class="view-link" style="font-weight:600;">Email</a>' : '') . '
+            </div>
+          </div>
+          <div style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
+            📄 Texte intégral &amp; Détails du devis :
+          </div>
+          <div style="background: #f8fafc; border-left: 4px solid #d3121a; padding: 16px 20px; border-radius: 6px; font-size: 14px; line-height: 1.65; color: #0f172a; white-space: pre-wrap; word-break: break-word; font-family: inherit;">' . $clientMsg . '</div>
+        </div>
+      </td>
     </tr>';
 }
 
@@ -448,6 +490,7 @@ if ($tab === 'devis') {
               <th>Solutions souhaitées</th>
               <th>Secteurs d\'activité</th>
               <th>Message</th>
+              <th class="actions-col" style="width: 110px;">Détails</th>
             </tr>
           </thead>
           <tbody>' . $devisRows . '</tbody>

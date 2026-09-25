@@ -1636,8 +1636,12 @@ app.get("/admin", async (req, res) => {
 
   // Generate rows for devis
   const devisRows = submissions
-    .map(
-      (s) => `
+    .map((s) => {
+      const cleanPhone = String(s.phone || "").replace(/[^\d+]/g, "")
+      const formattedWa = cleanPhone.startsWith("0") ? "212" + cleanPhone.slice(1) : cleanPhone.startsWith("+") ? cleanPhone.slice(1) : (!cleanPhone.startsWith("212") && cleanPhone.length === 9) ? "212" + cleanPhone : cleanPhone
+      const waUrl = formattedWa ? `https://wa.me/${formattedWa}?text=${encodeURIComponent(`Bonjour ${s.name},\n\nNous faisons suite à votre demande de devis sur ORSAP Maroc.\n\nL'équipe ORSAP\nhttps://orsap.ma`)}` : ""
+
+      return `
     <tr id="row-${s.id}">
       <td class="chk-cell"><input type="checkbox" class="row-chk chk-devis" value="${s.id}" onchange="onRowCheck('devis')"></td>
       <td class="date-badge">${
@@ -1680,9 +1684,40 @@ app.get("/admin", async (req, res) => {
             : "—"
         }
       </td>
-      <td class="msg">${esc(s.message || "—")}</td>
+      <td>
+        <div class="msg-preview" onclick="toggleSubmissionDetails('${s.id}')" title="Cliquer pour déplier l'intégralité du devis">
+          ${esc(s.message || "Aucun message particulier.")}
+        </div>
+      </td>
+      <td>
+        <button type="button" id="toggle-btn-devis-${s.id}" class="view-link" style="cursor:pointer; background:#1e293b; color:#fff; border-color:#1e293b; font-size:11px; white-space:nowrap; padding:5px 10px;" onclick="toggleSubmissionDetails('${s.id}')">
+          ▼ Déplier
+        </button>
+      </td>
+    </tr>
+    <tr id="details-devis-${s.id}" style="display: none; background: #f8fafc;">
+      <td colspan="11" style="padding: 16px 24px; border-bottom: 2px solid #e2e8f0;">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
+            <div>
+              <span style="font-weight: 800; font-size: 15px; color: #1e293b;">Demande de Devis Express</span>
+              <span class="badge ${s.clientType === "professional" ? "pro" : "perso"}" style="margin-left: 8px;">${s.clientType === "professional" ? "Pro" : "Particulier"}</span>
+              <span style="font-size: 13px; color: #64748b; margin-left: 10px;">Demandeur: <strong style="color:#0f172a;">${esc(s.name)}</strong>${s.company ? ` — Société: <strong style="color:#0f172a;">${esc(s.company)}</strong>` : ""}</span>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              ${waUrl ? `<a href="${waUrl}" target="_blank" class="view-link" style="background:#22c55e; color:#fff; border-color:#22c55e; font-weight:700;">WhatsApp</a>` : ""}
+              ${s.phone ? `<a href="tel:${esc(s.phone)}" class="view-link" style="background:#0284c7; color:#fff; border-color:#0284c7; font-weight:700;">Appeler (${esc(s.phone)})</a>` : ""}
+              ${s.email ? `<a href="mailto:${esc(s.email)}" class="view-link" style="font-weight:600;">Email</a>` : ""}
+            </div>
+          </div>
+          <div style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
+            📄 Texte intégral &amp; Détails du devis :
+          </div>
+          <div style="background: #f8fafc; border-left: 4px solid #d3121a; padding: 16px 20px; border-radius: 6px; font-size: 14px; line-height: 1.65; color: #0f172a; white-space: pre-wrap; word-break: break-word; font-family: inherit;">${esc(s.message || "Aucun message particulier.")}</div>
+        </div>
+      </td>
     </tr>`
-    )
+    })
     .join("")
 
   // Generate rows for blogs
@@ -1767,6 +1802,7 @@ app.get("/admin", async (req, res) => {
                 <th>Solutions souhaitées</th>
                 <th>Secteurs d\'activité</th>
                 <th>Message</th>
+                <th class="actions-col" style="width: 110px;">Détails</th>
               </tr>
             </thead>
             <tbody>${devisRows}</tbody>
