@@ -1,10 +1,72 @@
+import { useState, useEffect, useCallback } from "react"
 import { Link } from "react-router"
-import heroPhoto from "@/imports/Hero_Acceuil.jpeg"
+import heroPhoto1 from "@/imports/Hero_Acceuil.jpeg"
+import heroPhoto2 from "@/imports/hero_slide_1.jpg"
+import heroPhoto3 from "@/imports/hero_slide_2.jpg"
+import heroPhoto4 from "@/imports/hero_slide_3.jpg"
+import heroPhoto5 from "@/imports/hero_slide_4.jpg"
+import heroPhoto6 from "@/imports/hero_slide_5.jpg"
 import logoButec from "@/imports/logo_butec.svg"
 import SEO from "@/components/SEO"
 import { trackCtaClick } from "@/utils/analytics"
 
+const heroSlides = [
+  {
+    src: heroPhoto1,
+    alt: "Technicien ORSAP en équipement de protection dans une installation industrielle",
+    position: "object-[72%_center] lg:object-center",
+  },
+  {
+    src: heroPhoto2,
+    alt: "Ouvriers et techniciens du BTP équipés d'EPI et casques de sécurité",
+    position: "object-center",
+  },
+  {
+    src: heroPhoto3,
+    alt: "Grues et équipements pour le travail en hauteur sécurisé",
+    position: "object-center",
+  },
+  {
+    src: heroPhoto4,
+    alt: "Superviseurs de chantier et responsables QHSE sur le terrain",
+    position: "object-center",
+  },
+  {
+    src: heroPhoto5,
+    alt: "Grand chantier de construction et aménagement industriel",
+    position: "object-center",
+  },
+  {
+    src: heroPhoto6,
+    alt: "Structure de bâtiment industriel en cours de construction",
+    position: "object-center",
+  },
+]
+
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+  }, [])
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
+  }, [])
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+  }
+
+  useEffect(() => {
+    if (isPaused) return
+    const timer = setInterval(() => {
+      nextSlide()
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [isPaused, nextSlide])
+
   return (
     <>
       <SEO
@@ -22,17 +84,44 @@ export default function Home() {
         ]}
       />
 
-      {/* Hero */}
-      <section className="relative min-h-[calc(100svh-118px)] w-full overflow-hidden bg-ink">
-        <img
-          src={heroPhoto}
-          alt="Technicien ORSAP en équipement de protection dans une installation industrielle"
-          className="absolute inset-0 h-full w-full object-cover object-[72%_center] lg:object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/55 to-ink/10" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink/80 to-transparent" />
+      {/* Hero Slideshow */}
+      <section
+        className="group relative min-h-[calc(100svh-118px)] w-full overflow-hidden bg-ink select-none"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        aria-label="Diaporama d'accueil"
+      >
+        {/* Slides Images */}
+        <div className="absolute inset-0">
+          {heroSlides.map((slide, index) => {
+            const isActive = index === currentSlide
+            return (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                }`}
+                aria-hidden={!isActive}
+              >
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  className={`h-full w-full object-cover ${slide.position} transition-transform duration-7000 ease-out ${
+                    isActive ? "scale-105" : "scale-100"
+                  }`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+            )
+          })}
+        </div>
 
-        <div className="relative mx-auto flex min-h-[calc(100svh-118px)] max-w-[1240px] flex-col justify-center px-6 py-16 text-paper">
+        {/* Gradients Overlay */}
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-ink/95 via-ink/65 to-ink/20 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 z-20 h-44 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent pointer-events-none" />
+
+        {/* Hero Content */}
+        <div className="relative z-30 mx-auto flex min-h-[calc(100svh-118px)] max-w-[1240px] flex-col justify-center px-6 py-16 text-paper">
           <div className="mb-7 flex items-center gap-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-safety">
             <span className="h-px w-8 bg-safety" />
             Solution B2B industrielle
@@ -52,18 +141,61 @@ export default function Home() {
             <Link
               to="/devis"
               onClick={() => trackCtaClick("Demander un devis", "/devis", "hero_home")}
-              className="inline-flex items-center justify-center bg-orsap-red px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep"
+              className="inline-flex items-center justify-center bg-orsap-red px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-orsap-red-deep shadow-lg"
             >
               Demander un devis
             </Link>
             <Link
               to="/solutions"
               onClick={() => trackCtaClick("Découvrir nos solutions", "/solutions", "hero_home")}
-              className="inline-flex items-center justify-center border border-white/70 px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-white hover:text-ink"
+              className="inline-flex items-center justify-center border border-white/70 px-7 py-4 font-display text-[14px] font-bold uppercase tracking-[0.04em] text-white backdrop-blur-xs transition-colors hover:bg-white hover:text-ink"
             >
               Découvrir nos solutions
             </Link>
           </div>
+        </div>
+
+        {/* Navigation Arrows */}
+        <button
+          type="button"
+          onClick={prevSlide}
+          aria-label="Image précédente"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 hidden sm:flex h-11 w-11 items-center justify-center rounded-full bg-ink/40 text-white/80 backdrop-blur-sm border border-white/15 transition-all duration-200 hover:bg-ink/80 hover:text-white hover:scale-110 opacity-70 group-hover:opacity-100"
+        >
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Image suivante"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 hidden sm:flex h-11 w-11 items-center justify-center rounded-full bg-ink/40 text-white/80 backdrop-blur-sm border border-white/15 transition-all duration-200 hover:bg-ink/80 hover:text-white hover:scale-110 opacity-70 group-hover:opacity-100"
+        >
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        {/* Slide Indicators / Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full bg-ink/60 px-4 py-2 backdrop-blur-md border border-white/10">
+          {heroSlides.map((_, index) => {
+            const isActive = index === currentSlide
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => goToSlide(index)}
+                aria-label={`Aller à la diapositive ${index + 1}`}
+                className={`transition-all duration-300 rounded-full ${
+                  isActive
+                    ? "w-8 h-2 bg-orsap-red shadow-xs"
+                    : "w-2 h-2 bg-white/40 hover:bg-white/70"
+                }`}
+              />
+            )
+          })}
         </div>
       </section>
 
