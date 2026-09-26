@@ -63,7 +63,7 @@ export default function Home() {
     if (isPaused) return
     const timer = setInterval(() => {
       nextSlide()
-    }, 5000)
+    }, 3000)
     return () => clearInterval(timer)
   }, [isPaused, nextSlide])
 
