@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react"
 import { Link } from "react-router"
 import heroPhoto1 from "@/imports/Hero_Acceuil.jpeg"
 import heroPhoto2 from "@/imports/Hero_Chantier.png"
+import heroPhoto3 from "@/imports/Hero_Terrassement.png"
+import heroPhoto4 from "@/imports/Hero_Casablanca.png"
 import logoButec from "@/imports/logo_butec.svg"
 import SEO from "@/components/SEO"
 import { trackCtaClick } from "@/utils/analytics"
@@ -15,6 +17,16 @@ const heroSlides = [
   {
     src: heroPhoto2,
     alt: "Équipe d'ingénieurs et techniciens ORSAP équipés d'EPI et casques sur chantier de construction",
+    position: "object-center",
+  },
+  {
+    src: heroPhoto3,
+    alt: "Technicien ORSAP en gilet haute visibilité orange sur chantier de terrassement et voirie",
+    position: "object-center",
+  },
+  {
+    src: heroPhoto4,
+    alt: "Professionnel de chantier équipé d'EPI ORSAP avec vue sur le panorama de Casablanca",
     position: "object-center",
   },
 ]
