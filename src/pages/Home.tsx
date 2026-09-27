@@ -1,11 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { Link } from "react-router"
 import heroPhoto1 from "@/imports/Hero_Acceuil.jpeg"
-import heroPhoto2 from "@/imports/hero_slide_1.jpg"
-import heroPhoto3 from "@/imports/hero_slide_2.jpg"
-import heroPhoto4 from "@/imports/hero_slide_3.jpg"
-import heroPhoto5 from "@/imports/hero_slide_4.jpg"
-import heroPhoto6 from "@/imports/hero_slide_5.jpg"
+import heroPhoto2 from "@/imports/Hero_Chantier.png"
 import logoButec from "@/imports/logo_butec.svg"
 import SEO from "@/components/SEO"
 import { trackCtaClick } from "@/utils/analytics"
@@ -18,27 +14,7 @@ const heroSlides = [
   },
   {
     src: heroPhoto2,
-    alt: "Ouvriers et techniciens du BTP équipés d'EPI et casques de sécurité",
-    position: "object-center",
-  },
-  {
-    src: heroPhoto3,
-    alt: "Grues et équipements pour le travail en hauteur sécurisé",
-    position: "object-center",
-  },
-  {
-    src: heroPhoto4,
-    alt: "Superviseurs de chantier et responsables QHSE sur le terrain",
-    position: "object-center",
-  },
-  {
-    src: heroPhoto5,
-    alt: "Grand chantier de construction et aménagement industriel",
-    position: "object-center",
-  },
-  {
-    src: heroPhoto6,
-    alt: "Structure de bâtiment industriel en cours de construction",
+    alt: "Équipe d'ingénieurs et techniciens ORSAP équipés d'EPI et casques sur chantier de construction",
     position: "object-center",
   },
 ]
