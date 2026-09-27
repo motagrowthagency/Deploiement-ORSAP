@@ -33,7 +33,6 @@ const heroSlides = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
@@ -48,12 +47,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (isPaused) return
     const timer = setInterval(() => {
       nextSlide()
     }, 3000)
     return () => clearInterval(timer)
-  }, [isPaused, nextSlide])
+  }, [nextSlide])
 
   return (
     <>
@@ -75,26 +73,25 @@ export default function Home() {
       {/* Hero Slideshow */}
       <section
         className="group relative min-h-[calc(100svh-118px)] w-full overflow-hidden bg-ink select-none"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
         aria-label="Diaporama d'accueil"
       >
-        {/* Slides Images */}
-        <div className="absolute inset-0">
+        {/* Horizontal Autoscroll Track */}
+        <div
+          className="absolute inset-0 flex h-full w-full transition-transform duration-1000 ease-out"
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
           {heroSlides.map((slide, index) => {
             const isActive = index === currentSlide
             return (
               <div
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-                }`}
+                className="relative h-full w-full min-w-full flex-shrink-0 overflow-hidden"
                 aria-hidden={!isActive}
               >
                 <img
                   src={slide.src}
                   alt={slide.alt}
-                  className={`h-full w-full object-cover ${slide.position} transition-transform duration-7000 ease-out ${
+                  className={`h-full w-full object-cover ${slide.position} transition-transform duration-4000 ease-out ${
                     isActive ? "scale-105" : "scale-100"
                   }`}
                   loading={index === 0 ? "eager" : "lazy"}
