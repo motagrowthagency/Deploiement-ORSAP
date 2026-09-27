@@ -11,6 +11,7 @@ function getGitHubToken() {
     $tokenPaths = [
         __DIR__ . '/../data/github_token.key',
         __DIR__ . '/../../data/github_token.key',
+        __DIR__ . '/data/github_token.key',
     ];
     foreach ($tokenPaths as $p) {
         if (file_exists($p)) {
@@ -24,7 +25,8 @@ function getGitHubToken() {
 function saveGitHubToken($token) {
     $dirs = [
         __DIR__ . '/../data',
-        __DIR__ . '/../../data'
+        __DIR__ . '/../../data',
+        __DIR__ . '/data'
     ];
     foreach ($dirs as $d) {
         if (!is_dir($d)) {
@@ -35,6 +37,87 @@ function saveGitHubToken($token) {
         @chmod($keyPath, 0600);
     }
     return true;
+}
+
+function httpGitHubRequest($url, $method = 'GET', $token = '', $payload = null) {
+    $headers = [
+        'User-Agent: ORSAP-Blog-Sync',
+        'Authorization: Bearer ' . $token,
+        'Accept: application/vnd.github+json',
+        'X-GitHub-Api-Version: 2022-11-28'
+    ];
+    if ($payload !== null) {
+        $headers[] = 'Content-Type: application/json';
+    }
+
+    $curlErr = null;
+
+    // 1. Try cURL first if extension is available
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        $options = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_TIMEOUT => 25,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+        ];
+        if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+            $options[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V4;
+        }
+        if ($payload !== null) {
+            $options[CURLOPT_POSTFIELDS] = is_string($payload) ? $payload : json_encode($payload);
+        }
+
+        curl_setopt_array($ch, $options);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr = curl_error($ch);
+        curl_close($ch);
+
+        if ($httpCode > 0) {
+            return ['code' => $httpCode, 'body' => $response, 'error' => null];
+        }
+    }
+
+    // 2. Fallback to PHP Stream Context (file_get_contents)
+    $contextOpts = [
+        'http' => [
+            'method' => $method,
+            'header' => implode("\r\n", $headers) . "\r\n",
+            'timeout' => 25,
+            'ignore_errors' => true,
+        ],
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+        ]
+    ];
+    if ($payload !== null) {
+        $contextOpts['http']['content'] = is_string($payload) ? $payload : json_encode($payload);
+    }
+
+    $context = stream_context_create($contextOpts);
+    $response = @file_get_contents($url, false, $context);
+
+    $httpCode = 0;
+    if (isset($http_response_header) && is_array($http_response_header)) {
+        foreach ($http_response_header as $hdr) {
+            if (preg_match('#HTTP/[0-9\.]+\s+([0-9]+)#i', $hdr, $m)) {
+                $httpCode = intval($m[1]);
+            }
+        }
+    }
+
+    return [
+        'code' => $httpCode,
+        'body' => $response,
+        'error' => $httpCode === 0 ? ($curlErr ?: 'Impossible d\'établir une connexion sortante HTTPS vers api.github.com depuis l\'hébergement.') : null
+    ];
 }
 
 function syncBlogsToGitHub(?array $blogs = null) {
@@ -53,28 +136,30 @@ function syncBlogsToGitHub(?array $blogs = null) {
     }
 
     if ($blogs === null) {
-        $blogs = readJsonFile('blogs.json');
-        $pdo = getDbConnection();
-        if ($pdo) {
-            try {
-                $stmt = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
-                $rows = $stmt->fetchAll();
-                if (!empty($rows)) {
-                    $blogs = array_map(function($r) {
-                        return [
-                            'id' => $r['id'],
-                            'date' => $r['date'],
-                            'title' => $r['title'],
-                            'summary' => $r['summary'],
-                            'content' => $r['content'],
-                            'image' => $r['image'],
-                            'pdf' => $r['pdf'],
-                            'pdfName' => $r['pdf_name'],
-                            'updatedAt' => $r['updated_at'],
-                        ];
-                    }, $rows);
-                }
-            } catch (Exception $e) {}
+        $blogs = function_exists('readJsonFile') ? readJsonFile('blogs.json') : [];
+        if (function_exists('getDbConnection')) {
+            $pdo = getDbConnection();
+            if ($pdo) {
+                try {
+                    $stmt = $pdo->query("SELECT * FROM `blogs` ORDER BY `date` DESC");
+                    $rows = $stmt->fetchAll();
+                    if (!empty($rows)) {
+                        $blogs = array_map(function($r) {
+                            return [
+                                'id' => $r['id'],
+                                'date' => $r['date'],
+                                'title' => $r['title'],
+                                'summary' => $r['summary'],
+                                'content' => $r['content'],
+                                'image' => $r['image'],
+                                'pdf' => $r['pdf'],
+                                'pdfName' => $r['pdf_name'],
+                                'updatedAt' => $r['updated_at'],
+                            ];
+                        }, $rows);
+                    }
+                } catch (Exception $e) {}
+            }
         }
     }
 
@@ -84,25 +169,10 @@ function syncBlogsToGitHub(?array $blogs = null) {
     // 1. Check existing file SHA on GitHub
     $sha = null;
     $getUrl = "https://api.github.com/repos/{$repo}/contents/{$path}?ref={$branch}";
-    
-    $ch = curl_init($getUrl);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_USERAGENT => 'ORSAP-Blog-Sync',
-        CURLOPT_HTTPHEADER => [
-            'Authorization: Bearer ' . $token,
-            'Accept: application/vnd.github+json',
-            'X-GitHub-Api-Version: 2022-11-28'
-        ],
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_TIMEOUT => 15
-    ]);
-    $getResponse = curl_exec($ch);
-    $getHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    $getRes = httpGitHubRequest($getUrl, 'GET', $token);
 
-    if ($getHttpCode === 200) {
-        $data = json_decode($getResponse, true);
+    if ($getRes['code'] === 200 && !empty($getRes['body'])) {
+        $data = json_decode($getRes['body'], true);
         if (!empty($data['sha'])) {
             $sha = $data['sha'];
         }
@@ -119,26 +189,9 @@ function syncBlogsToGitHub(?array $blogs = null) {
         $payload['sha'] = $sha;
     }
 
-    $ch = curl_init($putUrl);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST => 'PUT',
-        CURLOPT_POSTFIELDS => json_encode($payload),
-        CURLOPT_USERAGENT => 'ORSAP-Blog-Sync',
-        CURLOPT_HTTPHEADER => [
-            'Authorization: Bearer ' . $token,
-            'Accept: application/vnd.github+json',
-            'Content-Type: application/json',
-            'X-GitHub-Api-Version: 2022-11-28'
-        ],
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_TIMEOUT => 20
-    ]);
-    $putResponse = curl_exec($ch);
-    $putHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    $putRes = httpGitHubRequest($putUrl, 'PUT', $token, $payload);
 
-    if ($putHttpCode === 200 || $putHttpCode === 201) {
+    if ($putRes['code'] === 200 || $putRes['code'] === 201) {
         return [
             'success' => true,
             'configured' => true,
@@ -148,12 +201,12 @@ function syncBlogsToGitHub(?array $blogs = null) {
             'message' => 'Synchronisation réussie avec GitHub (' . $repo . ' @ ' . $branch . ')'
         ];
     } else {
-        $respData = json_decode($putResponse, true);
-        $errMsg = $respData['message'] ?? ("Erreur HTTP " . $putHttpCode);
+        $respData = !empty($putRes['body']) ? json_decode($putRes['body'], true) : [];
+        $errMsg = $respData['message'] ?? ($putRes['error'] ?: ("Erreur HTTP " . $putRes['code']));
         return [
             'success' => false,
             'configured' => true,
-            'httpCode' => $putHttpCode,
+            'httpCode' => $putRes['code'],
             'error' => 'Échec de synchronisation GitHub : ' . $errMsg
         ];
     }
