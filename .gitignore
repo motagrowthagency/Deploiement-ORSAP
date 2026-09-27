@@ -22,6 +22,9 @@ dist/
 # Local Configuration
 .env
 .env.local
+*.key
+data/github_token.key
+public/data/github_token.key
 config.local.php
 public/api/config.local.php
 

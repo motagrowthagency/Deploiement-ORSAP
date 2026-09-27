@@ -1367,6 +1367,114 @@ app.post("/api/admin/import/blogs", requireAdmin, async (req, res) => {
   return res.json({ success: true, count: merged.length })
 })
 
+// ── GitHub Blog Sync ────────────────────────────────────────────────
+async function syncBlogsToGitHubNode(blogsToSync = null) {
+  const token = process.env.GITHUB_TOKEN || (() => {
+    try {
+      const p = join(DATA_DIR, "github_token.key")
+      return existsSync(p) ? readFileSync(p, "utf-8").trim() : ""
+    } catch {
+      return ""
+    }
+  })()
+
+  const repo = process.env.GITHUB_REPO || "motagrowthagency/Deploiement-ORSAP"
+  const branch = process.env.GITHUB_BRANCH || "main"
+  const path = "data/blogs.json"
+
+  if (!token) {
+    return {
+      success: false,
+      configured: false,
+      error: "Token GitHub non configuré.",
+    }
+  }
+
+  const blogs = blogsToSync || (await loadBlogs())
+  const contentBase64 = Buffer.from(JSON.stringify(blogs, null, 2)).toString("base64")
+
+  try {
+    // 1. Get existing file SHA
+    let sha = null
+    const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "User-Agent": "ORSAP-Blog-Sync",
+      },
+    })
+    if (getRes.ok) {
+      const data = await getRes.json()
+      sha = data.sha
+    }
+
+    // 2. Put file to GitHub
+    const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "User-Agent": "ORSAP-Blog-Sync",
+      },
+      body: JSON.stringify({
+        message: `🔄 Auto-Sync: Update blogs.json from ORSAP Admin (${new Date().toISOString()})`,
+        content: contentBase64,
+        branch,
+        ...(sha ? { sha } : {}),
+      }),
+    })
+
+    if (putRes.ok) {
+      return {
+        success: true,
+        configured: true,
+        repo,
+        branch,
+        count: blogs.length,
+        message: `Synchronisation réussie avec GitHub (${repo} @ ${branch})`,
+      }
+    } else {
+      const errData = await putRes.json().catch(() => ({}))
+      return {
+        success: false,
+        configured: true,
+        error: errData.message || `Erreur GitHub HTTP ${putRes.status}`,
+      }
+    }
+  } catch (err) {
+    return {
+      success: false,
+      configured: true,
+      error: err.message,
+    }
+  }
+}
+
+app.post("/api/admin/sync/github", requireAdmin, async (req, res) => {
+  const result = await syncBlogsToGitHubNode()
+  return res.status(result.success ? 200 : 400).json(result)
+})
+
+app.get("/api/admin/config/github", requireAdmin, async (req, res) => {
+  const token = process.env.GITHUB_TOKEN || (() => {
+    try {
+      const p = join(DATA_DIR, "github_token.key")
+      return existsSync(p) ? readFileSync(p, "utf-8").trim() : ""
+    } catch {
+      return ""
+    }
+  })()
+
+  return res.json({
+    configured: Boolean(token),
+    repo: process.env.GITHUB_REPO || "motagrowthagency/Deploiement-ORSAP",
+    branch: process.env.GITHUB_BRANCH || "main",
+    path: "data/blogs.json",
+  })
+})
+
+
 // ── Admin Authentication ────────────────────────────────────────────
 app.get("/admin/logo.jpg", (req, res) => {
   const logoPath = join(__dirname, "src", "imports", "logo.jpg")
