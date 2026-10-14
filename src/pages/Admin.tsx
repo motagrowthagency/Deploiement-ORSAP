@@ -2248,7 +2248,19 @@ export default function Admin() {
                   <div>
                     {post.image && (
                       <div className="h-32 w-full rounded-xl overflow-hidden mb-3 bg-slate-950">
-                        <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.currentTarget
+                            if (target.src.endsWith(".webp")) {
+                              target.src = target.src.replace(/\.webp$/, ".jpg")
+                            }
+                          }}
+                        />
                       </div>
                     )}
                     <span className="text-[10px] text-slate-400">{post.date}</span>

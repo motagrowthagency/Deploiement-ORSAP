@@ -293,15 +293,12 @@ function mimeToExtension($mime) {
     return $map[$mime] ?? 'bin';
 }
 
-// Accepts either a base64 data: URI (decodes and saves it to disk,
-// returning the new public URL path) or an already-saved URL path
-// (passed through unchanged, e.g. when editing a post without
-// re-uploading its image). Returns null for empty input.
 function saveBlogAsset($value, $blogId, $baseName) {
     if (empty($value)) return null;
     if (strpos($value, 'data:') !== 0) return $value; // already a path, or invalid -- leave as-is
 
     if (!preg_match('#^data:([^;]+);base64,(.+)$#', $value, $m)) return null;
+    $mime = strtolower(trim($m[1]));
     $binary = base64_decode($m[2]);
     if ($binary === false) return null;
 
@@ -309,7 +306,51 @@ function saveBlogAsset($value, $blogId, $baseName) {
     if (!is_dir($dir)) {
         @mkdir($dir, 0777, true);
     }
-    $filename = $baseName . '.' . mimeToExtension($m[1]);
+
+    if (strpos($mime, 'image/') === 0) {
+        // Try optimizing with GD if available
+        $savedPath = null;
+        if (function_exists('imagecreatefromstring')) {
+            $img = @imagecreatefromstring($binary);
+            if ($img !== false) {
+                $w = imagesx($img);
+                if ($w > 1400) {
+                    $scaled = @imagescale($img, 1400);
+                    if ($scaled !== false) {
+                        imagedestroy($img);
+                        $img = $scaled;
+                    }
+                }
+                
+                // Save WebP if supported
+                if (function_exists('imagewebp')) {
+                    $webpFile = $dir . '/' . $baseName . '.webp';
+                    if (@imagewebp($img, $webpFile, 84)) {
+                        @chmod($webpFile, 0644);
+                        $savedPath = '/uploads/blogs/' . $blogId . '/' . $baseName . '.webp';
+                    }
+                }
+                
+                // Also save JPEG fallback
+                if (function_exists('imagejpeg')) {
+                    $jpgFile = $dir . '/' . $baseName . '.jpg';
+                    @imagejpeg($img, $jpgFile, 84);
+                    @chmod($jpgFile, 0644);
+                    if (!$savedPath) {
+                        $savedPath = '/uploads/blogs/' . $blogId . '/' . $baseName . '.jpg';
+                    }
+                }
+                imagedestroy($img);
+            }
+        }
+        
+        if ($savedPath) {
+            return $savedPath;
+        }
+    }
+
+    // Fallback or PDF direct save
+    $filename = $baseName . '.' . mimeToExtension($mime);
     $path = $dir . '/' . $filename;
     $written = @file_put_contents($path, $binary);
     if ($written === false) return null;

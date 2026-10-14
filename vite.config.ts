@@ -767,6 +767,7 @@ function figmaApiDevPlugin(): Plugin {
           } catch {}
 
           const expectedPassword = process.env.ADMIN_PASSWORD || "Motafouad223"
+          const password = body.password?.trim() || ""
 
           if (password && (password === expectedPassword || password.toLowerCase() === "motafouad223")) {
             res.setHeader("Set-Cookie", "orsap_admin_token=admin_authenticated_session; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax")

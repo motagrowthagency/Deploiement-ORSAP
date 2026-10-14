@@ -147,11 +147,22 @@ export default function BlogDetail() {
           <div className="prose max-w-none">
             {/* Featured Image if present */}
             {post.image && (
-              <div className="mb-10 overflow-hidden border border-hairline aspect-video max-h-[480px] rounded-sm shadow-sm">
+              <div className="mb-10 overflow-hidden border border-hairline aspect-video max-h-[480px] rounded-sm shadow-sm bg-surface/50">
                 <img
                   src={post.image}
                   alt={post.title}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  width={1200}
+                  height={675}
                   className="h-full w-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget
+                    if (target.src.endsWith(".webp")) {
+                      target.src = target.src.replace(/\.webp$/, ".jpg")
+                    }
+                  }}
                 />
               </div>
             )}

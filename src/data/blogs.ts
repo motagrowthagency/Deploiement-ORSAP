@@ -12,15 +12,24 @@ export type BlogPost = {
 
 export const INITIAL_BLOGS: BlogPost[] = [
   {
+    "id": "orsap-s-ouvre-la-fnbtp-pour-cr-er-un-pare-feu-s-curit-sur-les-chantiers-btp-94f8",
+    "date": "2026-09-27 23:43:25",
+    "title": "ORSAP s'ouvre à la FNBTP pour créer un pare-feu sécurité sur les chantiers BTP",
+    "summary": "ORSAP et la FNBTP unissent leurs expertises pour bâtir un pare-feu sécurité destiné aux chantiers BTP. Un dispositif de prévention qui replace les équipements de protection individuelle au centre de la stratégie de réduction des risques.",
+    "content": "Ce dispositif vise à renforcer la première ligne de défense contre les risques professionnels : le port systématique et conforme des EPI. L'objectif est double : réduire la fréquence des accidents et sécuriser durablement les équipes opérationnelles, du chef de chantier au compagnon.\n\nLes modalités précises  (périmètre, calendrier de déploiement, engagements réciproques) restent à confirmer auprès de la FNBTP. Les responsables HSE et directeurs de site seront progressivement informés des étapes de mise en œuvre.",
+    "image": "/uploads/blogs/orsap-s-ouvre-la-fnbtp-pour-cr-er-un-pare-feu-s-curit-sur-les-chantiers-btp-94f8/image.webp",
+    "pdf": "/uploads/blogs/orsap-s-ouvre-la-fnbtp-pour-cr-er-un-pare-feu-s-curit-sur-les-chantiers-btp-94f8/document.pdf",
+    "pdfName": "pare-feu-securite-orsap-fnbtp-epi-chantiers-btp.pdf"
+  },
+  {
     "id": "les-10-r-gles-d-or-de-la-s-curit-au-travail-8idj",
     "date": "2026-09-01T19:57:11.442Z",
     "title": "Les 10 Règles d'Or de la Sécurité au Travail",
     "summary": "Levier de Prévention des Accidents et Performance d'Entreprise",
     "content": "APPEL À LA VIGILANCE : LA CONFORMITÉ TECHNIQUE AVANT L'ESTHÉTIQUE\nLa personnalisation valorise vos équipes et votre marque mais ne doit jamais compromettre l'intégrité de vos protections. Tout marquage non\nhomologué engage la responsabilité civile et pénale de l'employeur en cas d'accident du travail. Avec ORSAP Services, bénéficiez d'un\naccompagnement sur mesure garantissant la conformité intégrale de votre parc d'équipements de protection individuelle et de vêtements\nprofessionnels.",
-    "image": "/uploads/blogs/les-10-r-gles-d-or-de-la-s-curit-au-travail-8idj/image.png",
+    "image": "/uploads/blogs/les-10-r-gles-d-or-de-la-s-curit-au-travail-8idj/image.webp",
     "pdf": "/uploads/blogs/les-10-r-gles-d-or-de-la-s-curit-au-travail-8idj/document.pdf",
-    "pdfName": "10_Regles_Securite_Travail_ORSAP_Services.pdf",
-    "updatedAt": null
+    "pdfName": "10_Regles_Securite_Travail_ORSAP_Services.pdf"
   },
   {
     "id": "guide-de-la-protection-des-risques-chimiques-dans-l-industrie-qlsk",
@@ -28,21 +37,20 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "title": "GUIDE DE LA PROTECTION DES RISQUES CHIMIQUES DANS L’INDUSTRIE",
     "summary": "GUIDE DE LA PROTECTION DES RISQUES CHIMIQUES DANS L’INDUSTRIE",
     "content": "GUIDE DE LA PROTECTION DES RISQUES CHIMIQUES DANS L’INDUSTRIE",
-    "image": "/uploads/blogs/guide-de-la-protection-des-risques-chimiques-dans-l-industrie-qlsk/image.jpg",
+    "image": "/uploads/blogs/guide-de-la-protection-des-risques-chimiques-dans-l-industrie-qlsk/image.webp",
     "pdf": "/uploads/blogs/guide-de-la-protection-des-risques-chimiques-dans-l-industrie-qlsk/document.pdf",
-    "pdfName": "Guide_Expert_Risques_Chimiques_Industriels_et_EPI (1).pdf",
-    "updatedAt": null
+    "pdfName": "Guide_Expert_Risques_Chimiques_Industriels_et_EPI (1).pdf"
   },
   {
     "id": "l-chafaudage-dans-l-industrie-marocaine-52u9",
     "date": "2026-09-02T13:15:09.431Z",
     "title": "L'Échafaudage dans l'Industrie Marocaine",
     "summary": "Dans le management des chantiers et des arrêts d'unités de production, le travail en hauteur demeure l'un des postes les plus générateurs de sinistres graves. L'échafaudage — qu'il soit de façade, multidirectionnel, roulant ou suspendu",
-    "content": "Sur les sites industriels, les chantiers de construction, les centrales thermiques et les plateformes tertiaires, la stabilité d'un\néchafaudage est le baromètre immédiat de la culture sécurité de votre entreprise. La gravité est une force constante et\nimplacable : elle sanctionne instantanément l'absence d'une goupille, un ancrage relâché ou le non-verrouillage d'une trappe. \nDirecteurs d'usine, responsables HSE et conducteurs de travaux : faites de la rigueur sur l'échafaudage le moteur de votre\nexcellence industrielle. En combinant un matériel d'accès de premier choix, une maintenance préventive sans faille et une\nvigilance humaine active à chaque niveau opérationnel, vous bâtissez les fondations solides d'un environnement Zéro Accident. \n",
-    "image": "/uploads/blogs/l-chafaudage-dans-l-industrie-marocaine-52u9/image.jpg",
+    "content": "Sur les sites industriels, les chantiers de construction, les centrales thermiques et les plateformes tertiaires, la stabilité d'un\néchafaudage est le baromètre immédiat de la culture sécurité de votre entreprise. La gravité est une force constante et\nimplacable : elle sanctionne instantanément l'absence d'une goupille, un ancrage relâché ou le non-verrouillage d'une trappe. \nDirecteurs d'usine, responsables HSE et conducteurs de travaux : faites de la rigueur sur l'échafaudage le moteur de votre\nexcellence industrielle. En combinant un matériel d'accès de premier choix, une maintenance préventive sans faille et une\nvigilance humaine active à chaque niveau opérationnel, vous bâtissez les fondations solides d'un environnement Zéro Accident.",
+    "image": "/uploads/blogs/l-chafaudage-dans-l-industrie-marocaine-52u9/image.webp",
     "pdf": "/uploads/blogs/l-chafaudage-dans-l-industrie-marocaine-52u9/document.pdf",
     "pdfName": "L_Echafaudage_Levier_de_Performance_ORSAP_Services.pdf",
-    "updatedAt": null
+    "updatedAt": "2026-09-28 00:05:21"
   },
   {
     "id": "le-levage-et-la-manutention-yv41",
@@ -50,10 +58,9 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "title": "Le Levage et la Manutention",
     "summary": "Levier Majeur de Performance et Bouclier Anti-Risques",
     "content": "Le levage et la manutention lourde ne tolèrent aucune improvisation. La routine et l'excès de confiance constituent les pires menaces sur le terrain : une seconde d'inattention, une élingue détériorée non mise au rebut ou un stabilisateur mal ancré suffisent à provoquer un accident irréversible.",
-    "image": "/uploads/blogs/le-levage-et-la-manutention-yv41/image.png",
+    "image": "/uploads/blogs/le-levage-et-la-manutention-yv41/image.webp",
     "pdf": "/uploads/blogs/le-levage-et-la-manutention-yv41/document.pdf",
-    "pdfName": "Le_Levage_et_la_Manutention_ORSAP_Services.pdf",
-    "updatedAt": null
+    "pdfName": "Le_Levage_et_la_Manutention_ORSAP_Services.pdf"
   },
   {
     "id": "le-guide-ultime-des-quipements-de-travail-en-hauteur-rpds",
@@ -61,10 +68,9 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "title": "Le Guide Ultime des Équipements de Travail en Hauteur ",
     "summary": "Échafaudages,  Échelles & Variantes, Nacelles Simples et Doubles",
     "content": "Le travail en hauteur ne tolère aucun compromis. Qu'il s'agisse de monter un échafaudage multidirectionnel pour réviser \nun générateur électrique, de déployer une flotte de nacelles ciseaux pour aménager un hub logistique automatisé, ou \nd'équiper les techniciens de Facility Management en PIRL ergonomiques, le bon choix d'équipement est le garant direct \nde la rentabilité des opérations et de la vie des opérateurs.\n",
-    "image": "/uploads/blogs/le-guide-ultime-des-quipements-de-travail-en-hauteur-rpds/image.png",
+    "image": "/uploads/blogs/le-guide-ultime-des-quipements-de-travail-en-hauteur-rpds/image.webp",
     "pdf": "/uploads/blogs/le-guide-ultime-des-quipements-de-travail-en-hauteur-rpds/document.pdf",
-    "pdfName": "Guide_Expert_Travail_en_Hauteur_Echafaudages_Echelles_Nacelles.pdf",
-    "updatedAt": null
+    "pdfName": "Guide_Expert_Travail_en_Hauteur_Echafaudages_Echelles_Nacelles.pdf"
   },
   {
     "id": "la-manutention-industrielle-acbg",
@@ -72,10 +78,9 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "title": "LA MANUTENTION INDUSTRIELLE",
     "summary": "Les Nouveaux Défis de la Manutention Industrielle",
     "content": "Le marché de la manutention légère et intermédiaire vit une transformation profonde portée par la transition \nénergétique et l'automatisation. L'hégémonie du Lithium-ion permet désormais de concevoir des appareils 30% plus \nlégers, sans entretien de batterie et parfaitement intégrables dans des flottes mixtes.",
-    "image": "/uploads/blogs/la-manutention-industrielle-acbg/image.jpg",
+    "image": "/uploads/blogs/la-manutention-industrielle-acbg/image.webp",
     "pdf": "/uploads/blogs/la-manutention-industrielle-acbg/document.pdf",
-    "pdfName": "Guide_Expert_Manutention_Transpalette_Gerbeur.pdf",
-    "updatedAt": null
+    "pdfName": "Guide_Expert_Manutention_Transpalette_Gerbeur.pdf"
   },
   {
     "id": "v-tements-de-travail-personnalis-s-eayz",
@@ -83,10 +88,9 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "title": "Vêtements de travail personnalisés ",
     "summary": "Levier sous-estimé de performance opérationnelle, de sécurité et d’image",
     "content": "La personnalisation valorise vos équipes et votre marque mais ne doit jamais se faire au détriment de l'intégrité de vos EPI. Tout marquage\nnon homologué peut engager la responsabilité pénale du chef d'établissement en cas d'accident du travail. Avec ORSAP Services,\nassurez-vous systématiquement d'obtenir l'attestation de conformité du confectionneur avant tout déploiement sur site. ",
-    "image": "/uploads/blogs/v-tements-de-travail-personnalis-s-eayz/image.jpg",
+    "image": "/uploads/blogs/v-tements-de-travail-personnalis-s-eayz/image.webp",
     "pdf": "/uploads/blogs/v-tements-de-travail-personnalis-s-eayz/document.pdf",
-    "pdfName": "Vêtements_de_Travail_Personnalisés_ORSAP_Services-v2.pdf",
-    "updatedAt": null
+    "pdfName": "Vêtements_de_Travail_Personnalisés_ORSAP_Services-v2.pdf"
   },
   {
     "id": "guide-complet-pour-choisir-la-bonne-protec-on-quipements-de-protec-on-individuelle-epi-dxv0",
@@ -94,9 +98,8 @@ export const INITIAL_BLOGS: BlogPost[] = [
     "title": "Guide complet pour choisir la bonne protection  Équipements de Protection Individuelle (EPI) ",
     "summary": "Pourquoi les équipements de  protec\u0013on individuelle sont-ils  indispensables ? ",
     "content": "Les équipements de protection individuelle (EPI) jouent un rôle essentiel dans la prévention des \nrisques professionnels. Casque, chaussures, gants, lune6es, vêtements de protection, protections \nauditives ou équipements antichute : chaque solution doit être choisie en fonction du risque et de \nl’utilisation prévue. \n",
-    "image": "/uploads/blogs/guide-complet-pour-choisir-la-bonne-protec-on-quipements-de-protec-on-individuelle-epi-dxv0/image.jpg",
+    "image": "/uploads/blogs/guide-complet-pour-choisir-la-bonne-protec-on-quipements-de-protec-on-individuelle-epi-dxv0/image.webp",
     "pdf": "/uploads/blogs/guide-complet-pour-choisir-la-bonne-protec-on-quipements-de-protec-on-individuelle-epi-dxv0/document.pdf",
-    "pdfName": "Guide complet pour les EPI.pdf",
-    "updatedAt": null
+    "pdfName": "Guide complet pour les EPI.pdf"
   }
 ]

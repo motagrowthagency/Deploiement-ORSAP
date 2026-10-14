@@ -1,5 +1,6 @@
 export const NAV = [
   { label: "Accueil", to: "/" },
+  { label: "À propos", to: "/a-propos" },
   { label: "Solutions", to: "/solutions" },
   { label: "Services", to: "/services" },
   { label: "Marques", to: "/marques" },

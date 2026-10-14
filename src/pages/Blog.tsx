@@ -106,11 +106,21 @@ export default function Blog() {
                 className="flex flex-col overflow-hidden border border-hairline bg-card transition-all hover:border-orsap-red hover:shadow-sm"
               >
                 {post.image && (
-                  <div className="aspect-video w-full overflow-hidden border-b border-hairline">
+                  <div className="aspect-video w-full overflow-hidden border-b border-hairline bg-surface/50 relative">
                     <img
                       src={post.image}
                       alt={post.title}
+                      loading="lazy"
+                      decoding="async"
+                      width={640}
+                      height={360}
                       className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      onError={(e) => {
+                        const target = e.currentTarget
+                        if (target.src.endsWith(".webp")) {
+                          target.src = target.src.replace(/\.webp$/, ".jpg")
+                        }
+                      }}
                     />
                   </div>
                 )}
