@@ -202,66 +202,73 @@ export default function BlogDetail() {
             )}
 
             {post.content && (
-              <div className="space-y-6 text-[16px] leading-[1.8] text-ink/90">
-                {post.content.split("\n\n").map((block, idx) => {
-                  const trimmed = block.trim()
-                  if (trimmed.startsWith("### ")) {
+              /<[a-z][\s\S]*>/i.test(post.content) ? (
+                <div
+                  className="webflow-content"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
+              ) : (
+                <div className="space-y-6 text-[16px] leading-[1.8] text-ink/90">
+                  {post.content.split("\n\n").map((block, idx) => {
+                    const trimmed = block.trim()
+                    if (trimmed.startsWith("### ")) {
+                      return (
+                        <h3
+                          key={idx}
+                          className="font-display text-[22px] font-black text-ink mt-10 mb-4 pt-4 border-t border-hairline first:border-none first:pt-0"
+                        >
+                          {trimmed.replace(/^###\s+/, "")}
+                        </h3>
+                      )
+                    }
+                    if (trimmed.startsWith("## ")) {
+                      return (
+                        <h2
+                          key={idx}
+                          className="font-display text-[26px] font-black text-ink mt-12 mb-5"
+                        >
+                          {trimmed.replace(/^##\s+/, "")}
+                        </h2>
+                      )
+                    }
+                    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+                      const items = trimmed.split("\n").filter((l) => l.trim().length > 0)
+                      return (
+                        <ul key={idx} className="my-4 space-y-2 pl-5 list-disc text-ink/90">
+                          {items.map((it, iIdx) => {
+                            const cleanText = it.replace(/^[-*]\s+/, "")
+                            return (
+                              <li key={iIdx} className="leading-[1.7]">
+                                {renderFormattedText(cleanText)}
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      )
+                    }
+                    if (/^\d+\.\s+/.test(trimmed)) {
+                      const items = trimmed.split("\n").filter((l) => l.trim().length > 0)
+                      return (
+                        <ol key={idx} className="my-4 space-y-2 pl-5 list-decimal text-ink/90">
+                          {items.map((it, iIdx) => {
+                            const cleanText = it.replace(/^\d+\.\s+/, "")
+                            return (
+                              <li key={iIdx} className="leading-[1.7]">
+                                {renderFormattedText(cleanText)}
+                              </li>
+                            )
+                          })}
+                        </ol>
+                      )
+                    }
                     return (
-                      <h3
-                        key={idx}
-                        className="font-display text-[22px] font-black text-ink mt-10 mb-4 pt-4 border-t border-hairline first:border-none first:pt-0"
-                      >
-                        {trimmed.replace(/^###\s+/, "")}
-                      </h3>
+                      <p key={idx} className="leading-[1.8]">
+                        {renderFormattedText(trimmed)}
+                      </p>
                     )
-                  }
-                  if (trimmed.startsWith("## ")) {
-                    return (
-                      <h2
-                        key={idx}
-                        className="font-display text-[26px] font-black text-ink mt-12 mb-5"
-                      >
-                        {trimmed.replace(/^##\s+/, "")}
-                      </h2>
-                    )
-                  }
-                  if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-                    const items = trimmed.split("\n").filter((l) => l.trim().length > 0)
-                    return (
-                      <ul key={idx} className="my-4 space-y-2 pl-5 list-disc text-ink/90">
-                        {items.map((it, iIdx) => {
-                          const cleanText = it.replace(/^[-*]\s+/, "")
-                          return (
-                            <li key={iIdx} className="leading-[1.7]">
-                              {renderFormattedText(cleanText)}
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    )
-                  }
-                  if (/^\d+\.\s+/.test(trimmed)) {
-                    const items = trimmed.split("\n").filter((l) => l.trim().length > 0)
-                    return (
-                      <ol key={idx} className="my-4 space-y-2 pl-5 list-decimal text-ink/90">
-                        {items.map((it, iIdx) => {
-                          const cleanText = it.replace(/^\d+\.\s+/, "")
-                          return (
-                            <li key={iIdx} className="leading-[1.7]">
-                              {renderFormattedText(cleanText)}
-                            </li>
-                          )
-                        })}
-                      </ol>
-                    )
-                  }
-                  return (
-                    <p key={idx} className="leading-[1.8]">
-                      {renderFormattedText(trimmed)}
-                    </p>
-                  )
-                })}
-              </div>
+                  })}
+                </div>
+              )
             )}
 
             {/* Semantic SEO Container for Googlebot & Search Engines (Hidden visually from website visitors) */}

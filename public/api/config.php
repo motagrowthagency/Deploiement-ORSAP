@@ -56,6 +56,9 @@ return [
     'github_repo' => getenv('GITHUB_REPO') ?: 'motagrowthagency/Deploiement-ORSAP',
     'github_branch' => getenv('GITHUB_BRANCH') ?: 'main',
     'github_path' => 'data/blogs.json',
+    'webflow_api_token' => getenv('WEBFLOW_API_TOKEN') ?: '',
+    'webflow_collection_id' => getenv('WEBFLOW_COLLECTION_ID') ?: '',
+    'webflow_webhook_secret' => getenv('WEBFLOW_WEBHOOK_SECRET') ?: '',
 ];
 
 

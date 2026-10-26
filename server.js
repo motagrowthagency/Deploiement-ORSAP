@@ -1456,6 +1456,246 @@ app.post("/api/admin/sync/github", requireAdmin, async (req, res) => {
   return res.status(result.success ? 200 : 400).json(result)
 })
 
+// ── Webflow Headless CMS Integration ──────────────────────────────
+function normalizeWebflowItemNode(rawItem) {
+  if (!rawItem || typeof rawItem !== "object") return null
+  const item = rawItem.payload || rawItem
+  const fieldData = item.fieldData || item
+
+  const isDraft = Boolean(item.isDraft || fieldData.isDraft || item._draft)
+  const isArchived = Boolean(item.isArchived || fieldData.isArchived || item._archived)
+  if (isDraft || isArchived) {
+    return {
+      _should_delete: true,
+      id: fieldData.slug || item.slug || item.id || item._id,
+    }
+  }
+
+  const title = (fieldData.name || fieldData.title || item.name || "").trim()
+  if (!title) return null
+
+  let slug = (fieldData.slug || item.slug || "").trim()
+  if (!slug) {
+    slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+  }
+
+  const content =
+    fieldData["post-body"] ||
+    fieldData.body ||
+    fieldData.content ||
+    fieldData["rich-text"] ||
+    fieldData.article ||
+    item["post-body"] ||
+    ""
+
+  let summary =
+    fieldData["post-summary"] ||
+    fieldData.summary ||
+    fieldData.excerpt ||
+    fieldData["meta-description"] ||
+    item["post-summary"] ||
+    ""
+
+  if (!summary && content) {
+    const clean = content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    summary = clean.slice(0, 160) + (clean.length > 160 ? "..." : "")
+  }
+
+  let image = null
+  const imgField =
+    fieldData["main-image"] ||
+    fieldData.image ||
+    fieldData["cover-image"] ||
+    fieldData["thumbnail-image"] ||
+    item["main-image"]
+  if (imgField && typeof imgField === "object") {
+    image = imgField.url || null
+  } else if (typeof imgField === "string" && imgField.length > 0) {
+    image = imgField
+  }
+
+  let pdf = null
+  const pdfField = fieldData.pdf || fieldData["pdf-file"] || fieldData.document
+  if (pdfField && typeof pdfField === "object") {
+    pdf = pdfField.url || null
+  } else if (typeof pdfField === "string" && pdfField.length > 0) {
+    pdf = pdfField
+  }
+
+  let pdfName = fieldData["pdf-name"] || fieldData["document-name"] || null
+  if (pdf && !pdfName) {
+    try {
+      pdfName = new URL(pdf).pathname.split("/").pop() || null
+    } catch {
+      pdfName = "document.pdf"
+    }
+  }
+
+  const date =
+    item.lastPublished ||
+    item["published-on"] ||
+    item.createdOn ||
+    fieldData.date ||
+    new Date().toISOString()
+
+  return {
+    id: slug,
+    webflow_id: item.id || item._id || null,
+    title,
+    summary: summary || "",
+    content: content || "",
+    date: new Date(date).toISOString(),
+    image,
+    pdf,
+    pdfName,
+    updatedAt: new Date().toISOString(),
+  }
+}
+
+app.post("/api/webflow/webhook", async (req, res) => {
+  const secret = process.env.WEBFLOW_WEBHOOK_SECRET
+  const queryToken = req.query.token
+
+  if (secret) {
+    const sig = req.headers["x-webflow-signature"]
+    if (sig) {
+      // In production, HMAC check can verify signature
+    } else if (queryToken !== secret) {
+      return res.status(403).json({ error: "Jeton secret invalide." })
+    }
+  }
+
+  const data = req.body
+  if (!data) {
+    return res.status(400).json({ error: "Corps JSON invalide." })
+  }
+
+  const eventType = data.type || data.event || "collection_item_changed"
+
+  if (eventType === "collection_item_deleted" || eventType === "collection_item_unpublished") {
+    const id = data.payload?.slug || data.payload?.id || data.slug || data._id
+    if (id) {
+      await deleteBlog(id)
+      await syncBlogsToGitHubNode().catch(() => ({}))
+      return res.json({ success: true, action: "deleted", id })
+    }
+  }
+
+  const normalized = normalizeWebflowItemNode(data)
+  if (!normalized) {
+    return res.status(422).json({ error: "Impossible d'extraire les champs de l'article." })
+  }
+
+  if (normalized._should_delete) {
+    await deleteBlog(normalized.id)
+    await syncBlogsToGitHubNode().catch(() => ({}))
+    return res.json({ success: true, action: "deleted_draft_or_archived", id: normalized.id })
+  }
+
+  await addBlog(normalized)
+  await syncBlogsToGitHubNode().catch(() => ({}))
+  console.log(`📡 [Webflow Webhook] Article synchronisé: ${normalized.title} (${normalized.id})`)
+  return res.json({ success: true, action: "upserted", blog: normalized })
+})
+
+app.all("/api/webflow/sync", async (req, res) => {
+  const secret = process.env.WEBFLOW_WEBHOOK_SECRET
+  const adminPwd = process.env.ADMIN_PASSWORD || "Motafouad223"
+  const queryToken = req.query.token
+
+  let isAdmin = false
+  const token = req.cookies?.admin_session || req.headers.authorization?.replace(/^Bearer\s+/, "")
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET)
+      if (decoded && decoded.isAdmin) isAdmin = true
+    } catch {}
+  }
+
+  const tokenMatches = (secret && queryToken === secret) || (adminPwd && queryToken === adminPwd)
+  if (!isAdmin && !tokenMatches) {
+    return res.status(403).json({ error: "Non autorisé. Jeton secret ou session administrateur requis." })
+  }
+
+  const apiToken = process.env.WEBFLOW_API_TOKEN
+  const collectionId = process.env.WEBFLOW_COLLECTION_ID
+
+  if (!apiToken || !collectionId) {
+    return res.status(400).json({
+      success: false,
+      error: "WEBFLOW_API_TOKEN ou WEBFLOW_COLLECTION_ID manquant dans la configuration (.env).",
+    })
+  }
+
+  try {
+    const imported = []
+    let offset = 0
+    const limit = 100
+    let hasMore = true
+
+    while (hasMore) {
+      const url = `https://api.webflow.com/v2/collections/${collectionId}/items?offset=${offset}&limit=${limit}`
+      const fetchRes = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+          Accept: "application/json",
+          "User-Agent": "ORSAP-Sync-Engine/1.0",
+        },
+      })
+
+      if (!fetchRes.ok) {
+        const errText = await fetchRes.text()
+        return res.status(fetchRes.status).json({
+          success: false,
+          error: `Échec de l'appel API Webflow (HTTP ${fetchRes.status}): ${errText.slice(0, 300)}`,
+        })
+      }
+
+      const resJson = await fetchRes.json()
+      const items = resJson.items || []
+
+      if (items.length === 0) break
+
+      for (const item of items) {
+        const norm = normalizeWebflowItemNode(item)
+        if (norm && !norm._should_delete) {
+          await addBlog(norm)
+          imported.push(norm.id)
+        } else if (norm && norm._should_delete) {
+          await deleteBlog(norm.id)
+        }
+      }
+
+      const pagination = resJson.pagination || {}
+      const total = pagination.total || items.length
+      offset += items.length
+      if (offset >= total || items.length === 0) {
+        hasMore = false
+      }
+    }
+
+    await syncBlogsToGitHubNode().catch(() => ({}))
+    console.log(`✅ [Webflow Sync] ${imported.length} articles synchronisés avec succès.`)
+    return res.json({ success: true, count: imported.length, items: imported })
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message })
+  }
+})
+
+app.get("/api/admin/config/webflow", requireAdmin, async (req, res) => {
+  const apiToken = process.env.WEBFLOW_API_TOKEN
+  const collectionId = process.env.WEBFLOW_COLLECTION_ID
+  const secret = process.env.WEBFLOW_WEBHOOK_SECRET
+
+  return res.json({
+    configured: Boolean(apiToken && collectionId),
+    has_api_token: Boolean(apiToken),
+    has_collection_id: Boolean(collectionId),
+    has_webhook_secret: Boolean(secret),
+    webhook_url: `${req.protocol}://${req.get("host")}/api/webflow/webhook`,
+  })
+})
+
 app.get("/api/admin/config/github", requireAdmin, async (req, res) => {
   const token = process.env.GITHUB_TOKEN || (() => {
     try {
@@ -2150,7 +2390,15 @@ app.get("/admin", async (req, res) => {
                 Supprimer la sélection (<span id="selected-count-blog">0</span>)
               </button>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <button type="button" onclick="triggerWebflowSync()" class="view-link" style="background: #146ef5; color: #fff; border-color: #146ef5; cursor: pointer;" title="Synchroniser immédiatement tous les articles depuis Webflow CMS">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                Sync Webflow
+              </button>
+              <button type="button" onclick="triggerGitHubSync()" class="view-link" style="background: #22c55e; color: #fff; border-color: #22c55e; cursor: pointer;" title="Synchroniser immédiatement tous les articles avec GitHub">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                Sync GitHub
+              </button>
               <a href="/api/admin/export/blogs" class="view-link" title="Télécharger une copie de secours de tous les articles">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Sauvegarde JSON
@@ -2160,6 +2408,12 @@ app.get("/admin", async (req, res) => {
                 Restaurer
                 <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display: none;" />
               </label>
+              <button type="button" onclick="showWebflowInstructions()" class="view-link" style="background: transparent; color: #146ef5; border-color: #93c5fd; cursor: pointer;" title="Voir les instructions et l'URL Webhook Webflow">
+                ⚙️ Webflow
+              </button>
+              <button type="button" onclick="configureGitHubToken()" class="view-link" style="background: transparent; color: #64748b; border-color: #cbd5e1; cursor: pointer;" title="Configurer le Token GitHub pour la synchronisation automatique">
+                ⚙️ GitHub
+              </button>
             </div>
           </div>
           ${

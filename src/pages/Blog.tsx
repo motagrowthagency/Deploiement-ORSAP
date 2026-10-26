@@ -136,7 +136,9 @@ export default function Blog() {
                     {post.title}
                   </h2>
                   <p className="mt-3 flex-1 text-[14.5px] leading-[1.6] text-ink-soft line-clamp-3">
-                    {post.summary || "Consultez notre guide technique et nos recommandations d'experts."}
+                    {post.summary
+                      ? post.summary.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+                      : "Consultez notre guide technique et nos recommandations d'experts."}
                   </p>
                   <Link
                     to={`/blog/${post.id}`}

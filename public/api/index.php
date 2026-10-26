@@ -1376,6 +1376,53 @@ if ($uri === '/api/admin/sync/github' && $method === 'POST') {
     sendJson($res, $res['success'] ? 200 : 400);
 }
 
+// ── Webflow Headless CMS Integration ──────────────────────────────
+if ($uri === '/api/webflow/webhook' && $method === 'POST') {
+    require_once __DIR__ . '/webflow_sync.php';
+    handleWebflowWebhook();
+}
+
+if ($uri === '/api/webflow/sync') {
+    require_once __DIR__ . '/webflow_sync.php';
+    $config = getWebflowConfig();
+    $queryToken = $_GET['token'] ?? '';
+    $secret = $config['webhook_secret'];
+    $adminKey = $config['admin_password'];
+
+    // Allow execution if admin is logged in OR if token matches secret
+    $isAdmin = false;
+    $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+    if (preg_match('/Bearer\s+(.*)$/i', $auth, $m)) {
+        $u = verifyJwtPHP($m[1]);
+        if ($u && !empty($u['isAdmin'])) $isAdmin = true;
+    }
+    if (!$isAdmin && !empty($_COOKIE['admin_session'])) {
+        $u = verifyJwtPHP($_COOKIE['admin_session']);
+        if ($u && !empty($u['isAdmin'])) $isAdmin = true;
+    }
+
+    $tokenMatches = (!empty($secret) && $queryToken === $secret) || (!empty($adminKey) && $queryToken === $adminKey);
+
+    if (!$isAdmin && !$tokenMatches) {
+        sendJson(['error' => 'Non autorisé. Veuillez fournir un token valide ou vous connecter.'], 403);
+    }
+
+    $res = syncAllWebflowArticles();
+    sendJson($res, $res['success'] ? 200 : 400);
+}
+
+if ($uri === '/api/admin/config/webflow' && $method === 'GET') {
+    requireAdminPHP();
+    $config = require __DIR__ . '/config.php';
+    sendJson([
+        'configured' => !empty($config['webflow_api_token']) && !empty($config['webflow_collection_id']),
+        'has_api_token' => !empty($config['webflow_api_token']),
+        'has_collection_id' => !empty($config['webflow_collection_id']),
+        'has_webhook_secret' => !empty($config['webflow_webhook_secret']),
+        'webhook_url' => 'https://' . ($_SERVER['HTTP_HOST'] ?? 'orsap.ma') . '/api/webflow/webhook'
+    ]);
+}
+
 // GitHub Token Configuration Endpoint
 if ($uri === '/api/admin/config/github') {
     requireAdminPHP();

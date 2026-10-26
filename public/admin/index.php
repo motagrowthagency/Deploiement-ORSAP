@@ -710,6 +710,10 @@ if ($tab === 'devis') {
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
               Supprimer (<span id="selected-count-blog">0</span>)
             </button>
+            <button type="button" onclick="triggerWebflowSync()" class="view-link" style="background: #146ef5; color: #fff; border-color: #146ef5; cursor: pointer;" title="Synchroniser immédiatement tous les articles depuis Webflow CMS">
+              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              Sync Webflow
+            </button>
             <button type="button" onclick="triggerGitHubSync()" class="view-link" style="background: #22c55e; color: #fff; border-color: #22c55e; cursor: pointer;" title="Synchroniser immédiatement tous les articles avec GitHub et Heberjahiz">
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
               Sync GitHub
@@ -723,8 +727,11 @@ if ($tab === 'devis') {
               Restaurer
               <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display: none;" />
             </label>
+            <button type="button" onclick="showWebflowInstructions()" class="view-link" style="background: transparent; color: #146ef5; border-color: #93c5fd; cursor: pointer;" title="Voir les instructions et l'URL Webhook Webflow">
+              ⚙️ Webflow
+            </button>
             <button type="button" onclick="configureGitHubToken()" class="view-link" style="background: transparent; color: #64748b; border-color: #cbd5e1; cursor: pointer;" title="Configurer le Token GitHub pour la synchronisation automatique">
-              ⚙️ Token GitHub
+              ⚙️ GitHub
             </button>
           </div>
         </div>' .

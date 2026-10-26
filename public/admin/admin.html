@@ -680,6 +680,75 @@
       }
     }
 
+    // Trigger Webflow Sync
+    async function triggerWebflowSync() {
+      const btn = event?.currentTarget;
+      const originalText = btn ? btn.innerHTML : "";
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Synchronisation...";
+      }
+
+      try {
+        const res = await fetch("/api/webflow/sync", { method: "POST" });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          alert(`✅ Synchronisation Webflow réussie !\n${data.count} article(s) ont été mis à jour dans le catalogue ORSAP.`);
+          location.reload();
+        } else {
+          alert("Erreur de synchronisation Webflow :\n" + (data.error || "Vérifiez vos clés WEBFLOW_API_TOKEN et WEBFLOW_COLLECTION_ID dans le fichier .env"));
+        }
+      } catch (err) {
+        alert("Erreur réseau : " + err.message);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }
+      }
+    }
+
+    // Show Webflow Instructions
+    async function showWebflowInstructions() {
+      let webhookUrl = window.location.origin + "/api/webflow/webhook";
+      let statusText = "Vérification de la configuration...";
+
+      try {
+        const res = await fetch("/api/admin/config/webflow");
+        const data = await res.json();
+        webhookUrl = data.webhook_url || webhookUrl;
+        statusText = data.configured 
+          ? "✅ Configuration complète (API Token & Collection ID détectés)" 
+          : "⚠️ Variables manquantes dans votre fichier .env";
+      } catch (e) {
+        statusText = "Statut non vérifiable.";
+      }
+
+      const msg = [
+        "🌐 INTÉGRATION WEBFLOW HEADLESS CMS",
+        "-----------------------------------------",
+        statusText,
+        "",
+        "1. URL DU WEBHOOK (à renseigner dans Webflow) :",
+        webhookUrl,
+        "",
+        "2. DANS WEBFLOW :",
+        "• Allez dans 'Site Settings' > 'Integrations' > 'Webhooks'",
+        "• Créez un Webhook pour l'événement : 'Collection Item Published' / 'Changed'",
+        "• Collez l'URL ci-dessus.",
+        "",
+        "3. DANS VOTRE FICHIER .ENV :",
+        "• WEBFLOW_API_TOKEN=votre_token_v2",
+        "• WEBFLOW_COLLECTION_ID=votre_collection_id",
+        "• WEBFLOW_WEBHOOK_SECRET=votre_secret_optionnel",
+        "",
+        "Dès qu'un article est publié dans Webflow, il s'affiche automatiquement sur votre site ORSAP !"
+      ].join("\n");
+
+      alert(msg);
+    }
+
     // Configure GitHub Token
     async function configureGitHubToken() {
       let currentInfo = "";
