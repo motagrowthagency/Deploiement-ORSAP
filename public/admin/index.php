@@ -727,7 +727,7 @@ if ($tab === 'devis') {
               Restaurer
               <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display: none;" />
             </label>
-            <button type="button" onclick="showWebflowInstructions()" class="view-link" style="background: transparent; color: #146ef5; border-color: #93c5fd; cursor: pointer;" title="Voir les instructions et l'URL Webhook Webflow">
+            <button type="button" onclick="showWebflowInstructions()" class="view-link" style="background: transparent; color: #146ef5; border-color: #93c5fd; cursor: pointer;" title="Voir les instructions et l\'URL Webhook Webflow">
               ⚙️ Webflow
             </button>
             <button type="button" onclick="configureGitHubToken()" class="view-link" style="background: transparent; color: #64748b; border-color: #cbd5e1; cursor: pointer;" title="Configurer le Token GitHub pour la synchronisation automatique">
