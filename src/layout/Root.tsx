@@ -8,6 +8,7 @@ import GlobalCartDrawer from "@/components/GlobalCartDrawer"
 import { useAuth } from "@/context/AuthContext"
 import { useCart } from "@/context/CartContext"
 import { initAttribution } from "@/utils/attribution"
+import { usePageRetentionTracker } from "@/hooks/usePageRetentionTracker"
 import {
   trackPageView,
   trackPhoneClick,
@@ -36,6 +37,9 @@ export default function Root() {
   const { user } = useAuth()
   const { totalCount, totalHt, setCartDrawerOpen } = useCart()
   const location = useLocation()
+
+  // Track active retention, time milestones and scroll depth per page
+  usePageRetentionTracker(location.pathname + location.search)
 
   // Initialize attribution and track SPA virtual pageviews
   useEffect(() => {
