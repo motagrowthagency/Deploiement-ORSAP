@@ -96,6 +96,13 @@ app.get("/sitemap.xml", (_req, res) => {
   res.status(404).send("Sitemap not found")
 })
 
+// ── TikTok Developers Site Verification ─────────────────────────────
+app.get(["/tiktok-developers-site-verification.txt", "/tiktok-developers-site-verification"], (_req, res) => {
+  res.setHeader("Content-Type", "text/plain; charset=utf-8")
+  res.send("tiktok-developers-site-verification=VHtOvy3mtF6vPBd0SVYbTrxBx9Sfh9Jb")
+})
+
+
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",").map((s) => s.trim())
   : null
