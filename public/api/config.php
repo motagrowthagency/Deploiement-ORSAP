@@ -59,6 +59,7 @@ return [
     'webflow_api_token' => getenv('WEBFLOW_API_TOKEN') ?: '',
     'webflow_collection_id' => getenv('WEBFLOW_COLLECTION_ID') ?: '',
     'webflow_webhook_secret' => getenv('WEBFLOW_WEBHOOK_SECRET') ?: '',
+    'blog_api_key' => getenv('BLOG_API_KEY') ?: 'orsap_sec_blog_7f39b2a149c0e58d',
 ];
 
 

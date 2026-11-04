@@ -218,6 +218,34 @@ function requireAdmin(req, res, next) {
   next()
 }
 
+function isBlogPublisherAuthorized(req) {
+  if (isRequestAdminAuthenticated(req)) return true
+
+  const configuredKey = process.env.BLOG_API_KEY || "orsap_sec_blog_7f39b2a149c0e58d"
+  const adminPassword = process.env.ADMIN_PASSWORD || "Motafouad223"
+
+  const apiKey =
+    req.headers["x-api-key"] ||
+    req.headers["x-blog-key"] ||
+    req.query?.api_key ||
+    req.query?.apiKey ||
+    req.query?.token
+
+  if (apiKey && (apiKey === configuredKey || apiKey === adminPassword)) {
+    return true
+  }
+
+  const authHeader = req.headers.authorization || ""
+  if (authHeader.startsWith("Bearer ")) {
+    const bearer = authHeader.slice(7).trim()
+    if (bearer === configuredKey || bearer === adminPassword) {
+      return true
+    }
+  }
+
+  return false
+}
+
 function sanitizeUser(u) {
   if (!u) return null
   return {
@@ -1216,36 +1244,115 @@ app.get("/api/blogs/:id", async (req, res) => {
   return res.json(blog)
 })
 
-// Protected: Admin only can create blog
-app.post("/api/blogs", requireAdmin, async (req, res) => {
-  const { title, summary, content, image, pdf, pdfName } = req.body
+// Protected: Admin or Blog Publisher API key can create blog
+app.post("/api/blogs", async (req, res) => {
+  if (!isBlogPublisherAuthorized(req)) {
+    return res.status(401).json({
+      error: "Accès non autorisé. Session d'administration ou clé API requise.",
+    })
+  }
 
-  if (!title || !summary || !content) {
+  const { title, summary, content, image, pdf, pdfName, body: altBody, excerpt } = req.body
+  const actualContent = content || altBody || ""
+  let actualSummary = summary || excerpt || ""
+
+  if (!title || !actualContent) {
     return res
       .status(400)
-      .json({ error: "Titre, résumé et contenu sont requis." })
+      .json({ error: "Le titre et le contenu de l'article sont requis." })
+  }
+
+  if (!actualSummary) {
+    const clean = actualContent.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    actualSummary = clean.slice(0, 160) + (clean.length > 160 ? "..." : "")
   }
 
   const newPost = {
     id:
-      title
+      (req.body.id || req.body.slug || title)
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "") +
       "-" +
       Math.random().toString(36).slice(2, 6),
-    date: new Date().toISOString(),
+    date: req.body.date ? new Date(req.body.date).toISOString() : new Date().toISOString(),
     title,
-    summary,
-    content,
-    image: image || null,
-    pdf: pdf || null,
-    pdfName: pdfName || null,
+    summary: actualSummary,
+    content: actualContent,
+    image: image || req.body.coverImage || null,
+    pdf: pdf || req.body.file || null,
+    pdfName: pdfName || req.body.fileName || null,
   }
 
   await addBlog(newPost)
+  await syncBlogsToGitHubNode().catch(() => ({}))
   console.log(`📝  New blog post added: ${title}`)
   return res.status(201).json({ success: true, blog: newPost })
+})
+
+// ── Dedicated Auto-Publish Endpoint for External Software / AI ──────
+app.post("/api/blogs/publish", async (req, res) => {
+  if (!isBlogPublisherAuthorized(req)) {
+    return res.status(401).json({
+      error: 'Non autorisé. Clé API requise via header "X-API-Key" ou paramètre "?api_key=".',
+    })
+  }
+
+  const title = (req.body.title || "").trim()
+  const content = (req.body.content || req.body.body || req.body.article || "").trim()
+  let summary = (req.body.summary || req.body.excerpt || req.body.description || "").trim()
+
+  if (!title) {
+    return res.status(400).json({ error: 'Le champ "title" est obligatoire.' })
+  }
+  if (!content) {
+    return res.status(400).json({ error: 'Le champ "content" (ou "body") est obligatoire.' })
+  }
+
+  // Auto-summary if omitted
+  if (!summary) {
+    const clean = content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    summary = clean.slice(0, 160) + (clean.length > 160 ? "..." : "")
+  }
+
+  const customSlug = (req.body.id || req.body.slug || "").trim()
+  let id = ""
+  if (customSlug) {
+    id = customSlug.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+  } else {
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+    id = slug + "-" + Math.random().toString(36).slice(2, 6)
+  }
+
+  const date = req.body.date ? new Date(req.body.date).toISOString() : new Date().toISOString()
+  const image = req.body.image || req.body.coverImage || req.body.thumbnail || null
+  const pdf = req.body.pdf || req.body.file || null
+  const pdfName = req.body.pdfName || req.body.fileName || (pdf ? "document.pdf" : null)
+
+  const newPost = {
+    id,
+    date,
+    title,
+    summary,
+    content,
+    image,
+    pdf,
+    pdfName,
+    updatedAt: new Date().toISOString(),
+  }
+
+  await addBlog(newPost)
+  await syncBlogsToGitHubNode().catch(() => ({}))
+  console.log(`🤖 [Auto-Publish] Article publié via API: "${title}" (${id})`)
+
+  const articleUrl = `${req.protocol}://${req.get("host")}/blog/${id}`
+  return res.status(201).json({
+    success: true,
+    message: "Article publié automatiquement avec succès sur ORSAP.",
+    id,
+    url: articleUrl,
+    blog: newPost,
+  })
 })
 
 // Protected: Admin only can update blog
@@ -1700,6 +1807,17 @@ app.get("/api/admin/config/webflow", requireAdmin, async (req, res) => {
     has_collection_id: Boolean(collectionId),
     has_webhook_secret: Boolean(secret),
     webhook_url: `${req.protocol}://${req.get("host")}/api/webflow/webhook`,
+  })
+})
+
+app.get("/api/admin/config/blog-api", requireAdmin, (req, res) => {
+  const apiKey = process.env.BLOG_API_KEY || "orsap_sec_blog_7f39b2a149c0e58d"
+  const publishUrl = `${req.protocol}://${req.get("host")}/api/blogs/publish`
+  return res.json({
+    publish_url: publishUrl,
+    api_key: apiKey,
+    method: "POST",
+    auth_header: "X-API-Key",
   })
 })
 
@@ -2398,9 +2516,9 @@ app.get("/admin", async (req, res) => {
               </button>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-              <button type="button" onclick="triggerWebflowSync()" class="view-link" style="background: #146ef5; color: #fff; border-color: #146ef5; cursor: pointer;" title="Synchroniser immédiatement tous les articles depuis Webflow CMS">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                Sync Webflow
+              <button type="button" onclick="openAutoPublishModal()" class="view-link" style="background: #0f172a; color: #fff; border-color: #0f172a; cursor: pointer; font-weight: 700;" title="Connecter votre logiciel externe ou IA pour auto-publier des articles">
+                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                ⚡ API Publication Logiciel
               </button>
               <button type="button" onclick="triggerGitHubSync()" class="view-link" style="background: #22c55e; color: #fff; border-color: #22c55e; cursor: pointer;" title="Synchroniser immédiatement tous les articles avec GitHub">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
@@ -2415,9 +2533,6 @@ app.get("/admin", async (req, res) => {
                 Restaurer
                 <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display: none;" />
               </label>
-              <button type="button" onclick="showWebflowInstructions()" class="view-link" style="background: transparent; color: #146ef5; border-color: #93c5fd; cursor: pointer;" title="Voir les instructions et l'URL Webhook Webflow">
-                ⚙️ Webflow
-              </button>
               <button type="button" onclick="configureGitHubToken()" class="view-link" style="background: transparent; color: #64748b; border-color: #cbd5e1; cursor: pointer;" title="Configurer le Token GitHub pour la synchronisation automatique">
                 ⚙️ GitHub
               </button>

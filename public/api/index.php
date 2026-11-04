@@ -152,6 +152,40 @@ function requireAdminPHP() {
     }
 }
 
+function isBlogPublisherAuthorizedPHP() {
+    if (isAdminAuthenticatedPHP()) {
+        return true;
+    }
+
+    $config = require __DIR__ . '/config.php';
+    $validKey = $config['blog_api_key'] ?? (getenv('BLOG_API_KEY') ?: 'orsap_sec_blog_7f39b2a149c0e58d');
+    $adminPassword = $config['admin_password'] ?? (getenv('ADMIN_PASSWORD') ?: 'Motafouad223');
+
+    // 1. Header X-API-Key or X-Blog-Key
+    $headers = function_exists('getallheaders') ? getallheaders() : [];
+    $apiKey = $headers['X-API-Key'] ?? ($headers['x-api-key'] ?? ($headers['X-Blog-Key'] ?? ($headers['x-blog-key'] ?? '')));
+
+    // 2. Query parameter (?api_key=... or ?apiKey=... or ?token=...)
+    if (empty($apiKey)) {
+        $apiKey = $_GET['api_key'] ?? ($_GET['apiKey'] ?? ($_GET['token'] ?? ''));
+    }
+
+    // 3. Authorization Bearer
+    if (empty($apiKey)) {
+        $auth = $headers['Authorization'] ?? ($headers['authorization'] ?? ($_SERVER['HTTP_AUTHORIZATION'] ?? ''));
+        if (preg_match('/Bearer\s+(.+)$/i', $auth, $matches)) {
+            $apiKey = trim($matches[1]);
+        }
+    }
+
+    if (!empty($apiKey) && ($apiKey === $validKey || $apiKey === $adminPassword)) {
+        return true;
+    }
+
+    return false;
+}
+
+
 // ── Auth API Routes (Espace Client) ─────────────────────────────────
 
 // Register
@@ -1057,25 +1091,41 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
     }
 
     if ($method === 'POST') {
-        requireAdminPHP();
+        if (!isBlogPublisherAuthorizedPHP()) {
+            requireAdminPHP();
+        }
         $body = getJsonBody();
         $title = trim($body['title'] ?? '');
-        $summary = trim($body['summary'] ?? '');
-        $content = trim($body['content'] ?? '');
-        $pdfName = $body['pdfName'] ?? null;
+        $content = trim($body['content'] ?? ($body['body'] ?? ($body['article'] ?? '')));
+        $summary = trim($body['summary'] ?? ($body['excerpt'] ?? ($body['description'] ?? '')));
+        $pdfName = $body['pdfName'] ?? ($body['fileName'] ?? null);
 
-        if (empty($title) || empty($summary) || empty($content)) {
-            sendJson(['error' => 'Titre, résumé et contenu sont requis.'], 400);
+        if (empty($title)) {
+            sendJson(['error' => 'Le champ "title" est requis.'], 400);
+        }
+        if (empty($content)) {
+            sendJson(['error' => 'Le champ "content" est requis.'], 400);
         }
 
-        $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $title), '-'));
-        $id = $slug . '-' . substr(md5(uniqid(mt_rand(), true)), 0, 4);
-        $date = date('Y-m-d H:i:s');
+        // Auto-summary if omitted
+        if (empty($summary)) {
+            $clean = trim(preg_replace('/\s+/', ' ', strip_tags($content)));
+            $summary = mb_substr($clean, 0, 160) . (mb_strlen($clean) > 160 ? '...' : '');
+        }
+
+        $customSlug = trim($body['id'] ?? ($body['slug'] ?? ''));
+        if (!empty($customSlug)) {
+            $id = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $customSlug), '-'));
+        } else {
+            $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $title), '-'));
+            $id = $slug . '-' . substr(md5(uniqid(mt_rand(), true)), 0, 4);
+        }
+        $date = !empty($body['date']) ? date('Y-m-d H:i:s', strtotime($body['date'])) : date('Y-m-d H:i:s');
 
         // Decode & save any base64 image/PDF to a real file; blogs.json
         // only stores the resulting URL path, not the raw data.
-        $image = saveBlogAsset($body['image'] ?? null, $id, 'image');
-        $pdf = saveBlogAsset($body['pdf'] ?? null, $id, 'document');
+        $image = saveBlogAsset($body['image'] ?? ($body['coverImage'] ?? null), $id, 'image');
+        $pdf = saveBlogAsset($body['pdf'] ?? ($body['file'] ?? null), $id, 'document');
 
         $newPost = [
             'id' => $id,
@@ -1116,6 +1166,121 @@ if ($uri === '/api/blogs' || $uri === '/api/blogs/') {
 
         sendJson(['success' => true, 'blog' => $newPost], 201);
     }
+}
+
+// ── Dedicated Auto-Publish Endpoint for External Software / AI ──────
+if (($uri === '/api/blogs/publish' || $uri === '/api/blogs/publish/') && $method === 'POST') {
+    if (!isBlogPublisherAuthorizedPHP()) {
+        sendJson(['error' => 'Non autorisé. Clé API requise via header "X-API-Key" ou paramètre "?api_key=".'], 401);
+    }
+
+    $body = getJsonBody();
+    $title = trim($body['title'] ?? '');
+    $content = trim($body['content'] ?? ($body['body'] ?? ($body['article'] ?? '')));
+    $summary = trim($body['summary'] ?? ($body['excerpt'] ?? ($body['description'] ?? '')));
+    $pdfName = $body['pdfName'] ?? ($body['fileName'] ?? null);
+
+    if (empty($title)) {
+        sendJson(['error' => 'Le champ "title" est obligatoire.'], 400);
+    }
+    if (empty($content)) {
+        sendJson(['error' => 'Le champ "content" (ou "body") est obligatoire.'], 400);
+    }
+
+    // Smart auto-summary if omitted
+    if (empty($summary)) {
+        $clean = trim(preg_replace('/\s+/', ' ', strip_tags($content)));
+        $summary = mb_substr($clean, 0, 160) . (mb_strlen($clean) > 160 ? '...' : '');
+    }
+
+    // Slug / ID
+    $customId = trim($body['id'] ?? ($body['slug'] ?? ''));
+    if (!empty($customId)) {
+        $id = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $customId), '-'));
+    } else {
+        $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $title), '-'));
+        $id = $slug . '-' . substr(md5(uniqid(mt_rand(), true)), 0, 4);
+    }
+
+    $date = !empty($body['date']) ? date('Y-m-d H:i:s', strtotime($body['date'])) : date('Y-m-d H:i:s');
+
+    // Decode & save image/PDF if base64 or preserve external URL
+    $image = saveBlogAsset($body['image'] ?? ($body['coverImage'] ?? ($body['thumbnail'] ?? null)), $id, 'image');
+    $pdf = saveBlogAsset($body['pdf'] ?? ($body['file'] ?? null), $id, 'document');
+    if ($pdf && empty($pdfName)) {
+        $pdfName = 'document.pdf';
+    }
+
+    $newPost = [
+        'id' => $id,
+        'date' => $date,
+        'title' => $title,
+        'summary' => $summary,
+        'content' => $content,
+        'image' => $image,
+        'pdf' => $pdf,
+        'pdfName' => $pdfName,
+        'updatedAt' => date('Y-m-d H:i:s'),
+    ];
+
+    // Upsert into blogs.json
+    $blogs = readJsonFile('blogs.json');
+    $found = false;
+    foreach ($blogs as $k => $b) {
+        if (($b['id'] ?? '') === $id) {
+            $blogs[$k] = array_merge($b, $newPost);
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) {
+        array_unshift($blogs, $newPost);
+    }
+    writeJsonFile('blogs.json', $blogs);
+
+    // Upsert into MySQL
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("
+                INSERT INTO `blogs` (`id`, `date`, `title`, `summary`, `content`, `image`, `pdf`, `pdf_name`, `updated_at`)
+                VALUES (:id, :date, :title, :summary, :content, :image, :pdf, :pdf_name, :updated_at)
+                ON DUPLICATE KEY UPDATE
+                    `title` = VALUES(`title`),
+                    `summary` = VALUES(`summary`),
+                    `content` = VALUES(`content`),
+                    `image` = VALUES(`image`),
+                    `pdf` = VALUES(`pdf`),
+                    `pdf_name` = VALUES(`pdf_name`),
+                    `updated_at` = VALUES(`updated_at`)
+            ");
+            $stmt->execute([
+                ':id' => $id,
+                ':date' => $date,
+                ':title' => $title,
+                ':summary' => $summary,
+                ':content' => $content,
+                ':image' => $image,
+                ':pdf' => $pdf,
+                ':pdf_name' => $pdfName,
+                ':updated_at' => $newPost['updatedAt']
+            ]);
+        } catch (Exception $e) {}
+    }
+
+    // Auto-sync to GitHub
+    @syncBlogsToGitHub();
+
+    $host = $_SERVER['HTTP_HOST'] ?? 'orsap.ma';
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $articleUrl = "{$scheme}://{$host}/blog/{$id}";
+
+    sendJson([
+        'success' => true,
+        'message' => 'Article publié automatiquement avec succès sur ORSAP.',
+        'id' => $id,
+        'url' => $articleUrl,
+        'blog' => $newPost
+    ], 201);
 }
 
 if (preg_match('#^/api/blogs/([^/]+)$#', $uri, $matches)) {
@@ -1420,6 +1585,19 @@ if ($uri === '/api/admin/config/webflow' && $method === 'GET') {
         'has_collection_id' => !empty($config['webflow_collection_id']),
         'has_webhook_secret' => !empty($config['webflow_webhook_secret']),
         'webhook_url' => 'https://' . ($_SERVER['HTTP_HOST'] ?? 'orsap.ma') . '/api/webflow/webhook'
+    ]);
+}
+
+if ($uri === '/api/admin/config/blog-api' && $method === 'GET') {
+    requireAdminPHP();
+    $config = require __DIR__ . '/config.php';
+    $host = $_SERVER['HTTP_HOST'] ?? 'orsap.ma';
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    sendJson([
+        'publish_url' => "{$scheme}://{$host}/api/blogs/publish",
+        'api_key' => $config['blog_api_key'] ?? (getenv('BLOG_API_KEY') ?: 'orsap_sec_blog_7f39b2a149c0e58d'),
+        'method' => 'POST',
+        'auth_header' => 'X-API-Key'
     ]);
 }
 

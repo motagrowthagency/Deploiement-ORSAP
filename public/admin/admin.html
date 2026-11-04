@@ -182,6 +182,83 @@
 
   {{TAB_CONTENT}}
 
+  <!-- Modal Auto-Publish API -->
+  <div id="autoPublishModal" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;">
+    <div style="background: #ffffff; border-radius: 12px; max-width: 860px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid #e2e8f0; position: relative; margin: auto;">
+      
+      <!-- Modal Header -->
+      <div style="padding: 22px 28px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #0f172a; color: #ffffff; border-radius: 12px 12px 0 0;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="background: rgba(34,197,94,0.2); color: #22c55e; border: 1px solid rgba(34,197,94,0.4); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 7px; height: 7px; background: #22c55e; border-radius: 50%; display: inline-block;"></span>
+            Passerelle API Active
+          </div>
+          <h3 style="font-family: 'Archivo', sans-serif; font-size: 18px; font-weight: 800; margin: 0; color: #fff;">
+            Publication Automatique d'Articles (Logiciel / IA)
+          </h3>
+        </div>
+        <button type="button" onclick="closeAutoPublishModal()" style="background: transparent; border: none; color: #94a3b8; font-size: 26px; cursor: pointer; line-height: 1; padding: 4px 8px; border-radius: 4px;" title="Fermer">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div style="padding: 28px; color: #1e293b; font-size: 13.5px; line-height: 1.6;">
+        <p style="margin-bottom: 20px; color: #475569; font-size: 14px;">
+          Votre logiciel peut envoyer vos articles générés directement à cette API. Dès réception, l'article est immédiatement enregistré en base, mis en page sur le site public (<a href="/blog" target="_blank" style="color: #d3121a; font-weight: 700;">/blog</a>) et gérable depuis cette administration.
+        </p>
+
+        <!-- Credentials Card -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 24px;">
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 6px;">
+              Endpoint URL (Méthode POST)
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="apiEndpointUrl" readonly value="https://orsap.ma/api/blogs/publish" style="flex: 1; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 14px; font-family: monospace; font-size: 13px; color: #0f172a; font-weight: 600;" />
+              <button type="button" onclick="copyToClipboard('apiEndpointUrl')" style="background: #0f172a; color: #ffffff; border: none; padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">Copier</button>
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 6px;">
+              Clé d'authentification API (Header X-API-Key)
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="apiKeyVal" readonly value="orsap_sec_blog_7f39b2a149c0e58d" style="flex: 1; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 14px; font-family: monospace; font-size: 13px; color: #0f172a; font-weight: 600;" />
+              <button type="button" onclick="copyToClipboard('apiKeyVal')" style="background: #0f172a; color: #ffffff; border: none; padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">Copier</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Examples -->
+        <div style="margin-bottom: 24px;">
+          <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+            <button type="button" id="tabPythonBtn" onclick="switchCodeTab('python')" style="background: #0f172a; color: #fff; border: 1px solid #0f172a; padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">Python (requests)</button>
+            <button type="button" id="tabJsBtn" onclick="switchCodeTab('js')" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">Node.js / JS (fetch)</button>
+            <button type="button" id="tabCurlBtn" onclick="switchCodeTab('curl')" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">cURL (Terminal)</button>
+            <button type="button" id="tabJsonBtn" onclick="switchCodeTab('json')" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">Format JSON</button>
+          </div>
+
+          <pre id="codePython" style="background: #0f172a; color: #f8fafc; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12.5px; overflow-x: auto; line-height: 1.5; white-space: pre;"></pre>
+          <pre id="codeJs" style="display: none; background: #0f172a; color: #f8fafc; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12.5px; overflow-x: auto; line-height: 1.5; white-space: pre;"></pre>
+          <pre id="codeCurl" style="display: none; background: #0f172a; color: #f8fafc; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12.5px; overflow-x: auto; line-height: 1.5; white-space: pre;"></pre>
+          <pre id="codeJson" style="display: none; background: #0f172a; color: #f8fafc; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12.5px; overflow-x: auto; line-height: 1.5; white-space: pre;"></pre>
+        </div>
+
+        <!-- Live Test Button -->
+        <div style="background: #f1f5f9; border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border: 1px solid #e2e8f0;">
+          <div>
+            <strong style="color: #0f172a; font-size: 13.5px;">Tester la passerelle en 1 clic</strong>
+            <p style="color: #64748b; font-size: 12px; margin-top: 2px;">Envoie un article d'essai pour vérifier que votre base et l'API répondent parfaitement.</p>
+          </div>
+          <button type="button" id="testPublishBtn" onclick="sendTestArticleFromAdmin()" style="background: #d3121a; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(211,18,26,0.25);">
+            <span>🚀</span> Tester la publication en direct
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <script>
     // Blog State
     let base64Image = null;
@@ -680,73 +757,173 @@
       }
     }
 
-    // Trigger Webflow Sync
-    async function triggerWebflowSync() {
-      const btn = event?.currentTarget;
-      const originalText = btn ? btn.innerHTML : "";
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = "⏳ Synchronisation...";
-      }
+    // ── Auto-Publish API Modal & Helpers ─────────────────────────────
+    let autoPublishData = null;
+
+    async function openAutoPublishModal() {
+      const modal = document.getElementById("autoPublishModal");
+      if (!modal) return;
+      modal.style.display = "flex";
+
+      const origin = window.location.origin;
+      const defaultEndpoint = origin + "/api/blogs/publish";
+      const defaultKey = "orsap_sec_blog_7f39b2a149c0e58d";
 
       try {
-        const res = await fetch("/api/webflow/sync", { method: "POST" });
-        const data = await res.json();
+        const res = await fetch("/api/admin/config/blog-api");
+        if (res.ok) {
+          const cfg = await res.json();
+          autoPublishData = cfg;
+          document.getElementById("apiEndpointUrl").value = cfg.publish_url || defaultEndpoint;
+          document.getElementById("apiKeyVal").value = cfg.api_key || defaultKey;
+        } else {
+          document.getElementById("apiEndpointUrl").value = defaultEndpoint;
+          document.getElementById("apiKeyVal").value = defaultKey;
+        }
+      } catch (e) {
+        document.getElementById("apiEndpointUrl").value = defaultEndpoint;
+        document.getElementById("apiKeyVal").value = defaultKey;
+      }
 
+      renderCodeSnippets();
+    }
+
+    function closeAutoPublishModal() {
+      const modal = document.getElementById("autoPublishModal");
+      if (modal) modal.style.display = "none";
+    }
+
+    function copyToClipboard(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.select();
+      navigator.clipboard.writeText(el.value).then(() => {
+        alert("✅ Copié dans le presse-papier !");
+      }).catch(() => {
+        document.execCommand("copy");
+        alert("✅ Copié dans le presse-papier !");
+      });
+    }
+
+    function switchCodeTab(tab) {
+      const tabs = ["python", "js", "curl", "json"];
+      tabs.forEach(t => {
+        const pre = document.getElementById("code" + t.charAt(0).toUpperCase() + t.slice(1));
+        const btn = document.getElementById("tab" + t.charAt(0).toUpperCase() + t.slice(1) + "Btn");
+        if (pre) pre.style.display = t === tab ? "block" : "none";
+        if (btn) {
+          btn.style.background = t === tab ? "#0f172a" : "#f1f5f9";
+          btn.style.color = t === tab ? "#ffffff" : "#475569";
+        }
+      });
+    }
+
+    function renderCodeSnippets() {
+      const url = document.getElementById("apiEndpointUrl").value;
+      const key = document.getElementById("apiKeyVal").value;
+
+      document.getElementById("codePython").textContent = `import requests
+
+url = "${url}"
+headers = {
+    "X-API-Key": "${key}",
+    "Content-Type": "application/json"
+}
+
+payload = {
+    "title": "Titre généré par votre logiciel",
+    "summary": "Court résumé d'accroche (optionnel)",
+    "content": "<h2>Section 1</h2><p>Contenu rédigé par votre IA ou logiciel...</p>",
+    "image": "https://orsap.ma/assets/Hero_Chantier.png"  # URL externe ou base64 (optionnel)
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())
+# Réponse: {"success": true, "url": "https://orsap.ma/blog/mon-article", ...}
+`;
+
+      document.getElementById("codeJs").textContent = `const response = await fetch("${url}", {
+  method: "POST",
+  headers: {
+    "X-API-Key": "${key}",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    title: "Titre généré par votre logiciel",
+    summary: "Court résumé d'accroche (optionnel)",
+    content: "<h2>Section 1</h2><p>Contenu rédigé par votre IA ou logiciel...</p>",
+    image: "https://orsap.ma/assets/Hero_Chantier.png" // optionnel
+  })
+});
+
+const data = await response.json();
+console.log("Article publié !", data.url);
+`;
+
+      document.getElementById("codeCurl").textContent = `curl -X POST "${url}" \\
+  -H "X-API-Key: ${key}" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "title": "Titre généré par votre logiciel",
+    "summary": "Court résumé d'\\''accroche",
+    "content": "<h2>Sécurité</h2><p>Article automatique publié via API.</p>"
+  }'
+`;
+
+      document.getElementById("codeJson").textContent = `{
+  "title": "Titre de l'article (Requis)",
+  "content": "Contenu complet en HTML ou Markdown (Requis)",
+  "summary": "Court résumé pour la vignette catalogue (Optionnel, auto-généré si omis)",
+  "image": "https://... ou data:image/jpeg;base64,... (Optionnel)",
+  "pdf": "https://... ou base64 (Optionnel)",
+  "pdfName": "fiche_technique.pdf (Optionnel)",
+  "date": "2026-11-04 14:30:00 (Optionnel, par défaut maintenant)",
+  "slug": "identifiant-unique-url (Optionnel, auto-généré si omis)"
+}
+`;
+    }
+
+    async function sendTestArticleFromAdmin() {
+      const btn = document.getElementById("testPublishBtn");
+      const orig = btn ? btn.innerHTML : "";
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Envoi en cours...";
+      }
+
+      const url = document.getElementById("apiEndpointUrl").value;
+      const key = document.getElementById("apiKeyVal").value;
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "X-API-Key": key,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            title: "Article Test Connecteur Logiciel — " + new Date().toLocaleTimeString("fr-FR"),
+            summary: "Ceci est un article test envoyé avec succès depuis l'API de publication automatique.",
+            content: "<h2>Connexion établie avec succès</h2><p>Votre logiciel de génération automatique est désormais parfaitement configuré avec l'administration ORSAP. Tous vos prochains articles envoyés à cette API seront instantanément publiés et référencés.</p>"
+          })
+        });
+
+        const data = await res.json();
         if (res.ok && data.success) {
-          alert(`✅ Synchronisation Webflow réussie !\n${data.count} article(s) ont été mis à jour dans le catalogue ORSAP.`);
+          alert("🎉 SUCCÈS !\n\nL'article test a été publié en direct.\nURL générée : " + data.url);
+          closeAutoPublishModal();
           location.reload();
         } else {
-          alert("Erreur de synchronisation Webflow :\n" + (data.error || "Vérifiez vos clés WEBFLOW_API_TOKEN et WEBFLOW_COLLECTION_ID dans le fichier .env"));
+          alert("Erreur : " + (data.error || "Impossible de publier l'article test."));
         }
       } catch (err) {
         alert("Erreur réseau : " + err.message);
       } finally {
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = originalText;
+          btn.innerHTML = orig;
         }
       }
-    }
-
-    // Show Webflow Instructions
-    async function showWebflowInstructions() {
-      let webhookUrl = window.location.origin + "/api/webflow/webhook";
-      let statusText = "Vérification de la configuration...";
-
-      try {
-        const res = await fetch("/api/admin/config/webflow");
-        const data = await res.json();
-        webhookUrl = data.webhook_url || webhookUrl;
-        statusText = data.configured 
-          ? "✅ Configuration complète (API Token & Collection ID détectés)" 
-          : "⚠️ Variables manquantes dans votre fichier .env";
-      } catch (e) {
-        statusText = "Statut non vérifiable.";
-      }
-
-      const msg = [
-        "🌐 INTÉGRATION WEBFLOW HEADLESS CMS",
-        "-----------------------------------------",
-        statusText,
-        "",
-        "1. URL DU WEBHOOK (à renseigner dans Webflow) :",
-        webhookUrl,
-        "",
-        "2. DANS WEBFLOW :",
-        "• Allez dans 'Site Settings' > 'Integrations' > 'Webhooks'",
-        "• Créez un Webhook pour l'événement : 'Collection Item Published' / 'Changed'",
-        "• Collez l'URL ci-dessus.",
-        "",
-        "3. DANS VOTRE FICHIER .ENV :",
-        "• WEBFLOW_API_TOKEN=votre_token_v2",
-        "• WEBFLOW_COLLECTION_ID=votre_collection_id",
-        "• WEBFLOW_WEBHOOK_SECRET=votre_secret_optionnel",
-        "",
-        "Dès qu'un article est publié dans Webflow, il s'affiche automatiquement sur votre site ORSAP !"
-      ].join("\n");
-
-      alert(msg);
     }
 
     // Configure GitHub Token
